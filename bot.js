@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
  const config = require("./config.json");
+ require('http').createServer().listen(3000);
  x = 0
 client.on('ready', () => {
  console.log(client)
