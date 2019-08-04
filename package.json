@@ -1,16 +1,16 @@
 {
 
-  "name": "LambdaBot",
+  "name": "Test",
 
-  "description": "LambdaBot",
+  "description": "Test",
 
   "version": "0.0.0",
 
-  "main": "index.js",
+  "main": "bot.js",
 
   "scripts": {
 
-    "start": "node index.js"
+    "start": "node bot.js"
 
   },
 
