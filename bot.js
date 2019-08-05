@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 
 client.on('ready', () => {
 	console.log('I am ready!');
-	clientUser.setgame('you like a fiddle')
+	client.user.setGame('you like a fiddle')
 });
 
  
