@@ -7,7 +7,7 @@ const client = new Discord.Client();
 client.on('ready', () => {
 	
 	console.log('I am ready!');
-	bot.user.setActivity('!help', { type: 'TRY' })
+	bot.user.setActivity('himself', { type: 'JINXING' })
 });
 
  
