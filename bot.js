@@ -78,7 +78,6 @@ client.on('message', msg => {
 				msg.reply("Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.")
 				break
 		}
-	msg.reply("Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.")
 	}
 	if (msg.content.slice(1, 5) === "math")  {
 		var a = msg.content.charAt(6)
