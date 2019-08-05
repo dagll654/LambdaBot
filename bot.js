@@ -7,8 +7,8 @@ client.on('ready', () => {
 	console.log('I am ready!');
     client.user.setPresence({
         game: {
-            name: 'Use !help',
-            type: "Playing",
+            name: '!help',
+            type: "Try",
             url: "https://discordapp.com/"
         }
     });
