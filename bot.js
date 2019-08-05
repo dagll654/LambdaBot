@@ -7,7 +7,7 @@ client.on('ready', () => {
 	console.log('I am ready!');
     client.user.setPresence({
         game: {
-            name: 'to your commands',
+            name: 'you like a fiddle',
             type: "Listening",
             url: "https://discordapp.com/"
         }
