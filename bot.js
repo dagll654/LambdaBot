@@ -5,7 +5,13 @@ const Discord = require('discord.js');
 
 client.on('ready', () => {
 	console.log('I am ready!');
-	client.user.setGame('you like a fiddle')
+    client.user.setPresence({
+        game: {
+            name: 'Use !help',
+            type: "Playing",
+            url: "https://discordapp.com/"
+        }
+    });
 });
 
  
