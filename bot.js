@@ -41,17 +41,6 @@ client.on('message', msg => {
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
  };
-	if (msg.content === '!embed') {
- 	 const embed = new RichEmbed()
-
-      .setTitle('A slick little embed')
-
-      .setColor(0xFF0000)
-
-      .setDescription('Hello, this is a slick embed!');
-
-    msg.channel.send(embed);
- };
   var par = msg.content.indexOf("!")
   if (par === 0) {
 	if (msg.content.slice(1, 9) === "giverole") {
