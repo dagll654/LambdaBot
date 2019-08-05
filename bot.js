@@ -7,7 +7,7 @@ const client = new Discord.Client();
 client.on('ready', () => {
 	
 	console.log('I am ready!');
-	client.user.setActivity('YouTube', { type: 'WATCHING' })
+	bot.user.setActivity('!help', { type: 'TRY' })
 });
 
  
