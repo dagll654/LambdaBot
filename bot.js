@@ -88,4 +88,4 @@ client.on('message', msg => {
 
 
 
-client.login(NjA3NTIwNzc4MTc4NTI3MjQ2.XUd4Tw.Kc0YIHZYg6t915eWXgpaHJofRiI);//where BOT_TOKEN is the token of our bot
+client.login("NjA3NTIwNzc4MTc4NTI3MjQ2.XUd4Tw.Kc0YIHZYg6t915eWXgpaHJofRiI");//where BOT_TOKEN is the token of our bot
