@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
-
+  const { Client, RichEmbed } = require('discord.js');
  x = 0 
 
 client.on('ready', () => {
@@ -37,6 +37,9 @@ client.on('message', msg => {
 	 msg.reply(txt2)
 		  
 	 
+ };
+	if (msg.content === 'hmm') {
+ 	 msg.react("607330826052698114") 
  };
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
