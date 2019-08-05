@@ -50,7 +50,7 @@ client.on('message', msg => {
 
       .setDescription('Hello, this is a slick embed!');
 
-    message.channel.send(embed);
+    msg.channel.send(embed);
  };
   var par = msg.content.indexOf("!")
   if (par === 0) {
