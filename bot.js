@@ -5,7 +5,6 @@ const client = new Discord.Client();
  x = 0 
 
 client.on('ready', () => {
-	client.user.setActivity("you like a fiddle")
 	console.log('I am ready!');
 });
 
