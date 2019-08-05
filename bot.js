@@ -41,8 +41,11 @@ client.on('message', msg => {
 		  
 	 
  };
-  if (msg.content === 'hmm') {
+	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
+ };
+	if (msg.content === 'actreset1337') {
+ 	 client.user.setActivity('Try', { type: '!help' })
  };
   var par = msg.content.indexOf("!")
   if (par === 0) {
