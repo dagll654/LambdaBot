@@ -57,7 +57,28 @@ client.on('message', msg => {
 	msg.channel.send("Removed the role <@&" + msg.content.slice(12) + "> from " + msg.author)
 	} else {msg.channel.send("The command cannot be performed because it has been typed in incorrectly or the specified role cannot be removed.")}}
 	if (msg.content.slice(1, 5) === "help") {
-	msg.reply("Avaliable commands: !giverole, !removerole, !quote")
+		var tst1 = msg.content.slice(6)
+		switch (tst1) {
+			case "giverole":
+				msg.reply("Usage: !giverole RoleId. You can get the role's ID by putting \ before @Role. Awaliable roles: Bot Tinkerer.")
+				break
+			case "removerole":
+				msg.reply("Usage: !removerole RoleId. Works just like giverole and for the same roles.")
+				break
+			case "quote":
+				msg.reply("Gives a quote of Lambdadalta. Quote accuracy not guaranteed.")
+				break
+			case "math":
+				msg.reply("Makes the bot do basic math. Works only for addition and substraction of single digit numbers.")
+				break
+			case "help":
+				msg.reply("Why do you need help with the help command? Anyway, usage: !help CommandName.")
+				break
+			default:
+				msg.reply("Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.")
+				break
+		}
+	msg.reply("Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.")
 	}
 	if (msg.content.slice(1, 5) === "math")  {
 		var a = msg.content.charAt(6)
