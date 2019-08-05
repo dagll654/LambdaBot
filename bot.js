@@ -10,7 +10,8 @@ client.on('ready', () => {
  
 
 client.on('message', msg => {
-
+	var log11 = msg.createdAt + " " + msg.channel + " " + msg.author + " " + msg.content
+ console.log(log11);
  if(msg.author.bot) return;
  if (msg.content === '!quote') {
  	 msg.react("607330826052698114")
