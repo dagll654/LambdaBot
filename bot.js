@@ -10,7 +10,7 @@ client.on('ready', () => {
  
 
 client.on('message', msg => {
-	var log11 = msg.createdAt + " " + msg.channel + " " + msg.author.username + " " + msg.content
+	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
  console.log(log11);
  if(msg.author.bot) return;
  if (msg.content === '!quote') {
