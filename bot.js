@@ -5,9 +5,9 @@ const client = new Discord.Client();
  x = 0 
 
 client.on('ready', () => {
-
-    console.log('I am ready!');
-
+	
+	console.log('I am ready!');
+	client.user.setActivity('Try', { type: '!help' })
 });
 
  
