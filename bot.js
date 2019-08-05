@@ -7,7 +7,7 @@ const client = new Discord.Client();
 client.on('ready', () => {
 	
 	console.log('I am ready!');
-	client.user.setActivity('!help', { type: 'TRY' })
+	client.user.setActivity('YouTube', { type: 'WATCHING' })
 });
 
  
@@ -43,9 +43,6 @@ client.on('message', msg => {
  };
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
- };
-	if (msg.content === 'actreset1337') {
- 	 client.user.setActivity('!help', { type: 'TRY' })
  };
   var par = msg.content.indexOf("!")
   if (par === 0) {
