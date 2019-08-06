@@ -17,7 +17,13 @@ client.on('ready', () => {
             url: "https://discordapp.com/"
         }
     });
-	
+
+});
+
+ 
+
+client.on('message', msg => {
+		
 	// The quote pool.
 	const qte = [
 			"It's not cheating if you make the rules!", 
@@ -28,11 +34,6 @@ client.on('ready', () => {
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
-});
-
- 
-
-client.on('message', msg => {
 	
 	// An array containing all digits, for convenience of comparing
 	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
