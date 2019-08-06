@@ -165,12 +165,11 @@ client.on('message', msg => {
 	// Reactions
 	// :thonk: reaction to hmm's of any length
 	
+	
 	if (msg.content.startsWith("hm")) {
-		var thonkarr = msg.content.split("").shift
-		function hm(mm) {
-			return mm === "m"
-		}
-		if (!thonkarr.includes(!"m")) {
+		var thonkarr = msg.content.toLowerCase.split("").shift
+		var mmmm = thonkarr => thonkarr.every(thing => thing === array[0])
+		if (mmmm === "true") {
 			msg.react("607330826052698114") 
 		}
 		}
