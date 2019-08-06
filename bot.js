@@ -7,7 +7,7 @@ const Discord = require('discord.js');
 client.on('ready', () => {
 	const deltas = client.guilds.get("607318782624399361");
 	//deltas.members.forEach(member => console.log(member.user.username));
-	deltas.guild.roles.get('608255705694076975').members.map(m=>m.user.tag);
+	deltas.roles.get('608255705694076975').members.map(m=>m.user.tag);
 	console.log('I am ready!');
     client.user.setPresence({
         game: {
