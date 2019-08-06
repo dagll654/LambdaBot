@@ -123,21 +123,27 @@ client.on('message', msg => {
 	
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
+		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
+			// Find the role among the guild's roles and add it via its ID
 			msg.member.addRole(msg.guild.roles.find('name', cmd[1]))
+			msg.reply("Given the role " + cmd[1] + " to " + msg.member.nickname)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
-		if (cmd[0] === "!removerole") {
+	
+	if (cmd[0] === "!removerole") {
+		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
+			// Find the role among the guild's roles and remove it via its ID
 			msg.member.removeRole(msg.guild.roles.find('name', cmd[1]))
+			msg.reply("Taken the role  " + cmd[1] + " from " + msg.member.nickname)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
 
 	
 	
-	if (msg.content.slice(1, 5) === "help") {
-		var tst1 = msg.content.slice(6)
-		switch (tst1) {
+	if (cmd[1] === "!help") {
+		switch (cmd[2]) {
 			case "giverole":
 				msg.reply("Usage: !giverole RoleId. You can get the role's ID by putting \ before @Role. Awaliable roles: Bot Tinkerer.")
 				break
@@ -148,7 +154,7 @@ client.on('message', msg => {
 				msg.reply("Gives a quote of Lambdadalta. Quote accuracy not guaranteed.")
 				break
 			case "math":
-				msg.reply("Makes the bot do basic math. Works only for addition and substraction of single digit numbers.")
+				msg.reply("Makes the bot do basic math. Now works for any numbers! Still doesn't support anything but addition and substaction though.")
 				break
 			case "help":
 				msg.reply("Why do you need help with the help command? Anyway, usage: !help CommandName.")
@@ -158,28 +164,22 @@ client.on('message', msg => {
 				break
 		}
 	}
-	if (msg.content.slice(1, 5) === "math")  {
-		var a = msg.content.charAt(6)
-		var b = msg.content.charAt(10)
-		if (nmbrs.includes(a) && nmbrs.includes(b)) {
-			switch (msg.content.charAt(8)) {
+	if (cmd[1]) === "!math")  {
+		if (nmbrs.includes(cmd[2]) && nmbrs.includes(cmd[4])) {
+			switch (cmd[3]) {
 			case "+":
-			var c = Number(a) + Number(b)
-			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
+			var c = Number(cmd[2]) + Number(cmd[4])
+			msg.channel.send(cmd[2] + " " + msg.content.charAt(8) + " " + cmd[4] + " = " + c)
 			break
 			case "-":
-			var c = Number(a) - Number(b)
-			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
+			var c = Number(cmd[2]) - Number(cmd[4])
+			msg.channel.send(cmd[2] + " " + msg.content.charAt(8) + " " + cmd[4] + " = " + c)
 			break
 			default:
 			msg.reply("I can't do that!")
 			break
 			}
-		}
-		else { 
-			msg.reply("I can't do that!") 
-			var d = "0"
-		     }
+		} else {msg.reply("I can't do that!")}
 	}
 	
 	
