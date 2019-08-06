@@ -204,8 +204,8 @@ client.on('message', msg => {
 	}	
 	
 	// Reactions
-	// Reacts with :thonk: to any message starting with "hm" with any number of m's after that. Doesn't work if there's anything besides "m" after "hm"
-	if (mesc.toLowerCase().startsWith("hm") && checkArray(mesc.toLowerCase().split("").shift(), ["m"])) {
+	// Reacts with :thonk: to any message starting with "hm" with any number of m's or h's after that.
+	if (mesc.toLowerCase().startsWith("hm") && checkArray(mesc.toLowerCase().split(""), ["m", "h"])) {
 			msg.react("607330826052698114") 
 	}
 })
