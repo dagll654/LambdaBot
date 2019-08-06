@@ -136,8 +136,8 @@ client.on('message', msg => {
 			}
 			else {
 				var txt = qte[x]
-				if (x === 5) {x = 0}
 				x = x + 1
+				if (x === 5) {x = 0}
 			}
 			ch.send(qte2 + txt)
 		}  
