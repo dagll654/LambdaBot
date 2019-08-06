@@ -102,7 +102,7 @@ client.on('message', msg => {
 			break
 			}
 
-		if (d != "nope") {
+		if (c != "nope") {
 			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
 		} 
 		else { 
