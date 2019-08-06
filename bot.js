@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
-  const deltas = client.guilds.get("607318782624399361");
+
  x = 0 
 
 client.on('ready', () => {
+	const deltas = client.guilds.get("607318782624399361");
 	deltas.members.forEach(member => console.log(member.user.username)); 
 	console.log('I am ready!');
     client.user.setPresence({
