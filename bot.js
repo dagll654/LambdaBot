@@ -102,11 +102,11 @@ client.on('message', msg => {
 			msg.reply("I can't do that!")
 			break
 			}
+		}
 		else { 
 			msg.reply("I can't do that!") 
 			var d = "0"
 		     }
-		}
 	}	
 	
   }
