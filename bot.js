@@ -20,7 +20,7 @@ client.on('ready', () => {
 	
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
-	bch.send('Bot started up succesfully.')
+	bch.send('Bot started up successfully.')
 	
 	// Setting the bot's current game
     client.user.setPresence({
