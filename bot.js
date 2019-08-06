@@ -21,13 +21,23 @@ client.on('ready', () => {
  
 
 client.on('message', msg => {
+	
+	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
- console.log(log11);
- if(msg.author.bot) return;
+	console.log(log11);
+	
+	// If the message's author is a bot, just ignore it
+	if(msg.author.bot) return;
+	
 	// Command check
 	if (msg.content.startsWith("!")) {
-		msg.reply("this works")
 	}
+	
+		// Make an array with values equal to the command name and arguments
+		var cmd = msg.content.split(" ")
+		cmd.forEach(function(element) {
+			msg.channel.send(element)
+		})
 	
  if (msg.content === '!quote') {
  	 msg.react("607330826052698114")
