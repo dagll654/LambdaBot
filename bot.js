@@ -146,8 +146,8 @@ client.on('message', msg => {
 
 	
 	
-	if (cmd[1] === "!help") {
-		switch (cmd[2]) {
+	if (cmd[0] === "!help") {
+		switch (cmd[1]) {
 			case "giverole":
 				msg.reply("Usage: !giverole RoleId. You can get the role's ID by putting \ before @Role. Awaliable roles: Bot Tinkerer.")
 				break
@@ -168,16 +168,16 @@ client.on('message', msg => {
 				break
 		}
 	}
-	if (cmd[1] === "!math")  {
-		if (nmbrs.includes(cmd[2]) && nmbrs.includes(cmd[4])) {
-			switch (cmd[3]) {
+	if (cmd[0] === "!math")  {
+		if (nmbrs.includes(cmd[1]) && nmbrs.includes(cmd[3])) {
+			switch (cmd[2]) {
 			case "+":
-			var c = Number(cmd[2]) + Number(cmd[4])
-			msg.channel.send(cmd[2] + " " + msg.content.charAt(8) + " " + cmd[4] + " = " + c)
+			var c = Number(cmd[1]) + Number(cmd[3])
+			msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
 			break
 			case "-":
-			var c = Number(cmd[2]) - Number(cmd[4])
-			msg.channel.send(cmd[2] + " " + msg.content.charAt(8) + " " + cmd[4] + " = " + c)
+			var c = Number(cmd[1]) - Number(cmd[3])
+			msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
 			break
 			default:
 			msg.reply("I can't do that!")
