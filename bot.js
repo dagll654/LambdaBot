@@ -75,11 +75,9 @@ client.on('message', msg => {
 		
 		// Debug thingy, responds with stuff
 		if (dbg1 === 1) {
-			var dbg1a = " "
 			cmd.forEach(function(element) {
-			ch.send
+			ch.send(element)
 			})
-			ch.send(dbg1a)
 		}
 		
 		// Quote command
