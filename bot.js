@@ -16,7 +16,7 @@ client.on('ready', () => {
 	
 	// Gonna use this later
 	// console.log(deltas.roles.get('607596327165231114').members.map(m=>m.user.tag));
-	deltas.roles.get('607596327165231114').members.forEach(m => console.log(m.user.username))
+	deltas.roles.get('608255705694076975').members.forEach(m => console.log(m.user.username))
 	
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
