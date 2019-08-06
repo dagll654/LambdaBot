@@ -6,17 +6,25 @@ const Discord = require('discord.js');
  x1 = 0
 
 client.on('ready', () => {
-	const deltas = client.guilds.get("607318782624399361");
-	//deltas.members.forEach(member => console.log(member.user.username));
-	deltas.roles.get('608255705694076975').members.map(m=>m.user.tag);
-	console.log('I am ready!');
 	
+	// Getting the Lambda's Deltas guild for easy use
+	const deltas = client.guilds.get("607318782624399361");
+	
+	// Debug line: logs all members
+	//deltas.members.forEach(member => console.log(member.user.username));
+	
+	// Gonna use this later
+	deltas.roles.get('608255705694076975').members.map(m=>m.user.tag);
+
+	// Bot readiness announcement, both in the log and on the specified channel
+	console.log('I am ready!');
 	deltas.channels.get("607558082381217851").send('Bot started up succesfully.')
 	
+	// Setting the bot's current game
     client.user.setPresence({
         game: {
             name: 'you like a fiddle',
-            type: "Listening",
+            type: "Playing",
             url: "https://discordapp.com/"
         }
     });
@@ -27,7 +35,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
 		
-	// The quote pool.
+	// The quote pool
 	const qte = [
 			"It's not cheating if you make the rules!", 
 			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
@@ -79,10 +87,19 @@ client.on('message', msg => {
 			}
 			msg.channel.send(qte2 + txt)
 		}  
-	 
-	if (msg.content === 'hmm') {
- 	 msg.react("607330826052698114") 
-	 };
+		
+		// Reactions
+		// :thonk: reaction to hmm's of any length
+		if (msg.content.toLowerCase.startsWith('hm')) {
+			var thonkarr = msg.content.toLowerCase.split("").shift
+			function hm(mm) {
+				return mm === "m"
+			}
+			if (thonkarr.every(hm)) {
+				msg.react("607330826052698114") 
+			}
+		}
+			
 	if (msg.content === '!ids') {
  	 msg.channel.send(msg.guild.id + " " + msg.channel.id) 
 	 };
