@@ -24,6 +24,11 @@ client.on('message', msg => {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
  console.log(log11);
  if(msg.author.bot) return;
+	// Command check
+	if (msg.content.startsWith("!")) {
+		msg.reply("this works")
+	}
+	
  if (msg.content === '!quote') {
  	 msg.react("607330826052698114")
 	 //var x = Math.floor((Math.random() * 4)+1)
