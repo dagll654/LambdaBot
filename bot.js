@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
-  const deltas = client.guilds.get('607318782624399361');
+  const deltas = client.guilds.get("607318782624399361");
  x = 0 
 
 client.on('ready', () => {
