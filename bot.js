@@ -69,7 +69,7 @@ client.on('message', msg => {
 		
 		// Debug thingy, responds with stuff
 		if (dbg1 === 1) {
-			var dbg1a = ""
+			var dbg1a = " "
 			cmd.forEach(function(element) {
 			var dbg1a = dbg1a + element + ", "
 			})
@@ -107,7 +107,8 @@ client.on('message', msg => {
 				case "return":
 					if (cmd[2] === 1 || cmd[2] === 0) {
 						dbg1 = cmd[2]
-					}
+						console.log("dbg1 set to " + dbg1)
+					} else {console.log("dbg1 change failed.")}
 					break
 			}
 			
