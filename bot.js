@@ -166,7 +166,7 @@ client.on('message', msg => {
 	// :thonk: reaction to hmm's of any length
 	
 	
-	if (msg.content.toLowerCase === "hmm") {
+	if (msg.content === "hmm") {
 			msg.react("607330826052698114") 
 	}
 })
