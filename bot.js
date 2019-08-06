@@ -2,7 +2,8 @@ const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
 
- x = 0 
+ x = 1 
+ x1 = 0
 
 client.on('ready', () => {
 	const deltas = client.guilds.get("607318782624399361");
@@ -16,11 +17,25 @@ client.on('ready', () => {
             url: "https://discordapp.com/"
         }
     });
+	
+	// The quote pool.
+	const qte = [
+			"It's not cheating if you make the rules!", 
+			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
+			"No I will NOT lower the difficulty!",
+			"No I didn't jinx myself!.. well maybe I did...",
+			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays."
+			]
+	const qte2 = "Lambdadelta Quote of the day: "
+	
 });
 
  
 
 client.on('message', msg => {
+	
+	// An array containing all digits, for convenience of comparing
+	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -30,37 +45,30 @@ client.on('message', msg => {
 	if(msg.author.bot) return;
 	
 	// Command check
-	if (msg.content.startsWith("!")) {	
+	if (msg.content.startsWith("!")) {
+	
+		
 		// Make an array with values equal to the command name and arguments
 		var cmd = msg.content.split(" ")
-		cmd.forEach(function(element) {
-			msg.channel.send(element)
-		})	
-	}
- if (msg.content === '!quote') {
- 	 msg.react("607330826052698114")
-	 //var x = Math.floor((Math.random() * 4)+1)
-	 x = x + 1
-	 if (x === 5) {
-		 x = 1
-	 }
-	 console.log(x)
-	 switch (x) {
-		 case 1:
-		  var txt = "It's not cheating if you make the rules!"
-		  break
-		 case 2:
-		  var txt = "Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?"
-		  break
-		 case 3:
-		  var txt = "No I will NOT lower the difficulty!"
-		  break
-		 case 4:
-		  var txt = "No I didn't jinx myself!.. well maybe I did..."
-	}
-	 var txt2 = "Lambdadelta Quote of the day: " + txt
-	 msg.reply(txt2)
-		  
+		
+		//cmd.forEach(function(element) {
+		//	msg.channel.send(element)
+		
+		// Quote command
+		if (cmd[0] === '!quote') 
+		{
+			// If the command includes an argument, the standart cycling is overridden
+			if (cmd.length > 1 && nmbrs.includes(cmd[1])) {
+				x1 = cmd[1]
+				var txt = qte[x1]
+				x1 = 0
+			}
+			else {
+				var txt = qte[x]
+				x = x + 1
+			}
+			msg.reply(qte2 + txt)
+		}  
 	 
 	 };
 	if (msg.content === 'hmm') {
@@ -111,7 +119,6 @@ client.on('message', msg => {
 	if (msg.content.slice(1, 5) === "math")  {
 		var a = msg.content.charAt(6)
 		var b = msg.content.charAt(10)
-		var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 		if (nmbrs.includes(a) && nmbrs.includes(b)) {
 			switch (msg.content.charAt(8)) {
 			case "+":
@@ -133,7 +140,10 @@ client.on('message', msg => {
 		     }
 	}	
 	
-  }
+	}
+	
+	// Commands end here 
+	}
 })
 
 
@@ -142,3 +152,4 @@ client.on('message', msg => {
 // THIS  MUST  BE  THIS  WAY
 
 client.login(process.env.BOT_TOKEN);//BOT_TOKEN is the Client Secret
+
