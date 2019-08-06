@@ -43,7 +43,12 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
-
+	
+	// Roles that can be assigned/unassigned by anyone
+	const roles1 = [
+			"test",
+			"Bot Tinkerer"
+			]
 	
 	// The quote pool
 	const qte = [
@@ -66,18 +71,12 @@ client.on('message', msg => {
 	// If the message's author is a bot, just ignore it
 	if(msg.author.bot) return;
 	
-	// Debug thingy, responds with stuff
-	if (dbg1 === 1) {
-		var mescarr = msg.content.split(" ")
-		ch.send(mescarr.toString)
-	}
-	
 	// Command check
-	if (msg.content.startsWith("!")) {
+	if (mesc.startsWith("!")) {
 	
 		
 		// Make an array with values equal to the command name and arguments
-		var cmd = msg.content.split(" ")
+		var cmd = mesc.toLowerCase().split(" ")
 		
 
 		
@@ -99,7 +98,7 @@ client.on('message', msg => {
 				var txt = qte[x]
 				x = x + 1
 			}
-			msg.channel.send(qte2 + txt)
+			ch.send(qte2 + txt)
 		}  
 		
 		// Debug commands
@@ -111,29 +110,31 @@ client.on('message', msg => {
 					console.log(msg.guild.id + " " + msg.channel.id) 
 					console.log("Debug command !debug ids noticed.")
 					break
-				case "return":
-					if (cmd[2] > -1 && cmd[2] < 2) {
-						dbg1 = cmd[2]
-						console.log("dbg1 set to " + dbg1)
-					} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
-					console.log("Debug command !debug return noticed.")
-					break
+				//case "return":
+				//	if (cmd[2] > -1 && cmd[2] < 2) {
+				//		dbg1 = cmd[2]
+				//		console.log("dbg1 set to " + dbg1)
+				//	} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
+				//	console.log("Debug command !debug return noticed.")
+				//	break
 			}	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		}
+	
+	// Role giving and taking
+	if (cmd[0] === "!giverole") {
+		if (roles1.includes(cmd[1]) {
+			message.member.addRole(message.guild.roles.find('name', cmd[1])
+		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
+	}
+		if (cmd[0] === "!removerole") {
+		if (roles1.includes(cmd[1]) {
+			message.member.removeRole(message.guild.roles.find('name', cmd[1])
+		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
+	}
 
-  var par = msg.content.indexOf("!")
-  if (par === 0) {
-	if (msg.content.slice(1, 9) === "giverole") {
-		if (msg.content.slice(10) === '607596327165231114') {
-  	msg.member.addRole(msg.content.slice(10))
-  	msg.channel.send("Given the role <@&" + msg.content.slice(10) + "> to " + msg.author)
-	} else {msg.channel.send("The command cannot be performed because it has been typed in incorrectly or the specified role cannot be given.")}}
-	if (msg.content.slice(1, 11) === "removerole") {
-		if (msg.content.slice(12) === '607596327165231114') {
-  	msg.member.removeRole(msg.content.slice(12))
-	msg.channel.send("Removed the role <@&" + msg.content.slice(12) + "> from " + msg.author)
-	} else {msg.channel.send("The command cannot be performed because it has been typed in incorrectly or the specified role cannot be removed.")}}
+	
+	
 	if (msg.content.slice(1, 5) === "help") {
 		var tst1 = msg.content.slice(6)
 		switch (tst1) {
@@ -180,12 +181,12 @@ client.on('message', msg => {
 			var d = "0"
 		     }
 	}
-	}	
+	
 	
 	// Commands end here 
 	}	
 	
-	if (msg.content === "hmm") {
+	if (msg.content.toLowerCase() === "hmm") {
 			msg.react("607330826052698114") 
 	}
 })
