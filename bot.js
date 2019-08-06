@@ -111,7 +111,7 @@ client.on('message', msg => {
 					if (cmd[2] === 1 || cmd[2] === 0) {
 						dbg1 = cmd[2]
 						console.log("dbg1 set to " + dbg1)
-					} else {console.log("dbg1 change failed.")}
+					} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
 					console.log("Debug command !debug return noticed.")
 					break
 			}
