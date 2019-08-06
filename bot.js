@@ -97,14 +97,18 @@ client.on('message', msg => {
 			var c = Number(a) - Number(b)
 			break
 			default:
-			var c = "nope"
+			var d = "nope"
 			msg.reply("I can't do that!")
 			break
 			}
 
-		if (c != "nope") {
+		if (d != "nope") {
 			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
-		} else {msg.reply("I can't do that!")}
+		} 
+		else { 
+			msg.reply("I can't do that!") 
+			var = "0"
+		     }
 		}
 	}	
 	
