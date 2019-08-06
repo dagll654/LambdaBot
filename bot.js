@@ -140,8 +140,6 @@ client.on('message', msg => {
 		     }
 	}	
 	
-	}
-	
 	// Commands end here 
 	}
 })
