@@ -87,7 +87,8 @@ client.on('message', msg => {
 	if (msg.content.slice(1, 5) === "math")  {
 		var a = msg.content.charAt(6)
 		var b = msg.content.charAt(10)
-		if (typeof(Number(a)) === "number" && typeof(Number(b)) == "number") {
+		var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+		if (nmbrs.includes(a) && nmbrs.includes(b)) {
 			switch (msg.content.charAt(8)) {
 			case "+":
 			var c = Number(a) + Number(b)
@@ -100,16 +101,11 @@ client.on('message', msg => {
 			msg.reply("I can't do that!")
 			break
 			}
-		var a = a - 0
-		var b = b - 0
-		var doot = "a" - 0
-		if (a === doot || b === doot) {
-			msg.reply("I can't do that!")
-			var c = "nope"
+
+		if (var c != "nope") {
+			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
 		}
-		if (c != "nope") {
-		msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
-		}}
+		}
 	}	
 	
   }
