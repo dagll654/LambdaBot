@@ -63,6 +63,9 @@ client.on('message', msg => {
 	
 	// An array containing all digits, for convenience of comparing
 	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	function checkNumber(numb) {
+		return nmbrs.includes(numb);
+	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -169,7 +172,7 @@ client.on('message', msg => {
 		}
 	}
 	if (cmd[0] === "!math")  {
-		if (nmbrs.includes(cmd[1]) && nmbrs.includes(cmd[3])) {
+		if (cmd[1].split("").every(checkNumber) && cmd[2].split("").every(checkNumber)) {
 			switch (cmd[2]) {
 			case "+":
 			var c = Number(cmd[1]) + Number(cmd[3])
