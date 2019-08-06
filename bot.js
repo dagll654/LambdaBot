@@ -108,7 +108,7 @@ client.on('message', msg => {
 					console.log("Debug command !debug ids noticed.")
 					break
 				case "return":
-					if (cmd[2] === 1 || cmd[2] === 0) {
+					if (cmd[2] > -1 && cmd[2] < 2) {
 						dbg1 = cmd[2]
 						console.log("dbg1 set to " + dbg1)
 					} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
