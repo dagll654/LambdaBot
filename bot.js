@@ -62,7 +62,6 @@ client.on('message', msg => {
 	
 	// The quote pool
 	const qte = [
-			"Awaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
 			"It's not cheating if you make the rules!", 
 			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
 			"No I will NOT lower the difficulty!",
@@ -73,6 +72,7 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
+			"Awaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
 			"Usage: !giverole RoleName. Awaliable roles: Bot Tinkerer.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
