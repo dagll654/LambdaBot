@@ -167,7 +167,7 @@ client.on('message', msg => {
 	
 	
 	if (msg.content.startsWith("hm")) {
-		var thonkarr = msg.content.toLowerCase.split("").shift
+		var thonkarr = msg.content.split("").shift
 		var mmmm = thonkarr => thonkarr.every(thing => thing === array[0])
 		if (mmmm === "true") {
 			msg.react("607330826052698114") 
