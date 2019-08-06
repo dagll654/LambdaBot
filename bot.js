@@ -15,12 +15,11 @@ client.on('ready', () => {
 	//deltas.members.forEach(member => console.log(member.user.username));
 	
 	// Gonna use this later
-	// console.log(deltas.roles.get('607596327165231114').members.map(m=>m.user.tag));
-	deltas.roles.get('608255705694076975').members.forEach(m => console.log(m.user.username))
-	
+	console.log(deltas.roles.get('607596327165231114').members.map(m=>m.user.tag));
+
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
-	bch.send('Bot started up successfully.')
+	bch.send('Bot started up succesfully.')
 	
 	// Setting the bot's current game
     client.user.setPresence({
@@ -41,6 +40,16 @@ client.on('error', () => {
 
 client.on('message', msg => {
 	
+	// Command pool
+	const cmds = [
+			"giverole",
+			"removerole",
+			"quote",
+			"math",
+			"help",
+			"debug"
+			]
+	
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
@@ -53,6 +62,7 @@ client.on('message', msg => {
 	
 	// The quote pool
 	const qte = [
+			"Awaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
 			"It's not cheating if you make the rules!", 
 			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
 			"No I will NOT lower the difficulty!",
@@ -61,6 +71,15 @@ client.on('message', msg => {
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
+	// Help command pool
+	const help1 = [
+			"Usage: !giverole RoleName. Awaliable roles: Bot Tinkerer.",
+			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
+			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
+			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
+			"Why do you need help for the help command? Anyway, usage: !help [CommandName]."
+			"The debug command as of right now is only avaliable to the server's creator."
+			]	
 	
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
@@ -90,11 +109,8 @@ client.on('message', msg => {
 	// Command check
 	if (mesc.startsWith("!")) {
 	
-		
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
-		
-
 		
 		// Quote command
 		if (cmd[0] === '!quote') 
@@ -156,50 +172,28 @@ client.on('message', msg => {
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
 
-	
-	
 	if (cmd[0] === "!help") {
-		switch (cmd[1]) {
-			case "giverole":
-				msg.reply("Usage: !giverole RoleId. You can get the role's ID by putting \ before @Role. Awaliable roles: Bot Tinkerer.")
-				break
-			case "removerole":
-				msg.reply("Usage: !removerole RoleId. Works just like giverole and for the same roles.")
-				break
-			case "quote":
-				msg.reply("Gives a quote of Lambdadalta. Quote accuracy not guaranteed.")
-				break
-			case "math":
-				msg.reply("Makes the bot do basic math. Now works for any numbers! Still doesn't support anything but addition and substaction though.")
-				break
-			case "help":
-				msg.reply("Why do you need help with the help command? Anyway, usage: !help CommandName.")
-				break
-			default:
-				msg.reply("Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.")
-				break
-		}
+		msg.reply(help1[cmds.indexOf(cmd[1])+1])
 	}
 	
-	// Math command. Adds two numbers or substracts first one from the second one based on the input.
+	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
 	if (cmd[0] === "!math")  {
 		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
 			case "+":
-			var c = Number(cmd[1]) + Number(cmd[3])
-			msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-			break
+				var c = Number(cmd[1]) + Number(cmd[3])
+				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
+				break
 			case "-":
-			var c = Number(cmd[1]) - Number(cmd[3])
-			msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-			break
+				var c = Number(cmd[1]) - Number(cmd[3])
+				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
+				break
 			default:
-			msg.reply("I can't do that!")
-			break
+				msg.reply("I can't do that!")
+				break
 			}
 		} else {msg.reply("I can't do that!")}
 	}
-	
 	
 	// Commands end here 
 	}	
@@ -215,5 +209,7 @@ client.on('message', msg => {
  
 
 // THIS  MUST  BE  THIS  WAY
+// NO TOUCHING
+//______________________________\\/
+client.login(process.env.BOT_TOKEN)
 
-client.login(process.env.BOT_TOKEN);//BOT_TOKEN is the Client Secret
