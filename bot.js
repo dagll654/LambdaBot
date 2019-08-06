@@ -63,8 +63,8 @@ client.on('message', msg => {
 	
 	// An array containing all digits, for convenience of comparing
 	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-	function checkNumber(numb) {
-		return nmbrs.includes(numb);
+	function checkNumber(arr, arr2){
+		return arr.every(i => arr2.includes(i));
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
@@ -172,7 +172,7 @@ client.on('message', msg => {
 		}
 	}
 	if (cmd[0] === "!math")  {
-		if (cmd[1].split("").every(checkNumber) && cmd[2].split("").every(checkNumber)) {
+		if (checkNumber(cmd[1].split(""), nmbrs) && checkNumber(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
 			case "+":
 			var c = Number(cmd[1]) + Number(cmd[3])
