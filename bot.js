@@ -66,6 +66,12 @@ client.on('message', msg => {
 	// If the message's author is a bot, just ignore it
 	if(msg.author.bot) return;
 	
+	// Debug thingy, responds with stuff
+	if (dbg1 === 1) {
+		var mescarr = msg.content.split(" ")
+		ch.send(mescarr.toString)
+	}
+	
 	// Command check
 	if (msg.content.startsWith("!")) {
 	
@@ -73,10 +79,7 @@ client.on('message', msg => {
 		// Make an array with values equal to the command name and arguments
 		var cmd = msg.content.split(" ")
 		
-		// Debug thingy, responds with stuff
-		if (dbg1 === 1) {
-			ch.send(cmd.toString)
-		}
+
 		
 		// Quote command
 		if (cmd[0] === '!quote') 
