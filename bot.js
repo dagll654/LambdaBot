@@ -11,7 +11,7 @@ client.on('ready', () => {
 	deltas.roles.get('608255705694076975').members.map(m=>m.user.tag);
 	console.log('I am ready!');
 	
-	deltas.channel.get("607558082381217851").send('Bot started up succesfully.')
+	deltas.channels.get("607558082381217851").send('Bot started up succesfully.')
 	
     client.user.setPresence({
         game: {
