@@ -67,6 +67,10 @@ client.on('message', msg => {
 	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
+	// If it's the bot's message about starting up fine then delete it in 10 seconds
+	if (msg.author.id === '607520778178527246' && mesc === 'Bot started up succesfully.') {
+		setTimeout(function(){msg.delete()}, 10000)
+	}
 	
 	// If the message's author is a bot, just ignore it
 	if(msg.author.bot) return;
