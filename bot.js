@@ -92,19 +92,16 @@ client.on('message', msg => {
 			switch (msg.content.charAt(8)) {
 			case "+":
 			var c = Number(a) + Number(b)
+			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
 			break
 			case "-":
 			var c = Number(a) - Number(b)
+			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
 			break
 			default:
-			var d = "nope"
 			msg.reply("I can't do that!")
 			break
 			}
-
-		if (c != "nope") {
-			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
-		} 
 		else { 
 			msg.reply("I can't do that!") 
 			var d = "0"
