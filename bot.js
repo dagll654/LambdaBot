@@ -62,10 +62,10 @@ client.on('message', msg => {
 	
 	
 	// An array containing all digits, for convenience of comparing
-	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
 	// Function for checking if all the elements of arr are included in arr2
-	function checkNumber(arr, arr2){
+	function checkArray(arr, arr2){
 		return arr.every(i => arr2.includes(i));
 	}
 	
@@ -182,7 +182,7 @@ client.on('message', msg => {
 	
 	// Math command. Adds two numbers or substracts first one from the second one based on the input.
 	if (cmd[0] === "!math")  {
-		if (checkNumber(cmd[1].split(""), nmbrs) && checkNumber(cmd[3].split(""), nmbrs)) {
+		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
 			case "+":
 			var c = Number(cmd[1]) + Number(cmd[3])
@@ -202,8 +202,8 @@ client.on('message', msg => {
 	
 	// Commands end here 
 	}	
-	
-	if (mesc.toLowerCase().startsWith("hm") && checkSymbol(mesc.toLowerCase().split("").shift, "m")) {
+
+	if (mesc.toLowerCase().startsWith("hm") && checkArray(mesc.toLowerCase().split("").shift, ["m"])) {
 			msg.react("607330826052698114") 
 	}
 })
