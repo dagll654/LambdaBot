@@ -164,7 +164,7 @@ client.on('message', msg => {
 				break
 		}
 	}
-	if (cmd[1]) === "!math")  {
+	if (cmd[1] === "!math")  {
 		if (nmbrs.includes(cmd[2]) && nmbrs.includes(cmd[4])) {
 			switch (cmd[3]) {
 			case "+":
