@@ -122,11 +122,7 @@ client.on('message', msg => {
 			}	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		}
-		
-	if (msg.content.slice(0, 8) === '!newtest') {
-	 var temp1 = msg.content.split(" ")
-	 msg.member.addRole(temp1[1].id)
-	 }
+
   var par = msg.content.indexOf("!")
   if (par === 0) {
 	if (msg.content.slice(1, 9) === "giverole") {
