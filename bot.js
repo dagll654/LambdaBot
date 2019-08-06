@@ -36,8 +36,9 @@ client.on('ready', () => {
 
 client.on('message', msg => {
 	
-	// Debug var
-	var mesg = msg.content.toLowerCase	
+	// Handy vars
+	var ch = msg.channel
+
 	
 	// The quote pool
 	const qte = [
@@ -100,6 +101,7 @@ client.on('message', msg => {
 		// Debug commands
 		if (cmd[0] === '!debug') {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
+			ch.send("Debug command run, check logs.")
 			switch (cmd[1]) {
 				case "ids":
 					console.log(msg.guild.id + " " + msg.channel.id) 
