@@ -10,6 +10,9 @@ client.on('ready', () => {
 	//deltas.members.forEach(member => console.log(member.user.username));
 	deltas.roles.get('608255705694076975').members.map(m=>m.user.tag);
 	console.log('I am ready!');
+	
+	deltas.channel.get("607558082381217851").send('Bot started up succesfully.')
+	
     client.user.setPresence({
         game: {
             name: 'you like a fiddle',
