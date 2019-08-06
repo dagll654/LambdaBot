@@ -58,7 +58,7 @@ client.on('message', msg => {
 	 };
 	if (msg.content.slice(0, 8) === '!newtest') {
 	 var temp1 = msg.content.split(" ")
-	 msg.author.addRole(temp1[1].id)
+	 msg.member.addRole(temp1[1].id)
 	 }
   var par = msg.content.indexOf("!")
   if (par === 0) {
