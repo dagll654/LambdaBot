@@ -81,8 +81,8 @@ client.on('message', msg => {
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
 	 };
-	if (msg.content === '!guildid') {
- 	 msg.channel.send(msg.guild.id) 
+	if (msg.content === '!ids') {
+ 	 msg.channel.send(msg.guild.id + " " + msg.channel.id) 
 	 };
 	if (msg.content.slice(0, 8) === '!newtest') {
 	 var temp1 = msg.content.split(" ")
