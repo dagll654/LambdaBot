@@ -6,7 +6,8 @@ const Discord = require('discord.js');
 
 client.on('ready', () => {
 	const deltas = client.guilds.get("607318782624399361");
-	deltas.members.forEach(member => console.log(member.user.username)); 
+	//deltas.members.forEach(member => console.log(member.user.username));
+	deltas.guild.roles.get('608255705694076975').members.map(m=>m.user.tag);
 	console.log('I am ready!');
     client.user.setPresence({
         game: {
@@ -48,13 +49,17 @@ client.on('message', msg => {
 	 msg.reply(txt2)
 		  
 	 
- };
+	 };
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
- };
+	 };
 	if (msg.content === '!guildid') {
  	 msg.channel.send(msg.guild.id) 
- };
+	 };
+	if (msg.content.slice(0, 8) === '!newtest') {
+	 var temp1 = msg.content.split(" ")
+	 msg.author.addRole(temp1[1].id)
+	 }
   var par = msg.content.indexOf("!")
   if (par === 0) {
 	if (msg.content.slice(1, 9) === "giverole") {
