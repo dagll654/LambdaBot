@@ -124,12 +124,12 @@ client.on('message', msg => {
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
 		if (roles1.includes(cmd[1])) {
-			message.member.addRole(message.guild.roles.find('name', cmd[1])
+			message.member.addRole(message.guild.roles.find('name', cmd[1]))
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
 		if (cmd[0] === "!removerole") {
 		if (roles1.includes(cmd[1])) {
-			message.member.removeRole(message.guild.roles.find('name', cmd[1])
+			message.member.removeRole(message.guild.roles.find('name', cmd[1]))
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
 
