@@ -168,7 +168,7 @@ client.on('message', msg => {
 	
 	if (msg.content.startsWith("hm")) {
 		var thonkarr = msg.content.split("").shift
-		const allEqual = arr => arr.every( v => v === arr[0] )
+		const allEqual = thonkarr => thonkarr.every( v => v === thonkarr[0] )
 		if (allEqual(thonkarr)) {
 			msg.react("607330826052698114") 
 		}
