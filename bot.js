@@ -203,7 +203,7 @@ client.on('message', msg => {
 	// Commands end here 
 	}	
 	
-	if (mesc.toLowerCase().startsWith("hm") && checkSymbol(mesc.toLowerCase().split("").shift, m)) {
+	if (mesc.toLowerCase().startsWith("hm") && checkSymbol(mesc.toLowerCase().split("").shift, "m")) {
 			msg.react("607330826052698114") 
 	}
 })
