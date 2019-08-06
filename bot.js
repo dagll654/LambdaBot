@@ -99,7 +99,7 @@ client.on('message', msg => {
 		
 		// Debug commands
 		if (cmd[0] === '!debug') {
-			if (msg.author === process.env.BOT_AUTHOR) {
+			if (msg.author.id === process.env.BOT_AUTHOR) {
 			switch (cmd[1]) {
 				case "ids":
 					msg.channel.send(msg.guild.id + " " + msg.channel.id) 	
