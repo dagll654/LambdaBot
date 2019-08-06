@@ -102,13 +102,15 @@ client.on('message', msg => {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
 			switch (cmd[1]) {
 				case "ids":
-					msg.channel.send(msg.guild.id + " " + msg.channel.id) 	
+					console.log(msg.guild.id + " " + msg.channel.id) 
+					console.log("Debug command !debug ids noticed.")
 					break
 				case "return":
 					if (cmd[2] === 1 || cmd[2] === 0) {
 						dbg1 = cmd[2]
 						console.log("dbg1 set to " + dbg1)
 					} else {console.log("dbg1 change failed.")}
+					console.log("Debug command !debug return noticed.")
 					break
 			}
 			
