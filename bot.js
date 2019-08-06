@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
-// peepee poopoo
+
  x = 0 
  x1 = 0
 
@@ -34,7 +34,10 @@ client.on('ready', () => {
  
 
 client.on('message', msg => {
-		
+	
+	// Debug var
+	var mesg = msg.content.toLowerCase	
+	
 	// The quote pool
 	const qte = [
 			"It's not cheating if you make the rules!", 
@@ -161,8 +164,9 @@ client.on('message', msg => {
 	}
 	// Reactions
 	// :thonk: reaction to hmm's of any length
-	if (msg.content.toLowerCase.startsWith('hm')) {
-		var thonkarr = msg.content.toLowerCase.split("").shift
+	
+	if (mesg.startsWith('hm')) {
+		var thonkarr = mesg.split("").shift
 		function hm(mm) {
 			return mm === "m"
 		}
