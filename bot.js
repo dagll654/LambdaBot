@@ -73,7 +73,7 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
-			"Awaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
+			"Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
 			"Usage: !giverole RoleName. Awaliable roles: Bot Tinkerer.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
@@ -136,6 +136,7 @@ client.on('message', msg => {
 			}
 			else {
 				var txt = qte[x]
+				if (x === 5) {x = 0}
 				x = x + 1
 			}
 			ch.send(qte2 + txt)
