@@ -47,6 +47,7 @@ client.on('message', msg => {
 			"quote",
 			"math",
 			"help",
+			"duckclub",
 			"debug"
 			]
 	
@@ -78,6 +79,7 @@ client.on('message', msg => {
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
+			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
@@ -111,6 +113,12 @@ client.on('message', msg => {
 	
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
+		
+		// Check if the command even exists
+		if (cmds.indexOf(cmd[0].shift()) === -1) {
+			msg.reply("Unrecognized command. Type in !help to see the list of the avaliable commands.")
+			
+		}
 		
 		// Quote command
 		if (cmd[0] === '!quote') 
@@ -194,6 +202,8 @@ client.on('message', msg => {
 			}
 		} else {msg.reply("I can't do that!")}
 	}
+	
+	if (cmd
 	
 	// Commands end here 
 	}	
