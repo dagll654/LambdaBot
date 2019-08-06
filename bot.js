@@ -170,7 +170,7 @@ client.on('message', msg => {
 		function hm(mm) {
 			return mm === "m"
 		}
-		if (thonkarr.every(hm)) {
+		if (!thonkarr.includes(!"m")) {
 			msg.react("607330826052698114") 
 		}
 		}
