@@ -2,7 +2,7 @@ const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
 
- x = 1 
+ x = 0 
  x1 = 0
 
 client.on('ready', () => {
@@ -60,7 +60,7 @@ client.on('message', msg => {
 		{
 			// If the command includes an argument, the standart cycling is overridden
 			if (cmd.length > 1 && nmbrs.includes(cmd[1])) {
-				x1 = cmd[1]
+				x1 = cmd[1] - 1
 				var txt = qte[x1]
 				x1 = 0
 			}
