@@ -30,15 +30,13 @@ client.on('message', msg => {
 	if(msg.author.bot) return;
 	
 	// Command check
-	if (msg.content.startsWith("!")) {
-	}
-	
+	if (msg.content.startsWith("!")) {	
 		// Make an array with values equal to the command name and arguments
 		var cmd = msg.content.split(" ")
 		cmd.forEach(function(element) {
 			msg.channel.send(element)
-		})
-	
+		})	
+	}
  if (msg.content === '!quote') {
  	 msg.react("607330826052698114")
 	 //var x = Math.floor((Math.random() * 4)+1)
