@@ -10,7 +10,7 @@ client.on('ready', () => {
 	
 	// Getting the Lambda's Deltas guild for easy use
 	const deltas = client.guilds.get("607318782624399361");
-	
+	const bch = deltas.channels.get("607558082381217851");
 	// Debug line: logs all members
 	//deltas.members.forEach(member => console.log(member.user.username));
 	
@@ -19,7 +19,7 @@ client.on('ready', () => {
 
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
-	deltas.channels.get("607558082381217851").send('Bot started up succesfully.')
+	bch.send('Bot started up succesfully.')
 	
 	// Setting the bot's current game
     client.user.setPresence({
@@ -32,12 +32,17 @@ client.on('ready', () => {
 
 });
 
+client.on('error', () => {
+	bch.send("The bot has encountered an error. Check logs.")
+});
+
  
 
 client.on('message', msg => {
 	
 	// Handy vars
 	var ch = msg.channel
+	var mesc = msg.content
 
 	
 	// The quote pool
@@ -72,9 +77,9 @@ client.on('message', msg => {
 		if (dbg1 === 1) {
 			var dbg1a = " "
 			cmd.forEach(function(element) {
-			var dbg1a = dbg1a + element + ", "
+			ch.send
 			})
-			msg.channel.send(dbg1a)
+			ch.send(dbg1a)
 		}
 		
 		// Quote command
@@ -87,7 +92,7 @@ client.on('message', msg => {
 				if (x1 > qte.length) {
 					msg.reply("Sorry, only " + qte.length + " quotes are currently avaliable.")
 					return
-				}
+				} 
 				var txt = qte[x1-1]
 				x1 = 0
 			}
@@ -114,10 +119,10 @@ client.on('message', msg => {
 					} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
 					console.log("Debug command !debug return noticed.")
 					break
-			}
-			
+			}	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
-		}	
+		}
+		
 	if (msg.content.slice(0, 8) === '!newtest') {
 	 var temp1 = msg.content.split(" ")
 	 msg.member.addRole(temp1[1].id)
