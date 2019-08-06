@@ -42,13 +42,13 @@ client.on('message', msg => {
 	
 	// Command pool
 	const cmds = [
-			"giverole",
-			"removerole",
-			"quote",
-			"math",
-			"help",
-			"duckclub",
-			"debug"
+			"!giverole",
+			"!removerole",
+			"!quote",
+			"!math",
+			"!help",
+			"!duckclub",
+			"!debug"
 			]
 	
 	// Handy vars
@@ -181,7 +181,7 @@ client.on('message', msg => {
 	}
 
 	if (cmd[0] === "!help") {
-		msg.reply(help1[cmds.indexOf(cmd[1].toLowerCase())+1])
+		msg.reply(help1[cmds.indexOf("!" + cmd[1].toLowerCase())+1])
 	}
 	
 	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
