@@ -107,7 +107,7 @@ client.on('message', msg => {
 		} 
 		else { 
 			msg.reply("I can't do that!") 
-			var = "0"
+			var d = "0"
 		     }
 		}
 	}	
