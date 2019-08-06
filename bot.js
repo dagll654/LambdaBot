@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 
  x = 0 
  x1 = 0
+ dbg1 = 0
 
 client.on('ready', () => {
 	
@@ -66,9 +67,14 @@ client.on('message', msg => {
 		// Make an array with values equal to the command name and arguments
 		var cmd = msg.content.split(" ")
 		
-		 
-		//  cmd.forEach(function(element) {
-		//	msg.channel.send(element)
+		// Debug thingy, responds with stuff
+		if (dbg1 === 1) {
+			var dbg1a = ""
+			cmd.forEach(function(element) {
+			var dbg1a = dbg1a + element + ", "
+			})
+			msg.channel.send(dbg1a)
+		}
 		
 		// Quote command
 		if (cmd[0] === '!quote') 
@@ -91,11 +97,22 @@ client.on('message', msg => {
 			msg.channel.send(qte2 + txt)
 		}  
 		
-
+		// Debug commands
+		if (cmd[0] === '!debug') {
+			if (msg.author === process.env.BOT_AUTHOR) {
+			switch (cmd[1]) {
+				case "ids":
+					msg.channel.send(msg.guild.id + " " + msg.channel.id) 	
+					break
+				case "return":
+					if (cmd[2] === 1 || cmd[2] === 0) {
+						dbg1 = cmd[2]
+					}
+					break
+			}
 			
-	if (msg.content === '!ids') {
- 	 msg.channel.send(msg.guild.id + " " + msg.channel.id) 
-	 };
+		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
+		}	
 	if (msg.content.slice(0, 8) === '!newtest') {
 	 var temp1 = msg.content.split(" ")
 	 msg.member.addRole(temp1[1].id)
@@ -161,10 +178,7 @@ client.on('message', msg => {
 	}	
 	
 	// Commands end here 
-	}
-	// Reactions
-	// :thonk: reaction to hmm's of any length
-	
+	}	
 	
 	if (msg.content === "hmm") {
 			msg.react("607330826052698114") 
