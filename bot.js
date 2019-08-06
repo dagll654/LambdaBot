@@ -50,6 +50,9 @@ client.on('message', msg => {
 	if (msg.content === 'hmm') {
  	 msg.react("607330826052698114") 
  };
+	if (msg.content === '!guildid') {
+ 	 msg.channel.send(msg.guild.id) 
+ };
   var par = msg.content.indexOf("!")
   if (par === 0) {
 	if (msg.content.slice(1, 9) === "giverole") {
