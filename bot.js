@@ -189,7 +189,8 @@ client.on('message', msg => {
 	
 	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
 	if (cmd[0] === "!math")  {
-		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help CommandName.")}
+		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help CommandName.")
+				    return}
 		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
 			case "+":
