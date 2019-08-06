@@ -166,7 +166,7 @@ client.on('message', msg => {
 	// :thonk: reaction to hmm's of any length
 	
 	if (msg.content.startsWith("hm")) {
-		var thonkarr = mesg.split("").shift
+		var thonkarr = msg.content.split("").shift
 		function hm(mm) {
 			return mm === "m"
 		}
