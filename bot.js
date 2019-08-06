@@ -63,6 +63,8 @@ client.on('message', msg => {
 	
 	// An array containing all digits, for convenience of comparing
 	var nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	
+	// Function for checking if all the elements of arr are included in arr2
 	function checkNumber(arr, arr2){
 		return arr.every(i => arr2.includes(i));
 	}
@@ -70,9 +72,10 @@ client.on('message', msg => {
 	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
-	// If it's the bot's message about starting up fine then delete it in 10 seconds
+	
+	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && mesc === 'Bot started up succesfully.') {
-		setTimeout(function(){msg.delete()}, 10000)
+		setTimeout(function(){msg.delete()}, 6000)
 	}
 	
 	// If the message's author is a bot, just ignore it
@@ -133,7 +136,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and add it via its ID
-			msg.member.addRole(msg.guild.roles.find('name', cmd[1]))
+			msg.member.addRole(msg.guild.roles.find('name', cmd[1]).id)
 			msg.reply("Given the role " + cmd[1] + " to " + msg.member.nickname)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
@@ -142,7 +145,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and remove it via its ID
-			msg.member.removeRole(msg.guild.roles.find('name', cmd[1]))
+			msg.member.removeRole(msg.guild.roles.find('name', cmd[1]).id)
 			msg.reply("Taken the role  " + cmd[1] + " from " + msg.member.nickname)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
@@ -171,6 +174,8 @@ client.on('message', msg => {
 				break
 		}
 	}
+	
+	// Math command. Adds two numbers or substracts first one from the second one based on the input.
 	if (cmd[0] === "!math")  {
 		if (checkNumber(cmd[1].split(""), nmbrs) && checkNumber(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
