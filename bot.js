@@ -203,8 +203,6 @@ client.on('message', msg => {
 		} else {msg.reply("I can't do that!")}
 	}
 	
-	if (cmd
-	
 	// Commands end here 
 	}	
 	
