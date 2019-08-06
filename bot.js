@@ -4,6 +4,7 @@ const Discord = require('discord.js');
  x = 0 
 
 client.on('ready', () => {
+	console.log(role.members(608255705694076975)
 	console.log('I am ready!');
     client.user.setPresence({
         game: {
