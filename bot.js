@@ -104,7 +104,7 @@ client.on('message', msg => {
 
 		if (c != "nope") {
 			msg.channel.send(a + " " + msg.content.charAt(8) + " " + b + " = " + c)
-		}
+		} else {msg.reply("I can't do that!")}
 		}
 	}	
 	
