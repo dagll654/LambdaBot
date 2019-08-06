@@ -60,6 +60,12 @@ client.on('message', msg => {
 		{
 			// If the command includes an argument, the standart cycling is overridden
 			if (cmd.length > 1 && nmbrs.includes(cmd[1])) {
+				// If the argument is beyond the amount of quotes currently avaliable, apologise and stop.
+				if (x1 > qte.length) {
+					msg.reply("Sorry, only " + qte.length + " quotes are currently avaliable.")
+					return
+				}
+				
 				x1 = cmd[1] - 1
 				var txt = qte[x1]
 				x1 = 0
@@ -68,7 +74,7 @@ client.on('message', msg => {
 				var txt = qte[x]
 				x = x + 1
 			}
-			msg.reply(qte2 + txt)
+			msg.channel.send(qte2 + txt)
 		}  
 	 
 	 };
