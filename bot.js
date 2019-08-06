@@ -77,7 +77,7 @@ client.on('message', msg => {
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
-			"Why do you need help for the help command? Anyway, usage: !help [CommandName]."
+			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
