@@ -69,6 +69,11 @@ client.on('message', msg => {
 		return arr.every(i => arr2.includes(i));
 	}
 	
+	// Function for checking if all the elements of arr are are the same as compoint
+	function checkSymbol(arr, compoint){
+		return arr.every(i => i === compoint);
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
@@ -137,7 +142,7 @@ client.on('message', msg => {
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and add it via its ID
 			msg.member.addRole(msg.guild.roles.find('name', cmd[1]).id)
-			msg.reply("Given the role " + cmd[1] + " to " + msg.member.nickname)
+			msg.reply("Given the role " + cmd[1] + " to " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
 	
@@ -146,7 +151,7 @@ client.on('message', msg => {
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and remove it via its ID
 			msg.member.removeRole(msg.guild.roles.find('name', cmd[1]).id)
-			msg.reply("Taken the role  " + cmd[1] + " from " + msg.member.nickname)
+			msg.reply("Taken the role  " + cmd[1] + " from " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
 
@@ -198,7 +203,7 @@ client.on('message', msg => {
 	// Commands end here 
 	}	
 	
-	if (msg.content.toLowerCase() === "hmm") {
+	if (mesc.toLowerCase().startsWith("hm") && checkSymbol(mesc.toLowerCase().split("").shift, m)) {
 			msg.react("607330826052698114") 
 	}
 })
