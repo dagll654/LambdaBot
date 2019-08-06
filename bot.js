@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
-
+// peepee poopoo
  x = 0 
  x1 = 0
 
