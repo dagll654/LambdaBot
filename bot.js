@@ -88,17 +88,7 @@ client.on('message', msg => {
 			msg.channel.send(qte2 + txt)
 		}  
 		
-		// Reactions
-		// :thonk: reaction to hmm's of any length
-		if (msg.content.toLowerCase.startsWith('hm')) {
-			var thonkarr = msg.content.toLowerCase.split("").shift
-			function hm(mm) {
-				return mm === "m"
-			}
-			if (thonkarr.every(hm)) {
-				msg.react("607330826052698114") 
-			}
-		}
+
 			
 	if (msg.content === '!ids') {
  	 msg.channel.send(msg.guild.id + " " + msg.channel.id) 
@@ -169,6 +159,17 @@ client.on('message', msg => {
 	
 	// Commands end here 
 	}
+	// Reactions
+	// :thonk: reaction to hmm's of any length
+	if (msg.content.toLowerCase.startsWith('hm')) {
+		var thonkarr = msg.content.toLowerCase.split("").shift
+		function hm(mm) {
+			return mm === "m"
+		}
+		if (thonkarr.every(hm)) {
+			msg.react("607330826052698114") 
+		}
+		}
 })
 
 
