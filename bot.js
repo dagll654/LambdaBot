@@ -24,7 +24,7 @@ client.on('ready', () => {
 	// Setting the bot's current game
     client.user.setPresence({
         game: {
-            name: 'you like a fiddle',
+            name: 'try !help',
             type: "Playing",
             url: "https://discordapp.com/"
         }
@@ -73,7 +73,7 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
-			"Avaliable commands: !giverole, !removerole, !quote, !math. Use !help CommandName to get more details.",
+			"Avaliable commands: !giverole, !removerole, !quote, !math. To get help on a specific command, use !help [CommandName].",
 			"Usage: !giverole RoleName. Awaliable roles: Bot Tinkerer.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
