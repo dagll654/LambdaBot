@@ -92,9 +92,9 @@ client.on('message', msg => {
 	}
 	
 	// Function for checking if all the elements of arr are are the same as compoint
-	function checkSymbol(arr, compoint){
-		return arr.every(i => i === compoint);
-	}
+	function checkSame(arr, compoint) {
+		return arr.every(i => arr[arr.indexOf(i)] === compoint)
+	}}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	if (ch.type != 'dm') {
@@ -195,7 +195,7 @@ client.on('message', msg => {
 	
 	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
 	if (cmd[0] === "!math")  {
-		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help CommandName.")
+		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help math.")
 				    return}
 		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
@@ -219,7 +219,9 @@ client.on('message', msg => {
 	
 	// Reactions
 	// Reacts with :thonk: to any message starting with "hm" with any number of m's or h's after that.
-	if (mesc.toLowerCase().startsWith("hm") && checkArray(mesc.toLowerCase().split(""), ["m", "h"])) {
+	var hm1 = mesc.toLowerCase().split("")
+	hm1.shift()
+	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm1, "m")) {
 			msg.react("607330826052698114") 
 	}
 })
