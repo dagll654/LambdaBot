@@ -68,6 +68,12 @@ client.on('message', msg => {
 			"Bot Tinkerer"
 			]
 	
+	// Messages by the bot that will be deleted indefinitely
+	const deletableReplies = [
+			"Bot started up succesfully.",
+			"Debug command run, check logs."
+			]
+	
 	// The quote pool
 	const qte = [
 			"It's not cheating if you make the rules!", 
@@ -114,7 +120,7 @@ client.on('message', msg => {
 	}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
-	if (msg.author.id === '607520778178527246' && mesc === "Bot started up succesfully.") {
+	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
 		setTimeout(function(){msg.delete()}, 6000)
 	}
 	
@@ -173,6 +179,7 @@ client.on('message', msg => {
 				//	break
 			}	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
+		setTimeout(function(){msg.delete()}, 2000)
 		}
 	
 	// Role giving and taking
