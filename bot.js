@@ -59,7 +59,7 @@ client.on('message', msg => {
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1) {
-		setTimeout(function(){msg.delete()}, 500)
+		setTimeout(function(){msg.delete()}, 10)
 	}
 	
 	// Roles that can be assigned/unassigned by anyone
