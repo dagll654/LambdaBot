@@ -97,17 +97,17 @@ client.on('message', msg => {
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
-	if (ch.type != "dm") {
+	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
 	}
 	// And something to notify me whenever a message is sent on any channel. I don't want to disturb people, but I do want to be notified.
-	if (!msg.author.bot || mesc === 'Bot started up succesfully.') {
-	client.users.get("143261987575562240").send("New message on " + ch.name + " by " + msg.author.username);
+	if ((!msg.author.bot || mesc === 'Bot started up succesfully.') && msg.author.id != '143261987575562240') {
+	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
-	if (msg.author.id === '607520778178527246' && mesc === 'Bot started up succesfully.') {
+	if (msg.author.id === '607520778178527246' && mesc === "Bot started up succesfully.") {
 		setTimeout(function(){msg.delete()}, 6000)
 	}
 	
