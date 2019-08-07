@@ -109,7 +109,7 @@ client.on('message', msg => {
 	console.log(log11);
 	}
 	// And something to notify me whenever a message is sent on any channel. I don't want to disturb people, but I do want to be notified.
-	if ((!msg.author.bot || mesc === 'Bot started up succesfully.') && msg.author.id != '143261987575562240') {
+	if ((!msg.author.bot || mesc === 'Bot started up succesfully.') && msg.author.id != '143261987575562240' && ch.id != '607318782624399363') {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
 	
