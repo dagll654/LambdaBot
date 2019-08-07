@@ -36,7 +36,9 @@ client.on('error', () => {
 	bch.send("The bot has encountered an error. Check logs.")
 });
 
- 
+client.on('disconnect', () => {
+	client.users.get('143261987575562240').send("Bot disconnected.")
+});
 
 client.on('message', msg => {
 	
@@ -94,7 +96,7 @@ client.on('message', msg => {
 	// Function for checking if all the elements of arr are are the same as compoint
 	function checkSame(arr, compoint) {
 		return arr.every(i => arr[arr.indexOf(i)] === compoint)
-	}}
+	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	if (ch.type != 'dm') {
