@@ -97,7 +97,7 @@ client.on('message', msg => {
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
-	if (ch.type = "Text Channel") {
+	if (ch.type != "dm") {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
 	}
