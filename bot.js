@@ -97,8 +97,10 @@ client.on('message', msg => {
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
+	if (ch.type = "Text Channel") {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
+	}
 	// And something to notify me whenever a message is sent on any channel. I don't want to disturb people, but I do want to be notified.
 	if (!msg.author.bot) {
 	client.users.get("143261987575562240").send("New message on " + ch.name + " by " + msg.author.username);
