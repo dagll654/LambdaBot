@@ -14,14 +14,14 @@ client.on('ready', () => {
 	// Debug line: logs all members
 	//deltas.members.forEach(member => console.log(member.user.username));
 	
-	// Gonna use this later
+	// This is secret. Don't look!
 	console.log(deltas.roles.get('607596327165231114').members.map(m=>m.user.tag));
 
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
 	bch.send('Bot started up succesfully.')
 	
-	// Setting the bot's current game
+	// Setting the bot's current game to 'try !help'
     client.user.setPresence({
         game: {
             name: 'try !help',
@@ -41,7 +41,7 @@ client.on('disconnect', () => {
 });
 
 client.on('message', msg => {
-	
+
 	// Command pool
 	const cmds = [
 			"!giverole",
@@ -56,6 +56,11 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
+		
+	// Duck club secretiveness ensurance
+	if (mesc.toLowerCase().indexOf("duckclub") != -1) {
+		setTimeout(function(){msg.delete()}, 500)
+	}
 	
 	// Roles that can be assigned/unassigned by anyone
 	const roles1 = [
