@@ -41,8 +41,6 @@ client.on('disconnect', () => {
 });
 
 client.on('message', msg => {
-	
-	const DELTAS = client.guilds.get("607318782624399361")
 
 	// Command pool
 	const cmds = [
