@@ -2,8 +2,7 @@ const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
 
- DELTAS = client.guilds.get("607318782624399361");
- BCH = DELTAS.channels.get("607558082381217851");
+
  x = 0 
  x1 = 0
  dbg1 = 0
@@ -11,7 +10,9 @@ const Discord = require('discord.js');
 client.on('ready', () => {
 	
 	// Getting the Lambda's Deltas guild for easy use
-
+	const DELTAS = client.guilds.get("607318782624399361");
+	const BCH = DELTAS.channels.get("607558082381217851");
+	
 	// Debug line: logs all members
 	//DELTAS.members.forEach(member => console.log(member.user.username));
 	
@@ -44,6 +45,8 @@ client.on('disconnect', () => {
 // Message event
 //====================================================================
 client.on('message', msg => {
+	
+	const DELTAS = client.guilds.get("607318782624399361");
 
 	// Command pool
 	const cmds = [
