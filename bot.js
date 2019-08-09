@@ -88,7 +88,8 @@ client.on('message', msg => {
 			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
 			"No I will NOT lower the difficulty!",
 			"No I didn't jinx myself!.. well maybe I did...",
-			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays."
+			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays.",
+			"Ahh, fuck my life, break it into a million pieces, make an onahole out of it and fuck that as well!"
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
