@@ -9,8 +9,8 @@ const Discord = require('discord.js');
 client.on('ready', () => {
 	
 	// Getting the Lambda's Deltas guild for easy use
-	const DELTAS = client.guilds.get("607318782624399361");
-	const BCH = DELTAS.channels.get("607558082381217851");
+	var DELTAS = client.guilds.get("607318782624399361");
+	var BCH = DELTAS.channels.get("607558082381217851");
 	// Debug line: logs all members
 	//DELTAS.members.forEach(member => console.log(member.user.username));
 	
@@ -40,6 +40,8 @@ client.on('disconnect', () => {
 	client.users.get('143261987575562240').send("Bot disconnected.")
 });
 
+// Message event
+//====================================================================
 client.on('message', msg => {
 
 	// Command pool
