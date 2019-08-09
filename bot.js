@@ -133,8 +133,8 @@ client.on('message', msg => {
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
 		
-		// Check if the command even exists
-		if (cmds.indexOf(cmd[0]) === -1) {
+		// Check if the command even exists (if it is in the right guild)
+		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === deltas) {
 			msg.reply("Unrecognized command. Type in !help to see the list of the avaliable commands.")
 			
 		}
