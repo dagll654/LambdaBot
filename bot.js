@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
+  	const DELTAS = client.guilds.get("607318782624399361");
+	const BCH = DELTAS.channels.get("607558082381217851");
 
  x = 0 
  x1 = 0
@@ -8,18 +10,17 @@ const Discord = require('discord.js');
 
 client.on('ready', () => {
 	
-	// Getting the Lambda's Deltas guild for easy use
-	const deltas = client.guilds.get("607318782624399361");
-	const bch = deltas.channels.get("607558082381217851");
+
+
 	// Debug line: logs all members
-	//deltas.members.forEach(member => console.log(member.user.username));
+	//DELTAS.members.forEach(member => console.log(member.user.username));
 	
 	// This is secret. Don't look!
-	console.log(deltas.roles.get('607596327165231114').members.map(m=>m.user.tag));
+	console.log(DELTAS.roles.get('607596327165231114').members.map(m=>m.user.tag));
 
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
-	bch.send('Bot started up succesfully.')
+	BCH.send('Bot started up succesfully.')
 	
 	// Setting the bot's current game to 'try !help'
     client.user.setPresence({
@@ -33,7 +34,7 @@ client.on('ready', () => {
 });
 
 client.on('error', () => {
-	bch.send("The bot has encountered an error. Check logs.")
+	BCH.send("The bot has encountered an error. Check logs.")
 });
 
 client.on('disconnect', () => {
@@ -41,8 +42,6 @@ client.on('disconnect', () => {
 });
 
 client.on('message', msg => {
-	
-	const deltas = client.guilds.get("607318782624399361")
 
 	// Command pool
 	const cmds = [
@@ -60,7 +59,7 @@ client.on('message', msg => {
 	var mesc = msg.content
 		
 	// Duck club secretiveness ensurance
-	if (mesc.toLowerCase().indexOf("duckclub") != -1) {
+	if (mesc.toLowerCase().indexOf("duckclub") != -1 && debugduck === 1) {
 		setTimeout(function(){msg.delete()}, 10)
 	}
 	
@@ -136,7 +135,7 @@ client.on('message', msg => {
 		var cmd = mesc.toLowerCase().split(" ")
 		
 		// Check if the command even exists (if it is in the right guild)
-		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === deltas) {
+		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
 			msg.reply("Unrecognized command. Type in !help to see the list of the avaliable commands.")
 			
 		}
