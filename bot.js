@@ -235,6 +235,11 @@ client.on('message', msg => {
 		} else {msg.reply("I can't do that!")}
 	}
 	
+	// Webhook testing
+	if (cmd[0] === "!hook") {
+		lambHook.send("test")
+	}
+	
 	// Commands end here 
 	}	
 	
