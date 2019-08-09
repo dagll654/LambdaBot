@@ -136,6 +136,10 @@ client.on('message', msg => {
 	// If the message's author is a bot, just ignore it
 	if(msg.author.bot) return;
 	
+	if(mesc === "!id") {
+		ch.send(ch.id)
+	}
+	
 	// Command check
 	if (mesc.startsWith("!")) {
 	
