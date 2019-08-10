@@ -191,7 +191,9 @@ client.on('message', msg => {
 					lambHook.send("test")
 					console.log("Debug command !debug ids noticed.")			
 					break
-			}	
+				default:
+					console.log("Unrecognized debug command noticed.")
+			} 	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		setTimeout(function(){msg.delete()}, 2000)
 		}
