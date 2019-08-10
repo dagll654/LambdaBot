@@ -186,6 +186,10 @@ client.on('message', msg => {
 				//	} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
 				//	console.log("Debug command !debug return noticed.")
 				//	break
+				case "hook":
+					lambHook.send("test")
+					console.log("Debug command !debug ids noticed.")			
+					break
 			}	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		setTimeout(function(){msg.delete()}, 2000)
@@ -236,12 +240,7 @@ client.on('message', msg => {
 			}
 		} else {msg.reply("I can't do that!")}
 	}
-	
-	// Webhook testing
-	if (cmd[0] === "!hook") {
-		lambHook.send("test")
-	}
-	
+		
 	// Commands end here 
 	}	
 	
