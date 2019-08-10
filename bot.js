@@ -7,6 +7,7 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
+ debugduck = 0
 
 client.on('ready', () => {
 	
@@ -175,7 +176,7 @@ client.on('message', msg => {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
 			ch.send("Debug command run, check logs.")
 			switch (cmd[1]) {
-				case "ids":
+				case 'ids':
 					console.log(msg.guild.id + " " + msg.channel.id) 
 					console.log("Debug command !debug ids noticed.")
 					break
