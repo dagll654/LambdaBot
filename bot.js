@@ -130,7 +130,7 @@ client.on('message', msg => {
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
-		setTimeout(function(){msg.delete()}, 6000)
+		setTimeout(function(){msg.delete()}, 8000)
 	}
 	
 	// If the message's author is a bot, just ignore it
@@ -188,10 +188,11 @@ client.on('message', msg => {
 				//	break
 				case "hook":
 					lambHook.send("test")
-					console.log("Debug command !debug ids noticed.")			
+					console.log("Debug command !debug hook noticed.")			
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
+					break
 			} 	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		setTimeout(function(){msg.delete()}, 2000)
