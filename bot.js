@@ -259,7 +259,7 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!abn") {
-		if (!argCheck(cmd, 2) || !nmbrs.includes(cmd[1])) {
+		if (!argCheck(cmd, 2)) {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
 		}
