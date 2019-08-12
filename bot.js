@@ -102,7 +102,7 @@ client.on('message', msg => {
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
-			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
+			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
@@ -272,7 +272,7 @@ client.on('message', msg => {
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestin in the suggestion-box according to the rules stated in a pinned message.")}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
 	}
 		
 		
