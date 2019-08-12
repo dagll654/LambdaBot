@@ -96,7 +96,7 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
-			"Avaliable commands: !giverole, !removerole, !quote, !math. To get help on a specific command, use !help [CommandName].",
+			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn. To get help on a specific command, use !help [CommandName].",
 			"Usage: !giverole RoleName. Awaliable roles: none, for now.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
