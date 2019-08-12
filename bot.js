@@ -273,7 +273,7 @@ client.on('message', msg => {
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestin in the suggestion-box according to the rules stated in a pinned message."}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestin in the suggestion-box according to the rules stated in a pinned message.")}
 	}
 		
 		
