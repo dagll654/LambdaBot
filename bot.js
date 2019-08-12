@@ -134,7 +134,7 @@ client.on('message', msg => {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
 	if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
-		setTimeout(function(){msg.delete()}, 100)
+		setTimeout(function(){msg.delete()}, 300000)
 	}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
