@@ -13,8 +13,12 @@
 				"gift": "The Duckhat"
 			},
 			{
-				"name": "O-01-06: 'Deemo'"
-				
+				"name": "O-01-06: 'Deemo'",
+				"color": [100, 255, 100],
+				"risk": "HE",
+				"thumbnail": "https://images2.imgbox.com/9f/d4/czTIFHlW_o.jpg",
+				"description": "O-01-06 appears to be a tall, dark creature in a black suit with a white bowtie. The abnormality does not show any interest in communication, but has shown the ability to talk, if one manages to reach a certain level of closeness with it. Another anomalous property of O-01-06 is its ability to find a normal-sized piano within 10 meters of its location at the time when it shows an interest in playing it. The mechanism of the piano's arrival is unknown, since the employees that work on it when the abnormality exhibits anomalous behaviour have reported that 'the piano was always in the containment chamber', and all recordings from any security cameras that could shed some light on the piano's arrival mechanism appear to be corrupted. Surprisingly, O-01-06 is not actually able to produce any music, but it sometimes makes attempts at doing so. The 'music' that it plays can be heard quietly by every creature on Earth. The performance causes a small amount of white damage to all people in the facility. The only known way to avoid the effects of the performance is the abnormality's EGO Gift. Upon further testing it has been found that only people within the radius of approximately 200 meters from the abnormality are able to retain the memory of the performance, while everyone outside of that radius immediately forgets about the event after it is over. The abnormality itself has never shown any signs of aggression, but its performances, albeit rare, can cause disastrous consequences.",
+				"gift": "Tranquility"
 			}
 					]
 					
