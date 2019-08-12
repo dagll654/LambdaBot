@@ -58,8 +58,8 @@ client.on('message', msg => {
 			"!math",
 			"!help",
 			"!duckclub",
-			"!debug",
 			"!abn",
+			"!debug",
 			"!hook"
 			]
 	
