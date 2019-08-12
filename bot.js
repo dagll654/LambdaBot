@@ -133,7 +133,7 @@ client.on('message', msg => {
 	if ((!msg.author.bot || mesc === 'Bot started up succesfully.') && msg.author.id != '143261987575562240' && ch.id != '607318782624399363' && ch.id != '609506201591480341') {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
-	if ((msg.author.id === user.client.id) && (msg.embeds.length > 0)) {
+	if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
 		setTimeout(function(){msg.delete()}, 100)
 	}
 	
