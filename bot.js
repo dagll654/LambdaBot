@@ -103,7 +103,7 @@ client.on('message', msg => {
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
-			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - contact a member of the staff for details."
+			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - contact a member of the staff for details.",
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
