@@ -48,6 +48,10 @@ client.on('disconnect', () => {
 //====================================================================
 client.on('message', msg => {
 	
+	const listabn = [
+				"O-04-13"
+				]
+	
 	const DELTAS = client.guilds.get("607318782624399361");
 
 	// Command pool
@@ -263,8 +267,8 @@ client.on('message', msg => {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
 		}
-		if (abn.lista.includes(cmd[1])) {
-			let n = abn.lista.indexOf(cmd[1])
+		if (listabn.includes(cmd[1])) {
+			let n = listabn.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
 				.setTitle(abn.abn[n].name + "\n" + msg.guild.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
