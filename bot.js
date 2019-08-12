@@ -47,11 +47,7 @@ client.on('disconnect', () => {
 // Message event
 //====================================================================
 client.on('message', msg => {
-	
-	const listabn = [
-				"o-04-13"
-				]
-	
+
 	const DELTAS = client.guilds.get("607318782624399361");
 
 	// Command pool
@@ -107,7 +103,7 @@ client.on('message', msg => {
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
-			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - contact a member of the staff for details.",
+			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
@@ -267,8 +263,8 @@ client.on('message', msg => {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
 		}
-		if (listabn.indexOf(cmd[1]) != -1) {
-			let n = listabn.indexOf(cmd[1])
+		if (abn.lista.indexOf(cmd[1]) != -1) {
+			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
 				.setTitle(abn.abn[n].name + "\n" + msg.guild.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
@@ -277,7 +273,7 @@ client.on('message', msg => {
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, contact a member of the staff." + " " + listabn[0] + " " + cmd[1])}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestin in the suggestion-box according to the rules stated in a pinned message."}
 	}
 		
 		
