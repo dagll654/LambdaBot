@@ -2,7 +2,7 @@ const Discord = require('discord.js');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
-
+  const abn = require("./abnb.json");
 
  x = 0 
  x1 = 0
@@ -189,6 +189,13 @@ client.on('message', msg => {
 				case "hook":
 					lambHook.send("test")
 					console.log("Debug command !debug hook noticed.")			
+					break
+				case "embed":
+					var embed = new Discord.RichEmbed()
+					.setTitle(abn.abn[0].number)
+					.setThumbnail('https://images2.imgbox.com/cc/7f/DWHKASNe_o.png')
+					.addField("The Dapper Duck")
+					ch.send({embed})
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
