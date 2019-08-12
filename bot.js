@@ -49,7 +49,7 @@ client.on('disconnect', () => {
 client.on('message', msg => {
 	
 	const listabn = [
-				"O-04-13"
+				"o-04-13"
 				]
 	
 	const DELTAS = client.guilds.get("607318782624399361");
