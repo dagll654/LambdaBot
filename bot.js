@@ -273,7 +273,7 @@ client.on('message', msg => {
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
 			ch.send({embed})
 		.catch(console.error)
-		}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, contact a member of the staff.")}
 	}
 		
 		
