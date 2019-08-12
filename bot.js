@@ -59,6 +59,7 @@ client.on('message', msg => {
 			"!help",
 			"!duckclub",
 			"!debug",
+			"!abn",
 			"!hook"
 			]
 	
@@ -102,6 +103,7 @@ client.on('message', msg => {
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
+			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get yours, on certain terms - contact a member of the staff for details."
 			"The debug command as of right now is only avaliable to the server's creator."
 			]	
 	
@@ -116,6 +118,11 @@ client.on('message', msg => {
 	// Function for checking if all the elements of arr are are the same as compoint
 	function checkSame(arr, compoint) {
 		return arr.every(i => arr[arr.indexOf(i)] === compoint)
+	}
+	
+	// Function for checking if the given amount of arguments is valid
+	function argCheck(arr, argcount) {
+		return arr.length >= argcount
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:D
@@ -250,6 +257,25 @@ client.on('message', msg => {
 			}
 		} else {msg.reply("I can't do that!")}
 	}
+	
+	if (cmd[0] === "!abn") {
+		if (!argCheck(cmd, 2) || !nmbrs.includes(cmd[1])) {
+			msg.reply("Invalid command usage. Try !help abn.")
+			return
+		}
+		if (abn.lista.includes(cmd[1])) {
+			let n = abn.lista.indexOf(cmd[1])
+			let embed = new Discord.RichEmbed()
+				.setColor(abn.abn[n].color)
+				.setTitle(abn.abn[n].name + "\n" + msg.guild.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
+				.setThumbnail(abn.abn[n].thumbnail)
+				.setDescription(abn.abn[n].description)
+				.setFooter("EGO Gift: " + abn.abn[n].gift)
+			ch.send({embed})
+		.catch(console.error)
+		}
+	}
+		
 		
 	// Commands end here 
 	}	
