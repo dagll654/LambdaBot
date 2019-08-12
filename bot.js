@@ -59,8 +59,7 @@ client.on('message', msg => {
 			"!help",
 			"!duckclub",
 			"!abn",
-			"!debug",
-			"!hook"
+			"!debug"
 			]
 	
 	// Handy vars
