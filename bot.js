@@ -267,7 +267,7 @@ client.on('message', msg => {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
 		}
-		if (listabn.includes(cmd[1])) {
+		if (listabn.indexOf(cmd[1]) != -1) {
 			let n = listabn.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
@@ -277,7 +277,7 @@ client.on('message', msg => {
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, contact a member of the staff.")}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, contact a member of the staff. \n") + listabn[0] + " " + cmd[1]}
 	}
 		
 		
