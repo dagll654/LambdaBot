@@ -47,8 +47,9 @@ client.on('disconnect', () => {
 // Message event
 //====================================================================
 client.on('message', msg => {
-
-	const DELTAS = client.guilds.get("607318782624399361");
+	
+	const ESERV = client.guild.get('513660754633949208')
+	const DELTAS = client.guilds.get('607318782624399361')
 
 	// Command pool
 	const cmds = [
@@ -269,7 +270,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n" + DELTAS.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
+				.setTitle(abn.abn[n].name + "\n" + ESERV.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
