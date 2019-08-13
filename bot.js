@@ -134,9 +134,9 @@ client.on('message', msg => {
 	if (!msg.author.bot && msg.author.id != '143261987575562240' && ch.id != '607318782624399363' && ch.id != '609506201591480341') {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
-	if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
-		setTimeout(function(){msg.delete()}, 600000)
-	}
+	//if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
+	//	setTimeout(function(){msg.delete()}, 600000)
+	//}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
