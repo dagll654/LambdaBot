@@ -48,7 +48,7 @@ client.on('disconnect', () => {
 //====================================================================
 client.on('message', msg => {
 	
-	const ESERV = client.guild.get('513660754633949208')
+	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
 
 	// Command pool
