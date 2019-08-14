@@ -224,8 +224,11 @@ client.on('message', msg => {
 				case "var":
 					console.log("Debug command !debug var noticed.")
 					if(cmd[21] === "set") {
-						if (cmd[3] && cmd[4] && nmbrs.includes(
+						if (cmd[3] && cmd[4] && checkSymbols(cmd[4], nmbrs)) {
+						
+						}
 					}
+					break
 					
 					
 				default:
