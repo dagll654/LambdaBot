@@ -23,8 +23,8 @@ client.on('ready', () => {
 
 	// Bot readiness announcement, both in the log and on the specified channel
 	console.log('I am ready!');
-	BCH.send('Bot started up succesfully.')
-	console.log(DELTAS.emojis)
+	client.users.get('143261987575562240').send('Bot started up succesfully.')
+	console.log(DELTAS.emojis.map(e => "ID: " + e.id + ", name: " + e.name))
 	
 	// Setting the bot's current game to 'try !help'
     client.user.setPresence({
@@ -207,6 +207,9 @@ client.on('message', msg => {
 					.setThumbnail('https://images2.imgbox.com/cc/7f/DWHKASNe_o.png')
 					.addField("The Dapper Duck")
 					ch.send({embed})
+					break
+				case "emoji":
+					ch.send("<:restartsForDays:607318782624399361>")
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
