@@ -7,7 +7,8 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
- debugduck = 0
+ dbvars = [0]
+ dbvnames = ['debugduck']
 
 client.on('ready', () => {
 	
@@ -21,17 +22,16 @@ client.on('ready', () => {
 	// This is secret. Don't look!
 	console.log(DELTAS.roles.get('608255705694076975').members.map(m=>m.user.tag));
 
-	// Bot readiness announcement, both in the log and on the specified channel
+	// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
 	client.users.get('143261987575562240').send('Bot started up succesfully.')
-	console.log(DELTAS.emojis.map(e => "ID: " + e.id + ", name: " + e.name))
 	
 	// Setting the bot's current game to 'try !help'
     client.user.setPresence({
         game: {
             name: 'try !help',
             type: "Playing",
-            url: "https://discordapp.com/"
+            url: "https://tinyurl.com/rollntroll"
         }
     });
 
@@ -69,7 +69,7 @@ client.on('message', msg => {
 	var mesc = msg.content
 		
 	// Duck club secretiveness ensurance
-	if (mesc.toLowerCase().indexOf("duckclub") != -1 && debugduck === 1) {
+	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
 		setTimeout(function(){msg.delete()}, 10)
 	}
 	
@@ -112,8 +112,13 @@ client.on('message', msg => {
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
 	// Function for checking if all the elements of arr are included in arr2
-	function checkArray(arr, arr2){
+	function checkArray(arr, arr2) {
 		return arr.every(i => arr2.includes(i));
+	}
+	
+	// Function for checking if all the symbols of a given string are included in an array
+	function checkSymbols(str, arr) {
+		return str.split("").every(i => arr.includes(i))
 	}
 	
 	// Function for checking if all the elements of arr are are the same as compoint
@@ -126,6 +131,11 @@ client.on('message', msg => {
 		return arr.length >= argcount
 	}
 	
+	// Just a function that times the message out in x seconds
+	function yeet(secs) {
+		setTimeout(function(){msg.delete()}, secs * 1000)
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -135,13 +145,13 @@ client.on('message', msg => {
 	if (!msg.author.bot && msg.author.id != '143261987575562240' && ch.id != '607318782624399363' && ch.id != '609506201591480341') {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
-	//if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
-	//	setTimeout(function(){msg.delete()}, 600000)
-	//}
+	if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
+		yeet(600)
+	}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
-		setTimeout(function(){msg.delete()}, 8000)
+		yeet(8)
 	}
 	
 	// If the message's author is a bot, just ignore it
@@ -186,7 +196,7 @@ client.on('message', msg => {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
 			ch.send("Debug command run, check logs.")
 			switch (cmd[1]) {
-				case 'ids':
+				case "ids":
 					console.log(msg.guild.id + " " + msg.channel.id) 
 					console.log("Debug command !debug ids noticed.")
 					break
@@ -199,7 +209,7 @@ client.on('message', msg => {
 				//	break
 				case "hook":
 					lambHook.send("test")
-					console.log("Debug command !debug hook noticed.")			
+					console.log("Debug command !debug hook noticed.")
 					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
@@ -208,15 +218,22 @@ client.on('message', msg => {
 					.addField("The Dapper Duck")
 					ch.send({embed})
 					break
-				case "emoji":
-					ch.send("<:restartsForDays:607318782624399361>")
+				case "emojis":
+					console.log(DELTAS.emojis.map(e => "ID: " + e.id + ", name: " + e.name))
 					break
+				case "var":
+					console.log("Debug command !debug var noticed.")
+					if(cmd[21] === "set") {
+						if (cmd[3] && cmd[4] && nmbrs.includes(
+					}
+					
+					
 				default:
 					console.log("Unrecognized debug command noticed.")
 					break
 			} 	
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
-		setTimeout(function(){msg.delete()}, 2000)
+		yeet(2)
 		}
 	
 	// Role giving and taking
@@ -281,6 +298,7 @@ client.on('message', msg => {
 			ch.send({embed})
 		.catch(console.error)
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
+		yeet(5)
 	}
 		
 		
