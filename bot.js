@@ -136,7 +136,7 @@ client.on('message', msg => {
 	// Just a function that times the message out in x seconds
 	function yeet(secs) {
 		setTimeout(function(){msg.delete()}, secs * 1000)
-		.catch(console.error)
+		catch(console.error)
 	}
 	
 	// Function for getting an emoji by name
