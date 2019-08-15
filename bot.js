@@ -145,7 +145,7 @@ client.on('message', msg => {
 		return emvar
 	}
 	
-	// Evil logger so I can see everything that goes on at the sever >:D
+	// Evil logger so I can see everything that goes on at the sever >:Dc
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
