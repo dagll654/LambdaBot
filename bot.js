@@ -140,8 +140,8 @@ client.on('message', msg => {
 	
 	// Function for getting an emoji by name
 	function emoji(name, srv = msg.guild, id = false) {
-		if (id === true) {let emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)]}
-		else {let emvar = "<:" + name + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)] + ">"}
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)]}
+		else {emvar = "<:" + name + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)] + ">"}
 		return emvar
 	}
 	
