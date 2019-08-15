@@ -51,8 +51,8 @@ client.on('message', msg => {
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
-	const emojiid = DELTAS.emojis.map(e => e.id)
-	const emojiname = DELTAS.emojis.map(e => e.name)
+	const emojiid = ESERV.emojis.map(e => e.id)
+	const emojiname = ESERV.emojis.map(e => e.name)
 
 	// Command pool
 	const cmds = [
@@ -297,7 +297,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n" + ESERV.emojis.find('name', abn.abn[n].risk.toLowerCase()) + " " + abn.abn[n].risk)
+				.setTitle(abn.abn[n].name + "\n" + emojiid[emojiname.indexOf(abn.abn[n].risk)] + " " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
