@@ -139,9 +139,9 @@ client.on('message', msg => {
 	}
 	
 	// Function for getting an emoji by name
-	function emoji(name, srv = msg.guild, id = false) {
-		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)]}
-		else {emvar = "<:" + name + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)] + ">"}
+	function emoji(nme, srv = msg.guild, id = false) {
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
+		else {emvar = "<:" + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
 		return emvar
 	}
 	
