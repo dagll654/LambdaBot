@@ -51,6 +51,8 @@ client.on('message', msg => {
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
+	const emojiid = DELTAS.emojis.map(e => e.id)
+	const emojiname = DELTAS.emojis.map(e => e.name)
 
 	// Command pool
 	const cmds = [
@@ -219,7 +221,8 @@ client.on('message', msg => {
 					ch.send({embed})
 					break
 				case "emojis":
-					console.log(DELTAS.emojis.map(e => "ID: " + e.id + ", name: " + e.name))
+					console.log(emojiid)
+					console.log(emojiname)
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
