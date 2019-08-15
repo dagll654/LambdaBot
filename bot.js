@@ -138,6 +138,13 @@ client.on('message', msg => {
 		setTimeout(function(){msg.delete()}, secs * 1000)
 	}
 	
+	// Function for getting an emoji by name
+	function emoji(name, srv = msg.guild, id = false) {
+		if (id === true) {let emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)]}
+		else {let emvar = "<:" + name + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(name)] + ">"}
+		return emvar
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:D
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -297,7 +304,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n <:" + abn.abn[n].risk + ":" + emojiid[emojiname.indexOf(abn.abn[n].risk.toLowerCase())] + "> " + abn.abn[n].risk)
+				.setTitle(abn.abn[n].name + "\n " + emoji(abn.abn[n].risk, ESERV) + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
@@ -312,7 +319,7 @@ client.on('message', msg => {
 	}	
 	
 	// Reactions
-	// Reacts with :thonk: to any message starting with "hm" with any number of m's or h's after that.
+	// Reacts with :thonk: to any message starting with "hm" with any number of m's after that.
 	var hm1 = mesc.toLowerCase().split("")
 	hm1.shift()
 	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm1, "m")) {
