@@ -328,6 +328,7 @@ client.on('message', msg => {
 	
 	if (cmd[0] === "!menacing") {
 		ch.send("<a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312>"
+		yeet(0.01)
 	}
 		
 		
