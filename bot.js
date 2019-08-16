@@ -94,7 +94,7 @@ client.on('message', msg => {
 			"No I didn't jinx myself!.. well maybe I did...",
 			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays.",
 			"Ahh, fuck my life, break it into a million pieces, make an onahole out of it and fuck that as well!",
-			"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARGH!!!"
+			"AAAAAAAAAAAAAAAAAAAAAARGH!!!"
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
