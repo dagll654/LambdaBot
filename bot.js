@@ -325,6 +325,10 @@ client.on('message', msg => {
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
 		yeet(5)
 	}
+	
+	if (cmd[0] === "!menacing") {
+		ch.send("<a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312>"
+	}
 		
 		
 	// Commands end here 
