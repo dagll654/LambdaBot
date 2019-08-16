@@ -237,6 +237,9 @@ client.on('message', msg => {
 					})
 					console.log(emarr)
 					break
+				case "emtest":
+					console.log(DELTAS.emojis.find("name", "restartsForDays"))
+					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
 					if(cmd[21] === "set") {
