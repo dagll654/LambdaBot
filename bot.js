@@ -111,8 +111,7 @@ client.on('message', msg => {
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
-			"The debug command as of right now is only avaliable to the server's creator.",
-			""
+			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>"
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -329,7 +328,7 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!menacing") {
-		ch.send("")
+		ch.send("<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>")
 		yeet(0.01)
 	}
 		
