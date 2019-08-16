@@ -233,7 +233,7 @@ client.on('message', msg => {
 				case "emojis":
 					var emarr = emojiid
 					emojiname.forEach(x => {
-						emarr[emojiname.indexOf(x)] = emarr[emojiname.indexOf(x)] + " " + emarr[emojiname.indexOf(x)]
+						emarr[emojiname.indexOf(x)] = emojiname[emojiname.indexOf(x)] + " " + emarr[emojiname.indexOf(x)]
 					})
 					console.log(emarr)
 					break
