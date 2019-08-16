@@ -51,8 +51,8 @@ client.on('message', msg => {
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
-	const emojiid = DELTAS.emojis.map(e => e.id)
-	const emojiname = DELTAS.emojis.map(e => e.name)
+	var emojiid = DELTAS.emojis.map(e => e.id)
+	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
 
@@ -65,7 +65,8 @@ client.on('message', msg => {
 			"!help",
 			"!duckclub",
 			"!abn",
-			"!debug"
+			"!debug",
+			"!menacing"
 			]
 	
 	// Handy vars
@@ -110,7 +111,8 @@ client.on('message', msg => {
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
-			"The debug command as of right now is only avaliable to the server's creator."
+			"The debug command as of right now is only avaliable to the server's creator.",
+			""
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -327,7 +329,7 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!menacing") {
-		ch.send("<a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312><a:animenacing:612018960027615312>")
+		ch.send("")
 		yeet(0.01)
 	}
 		
