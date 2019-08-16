@@ -51,8 +51,10 @@ client.on('message', msg => {
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
-	const emojiid = ESERV.emojis.map(e => e.id)
-	const emojiname = ESERV.emojis.map(e => e.name)
+	const emojiid = DELTAS.emojis.map(e => e.id)
+	const emojiname = DELTAS.emojis.map(e => e.name)
+	const altemojiid = ESERV.emojis.map(e => e.id)
+	const altemojiname = ESERV.emojis.map(e => e.name)
 
 	// Command pool
 	const cmds = [
