@@ -231,8 +231,11 @@ client.on('message', msg => {
 					ch.send({embed})
 					break
 				case "emojis":
-					console.log(emojiid)
-					console.log(emojiname)
+					var emarr = emojiid
+					emojiname.forEach(x => {
+						emarr[emojiname.indexOf(x)] = emarr[emojiname.indexOf(x)] + " " + emarr[emojiname.indexOf(x)]
+					})
+					console.log(emarr)
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
