@@ -237,6 +237,9 @@ client.on('message', msg => {
 					})
 					console.log(emarr)
 					break
+				case "menacing":
+					ch.send("<a:mtest:612014970070368288>")
+					break
 				case "emtest":
 					console.log(DELTAS.emojis.find("name", "restartsForDays"))
 					break
