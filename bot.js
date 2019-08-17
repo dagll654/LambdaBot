@@ -143,9 +143,10 @@ client.on('message', msg => {
 	}
 	
 	// Function for getting an emoji by name
-	function emoji(nme, srv = msg.guild, id = false) {
+	function emoji(nme, srv = msg.guild, id = false, a = false) {
 		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())]}
-		else {emvar = "<:" + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())] + ">"}
+		else {if (a = true) {emd = "<a:"} else {emd = "<:"}
+			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())] + ">"}
 		return emvar
 	}
 	
@@ -238,9 +239,6 @@ client.on('message', msg => {
 					})
 					console.log(emarr)
 					break
-				case "menacing":
-					ch.send("<a:mtest:612014970070368288>")
-					break
 				case "emtest":
 					console.log(DELTAS.emojis.find("name", "restartsForDays"))
 					break
@@ -328,7 +326,8 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!menacing") {
-		ch.send("<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>")
+		men = emoji("animenacing", DELTAS, false, true)
+		ch.send(men + men + men + men + men + men + men)
 		yeet(0.01)
 	}
 		
