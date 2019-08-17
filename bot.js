@@ -143,7 +143,7 @@ client.on('message', msg => {
 	}
 	
 	// Function for getting an emoji by name
-	function emoji(nme, srv = msg.guild, id = false, a = false) {
+	function emoji(nme, srv = msg.guild, a = false, id = false) {
 		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())]}
 		else {if (a = true) {emd = "<a:"} else {emd = "<:"}
 			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())] + ">"}
@@ -326,7 +326,7 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!menacing") {
-		men = emoji("animenacing", DELTAS, false, true)
+		men = emoji("animenacing", DELTAS, true)
 		ch.send(men + men + men + men + men + men + men)
 		yeet(0.01)
 	}
