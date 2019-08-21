@@ -345,8 +345,8 @@ client.on('message', msg => {
 	hm1.shift()
 	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm1, "m")) {
 			msg.react("607330826052698114") 
-	if (mesc.toLowerCase.indexOf('uwu') > -1 || mesc.toLowerCase.indexOf('owo') > -1) {
-		if (mesc.toLowerCase.indexOf('uwu') > mesc.toLowerCase.indexOf('owo')) {ch.send('OwO')}
+	if (mesc.toLowerCase.split(" ").indexOf('uwu') > -1 || mesc.toLowerCase.split(" ").indexOf('owo') > -1) {
+		if (mesc.toLowerCase.split(" ").indexOf('uwu') > mesc.toLowerCase.split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 	}
 		
