@@ -345,14 +345,12 @@ client.on('message', msg => {
 	hm1.shift()
 	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm1, "m")) {
 			msg.react("607330826052698114") 
+
+	}
 	if ((mesc.toLowerCase.split(" ").indexOf('uwu') > -1 )|| (mesc.toLowerCase.split(" ").indexOf('owo') > -1)) {
 		if (mesc.toLowerCase.split(" ").indexOf('uwu') > mesc.toLowerCase.split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
-	}
-	if (msg.guild.id === '513660754633949208') {
-		console.log(mesc.toLowerCase.split(" "))
-		console.log('test')
-	}
+
 		
 	}
 })
