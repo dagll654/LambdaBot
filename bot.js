@@ -349,8 +349,9 @@ client.on('message', msg => {
 		if (mesc.toLowerCase.split(" ").indexOf('uwu') > mesc.toLowerCase.split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 	}
-	if (msg.guild.name === 'quack') {
+	if (msg.guild.id === '513660754633949208') {
 		console.log(mesc.toLowerCase.split(" "))
+		console.log('test')
 	}
 		
 	}
