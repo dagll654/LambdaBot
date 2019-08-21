@@ -350,7 +350,7 @@ client.on('message', msg => {
 		else {ch.send('UwU')}
 	}
 	if (msg.guild.name === 'quack') {
-		console.log(mesc.toLowerCase.split(" ")
+		console.log(mesc.toLowerCase.split(" "))
 	}
 		
 	}
