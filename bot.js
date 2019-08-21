@@ -72,6 +72,10 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
+	
+	if (msg.author.id === '556890472141029376' & ch.id != '607318782624399363') {
+		console.log("Weird flex check [aieouieou]: content: " + mesc + " type: " + ch.type)
+	}
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
@@ -152,7 +156,7 @@ client.on('message', msg => {
 	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
 	if (ch.type != 'dm') {
-	var log11 = msg.guild.name + " " + msg.createdAt + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
+	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
 	}
 	// And something to notify me whenever a message is sent on any channel. I don't want to disturb people, but I do want to be notified.
