@@ -244,7 +244,7 @@ client.on('message', msg => {
 					console.log(emarr)
 					break
 				case "emtest":
-					console.log(DELTAS.emojis.find("name", "restartsForDays"))
+					ch.send(DELTAS.emojis.find("name", "restartsForDays"))
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
@@ -347,8 +347,8 @@ client.on('message', msg => {
 			msg.react("607330826052698114") 
 
 	}
-	if ((mesc.toLowerCase.split(" ").indexOf('uwu') > -1 )|| (mesc.toLowerCase.split(" ").indexOf('owo') > -1)) {
-		if (mesc.toLowerCase.split(" ").indexOf('uwu') > mesc.toLowerCase.split(" ").indexOf('owo')) {ch.send('OwO')}
+	if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 )|| (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
+		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 
 		
