@@ -101,7 +101,8 @@ client.on('message', msg => {
 			"No I didn't jinx myself!.. well maybe I did...",
 			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays.",
 			"Ahh, fuck my life, break it into a million pieces, make an onahole out of it and fuck that as well!",
-			"AAAAAAAAAAAAAAAAAAAAAARGH!!!"
+			"AAAAAAAAAAAAAAAAAAAAAARGH!!!",
+			"He rubbed me the wrong way at first, but at least he rubbed me."
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
@@ -347,7 +348,7 @@ client.on('message', msg => {
 			msg.react("607330826052698114") 
 
 	}
-	if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 )|| (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
+	if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
 		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 
