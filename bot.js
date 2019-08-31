@@ -102,7 +102,8 @@ client.on('message', msg => {
 			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays.",
 			"Ahh, fuck my life, break it into a million pieces, make an onahole out of it and fuck that as well!",
 			"AAAAAAAAAAAAAAAAAAAAAARGH!!!",
-			"He rubbed me the wrong way at first, but at least he rubbed me."
+			"He rubbed me the wrong way at first, but at least he rubbed me.",
+			"I don't want to pull out early!"
 			]
 	const qte2 = "Lambdadelta Quote of the day: "
 	
@@ -203,9 +204,8 @@ client.on('message', msg => {
 				x1 = 0
 			}
 			else {
+				x = math.floor(math.random * qte.length + 1)
 				var txt = qte[x]
-				x = x + 1
-				if (x === 5) {x = 0}
 			}
 			ch.send(qte2 + txt)
 		}  
