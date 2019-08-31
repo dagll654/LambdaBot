@@ -104,7 +104,7 @@ client.on('message', msg => {
 			"AAAAAAAAAAAAAAAAAAAAAARGH!!!",
 			"He rubbed me the wrong way at first, but at least he rubbed me.",
 			"I don't want to pull out early!"
-			]
+			] //ass
 	const qte2 = "Lambdadelta Quote of the day: "
 	
 	// Help command pool
