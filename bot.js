@@ -105,7 +105,7 @@ client.on('message', msg => {
 			"He rubbed me the wrong way at first, but at least he rubbed me.",
 			"I don't want to pull out early!"
 			] //ass
-	const qte2 = "Lambdadelta Quote of the day: "
+	const qte2 = "Lambdadelta Quote #"
 	
 	// Help command pool
 	const help1 = [
@@ -208,7 +208,7 @@ client.on('message', msg => {
 				var txt = qte[x]
 				ch.send(x)
 			}
-			ch.send(qte2 + txt)
+			ch.send(qte2 + x + ": " + txt)
 		}  
 		
 		// Debug commands
