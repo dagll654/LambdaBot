@@ -206,7 +206,6 @@ client.on('message', msg => {
 			else {
 				x = Math.floor((Math.random() * qte.length) + 1)
 				var txt = qte[x]
-				ch.send(x)
 			}
 			ch.send(qte2 + x + ": " + txt)
 		}  
