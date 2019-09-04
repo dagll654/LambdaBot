@@ -104,7 +104,8 @@ client.on('message', msg => {
 			"AAAAAAAAAAAAAAAAAAAAAARGH!!!",
 			"He rubbed me the wrong way at first, but at least he rubbed me.",
 			"I don't want to pull out early!",
-			"Ahh, fuck me, Cloie..."
+			"Ahh, fuck me, Cloie...",
+			"'Here I come'... I love when he says that."
 			] //ass
 	const qte2 = "Lambdadelta Quote #"
 	
