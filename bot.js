@@ -203,12 +203,12 @@ client.on('message', msg => {
 					return
 				} 
 				var txt = qte[x1-1]
+				x = x1
 			}}
 			else {
 				x = Math.floor((Math.random() * qte.length) + 1)
 				var txt = qte[x]
 			}
-			x = x1
 			ch.send(qte2 + x + ": " + txt)
 		}  
 		
