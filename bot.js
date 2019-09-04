@@ -194,6 +194,7 @@ client.on('message', msg => {
 		if (cmd[0] === '!quote') 
 		{
 			// If the command includes an argument, the standart cycling is overridden
+			if (cmd[1]) {
 			if (checkSymbols(cmd[1], nmbrs)) {
 				x1 = cmd[1]
 				// If the argument is beyond the amount of quotes currently avaliable, apologise and stop.
@@ -202,7 +203,7 @@ client.on('message', msg => {
 					return
 				} 
 				var txt = qte[x1-1]
-			}
+			}}
 			else {
 				x = Math.floor((Math.random() * qte.length) + 1)
 				var txt = qte[x]
