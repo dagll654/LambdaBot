@@ -152,9 +152,9 @@ client.on('message', msg => {
 	
 	// Function for getting an emoji by name
 	function emoji(nme, srv = msg.guild, a = false, id = false) {
-		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())]}
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
 		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
-			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme.toLowerCase())] + ">"}
+			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
 		return emvar
 	}
 	
@@ -323,7 +323,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n " + emoji(abn.abn[n].risk, ESERV, false, true))
+				.setTitle(abn.abn[n].name + "\n <:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + ">")
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
