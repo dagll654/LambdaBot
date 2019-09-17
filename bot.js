@@ -323,7 +323,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n <:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + ">")
+				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + ">")
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
