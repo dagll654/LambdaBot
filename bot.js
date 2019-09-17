@@ -89,6 +89,7 @@ client.on('message', msg => {
 	
 	// Messages by the bot that will be deleted indefinitely
 	const deletableReplies = [
+			"Bot started up succesfully.",
 			"Debug command run, check logs."
 			]
 	
@@ -322,7 +323,7 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n " emoji(abn.abn[n].risk, ESERV, false, false))
+				.setTitle(abn.abn[n].name + "\n " + emoji(abn.abn[n].risk, ESERV))
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO Gift: " + abn.abn[n].gift)
