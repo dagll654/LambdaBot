@@ -242,6 +242,12 @@ client.on('message', msg => {
 					.addField("The Dapper Duck")
 					ch.send({embed})
 					break
+				case "nut":
+					var embednut = new Discord.RichEmbed()
+					.setTitle("A (late) No Nut November alert")
+					.addField("Everyone is welcome to participate in the annual No Nut November event. Anyone willing to enter the event has to react with a <:yeahboy:608361227130896384>, everyone that already failed the event - react with <:angelaTits2:608813572662755338> <:angelaTits1:608813588228079626>.")
+					ch.send({embednut})
+					break
 				case "emojis":
 					var emarr = emojiid
 					emojiname.forEach(x => {
