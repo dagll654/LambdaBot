@@ -243,11 +243,11 @@ client.on('message', msg => {
 					ch.send({embed})
 					break
 				case "nut":
-					var embednut = new Discord.RichEmbed()
-					.setTitle("A (late) No Nut November alert")
-					.addField("Everyone is welcome to participate in the annual No Nut November event. Anyone willing to enter the event has to react with a <:yeahboy:608361227130896384>.")
-					.addField("Everyone that already failed the event - react with <:angelaTits2:608813572662755338> <:angelaTits1:608813588228079626>.")
+					let embednut = new Discord.RichEmbed()
+					.setTitle("The (late) No Nut November Alert")
+					.setDescription("Everyone is welcome to participate in the annual No Nut November event. Yes, it's now annual. Don't ask me why. Everyone willing to participate should react with a <:yeahboy:608361227130896384>, everyone that has already failed - react with <:angelaTits2:608813572662755338> <:angelaTits1:608813588228079626>.")
 					ch.send({embednut})
+					.catch(console.error)
 					break
 				case "emojis":
 					var emarr = emojiid
