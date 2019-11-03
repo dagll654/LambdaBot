@@ -235,7 +235,7 @@ client.on('message', msg => {
 					lambHook.send("test")
 					console.log("Debug command !debug hook noticed.")
 					break
-				case "atthem"
+				case "atthem":
 					ch.send("@everyone")
 					break
 				case "embed":
