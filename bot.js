@@ -187,6 +187,7 @@ client.on('message', msg => {
 	
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
+		var cmd2 = mesc.split(" ")
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
@@ -251,11 +252,10 @@ client.on('message', msg => {
 					var tempmsg = ""
 					var i
 					for (i = 3; i < cmd.length; i++) { 
-						tempmsg += cmd[i] + " ";
+						tempmsg += cmd2[i] + " ";
 					} 
 					tempch.send(tempmsg)
 					.catch(console.error)
-					//fucc
 					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
