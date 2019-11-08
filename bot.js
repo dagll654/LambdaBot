@@ -8,7 +8,7 @@ const Discord = require('discord.js');
  x1 = 0
  dbg1 = 0
  dbvars = [0, 1]
- dbvnames = ['debugduck', 'dbsay']
+ dbvnames = ['debugduck', 'debugsay']
 
 client.on('ready', () => {
 	
@@ -110,7 +110,7 @@ client.on('message', msg => {
 			"Babies are crazy!",
 			"Do the crossbow in your face",
 			"Please, just the tip, come on..."
-			] //ass
+			]
 	const qte2 = "Lambdadelta Quote #"
 	
 	// Help command pool
@@ -300,16 +300,19 @@ client.on('message', msg => {
 		} else {msg.reply("Sorry, but only the bot's author can use the debug commands.")}
 		yeet(2)
 		}
-		
+	
+	// For making the bot say whatever, but only if the debug variable debugsay is 1
 	if (cmd[0] === "!say") {
-		var tempmsg = ""
-		var i
-		for (i = 1; i < cmd.length; i++) { 
-			tempmsg += cmd2[i] + " ";
-		} 
-		ch.send(tempmsg)
-		.catch(console.error)
-		yeet(0)
+		if (dbvars[dbvnames.indexof("debugsay")] === 1) {
+			var tempmsg = ""
+			var i
+			for (i = 1; i < cmd.length; i++) { 
+				tempmsg += cmd2[i] + " ";
+			} 
+			ch.send(tempmsg)
+			.catch(console.error)
+			yeet(0)
+		} else {msg.reply("The command !say is currently disabled.")}
 	}
 	
 	// Role giving and taking
