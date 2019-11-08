@@ -246,6 +246,16 @@ client.on('message', msg => {
 					.addField("The Dapper Duck")
 					ch.send({embed})
 					break
+				case "msg":
+					let tempch = bot.channels.get(cmd[1])
+					var tempmsg
+					var i
+					for (i = 2; i < cmd.length; i++) { 
+						tempmsg += cmd[i] + " ";
+					} 
+					tempch.send(tempmsg)
+					.catch(console.error)
+					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
 					.setTitle("The (late) No Nut November Alert")
