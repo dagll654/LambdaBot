@@ -281,14 +281,10 @@ client.on('message', msg => {
 					console.log("Debug command !debug var noticed.")
 					switch (cmd[2]) { 
 					case "set": 
-						if (cmd[3] && cmd[4] && checkSymbols(cmd[4], nmbrs) && (dbvars[dbvnames.indexOf(cmd[3]) > -1)) {
-							dbvars[dbvnames.indexOf(cmd[3])] = cmd[4]
-						} else {ch.send("Incorrect usage."); return}
+						dbvars[dbvnames.indexOf(cmd[3])] = cmd[4]
 						break
 					case "get":
-						if (cmd[3] && (dbvars[dbvnames.indexOf(cmd[3]) > -1)) {
-							ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
-						} else {ch.send("Incorrect usage."); return}
+						ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
 						break
 					default:
 						ch.send("Incorrect usage.")
@@ -301,12 +297,11 @@ client.on('message', msg => {
 					console.log("Unrecognized debug command noticed.")
 					break
 			} 	
-		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
+		} else {msg.reply("Sorry, but only the bot's author can use the debug commands.")}
 		yeet(2)
 		}
 		
 	if (cmd[0] === "!say") {
-		if
 		var tempmsg = ""
 		var i
 		for (i = 1; i < cmd.length; i++) { 
