@@ -292,6 +292,17 @@ client.on('message', msg => {
 		} else {msg.reply("Sorry, but only the bot author can use the debug commands.")}
 		yeet(2)
 		}
+		
+	if (cmd[0] === "!say") {
+		var tempmsg = ""
+		var i
+		for (i = 1; i < cmd.length; i++) { 
+			tempmsg += cmd2[i] + " ";
+		} 
+		ch.send(tempmsg)
+		.catch(console.error)
+		break
+	}
 	
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
