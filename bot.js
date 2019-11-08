@@ -303,7 +303,7 @@ client.on('message', msg => {
 	
 	// For making the bot say whatever, but only if the debug variable debugsay is 1
 	if (cmd[0] === "!say") {
-		if (dbvars[1] === 1) {
+		if ((dbvars[1] === 1) || (dbvars[1] === '1')) {
 			var tempmsg = ""
 			var i
 			for (i = 1; i < cmd.length; i++) { 
