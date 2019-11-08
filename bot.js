@@ -279,7 +279,7 @@ client.on('message', msg => {
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
-					switch (cmd[2]) 
+					switch (cmd[2]) { 
 					case "set": 
 						if (cmd[3] && cmd[4] && checkSymbols(cmd[4], nmbrs) && (dbvars[dbvnames.indexOf(cmd[3]) > -1)) {
 							dbvars[dbvnames.indexOf(cmd[3])] = cmd[4]
@@ -290,6 +290,10 @@ client.on('message', msg => {
 							ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
 						} else {ch.send("Incorrect usage."); return}
 						break
+					default:
+						ch.send("Incorrect usage.")
+						break
+					}
 					break
 					
 					
