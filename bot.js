@@ -303,6 +303,7 @@ client.on('message', msg => {
 		} 
 		ch.send(tempmsg)
 		.catch(console.error)
+		yeet(0)
 		break
 	}
 	
