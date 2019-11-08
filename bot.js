@@ -248,7 +248,7 @@ client.on('message', msg => {
 					break
 				case "msg":
 					let tempch = DELTAS.channels.get(cmd[2])
-					var tempmsg
+					var tempmsg = ""
 					var i
 					for (i = 3; i < cmd.length; i++) { 
 						tempmsg += cmd[i] + " ";
