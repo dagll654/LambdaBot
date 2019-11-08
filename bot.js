@@ -7,8 +7,8 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
- dbvars = [0]
- dbvnames = ['debugduck']
+ dbvars = [0, 1]
+ dbvnames = ['debugduck', 'dbsay']
 
 client.on('ready', () => {
 	
@@ -279,11 +279,17 @@ client.on('message', msg => {
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
-					if(cmd[21] === "set") {
-						if (cmd[3] && cmd[4] && checkSymbols(cmd[4], nmbrs)) {
-						
-						}
-					}
+					switch (cmd[2]) 
+					case "set": 
+						if (cmd[3] && cmd[4] && checkSymbols(cmd[4], nmbrs) && (dbvars[dbvnames.indexOf(cmd[3]) > -1)) {
+							dbvars[dbvnames.indexOf(cmd[3])] = cmd[4]
+						} else {ch.send("Incorrect usage."); return}
+						break
+					case "get":
+						if (cmd[3] && (dbvars[dbvnames.indexOf(cmd[3]) > -1)) {
+							ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
+						} else {ch.send("Incorrect usage."); return}
+						break
 					break
 					
 					
@@ -296,6 +302,7 @@ client.on('message', msg => {
 		}
 		
 	if (cmd[0] === "!say") {
+		if
 		var tempmsg = ""
 		var i
 		for (i = 1; i < cmd.length; i++) { 
