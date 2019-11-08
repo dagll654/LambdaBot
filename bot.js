@@ -250,7 +250,7 @@ client.on('message', msg => {
 					let tempch = bot.channels.get(cmd[2])
 					var tempmsg
 					var i
-					for (i = 2; i < cmd.length; i++) { 
+					for (i = 3; i < cmd.length; i++) { 
 						tempmsg += cmd[i] + " ";
 					} 
 					tempch.send(tempmsg)
