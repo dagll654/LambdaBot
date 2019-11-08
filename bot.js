@@ -255,6 +255,7 @@ client.on('message', msg => {
 					} 
 					tempch.send(tempmsg)
 					.catch(console.error)
+					//fucc
 					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
