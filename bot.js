@@ -213,10 +213,11 @@ client.on('message', msg => {
 				x = x1
 			}}
 			else {
-				x = Math.floor((Math.random() * qte.length) + 1)
+				x = Math.floor((Math.random() * qte.length))
 				var txt = qte[x]
+				x2 = x + 1
 			}
-			ch.send(qte2 + x + ": " + txt)
+			ch.send(qte2 + x2 + ": " + txt)
 		}  
 		
 		// Debug commands
