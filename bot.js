@@ -9,6 +9,7 @@ const Discord = require('discord.js');
  dbg1 = 0
  dbvars = [0, 1]
  dbvnames = ['debugduck', 'debugsay']
+ quotelog = []
 
 client.on('ready', () => {
 	
@@ -122,7 +123,7 @@ client.on('message', msg => {
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
-			"Usage: !abn (Abnormality ID). The ID looks like this: E-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
+			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>"
 			]	
@@ -151,8 +152,8 @@ client.on('message', msg => {
 	}
 	
 	// Just a function that times the message out in x seconds
-	function yeet(secs) {
-		setTimeout(function(){msg.delete().catch(console.error)}, secs * 1000)
+	function yeet(seckslul) {
+		setTimeout(function(){msg.delete().catch(console.error)}, seckslul * 1000)
 	}
 	
 	// Function for getting an emoji by name
@@ -193,15 +194,15 @@ client.on('message', msg => {
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
-			msg.reply("Unrecognized command. Type in !help to see the list of the avaliable commands.")
+			msg.reply("Unrecognized command. Type in !help to get the list of all avaliable commands.")
 			
 		}
 		
 		// Quote command
 		if (cmd[0] === '!quote') 
 		{
-			// If the command includes an argument, the standart cycling is overridden
-			if (cmd[1]) {
+			// If the command includes an argument, the standart randomization is overridden
+			if (cmd[1]) { 
 			if (checkSymbols(cmd[1], nmbrs)) {
 				x1 = cmd[1]
 				// If the argument is beyond the amount of quotes currently avaliable, apologise and stop.
@@ -211,13 +212,24 @@ client.on('message', msg => {
 				} 
 				var txt = qte[x1-1]
 				x = x1
+				ch.send(qte2 + x1 + ": " + txt)
 			}}
 			else {
 				x = Math.floor((Math.random() * qte.length))
+				while (quotelog.indexOf(x) > -1) {
+					x = Math.floor((Math.random() * qte.length))
+				}
 				var txt = qte[x]
 				x2 = x + 1
+				
+				if(quotelog.length > Math.ceil(qte.length / 2)) {
+					quotelog.shift()
+				}
+				quotelog.push(x)
+				
+				ch.send(qte2 + x2 + ": " + txt)
+				
 			}
-			ch.send(qte2 + x2 + ": " + txt)
 		}  
 		
 		// Debug commands
