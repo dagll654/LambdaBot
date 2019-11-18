@@ -222,7 +222,7 @@ client.on('message', msg => {
 				var txt = qte[x]
 				x2 = x + 1
 				
-				if(quotelog.length > Math.ceil(qte.length / 2)) {
+				if(quotelog.length > Math.ceil((qte.length * 4) / 5)) {
 					quotelog.shift()
 				}
 				quotelog.push(x)
@@ -237,6 +237,9 @@ client.on('message', msg => {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
 			ch.send("Debug command run, check logs.")
 			switch (cmd[1]) {
+				case "quotelog":
+					console.log(quotelog)
+					break
 				case "ids":
 					console.log(msg.guild.id + " " + msg.channel.id) 
 					console.log("Debug command !debug ids noticed.")
