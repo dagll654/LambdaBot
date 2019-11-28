@@ -110,7 +110,8 @@ client.on('message', msg => {
 			"Emus are like babies.",
 			"Babies are crazy!",
 			"Do the crossbow in your face",
-			"Please, just the tip, come on..."
+			"Please, just the tip, come on...",
+			"No! NOT FROM BEHIND!!"
 			]
 	const qte2 = "Lambdadelta Quote #"
 	
