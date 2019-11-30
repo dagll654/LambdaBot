@@ -68,7 +68,8 @@ client.on('message', msg => {
 			"!abn",
 			"!say",
 			"!debug",
-			"!menacing"
+			"!menacing",
+			"!em"
 			]
 	
 	// Handy vars
@@ -126,7 +127,8 @@ client.on('message', msg => {
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"Makes the bot say anything. Use at your own risk.",
-			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>"
+			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
+			"Sends an emoji. Case-sensitive!"
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -232,6 +234,17 @@ client.on('message', msg => {
 				
 			}
 		}  
+		
+		// Emoji command
+		if (cmd[0] === '!em' {
+			if (length.emoji(cmd2[1], DELTAS, false, true) === 18) {
+				yeet(0)
+				ch.send(emoji(cmd2[1], DELTAS, false))
+			} else {if (length.emoji(cmd2[1], DELTAS, true, true) === 18) {
+				yeet(0)
+				ch.send(emoji(cmd2[1], DELTAS, true))
+			} else {ch.send("Error: emoji not found.")}}
+		}
 		
 		// Debug commands
 		if (cmd[0] === '!debug') {
