@@ -242,7 +242,7 @@ client.on('message', msg => {
 				ch.send(emoji(cmd2[1], DELTAS, false, true))
 			} else {if (length.emoji(cmd2[1], DELTAS, true, true).length === 18) {
 				yeet(0)
-				ch.send(emoji(cmd2[1], DELTAS, false, true))
+				ch.send("<a:" + cmd2[1] + ":" + emoji(cmd2[1], DELTAS, false, true) + ">")
 			} else {ch.send("Error: emoji not found.")}}
 		}
 		
