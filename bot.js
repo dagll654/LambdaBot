@@ -241,6 +241,10 @@ client.on('message', msg => {
 				case "quotelog":
 					console.log(quotelog)
 					break
+				case "sendem":
+					ch.send(emoji(cmd[1], default, true)
+					.catch(console.error)
+					break
 				case "ids":
 					console.log(msg.guild.id + " " + msg.channel.id) 
 					console.log("Debug command !debug ids noticed.")
