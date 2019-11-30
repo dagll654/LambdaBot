@@ -242,7 +242,7 @@ client.on('message', msg => {
 					console.log(quotelog)
 					break
 				case "sendem":
-					ch.send(emoji(cmd[1], DELTAS, true)
+					ch.send(emoji(cmd[1], DELTAS, true))
 					.catch(console.error)
 					break
 				case "ids":
