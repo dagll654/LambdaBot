@@ -253,6 +253,7 @@ client.on('message', msg => {
 			emtx = ""
 			if (cmd[2]) {
 			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
+			if (ia > 27) {ia = 27}
 			if (animojis.includes(cmd2[1])) {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
 						emtx = emtx + emoji(cmd2[1], DELTAS, true)
