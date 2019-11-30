@@ -247,7 +247,7 @@ client.on('message', msg => {
 				yeet(0)
 			} else {ch.send("Error: emoji not found.")}}
 		}
-		
+		//
 		// Debug commands
 		if (cmd[0] === '!debug') {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
