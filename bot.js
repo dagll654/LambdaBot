@@ -249,13 +249,22 @@ client.on('message', msg => {
 		// Emoji command
 		if (cmd[0] === '!em') {
 			if (emoji(cmd2[1], DELTAS, false, true) != undefined) {
-				if (animojis.includes(cmd2[1])) {
-					ch.send(emoji(cmd2[1], DELTAS, true))
+			ia = 1
+			emtx = ""
+			if (checkSymbols(cmd[2], numbers)) {ia = cmd[2]}
+			if (animojis.includes(cmd2[1])) {
+					for (var ia2 = 0; ia2 < ia; ia2++) {
+						emtx = emtx + emoji(cmd2[1], DELTAS, true)
+					}
+					ch.send(emtx)
 					.catch(console.error)
 					yeet(0)
 					return
 				} else {
-					ch.send(emoji(cmd2[1], DELTAS, false))
+					for (var ia2 = 0; ia2 < ia; ia2++) {
+						emtx = emtx + emoji(cmd2[1], DELTAS, false)
+					}
+					ch.send(emtx)
 					.catch(console.error)
 					yeet(0)
 					return 
