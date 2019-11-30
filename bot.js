@@ -251,7 +251,8 @@ client.on('message', msg => {
 			if (emoji(cmd2[1], DELTAS, false, true) != undefined) {
 			ia = 1
 			emtx = ""
-			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}
+			if (cmd[2]) {
+			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
 			if (animojis.includes(cmd2[1])) {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
 						emtx = emtx + emoji(cmd2[1], DELTAS, true)
