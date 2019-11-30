@@ -310,6 +310,9 @@ client.on('message', msg => {
 					})
 					console.log(emarr)
 					break
+				case "emojisraw":
+					console.log(DELTAS.emojis)
+					break
 				case "emtest":
 					ch.send(DELTAS.emojis.find("name", "restartsForDays"))
 					break
