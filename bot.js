@@ -167,6 +167,11 @@ client.on('message', msg => {
 		return emvar
 	}
 	
+	// Function for checking whether an emoji (found by name) is animated
+	function emanim(name, srv = msg.guild) {
+		return srv.emojis.get(name).animated
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -238,13 +243,15 @@ client.on('message', msg => {
 		// Emoji command
 		if (cmd[0] === '!em') {
 			if (emoji(cmd2[1], DELTAS, false, true).length != undefined) {
-				if (emoji(cmd2[1], DELTAS, false, true).length === 18) {
+				if (emanim(cmd2[1]) === false) {
 					ch.send(emoji(cmd2[1], DELTAS, false))
 					.catch(console.error)
+					return
 				}
-				if (emoji(cmd2[1], DELTAS, true, true).length === 18) {
+				if (emanim(cmd2[1]) === true) {
 					ch.send(emoji(cmd2[1], DELTAS, true))
 					.catch(console.error)
+					return
 				} 
 				yeet(0)
 			} else {msg.reply("Emoji not found.")}
