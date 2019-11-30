@@ -237,15 +237,17 @@ client.on('message', msg => {
 		
 		// Emoji command
 		if (cmd[0] === '!em') {
-			if (emoji(cmd2[1], DELTAS, false, true).length === 18) {
-				ch.send(emoji(cmd2[1], DELTAS, false))
-				.catch(console.error)
-			}
-			if (emoji(cmd2[1], DELTAS, true, true).length === 18) {
-				ch.send(emoji(cmd2[1], DELTAS, true))
-				.catch(console.error)
-			} 
-			yeet(0)
+			if (emoji(cmd2[1], DELTAS, false, true).length != undefined) {
+				if (emoji(cmd2[1], DELTAS, false, true).length === 18) {
+					ch.send(emoji(cmd2[1], DELTAS, false))
+					.catch(console.error)
+				}
+				if (emoji(cmd2[1], DELTAS, true, true).length === 18) {
+					ch.send(emoji(cmd2[1], DELTAS, true))
+					.catch(console.error)
+				} 
+				yeet(0)
+			} else {msg.reply("Emoji not found.")}
 		}
 		//
 		// Debug commands
