@@ -169,7 +169,7 @@ client.on('message', msg => {
 	
 	// Function for checking whether an emoji (found by name) is animated
 	function emanim(name, srv = msg.guild) {
-		return srv.emojis.get(emoji(name, srv, false, true).toString()).animated
+		return srv.emojis.get("650293931791089684").animated
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
