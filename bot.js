@@ -236,7 +236,7 @@ client.on('message', msg => {
 		}  
 		
 		// Emoji command
-		if (cmd[0] === '!em' {
+		if (cmd[0] === '!em') {
 			if (length.emoji(cmd2[1], DELTAS, false, true) === 18) {
 				yeet(0)
 				ch.send(emoji(cmd2[1], DELTAS, false))
