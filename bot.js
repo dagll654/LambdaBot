@@ -242,7 +242,7 @@ client.on('message', msg => {
 		
 		// Emoji command
 		if (cmd[0] === '!em') {
-			if (emoji(cmd2[1], DELTAS, false, true).length != undefined) {
+			if (emoji(cmd2[1], DELTAS, false, true) != undefined) {
 				if (emanim(cmd2[1]) === false) {
 					ch.send(emoji(cmd2[1], DELTAS, false))
 					.catch(console.error)
