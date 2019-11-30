@@ -3,6 +3,12 @@ const Discord = require('discord.js');
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
   const abn = require("./abnb.json");
+  const animojis = [
+			"restartsForDays",
+			"pepanger",
+			"animenacing",
+			"Hod"
+			]
 
  x = 0 
  x1 = 0
@@ -243,19 +249,16 @@ client.on('message', msg => {
 		// Emoji command
 		if (cmd[0] === '!em') {
 			if (emoji(cmd2[1], DELTAS, false, true) != undefined) {
-				if (emanim(cmd2[1]) === false) {
-					ch.send(emoji(cmd2[1], DELTAS, false))
-					.catch(console.error)
-					return
-				}
-				if (emanim(cmd2[1]) === true) {
+				if (animojis.includes(cmd2[1])) {
 					ch.send(emoji(cmd2[1], DELTAS, true))
 					.catch(console.error)
 					return
-				} 
+				} else {
+					ch.send(emoji(cmd2[1], DELTAS, false))
+					.catch(console.error)
+					return 
+				}
 				yeet(0)
-				ch.send(emanim(cmd2[1]))
-				.catch(console.error)
 			} else {msg.reply("Emoji not found.")}
 		}
 		//
