@@ -237,11 +237,11 @@ client.on('message', msg => {
 		
 		// Emoji command
 		if (cmd[0] === '!em') {
-			if (emoji(cmd2[1], DELTAS, false, true).length != undefined) {
+			if (emoji(cmd2[1], DELTAS, false, true).length != void(0)) {
 				ch.send(emoji(cmd2[1], DELTAS, false))
 				.catch(console.error)
 			}
-			if (emoji(cmd2[1], DELTAS, true, true).length != undefined) {
+			if (emoji(cmd2[1], DELTAS, true, true).length != void(0)) {
 				ch.send(emoji(cmd2[1], DELTAS, true))
 				.catch(console.error)
 			} 
