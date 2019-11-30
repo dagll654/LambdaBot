@@ -240,16 +240,15 @@ client.on('message', msg => {
 			if (emoji(cmd2[1], DELTAS, true, true).length != undefined) {
 				ch.send(emoji(cmd2[1], DELTAS, true))
 				.catch(console.error)
-				yeet(0)
 				return
 			} 
 			if (length.emoji(cmd2[1], DELTAS, false, true).length != undefined) {
 				ch.send(emoji(cmd2[1], DELTAS, false))
 				.catch(console.error)
-				yeet(0)
 				return
 			} 
 			ch.send("Error: emoji not found.")
+			yeet(1)
 		}
 		//
 		// Debug commands
