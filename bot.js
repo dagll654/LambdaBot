@@ -252,16 +252,18 @@ client.on('message', msg => {
 				if (animojis.includes(cmd2[1])) {
 					ch.send(emoji(cmd2[1], DELTAS, true))
 					.catch(console.error)
+					yeet(0)
 					return
 				} else {
 					ch.send(emoji(cmd2[1], DELTAS, false))
 					.catch(console.error)
+					yeet(0)
 					return 
 				}
 				yeet(0)
 			} else {msg.reply("Emoji not found.")}
 		}
-		//
+		
 		// Debug commands
 		if (cmd[0] === '!debug') {
 			if (msg.author.id === process.env.BOT_AUTHOR) {
