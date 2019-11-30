@@ -169,7 +169,7 @@ client.on('message', msg => {
 	
 	// Function for checking whether an emoji (found by name) is animated
 	function emanim(name, srv = msg.guild) {
-		return srv.emojis.get(name).animated
+		return srv.emojis.get(emoji(name, srv, false, true).toString()).animated
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
@@ -254,7 +254,7 @@ client.on('message', msg => {
 					return
 				} 
 				yeet(0)
-				ch.send(emoji(cmd2[1], DELTAS, false, true))
+				ch.send(emanim(cmd2[1]))
 			} else {msg.reply("Emoji not found.")}
 		}
 		//
