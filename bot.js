@@ -256,7 +256,7 @@ client.on('message', msg => {
 			if (ia > 27) {ia = 27}
 			if (animojis.includes(cmd2[1])) {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx = emtx + emoji(cmd2[1], DELTAS, true)
+						emtx += emoji(cmd2[1], DELTAS, true)
 					}
 					ch.send(emtx)
 					.catch(console.error)
@@ -264,7 +264,7 @@ client.on('message', msg => {
 					return
 				} else {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx = emtx + emoji(cmd2[1], DELTAS, false)
+						emtx += emoji(cmd2[1], DELTAS, false)
 					}
 					ch.send(emtx)
 					.catch(console.error)
