@@ -132,7 +132,7 @@ client.on('message', msg => {
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
-			"Makes the bot say anything. Use at your own risk.",
+			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!"
 			]	
@@ -369,6 +369,9 @@ client.on('message', msg => {
 	
 	// For making the bot say whatever, but only if the debug variable debugsay is 1
 	if (cmd[0] === "!say") {
+		if (cmd.length < 2) {
+			msg.reply("Cannot send empty messages.")
+			return }
 		if ((dbvars[1] === 1) || (dbvars[1] === '1')) {
 			var tempmsg = ""
 			var i
