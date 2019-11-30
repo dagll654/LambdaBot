@@ -241,11 +241,15 @@ client.on('message', msg => {
 				ch.send(emoji(cmd2[1], DELTAS, true))
 				.catch(console.error)
 				yeet(0)
-			} else {if (length.emoji(cmd2[1], DELTAS, false, true).length != undefined) {
+				return
+			} 
+			if (length.emoji(cmd2[1], DELTAS, false, true).length != undefined) {
 				ch.send(emoji(cmd2[1], DELTAS, false))
 				.catch(console.error)
 				yeet(0)
-			} else {ch.send("Error: emoji not found.")}}
+				return
+			} 
+			ch.send("Error: emoji not found.")
 		}
 		//
 		// Debug commands
