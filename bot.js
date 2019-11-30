@@ -255,6 +255,7 @@ client.on('message', msg => {
 				} 
 				yeet(0)
 				ch.send(emanim(cmd2[1]))
+				.catch(console.error)
 			} else {msg.reply("Emoji not found.")}
 		}
 		//
