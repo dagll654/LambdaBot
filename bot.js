@@ -243,6 +243,7 @@ client.on('message', msg => {
 			} else {if (length.emoji(cmd2[1], DELTAS, true, true).length != undefined) {
 				yeet(0)
 				ch.send(emoji(cmd2[1], DELTAS, true))
+					.catch(console.error)
 			} else {ch.send("Error: emoji not found.")}}
 		}
 		
@@ -255,7 +256,7 @@ client.on('message', msg => {
 					console.log(quotelog)
 					break
 				case "sendem":
-					ch.send(emoji(cmd[2], DELTAS, true))
+					ch.send(emoji(cmd2[2], DELTAS, true))
 					.catch(console.error)
 					break
 				case "ids":
