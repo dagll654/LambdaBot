@@ -81,10 +81,6 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
-	
-	if (msg.author.id === '556890472141029376' & ch.id != '607318782624399363') {
-		console.log("Weird flex check [aieouieou]: content: " + mesc + " type: " + ch.type)
-	}
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
@@ -93,7 +89,16 @@ client.on('message', msg => {
 	
 	// Roles that can be assigned/unassigned by anyone
 	const roles1 = [
-			
+			"Malkuth",
+			"Yesod",
+			"Netzach",
+			"Hod",
+			"Tiphereth",
+			"Chesed",
+			"Gebura",
+			"Hokma",
+			"Binah",
+			"Kether"
 			]
 	
 	// Messages by the bot that will be deleted indefinitely
@@ -124,8 +129,8 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
-			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say. To get help on a specific command, use !help [CommandName].",
-			"Usage: !giverole RoleName. Awaliable roles: none, for now.",
+			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em. To get help on a specific command, use !help [CommandName].",
+			"Usage: !giverole RoleName. Awaliable roles: (almost?) all of the department roles, for vanity choices.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
 			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
