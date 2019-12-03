@@ -408,7 +408,7 @@ client.on('message', msg => {
 			if (deproles.every(t => msg.member.roles.has(msg.guild.roles.find(r => r.name === t))) === false) {
 				// Find the role among the guild's roles and add it via its ID
 				msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
-				msg.reply("Given the role @" + cmd1[1] + " to " + msg.author.tag
+				msg.reply("Given the role @" + cmd1[1] + " to " + msg.author.tag)
 			} else {msg.reply("Error: only one department assignment role may be given to a user.")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
