@@ -405,11 +405,13 @@ client.on('message', msg => {
 	if (cmd[0] === "!giverole") {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd1[1])) {
-			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-				// Find the role among the guild's roles and add it via its ID
-				msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
-				msg.reply("Given the role @" + cmd1[1] + " to " + msg.author.tag)
-			} else {msg.reply("Error: only one department assignment role may be given to a user.")}
+			if (msg.member.roles.map(r => r.name).includes(cmd1[1]) === false) {
+				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+					// Find the role among the guild's roles and add it via its ID
+					msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
+					msg.reply("Given the role <@" + cmd1[1] + "> to <@" + msg.author.tag + ">")
+				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
+			} else {msg.reply("Error: user " + msg.member.tag + " already has the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
 	
@@ -418,7 +420,7 @@ client.on('message', msg => {
 		if (roles1.includes(cmd1[1])) {
 			// Find the role among the guild's roles and remove it via its ID
 			msg.member.removeRole(msg.guild.roles.find(role => role.name === cmd1[1]))
-			msg.reply("Taken the role  @" + cmd1[1] + " from " + msg.author.tag)
+			msg.reply("Taken the role  <@" + cmd1[1] + "> from <@" + msg.author.tag + ">")
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
 
