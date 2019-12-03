@@ -403,7 +403,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd1[1])) {
 			// Find the role among the guild's roles and add it via its ID
-			msg.member.addRole(message.guild.roles.find(role => role.name === cmd1[1]))
+			msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
 			msg.reply("Given the role @" + cmd1[1] + " to " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
@@ -412,7 +412,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd1[1])) {
 			// Find the role among the guild's roles and remove it via its ID
-			msg.member.removeRole(message.guild.roles.find(role => role.name === cmd1[1]))
+			msg.member.removeRole(msg.guild.roles.find(role => role.name === cmd1[1]))
 			msg.reply("Taken the role  @" + cmd1[1] + " from " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
