@@ -411,7 +411,7 @@ client.on('message', msg => {
 					msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
 					msg.reply("Given the role <@" + cmd1[1] + "> to <@" + msg.author.tag + ">")
 				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
-			} else {msg.reply("Error: user " + msg.member.tag + " already has the specified role")}
+			} else {msg.reply("Error: user <@" + msg.author.tag + "> already has the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
 	
