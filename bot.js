@@ -211,7 +211,7 @@ client.on('message', msg => {
 	
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
-		var cmd2 = mesc.split(" ")
+		var cmd1 = mesc.split(" ")
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
@@ -255,15 +255,15 @@ client.on('message', msg => {
 		
 		// Emoji command
 		if (cmd[0] === '!em') {
-			if (emoji(cmd2[1], DELTAS, false, true) != undefined) {
+			if (emoji(cmd1[1], DELTAS, false, true) != undefined) {
 			ia = 1
 			emtx = ""
 			if (cmd[2]) {
 			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
 			if (ia > 27) {ia = 27}
-			if (animojis.includes(cmd2[1])) {
+			if (animojis.includes(cmd1[1])) {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += emoji(cmd2[1], DELTAS, true)
+						emtx += emoji(cmd1[1], DELTAS, true)
 					}
 					ch.send(emtx)
 					.catch(console.error)
@@ -271,7 +271,7 @@ client.on('message', msg => {
 					return
 				} else {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += emoji(cmd2[1], DELTAS, false)
+						emtx += emoji(cmd1[1], DELTAS, false)
 					}
 					ch.send(emtx)
 					.catch(console.error)
@@ -298,7 +298,7 @@ client.on('message', msg => {
 					console.log(DELTAS.roles)
 					break
 				case "sendem":
-					ch.send(emoji(cmd2[2], DELTAS, true))
+					ch.send(emoji(cmd1[2], DELTAS, true))
 					.catch(console.error)
 					break
 				case "ids":
@@ -331,7 +331,7 @@ client.on('message', msg => {
 					var tempmsg = ""
 					var i
 					for (i = 3; i < cmd.length; i++) { 
-						tempmsg += cmd2[i] + " ";
+						tempmsg += cmd1[i] + " ";
 					} 
 					tempch.send(tempmsg)
 					.catch(console.error)
@@ -390,7 +390,7 @@ client.on('message', msg => {
 			var tempmsg = ""
 			var i
 			for (i = 1; i < cmd.length; i++) { 
-				tempmsg += cmd2[i] + " ";
+				tempmsg += cmd1[i] + " ";
 			} 
 			ch.send(tempmsg)
 			.catch(console.error)
