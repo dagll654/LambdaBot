@@ -294,6 +294,9 @@ client.on('message', msg => {
 					console.log(derolenm)
 					console.log(deroleid)
 					break
+				case "rolesraw":
+					console.log(DELTAS.roles)
+					break
 				case "sendem":
 					ch.send(emoji(cmd2[2], DELTAS, true))
 					.catch(console.error)
