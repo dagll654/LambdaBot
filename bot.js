@@ -62,6 +62,8 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
+	var derolenm = DELTAS.roles.map(r => r.name)
+	var deroleid = DELTAS.roles.map(r => r.id)
 
 	// Command pool
 	const cmds = [
@@ -394,7 +396,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and add it via its ID
-			msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
+			msg.member.addRole(deroleid[derolenm.indexOf(cmd1[1])])
 			msg.reply("Given the role " + cmd[1] + " to " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
@@ -403,7 +405,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(cmd[1])) {
 			// Find the role among the guild's roles and remove it via its ID
-			msg.member.removeRole(msg.guild.roles.find(role => role.name === cmd1[1]))
+			msg.member.removeRole(deroleid[derolenm.indexOf(cmd1[1])])
 			msg.reply("Taken the role  " + cmd[1] + " from " + msg.author.tag)
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 	}
