@@ -461,9 +461,13 @@ client.on('message', msg => {
 	
 	// Reactions
 	// Reacts with :thonk: to any message starting with "hm" with any number of m's after that.
-	var hm1 = mesc.toLowerCase().split("")
+	var hm1 = mesc.toLowerCase().split(" ")
 	hm1.shift()
-	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm1, "m")) {
+	for (i = 1; i < hm1.length; i++) { 
+				hm2 += hm1[i-1]
+			} 
+	hm2 = hm2.split("")
+	if (mesc.toLowerCase().startsWith("hm") && checkSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
 	}
