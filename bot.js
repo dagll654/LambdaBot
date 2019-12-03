@@ -62,8 +62,6 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
-	var derolenm = DELTAS.roles.map(r => r.name)
-	var deroleid = DELTAS.roles.map(r => r.id)
 
 	// Command pool
 	const cmds = [
@@ -91,6 +89,10 @@ client.on('message', msg => {
 	
 	// Roles that can be assigned/unassigned by anyone
 	const roles1 = [
+			]
+	
+	// Department roles
+	const deproles = [
 			"Malkuth",
 			"Yesod",
 			"Netzach",
@@ -102,6 +104,7 @@ client.on('message', msg => {
 			"Binah",
 			"Kether"
 			]
+	deproles.every(r => roles1.push(r))
 	
 	// Messages by the bot that will be deleted indefinitely
 	const deletableReplies = [
