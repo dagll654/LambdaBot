@@ -290,6 +290,10 @@ client.on('message', msg => {
 				case "quotelog":
 					console.log(quotelog)
 					break
+				case "roles":
+					console.log(derolenm)
+					console.log(deroleid)
+					break
 				case "sendem":
 					ch.send(emoji(cmd2[2], DELTAS, true))
 					.catch(console.error)
