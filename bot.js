@@ -95,7 +95,16 @@ client.on('message', msg => {
 	
 	// Department roles
 	const deproles = [
-			"Control Team"
+			"Control Team",
+			"Information Team",
+			"Security Team",
+			"Training Team",
+			"Central Team",
+			"Welfare Team",
+			"Disciplinary Team",
+			"Record Team",
+			"Extraction Team",
+			"Architecture Team"
 			]
 	deproles.forEach(r => roles1.push(r))
 	
@@ -181,6 +190,13 @@ client.on('message', msg => {
 		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
 			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
 		return emvar
+	}
+	
+	// Function for getting a role by name 
+	function getRole(nme) {
+		if (msg.guild.roles.map(r => r.name).includes(nme)) {
+			return msg.guild.roles.find(role => role.name === nme)
+		} else {return void(0)}
 	}
 	
 	// Function for checking whether an emoji (found by name) is animated
@@ -411,10 +427,10 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
-				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t)) === false) {
 					// Find the role among the guild's roles and add it
-					msg.member.addRole(msg.guild.roles.find(role => role.name === rtmp))
-					ch.send("Successfully given the specified role to <@" + msg.author.id + ">")
+					msg.member.addRole(getRole(rtmp))
+					ch.send("Successfully given the specified role to <@" + msg.author.id + ">.")
 				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
 			} else {ch.send("Error: user <@" + msg.author.id + "> already has the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
@@ -430,8 +446,8 @@ client.on('message', msg => {
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === true) {
 				// Find the role among the guild's roles and remove it
-				msg.member.removeRole(msg.guild.roles.find(role => role.name === rtmp))
-				ch.send("Successfully taken the specified role from <@" + msg.author.id + ">")
+				msg.member.removeRole(getRole(rtmp))
+				ch.send("Successfully taken the specified role from <@" + msg.author.id + ">.")
 			} else {ch.send("Error: user <@" + msg.author.id + "> does not have the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
 		
@@ -445,6 +461,19 @@ client.on('message', msg => {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
 						
 					} else {msg.reply("wip")}
+					break
+				case "assign":
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t)) === false) {
+						var rtmp = ""
+						for (i = 2; i < cmd1.length; i++) {
+							rtmp += cmd1[i]
+							if (i < (cmd1.length - 1)) {rtmp += " "}
+						}
+						if (deproles.includes(rtmp)) {
+							msg.member.addRole(getRole(rtmp))
+							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
+						} else {msg.reply("error: incorrect team name.")}
+					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
 				case "captain":
 					if (true) {return}
