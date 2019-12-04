@@ -488,8 +488,7 @@ client.on('message', msg => {
 	for (i = 1; i < hm1.length; i++) { 
 				hm2 += hm1[i-1]
 			} 
-	hm1 = hm2.split("")
-	if (mesc.toLowerCase().startsWith("h") && checkSame(hm1, "m")) {
+	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
 	}
