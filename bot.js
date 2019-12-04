@@ -465,7 +465,7 @@ client.on('message', msg => {
 	}
 	
 	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
-		if ((msg.member.roles.map(r => r.name).includes("Employees") === true) || (cmd[1] === "info") || (cmd[1] === "assign")) {
+		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
