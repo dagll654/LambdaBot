@@ -179,6 +179,17 @@ client.on('message', msg => {
 		return arr.length >= argcount
 	}
 	
+	// Function for finding the dep role among a member's roles
+	function drFind(mmbr) {
+		var ret = ""
+		for (i = 0; i < mmbr.roles.map(r => r.name).length; i++) {
+			if (deproles.includes(mmbr.roles.map(r => r.name)[i])) {
+				ret = mmbr.roles.map(r => r.name)[i]
+			}
+		}
+		return ret
+	}
+	
 	// Just a function that times the message out in x seconds
 	function yeet(seckslul) {
 		setTimeout(function(){msg.delete().catch(console.error)}, seckslul * 1000)
@@ -475,6 +486,16 @@ client.on('message', msg => {
 						} else {msg.reply("error: incorrect team name.")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
+				case "leave":
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+						msg.reply("Do you really want to leave the " + drFind(msg.member) + "? y/n")
+						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+						console.log(collector)
+						collector.on('collect', cmsg => {
+						if (cmsg.content === "y") {msg.member.addRole(drFind(msg.member))}
+						if (cmsg.content === "n") {return}
+						}
+					} else {msg.reply("you are not currently assigned to any team.")}
 				case "captain":
 					if (true) {return}
 					break
