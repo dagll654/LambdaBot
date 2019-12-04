@@ -492,8 +492,12 @@ client.on('message', msg => {
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						console.log(collector)
 						collector.on('collect', cmsg => {
-						if (cmsg.content === "y") {msg.member.removeRole(getRole(drFind(msg.member)))}
-						if (cmsg.content === "n") {return}
+						if (cmsg.content === "y") {
+							msg.reply("you have left the " + drFind(msg.member) + ".") 
+							msg.member.removeRole(getRole(drFind(msg.member)))
+							collector.stop()
+						}
+						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
 				case "captain":
