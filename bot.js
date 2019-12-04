@@ -404,7 +404,7 @@ client.on('message', msg => {
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
 		var rtmp = ""
-		for (i = 1, i < (cmd1.length - 1), i++) {
+		for (i = 1; i < (cmd1.length - 1); i++) {
 			rtmp += cmd1[i]
 		}
 		// If the role is stated to be operable in the relevant array
@@ -421,7 +421,7 @@ client.on('message', msg => {
 	
 	if (cmd[0] === "!removerole") {
 		var rtmp = ""
-		for (i = 1, i < (cmd1.length - 1), i++) {
+		for (i = 1; i < (cmd1.length - 1); i++) {
 			rtmp += cmd1[i]
 		}
 		// If the role is stated to be operable in the relevant array
