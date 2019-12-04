@@ -490,7 +490,7 @@ client.on('message', msg => {
 	var hm1 = mesc.toLowerCase().split("")
 	hm1.shift()
 	var hm2 = []
-	hm1.forEach(i => if (i != " ") {hm2.push(i)})
+	hm1.forEach(i => {if (i != " ") {hm2.push(i)}})
 	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
