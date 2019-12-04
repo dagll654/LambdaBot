@@ -104,7 +104,7 @@ client.on('message', msg => {
 			"Binah",
 			"Kether"
 			]
-	deproles.every(r => roles1.push(r))
+	deproles.forEach(r => roles1.push(r))
 	
 	// Messages by the bot that will be deleted indefinitely
 	const deletableReplies = [
@@ -160,9 +160,14 @@ client.on('message', msg => {
 		return str.split("").every(i => arr.includes(i))
 	}
 	
+	// Function for checking if all the symbols of a given string are the same as compoint
+	function checkStringSame(str, compoint) {
+		return str.split("").every(i => i === compoint)
+	}
+	
 	// Function for checking if all the elements of arr are are the same as compoint
 	function checkSame(arr, compoint) {
-		return arr.every(i => i === compoint)
+		return arr.forEach(i => i === compoint)
 	}
 	
 	// Function for checking if the given amount of arguments is valid
@@ -488,7 +493,7 @@ client.on('message', msg => {
 	for (i = 1; i < hm1.length; i++) { 
 				hm2 += hm1[i-1]
 			} 
-	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
+	if (mesc.toLowerCase().startsWith("h") && checkStringSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
 	}
