@@ -167,7 +167,7 @@ client.on('message', msg => {
 	
 	// Function for checking if all the elements of arr are are the same as compoint
 	function checkSame(arr, compoint) {
-		if (arr === []) {return false} else {return arr.every(i => i === compoint)}
+		if (arr.length === 0) {return false} else {return arr.every(i => i === compoint)}
 	}
 	
 	// Function for checking if the given amount of arguments is valid
@@ -487,6 +487,7 @@ client.on('message', msg => {
 	
 	// Reactions
 	// Reacts with :thonk: to any message starting with "hm" with any number of m's after that.
+	if (mesc.length > 1) {
 	var hm1 = mesc.toLowerCase().split("")
 	hm1.shift()
 	var hm2 = []
@@ -494,7 +495,7 @@ client.on('message', msg => {
 	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
-	}
+	}}
 	if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
 		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
