@@ -407,6 +407,7 @@ client.on('message', msg => {
 		for (i = 1; i < (cmd1.length - 1); i++) {
 			rtmp += cmd1[i]
 		}
+		console.log(rtmp)
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
