@@ -496,7 +496,7 @@ client.on('message', msg => {
 		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 
-		
+		//
 	}
 })
 
