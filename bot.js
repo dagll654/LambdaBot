@@ -408,12 +408,11 @@ client.on('message', msg => {
 			rtmp += cmd1[i]
 			if (i < (cmd1.length - 1)) {rtmp += " "}
 		}
-		console.log(rtmp)
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
 				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-					// Find the role among the guild's roles and add it via its ID
+					// Find the role among the guild's roles and add it
 					msg.member.addRole(msg.guild.roles.find(role => role.name === rtmp))
 					ch.send("Successfully given the specified role to <@" + msg.author.id + ">")
 				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
@@ -423,15 +422,19 @@ client.on('message', msg => {
 	
 	if (cmd[0] === "!removerole") {
 		var rtmp = ""
-		for (i = 1; i < (cmd1.length - 1); i++) {
+		for (i = 1; i < cmd1.length; i++) {
 			rtmp += cmd1[i]
+			if (i < (cmd1.length - 1)) {rtmp += " "}
 		}
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(rtmp)) {
-			// Find the role among the guild's roles and remove it via its ID
-			msg.member.removeRole(msg.guild.roles.find(role => role.name === rtmp))
-			ch.send("Successfully taken the specified role from <@" + msg.author.id + ">")
+			if (msg.member.roles.map(r => r.name).includes(rtmp) === true) {
+				// Find the role among the guild's roles and remove it
+				msg.member.removeRole(msg.guild.roles.find(role => role.name === rtmp))
+				ch.send("Successfully taken the specified role from <@" + msg.author.id + ">")
+			} else {ch.send("Error: user <@" + msg.author.id + "> does not have the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
+		
 	}
 	
 	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
