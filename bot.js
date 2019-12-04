@@ -404,9 +404,9 @@ client.on('message', msg => {
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
 		var rtmp = ""
-		for (i = 0; i < (cmd1.length - 1); i++) {
+		for (i = 1; i < cmd1.length; i++) {
 			rtmp += cmd1[i]
-			if (i < (cmd1.length - 2)) {rtmp += " "}
+			if (i < (cmd1.length - 1)) {rtmp += " "}
 		}
 		console.log(rtmp)
 		// If the role is stated to be operable in the relevant array
