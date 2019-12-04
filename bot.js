@@ -494,7 +494,7 @@ client.on('message', msg => {
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {msg.member.addRole(drFind(msg.member))}
 						if (cmsg.content === "n") {return}
-						}
+						})
 					} else {msg.reply("you are not currently assigned to any team.")}
 				case "captain":
 					if (true) {return}
