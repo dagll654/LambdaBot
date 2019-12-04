@@ -492,7 +492,7 @@ client.on('message', msg => {
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						console.log(collector)
 						collector.on('collect', cmsg => {
-						if (cmsg.content === "y") {msg.member.removeRole(drFind(msg.member))}
+						if (cmsg.content === "y") {msg.member.removeRole(getRole(drFind(msg.member)))}
 						if (cmsg.content === "n") {return}
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
