@@ -75,7 +75,9 @@ client.on('message', msg => {
 			"!say",
 			"!debug",
 			"!menacing",
-			"!em"
+			"!em",
+			"!department",
+			"!dep"
 			]
 	
 	// Handy vars
@@ -93,16 +95,7 @@ client.on('message', msg => {
 	
 	// Department roles
 	const deproles = [
-			"Malkuth",
-			"Yesod",
-			"Netzach",
-			"Hod",
-			"Tiphereth",
-			"Chesed",
-			"Gebura",
-			"Hokma",
-			"Binah",
-			"Kether"
+			"Control Team"
 			]
 	deproles.forEach(r => roles1.push(r))
 	
@@ -144,7 +137,9 @@ client.on('message', msg => {
 			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
-			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!"
+			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
+			"wip",
+			"wip"
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -408,12 +403,16 @@ client.on('message', msg => {
 	
 	// Role giving and taking
 	if (cmd[0] === "!giverole") {
+		var rtmp = ""
+		for (i = 1, i < (cmd1.length - 1), i++) {
+			rtmp += cmd1[i]
+		}
 		// If the role is stated to be operable in the relevant array
-		if (roles1.includes(cmd1[1])) {
-			if (msg.member.roles.map(r => r.name).includes(cmd1[1]) === false) {
+		if (roles1.includes(rtmp)) {
+			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
 				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					// Find the role among the guild's roles and add it via its ID
-					msg.member.addRole(msg.guild.roles.find(role => role.name === cmd1[1]))
+					msg.member.addRole(msg.guild.roles.find(role => role.name === rtmp))
 					ch.send("Successfully given the specified role to <@" + msg.author.id + ">")
 				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
 			} else {ch.send("Error: user <@" + msg.author.id + "> already has the specified role")}
@@ -421,12 +420,36 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!removerole") {
+		var rtmp = ""
+		for (i = 1, i < (cmd1.length - 1), i++) {
+			rtmp += cmd1[i]
+		}
 		// If the role is stated to be operable in the relevant array
-		if (roles1.includes(cmd1[1])) {
+		if (roles1.includes(rtmp)) {
 			// Find the role among the guild's roles and remove it via its ID
-			msg.member.removeRole(msg.guild.roles.find(role => role.name === cmd1[1]))
+			msg.member.removeRole(msg.guild.roles.find(role => role.name === rtmp))
 			ch.send("Successfully taken the specified role from <@" + msg.author.id + ">")
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
+	}
+	
+	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
+		if ((msg.member.roles.map(r => r.name).includes("Employees") === true) || (cmd[1] === "info") || (cmd[1] === "assign")) {
+			switch cmd[1] {
+				case "info":
+					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
+						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
+						
+					} else {msg.reply("wip")}
+					break
+				case "captain":
+					if (true) {return}
+					break
+				default:
+					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
+					break
+				
+			}
+		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!dep info).")}
 	}
 
 	if (cmd[0] === "!help") {
