@@ -162,7 +162,7 @@ client.on('message', msg => {
 	
 	// Function for checking if all the elements of arr are are the same as compoint
 	function checkSame(arr, compoint) {
-		return arr.every(i => arr[arr.indexOf(i)] === compoint)
+		return arr.every(i === compoint)
 	}
 	
 	// Function for checking if the given amount of arguments is valid
