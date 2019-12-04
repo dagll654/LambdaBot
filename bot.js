@@ -427,7 +427,7 @@ client.on('message', msg => {
 		// If the role is stated to be operable in the relevant array
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
-				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t)) === false) {
+				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					// Find the role among the guild's roles and add it
 					msg.member.addRole(getRole(rtmp))
 					ch.send("Successfully given the specified role to <@" + msg.author.id + ">.")
@@ -463,7 +463,7 @@ client.on('message', msg => {
 					} else {msg.reply("wip")}
 					break
 				case "assign":
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t)) === false) {
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						var rtmp = ""
 						for (i = 2; i < cmd1.length; i++) {
 							rtmp += cmd1[i]
