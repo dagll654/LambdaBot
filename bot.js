@@ -18,7 +18,8 @@ const Discord = require('discord.js');
  quotelog = []
  votingteam = ""
  voting = 0
- var votee = client.users.find("id", '143261987575562240')
+ var voteeuser = client.users.find("id", '143261987575562240')
+ 
  
 client.on('ready', () => {
 	
@@ -621,6 +622,7 @@ client.on('message', msg => {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
 										var votee = cmd[3].slice((cmd[3].length - 19), 20)
+										var voteeuser = client.users.find("id", votee)
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), 20))
