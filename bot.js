@@ -549,8 +549,8 @@ client.on('message', msg => {
 						break
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						switch (cmd[2]) {
-							case "leave":
-								msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
+							case "resing":
+								msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
 								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 								collector.on('collect', cmsg => {
 								if (cmsg.content === "y") {
