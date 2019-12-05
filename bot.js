@@ -317,6 +317,7 @@ client.on('message', msg => {
 			if (yee > boo) {
 				voteres = "**" + voteeuser.tag + "** is now the captain of the " + votingteam + "!"
 				cptxt = drFind(voteeuser)
+				console.log(drFind(voteeuser))
 				voteeuser.removeRole(getRole(cptxt).id)
 				voteeuser.addRole(getRole(cptxt + " (C)").id)
 			}
