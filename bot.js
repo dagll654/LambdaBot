@@ -529,8 +529,8 @@ client.on('message', msg => {
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
 				case "leave":
-					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
