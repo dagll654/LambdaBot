@@ -18,7 +18,7 @@ const Discord = require('discord.js');
  quotelog = []
  votingteam = ""
  voting = 0
- var votee - client.users.find("id", '143261987575562240')
+ var votee = client.users.find("id", '143261987575562240')
  
 client.on('ready', () => {
 	
