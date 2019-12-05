@@ -629,7 +629,7 @@ client.on('message', msg => {
 		}
 		})
 	}
-	}
+	})
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
 								break
