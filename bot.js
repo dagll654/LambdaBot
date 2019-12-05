@@ -318,8 +318,8 @@ client.on('message', msg => {
 		} else {
 			if (yee > boo) {
 				voteres = "**" + voteeuser.tag + "** is now the captain of the " + votingteam + "!"
-				voteeuser.removeRole(getRole(cptxt).id)
-				voteeuser.addRole(getRole(cptxt + " (C)").id)
+				voteeuser.removeRole(getRole(votingteam))
+				voteeuser.addRole(getRole(votingteam + " (C)"))
 			}
 			
 			if (boo >= yee) {voteres = "**" + voteeuser.tag + "** will not become the captain of the " + votingteam + "."}
