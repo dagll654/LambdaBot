@@ -570,6 +570,7 @@ client.on('message', msg => {
 								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+					break
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
 					break
