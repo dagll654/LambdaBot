@@ -17,6 +17,7 @@ const Discord = require('discord.js');
  dbvnames = ['debugduck', 'debugsay', 'debugvote']
  quotelog = []
  votingteam = ""
+ votee = ""
 
 client.on('ready', () => {
 	
@@ -102,17 +103,25 @@ client.on('message', msg => {
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
-			if (vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) {
+			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
 			timeout = 0
+			if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+				reqv = (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))
+			} else {reqv = (DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length)}
 			collector.stop()
 			}
 		})
 		collector.on('end', collected => {
 			if (timeout === 1) {
-				ch.send("Cancelling the vote (timeout)")
-			} else {ch.send("Voting over.")}
-			console.log(`${vtd.length} people voted: ${yee} yee and ${boo} boo`)
+				ch.send("Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.")
+		} else {
+			if (yee > boo) {
+			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n `)
+			
+		}
+			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 		})
+		
 	}
 		
 	// Duck club secretiveness ensurance
