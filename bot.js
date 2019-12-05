@@ -98,8 +98,9 @@ client.on('message', msg => {
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
 			lru = rct.users.map(u => u.id).pop()
-			if (rct.emoji.name === '✅') {yee++; console.log(`${DELTAS.members.find(d => d === lru).tag} voted yee!`); console.log(rct.users.map(u => u.id))}
-			if (rct.emoji.name === '🚫') {boo++; console.log(`${DELTAS.members.find(d => d === lru).tag} voted boo!`); console.log(rct.users.map(u => u.id))}
+			lrn = DELTAS.fetchMember(lru)
+			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
+			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
 			if (vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) {
 			timeout = 0
