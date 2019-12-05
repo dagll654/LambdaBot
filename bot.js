@@ -530,7 +530,7 @@ client.on('message', msg => {
 					break
 				case "leave":
 					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
@@ -564,6 +564,14 @@ client.on('message', msg => {
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
 								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
+								break
+							case "list": 
+								var cpts = ""
+								cdeproles.forEach(r => {
+									if (msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag) != []) {
+										cpts +=  msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag)[0]
+									}
+								})
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
