@@ -558,7 +558,7 @@ client.on('message', msg => {
 									//	cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									//} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									//if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
-									lolarr.push({"name": r, "index": "420"})
+									lolarr.push(getRole(r).id)
 								})
 								//ch.send(cpts)
 								console.log(lolarr)
