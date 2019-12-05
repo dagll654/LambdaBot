@@ -104,7 +104,41 @@ client.on('message', msg => {
 			"Disciplinary Team",
 			"Record Team",
 			"Extraction Team",
+			"Architecture Team",
+			"Control Team (C)",
+			"Information Team (C)",
+			"Security Team (C)",
+			"Training Team (C)",
+			"Central Team (C)",
+			"Welfare Team (C)",
+			"Disciplinary Team (C)",
+			"Record Team (C)",
+			"Extraction Team (C)",
+			"Architecture Team (C)"
+			]
+	const ncdeproles = [
+			"Control Team",
+			"Information Team",
+			"Security Team",
+			"Training Team",
+			"Central Team",
+			"Welfare Team",
+			"Disciplinary Team",
+			"Record Team",
+			"Extraction Team",
 			"Architecture Team"
+			]
+	const cdeproles = [
+			"Control Team (C)",
+			"Information Team (C)",
+			"Security Team (C)",
+			"Training Team (C)",
+			"Central Team (C)",
+			"Welfare Team (C)",
+			"Disciplinary Team (C)",
+			"Record Team (C)",
+			"Extraction Team (C)",
+			"Architecture Team (C)"
 			]
 	deproles.forEach(r => roles1.push(r))
 	
@@ -130,7 +164,8 @@ client.on('message', msg => {
 			"Babies are crazy!",
 			"Do the crossbow in your face",
 			"Please, just the tip, come on...",
-			"No! NOT FROM BEHIND!!"
+			"No! NOT FROM BEHIND!!",
+			"Now I destroyed my dick!"
 			]
 	const qte2 = "Lambdadelta Quote #"
 	
@@ -147,8 +182,8 @@ client.on('message', msg => {
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
-			"wip",
-			"wip"
+			"Usage: !department/!dep (arguments). Arguments: wip",
+			"Usage: !department/!dep (arguments). Arguments: wip"
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -182,11 +217,18 @@ client.on('message', msg => {
 	// Function for finding the dep role among a member's roles
 	function drFind(mmbr) {
 		var ret = ""
+		if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 		for (i = 0; i < mmbr.roles.map(r => r.name).length; i++) {
-			if (deproles.includes(mmbr.roles.map(r => r.name)[i])) {
+			if (ncdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
 				ret = mmbr.roles.map(r => r.name)[i]
 			}
-		}
+		}}
+		if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+		for (i = 0; i < mmbr.roles.map(r => r.name).length; i++) {
+			if (cdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
+				ret = ncdeproles[cdeproles.indexOf(mmbr.roles.map(r => r.name)[i])]
+			}
+		}}
 		return ret
 	}
 	
@@ -370,7 +412,7 @@ client.on('message', msg => {
 					var embed = new Discord.RichEmbed()
 					.setTitle("The (late) No Nut November Alert")
 					.setThumbnail('')
-					.setDescription("Everyone is welcome to participate in the annual No Nut November event. Yes, it's now annual. Don't ask me why. Everyone willing to participate should react with a <:yeahboy:608361227130896384>, everyone that has already failed - react with <:angelaTits2:608813572662755338> <:angelaTits1:608813588228079626>.")
+					.setDescription("Everyone is welcome to participate in the annual No Nut November event. Yes, it's now annual. Don't ask me why. Everyone willing to participate should react with a <:yeahboy:608361227130896384>, everyone that has already failed - react with <:angelaTits2:608813572662755338><:angelaTits1:608813588228079626>.")
 					ch.send({embed})
 					.catch(console.error)
 					break
@@ -480,17 +522,17 @@ client.on('message', msg => {
 							rtmp += cmd1[i]
 							if (i < (cmd1.length - 1)) {rtmp += " "}
 						}
-						if (deproles.includes(rtmp)) {
+						if (ncdeproles.includes(rtmp)) {
 							msg.member.addRole(getRole(rtmp))
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
 						} else {msg.reply("error: incorrect team name.")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
 				case "leave":
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						msg.reply("Do you really want to leave the " + drFind(msg.member) + "? y/n")
+					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
-						console.log(collector)
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {
 							msg.reply("you have left the " + drFind(msg.member) + ".") 
@@ -500,13 +542,36 @@ client.on('message', msg => {
 						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
+					} else {msg.reply("captains cannot simply leave their team! (!dep captain resign)")}
 				case "captain":
-					if (true) {return}
-					break
+					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+						if (true) {return}
+						break
+					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+						switch (cmd[2]) {
+							case "leave":
+								msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
+								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+								collector.on('collect', cmsg => {
+								if (cmsg.content === "y") {
+									msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
+									var cptxt = drFind(msg.member)
+									msg.member.removeRole(getRole(cptxt + " (C)"))
+									msg.member.giveRole(getRole(cptxt))
+									collector.stop()
+								}
+								if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
+								})
+							
+								break
+							default:
+								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
+								break
+						}
+					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
 					break
-				
 			}
 		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!dep info).")}
 	}
