@@ -623,13 +623,13 @@ client.on('message', msg => {
 								break
 							case "vote":
 							if (voting != 1) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), 20)))) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), 20))) === drFind(msg.member)) {
+								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2))))) {
+								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
-										console.log(cmd[3].slice((cmd[3].length - 19), 20))							
+										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
