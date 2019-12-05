@@ -118,11 +118,11 @@ client.on('message', msg => {
 			if (timeout === 1) {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
-			if (yee > boo) {voteres = "*" + client.users.find("id", votee) + "* is now the captain of the " + votingteam + "!"
+			if (yee > boo) {voteres = "**" + client.users.find("id", votee) + "** is now the captain of the " + votingteam + "!"
 			var cptxt = drFind(msg.member)
-			client.users.find("id", votee).removeRole(getRole(cptxt))}
-			client.users.find("id", votee).addRole(getRole(cptxt + " (C)"))
-			if (boo > yee) {voteres = "*" + client.users.find("id", votee) + "* will not become the captain of the " + votingteam + "."}
+			client.users.find("id", votee).removeRole(getRole(cptxt))
+			client.users.find("id", votee).addRole(getRole(cptxt + " (C)"))}
+			if (boo > yee) {voteres = "**" + client.users.find("id", votee) + "** will not become the captain of the " + votingteam + "."}
 			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
@@ -613,17 +613,19 @@ client.on('message', msg => {
 								// At the end (non-restricted)
 								break
 							case "vote":
+							if (voting != 1) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
 										votee = cmd[3].slice((cmd[3].length - 19), 20)
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), 18))
-										ch.send("Initiating vote for *" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "* to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
+										ch.send("Initiating vote for **" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
-								} else {msg.reply("Your department already has a captain, *" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "*!")}
+								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
 								break
-						}
+						} else {msg.reply("an election is in process currently!"); break}
+						} 
 						//DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id)
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
