@@ -563,14 +563,11 @@ client.on('message', msg => {
 						switch (cmd[2]) {
 							case "list": 
 								var cpts = ""
-								var i = 0
 								cdeproles.forEach(r => {
 									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)) {
-										vtmp = r
-										vtmp.replace(/ (C)/, " - ")
-										cpts += vtmp + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-									} else {vtmp = r; vtmp.replace(/ (C)/, " - "); cpts += vtmp + "none"}
-									if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
+										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
+									if (cdeproles.indexOf(r) < (cdeproles.length + 5)) {cpts += ", "} else {cpts += "."}
 								})
 								ch.send(cpts)
 								break
