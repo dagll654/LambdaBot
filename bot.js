@@ -622,7 +622,7 @@ client.on('message', msg => {
 				voteeuser.addRole(getRole(cptxt + " (C)"))
 			}
 			
-			if (boo > yee) {voteres = "**" + voteeuser.tag + "** will not become the captain of the " + votingteam + "."}
+			if (boo >= yee) {voteres = "**" + voteeuser.tag + "** will not become the captain of the " + votingteam + "."}
 				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
