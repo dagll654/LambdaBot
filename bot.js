@@ -235,7 +235,7 @@ client.on('message', msg => {
 			}
 		}}
 		return ret
-	}
+	} //
 	
 	// Just a function that times the message out in x seconds
 	function yeet(seckslul) {
