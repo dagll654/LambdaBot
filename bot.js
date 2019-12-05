@@ -622,9 +622,10 @@ client.on('message', msg => {
 								// At the end (non-restricted)
 								break
 							case "vote":
+							console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))
 							if (voting != 1) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2))))) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))) === drFind(msg.member)) {
+								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1))))) {
+								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
 										dbvars[2] = 1
