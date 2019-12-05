@@ -551,8 +551,8 @@ client.on('message', msg => {
 								var cpts = ""
 								var i = 0
 								cdeproles.forEach(r => {
-									if (msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag) != []) {
-										cpts += r.replace(/ (C)/, " - ") + msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag)[0]
+									if (getRole(r).members.map(m=>m.user.tag) != []) {
+										cpts += r.replace(/ (C)/, " - ") + getRole(r).members.map(m=>m.user.tag)[0]
 									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
 								})
@@ -585,8 +585,8 @@ client.on('message', msg => {
 								var cpts = ""
 								var i = 0
 								cdeproles.forEach(r => {
-									if (msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag) != []) {
-										cpts += r.replace(/ (C)/, " - ") + msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag)[0]
+									if (getRole(r).members.map(m=>m.user.tag) != []) {
+										cpts += r.replace(/ (C)/, " - ") + getRole(r).members.map(m=>m.user.tag)[0]
 									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
 								})
