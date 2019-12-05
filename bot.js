@@ -550,7 +550,7 @@ client.on('message', msg => {
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "resign":
-								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
 									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 									collector.on('collect', cmsg => {
