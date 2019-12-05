@@ -17,9 +17,9 @@ const Discord = require('discord.js');
  dbvnames = ['debugduck', 'debugsay', 'debugvote']
  quotelog = []
  votingteam = ""
- votee = ""
  voting = 0
-
+ var votee
+ 
 client.on('ready', () => {
 	
 	// Getting the Lambda's Deltas guild for easy use
@@ -119,13 +119,13 @@ client.on('message', msg => {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
 			if (yee > boo) {
-				voteres = "**" + client.users.find("id", votee) + "** is now the captain of the " + votingteam + "!"
-				var cptxt = drFind(client.users.find("id", votee))
-				client.users.find("id", votee).removeRole(getRole(cptxt))
-				client.users.find("id", votee).addRole(getRole(cptxt + " (C)"))
+				voteres = "**" + votee.tag + "** is now the captain of the " + votingteam + "!"
+				cptxt = drFind(votee)
+				votee.removeRole(getRole(cptxt))
+				votee.addRole(getRole(cptxt + " (C)"))
 			}
 			
-			if (boo > yee) {voteres = "**" + client.users.find("id", votee) + "** will not become the captain of the " + votingteam + "."}
+			if (boo > yee) {voteres = "**" + votee.tag + "** will not become the captain of the " + votingteam + "."}
 				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
@@ -619,7 +619,7 @@ client.on('message', msg => {
 							if (voting != 1) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
-										votee = cmd[3].slice((cmd[3].length - 19), 20)
+										var votee = client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20))
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), 18))
