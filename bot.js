@@ -118,7 +118,10 @@ client.on('message', msg => {
 			if (timeout === 1) {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
-			if (yee > boo) {voteres = "*" + client.users.find("id", votee) + "* is now the captain of the " + votingteam + "!"}
+			if (yee > boo) {voteres = "*" + client.users.find("id", votee) + "* is now the captain of the " + votingteam + "!"
+			var cptxt = drFind(msg.member)
+			client.users.find("id", votee).removeRole(getRole(cptxt))}
+			client.users.find("id", votee).addRole(getRole(cptxt + " (C)"))
 			if (boo > yee) {voteres = "*" + client.users.find("id", votee) + "* will not become the captain of the " + votingteam + "."}
 			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
