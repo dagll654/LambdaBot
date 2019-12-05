@@ -563,12 +563,11 @@ client.on('message', msg => {
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
-							
-								break
-								default:
-									msg.reply("incorrect usage. Avaliable arguments: resign, list.")
-									break
 								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
+								break
+							default:
+								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
+								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 				default:
