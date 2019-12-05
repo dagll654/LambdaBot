@@ -552,14 +552,16 @@ client.on('message', msg => {
 						switch (cmd[2]) {
 							case "list": 
 								var cpts = ""
-								var i = 0
-								cdeproles.forEach(r => {
-									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != []) {
-										cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
-									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
+								var lolarr = []
+								cdeproles.forEach(r, i => {
+									//if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != [] ) {
+									//	cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+									//} else {cpts += r.replace(/ (C)/, " - ") + "none"}
+									//if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
+									lolarr.push({"name": r, "index": i})
 								})
-								ch.send(cpts)
+								//ch.send(cpts)
+								console.log(lolarr)
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: list.")
