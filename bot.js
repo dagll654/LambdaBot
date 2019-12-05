@@ -322,7 +322,7 @@ client.on('message', msg => {
 				voteeuser.addRole(getRole(votingteam + " (C)"))
 			}
 			
-			if (boo >= yee) {voteres = "**" + voteeuser.tag + "** will not become the captain of the " + votingteam + "."}
+			if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
 				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
@@ -623,6 +623,7 @@ client.on('message', msg => {
 								break
 							case "vote":
 							if (voting != 1) {
+								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), 20)))) {
 								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), 20))) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
@@ -633,6 +634,7 @@ client.on('message', msg => {
 
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
+								} else {msg.reply("the specified user is not an employee."); break}
 								} else {msg.reply("the specified user is not in the same department as you."); break}
 								break
 						} else {msg.reply("an election is in process currently!"); break}
