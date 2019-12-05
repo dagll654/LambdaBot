@@ -90,7 +90,7 @@ client.on('message', msg => {
 		dbvars[2] = 0
 		msg.react('✅')
 		msg.react('🚫')
-		const filter = (reaction, user) => reaction.emoji.name === ('✅' || '🚫') && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id)
+		const filter = (reaction, user) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id)
 		const collector = msg.createReactionCollector(filter, { time: 15000 });
 		collector.on('collect', r => console.log(`Collected ${r.emoji.name}`));
 		collector.on('end', collected => console.log(`Collected ${collected.size} items`));
