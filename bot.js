@@ -130,15 +130,15 @@ client.on('message', msg => {
 			]
 	const cdeproles = [
 			"Control Team (C)",
-			"Information Team (C)",
-			"Security Team (C)",
-			"Training Team (C)",
-			"Central Team (C)",
-			"Welfare Team (C)",
-			"Disciplinary Team (C)",
-			"Record Team (C)",
-			"Extraction Team (C)",
-			"Architecture Team (C)"
+			"Information Team (C)"//,
+			//"Security Team (C)",
+			//"Training Team (C)",
+			//"Central Team (C)",
+			//"Welfare Team (C)",
+			//"Disciplinary Team (C)",
+			//"Record Team (C)",
+			//"Extraction Team (C)",
+			//"Architecture Team (C)"
 			]
 	deproles.forEach(r => roles1.push(r))
 	
