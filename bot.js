@@ -317,7 +317,7 @@ client.on('message', msg => {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
 			if (yee > boo) {
-				voteres = "**" + voteeuser.tag + "** is now the captain of the " + votingteam + "!"
+				voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
 				voteeuser.removeRole(getRole(votingteam))
 				voteeuser.addRole(getRole(votingteam + " (C)"))
 			}
