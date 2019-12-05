@@ -582,7 +582,7 @@ client.on('message', msg => {
 										ch.send("Initiating vote for **" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
 	// Vote stuff
 	const filter2 = m => m.content.startsWith("Initiating vote for ");
-	const collector2 = message.channel.createMessageCollector(filter2, { time: 16000 });
+	const collector2 = msg.channel.createMessageCollector(filter2, { time: 16000 });
 	collector2.on('collect', m => {
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
