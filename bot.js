@@ -98,9 +98,9 @@ client.on('message', msg => {
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
 			if (rct.emoji.name === '✅') {yee++}
-			if rct.emoji.name === '🚫') {boo++}
+			if (rct.emoji.name === '🚫') {boo++}
 			vtd += rct.users.map(u => u.id)[rct.users.map(u => u.id).size - 1]
-			if vtd >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).size {
+			if (vtd.size >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).size) {
 			timeout = 0
 			collector.stop()
 			}
