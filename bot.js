@@ -86,52 +86,6 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
-	
-	// Vote stuff
-	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
-		voting = 1
-		dbvars[2] = 0
-		timeout = 1
-		vtd = []
-		yee = 0
-		boo = 0
-		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
-		msg.react('✅')
-		msg.react('🚫')
-		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
-		const collector = msg.createReactionCollector(filter, { time: 15000 })
-		collector.on('collect', rct => {//${rct.emoji.name}
-			lru = rct.users.map(u => u.id).pop()
-			lrn = client.users.find("id", lru)
-			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
-			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
-			vtd.push(lru)
-			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
-			timeout = 0
-			collector.stop()
-			}
-		})
-		collector.on('end', collected => {
-			voting = 0
-			if (timeout === 1) {
-				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
-		} else {
-			if (yee > boo) {
-				voteres = "**" + votee.tag + "** is now the captain of the " + votingteam + "!"
-				cptxt = drFind(votee)
-				votee.removeRole(getRole(cptxt))
-				votee.addRole(getRole(cptxt + " (C)"))
-			}
-			
-			if (boo > yee) {voteres = "**" + votee.tag + "** will not become the captain of the " + votingteam + "."}
-				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
-		
-				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
-		}
-		})
-	}
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
@@ -322,6 +276,52 @@ client.on('message', msg => {
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
 		yeet(8)
+	}
+	
+	// Vote stuff
+	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
+		voting = 1
+		dbvars[2] = 0
+		timeout = 1
+		vtd = []
+		yee = 0
+		boo = 0
+		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
+		msg.react('✅')
+		msg.react('🚫')
+		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
+		const collector = msg.createReactionCollector(filter, { time: 15000 })
+		collector.on('collect', rct => {//${rct.emoji.name}
+			lru = rct.users.map(u => u.id).pop()
+			lrn = client.users.find("id", lru)
+			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
+			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
+			vtd.push(lru)
+			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
+			timeout = 0
+			collector.stop()
+			}
+		})
+		collector.on('end', collected => {
+			voting = 0
+			if (timeout === 1) {
+				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
+		} else {
+			if (yee > boo) {
+				voteres = "**" + votee.tag + "** is now the captain of the " + votingteam + "!"
+				cptxt = drFind(votee)
+				votee.removeRole(getRole(cptxt))
+				votee.addRole(getRole(cptxt + " (C)"))
+			}
+			
+			if (boo > yee) {voteres = "**" + votee.tag + "** will not become the captain of the " + votingteam + "."}
+				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
+		
+				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
+		}
+		})
 	}
 	
 	// If the message's author is a bot, just ignore it
