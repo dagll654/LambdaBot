@@ -108,7 +108,7 @@ client.on('message', msg => {
 		collector.on('end', collected => {
 			if (timeout = 1) {
 				ch.send("Cancelling the vote (timeout)")
-			} 
+			} else {ch.send("Voting over.")}
 			console.log(`${vtd.size} people voted: ${yee} yee and ${boo} boo`)
 		})
 	}
