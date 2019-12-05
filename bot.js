@@ -553,12 +553,12 @@ client.on('message', msg => {
 							case "list": 
 								var cpts = ""
 								var lolarr = []
-								cdeproles.forEach(r, i => {
+								cdeproles.forEach(r => {
 									//if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != [] ) {
 									//	cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									//} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									//if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
-									lolarr.push({"name": r, "index": i})
+									lolarr.push({"name": r, "index": "420"})
 								})
 								//ch.send(cpts)
 								console.log(lolarr)
