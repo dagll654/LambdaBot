@@ -623,6 +623,7 @@ client.on('message', msg => {
 								break
 							case "vote":
 							if (voting != 1) {
+								if (drFind(DELTAS.members.get("id", cmd[3].slice((cmd[3].length - 19), 20))) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
 										dbvars[2] = 1
@@ -632,6 +633,7 @@ client.on('message', msg => {
 
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
+								} else {msg.reply("the specified user is not in the same department as you."); break}
 								break
 						} else {msg.reply("an election is in process currently!"); break}
 						} 
