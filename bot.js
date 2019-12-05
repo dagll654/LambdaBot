@@ -115,10 +115,9 @@ client.on('message', msg => {
 			if (timeout === 1) {
 				ch.send("Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.")
 		} else {
-			if (yee > boo) {
+			if (yee > boo) {}
 			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n `)
-			
-		}
+		
 			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 		}
 		})
