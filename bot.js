@@ -18,7 +18,6 @@ const Discord = require('discord.js');
  quotelog = []
  votingteam = ""
  voting = 0
- var voteeuser = client.users.find("id", '143261987575562240')
  
  
 client.on('ready', () => {
@@ -285,6 +284,7 @@ client.on('message', msg => {
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
 		voteeuser = client.users.find("id", mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 19), 20))
+		console.log("THIS SHIT " + mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 19), 20))
 		dbvars[2] = 0
 		timeout = 1
 		vtd = [] 
@@ -623,12 +623,10 @@ client.on('message', msg => {
 							if (voting != 1) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
-										var votee = cmd[3].slice((cmd[3].length - 19), 20)
-										var voteeuser = client.users.find("id", votee)
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), 20))							
-										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 1500)
+										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
