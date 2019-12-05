@@ -101,7 +101,7 @@ client.on('message', msg => {
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lru} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lru} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
-			if (vtd.size >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).size) {
+			if (vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) {
 			timeout = 0
 			collector.stop()
 			}
@@ -110,7 +110,7 @@ client.on('message', msg => {
 			if (timeout = 1) {
 				ch.send("Cancelling the vote (timeout)")
 			} else {ch.send("Voting over.")}
-			console.log(`${vtd.size} people voted: ${yee} yee and ${boo} boo`)
+			console.log(`${vtd.length} people voted: ${yee} yee and ${boo} boo`)
 		})
 	}
 		
