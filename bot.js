@@ -564,7 +564,7 @@ client.on('message', msg => {
 							case "list": 
 								var cpts = ""
 								cdeproles.forEach(r => {
-									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) === undefined) === false) {
+									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
 										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
 									if (cdeproles.indexOf(r) < (cdeproles.length + 5)) {cpts += ", "} else {cpts += "."}
@@ -597,7 +597,7 @@ client.on('message', msg => {
 							case "list": 
 								var cpts = ""
 								cdeproles.forEach(r => {
-									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) === undefined) === false) {
+									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
 										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
 									if (cdeproles.indexOf(r) < (cdeproles.length + 5)) {cpts += ", "} else {cpts += "."}
