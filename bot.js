@@ -543,6 +543,7 @@ client.on('message', msg => {
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!dep captain resign)")}
+					break
 				case "captain": {
 					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						if (true) {return}
