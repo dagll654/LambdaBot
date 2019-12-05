@@ -572,14 +572,6 @@ client.on('message', msg => {
 								break
 							case "vote":
 							if (voting != 1) {
-								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
-									if (cmd[3].startsWith("<@")) {
-										var votee = cmd[3].slice((cmd[3].length - 19), 20)
-										var voteeuser = client.users.find("id", votee)
-										dbvars[2] = 1
-										votingteam = drFind(msg.member)
-										console.log(cmd[3].slice((cmd[3].length - 19), 20))
-										ch.send("Initiating vote for **" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
 	// Vote stuff
 	const filter2 = cm => cm.content.startsWith("Initiating vote for ");
 	const collector2 = msg.channel.createMessageCollector(filter2, { time: 16000 });
@@ -630,6 +622,15 @@ client.on('message', msg => {
 		})
 	}
 	})
+								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+									if (cmd[3].startsWith("<@")) {
+										var votee = cmd[3].slice((cmd[3].length - 19), 20)
+										var voteeuser = client.users.find("id", votee)
+										dbvars[2] = 1
+										votingteam = drFind(msg.member)
+										console.log(cmd[3].slice((cmd[3].length - 19), 20))
+										ch.send("Initiating vote for **" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
+
 									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
 								break
