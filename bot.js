@@ -574,8 +574,8 @@ client.on('message', msg => {
 										cpts += r.replace(/ (C)/, " - ") + msg.guild.roles.get(getRole(r)).members.map(m=>m.user.tag)[0]
 									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
-									ch.send(cpts)
 								})
+								ch.send(cpts)
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
