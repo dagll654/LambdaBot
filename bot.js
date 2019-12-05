@@ -567,7 +567,7 @@ client.on('message', msg => {
 									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
 										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
-									if (cdeproles.indexOf(r) < (cdeproles.length + 5)) {cpts += ", "} else {cpts += "."}
+									if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
 								})
 								ch.send(cpts)
 								break
@@ -600,7 +600,7 @@ client.on('message', msg => {
 									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
 										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
-									if (cdeproles.indexOf(r) < (cdeproles.length + 5)) {cpts += ", "} else {cpts += "."}
+									if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
 								})
 								ch.send(cpts)
 								break
