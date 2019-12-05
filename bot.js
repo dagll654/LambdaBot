@@ -581,24 +581,24 @@ client.on('message', msg => {
 										console.log(cmd[3].slice((cmd[3].length - 19), 20))
 										ch.send("Initiating vote for **" + client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20)).tag + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
 	// Vote stuff
-	const filter2 = m => m.content.startsWith("Initiating vote for ");
+	const filter2 = cm => cm.content.startsWith("Initiating vote for ");
 	const collector2 = msg.channel.createMessageCollector(filter2, { time: 16000 });
-	collector2.on('collect', m => {
+	collector2.on('collect', cm => {
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
 		voteeuser = client.users.find("id", votee)
 		dbvars[2] = 0
 		timeout = 1
-		vtd = []
+		vtd = [] 
 		yee = 0
 		boo = 0
 		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
 			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
 		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
-		msg.react('✅')
-		msg.react('🚫')
+		cm.react('✅')
+		cm.react('🚫')
 		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
-		const collector = msg.createReactionCollector(filter, { time: 15000 })
+		const collector = cm.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
 			lru = rct.users.map(u => u.id).pop()
 			lrn = client.users.find("id", lru)
