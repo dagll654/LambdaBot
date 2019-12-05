@@ -283,7 +283,7 @@ client.on('message', msg => {
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
-		voteeuser = client.users.find("id", mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 22))
+		voteeuser = DELTAS.members.find("id", mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 22))
 		console.log(voteeuser)
 		console.log("THIS SHIT " + mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 22))
 		dbvars[2] = 0
