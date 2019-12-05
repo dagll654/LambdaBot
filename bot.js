@@ -565,10 +565,10 @@ client.on('message', msg => {
 								var cpts = ""
 								var i = 0
 								cdeproles.forEach(r => {
-									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != []) {
+									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != undefined) {
 										cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
-									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
+									if (i < (cdeproles.length - 1)) {cpts += ", "; i++} else {cpts += "."}
 								})
 								ch.send(cpts)
 								break
