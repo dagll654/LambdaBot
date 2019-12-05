@@ -391,6 +391,9 @@ client.on('message', msg => {
 				case "atthem":
 					ch.send("@everyone")
 					break
+				case "roleraw":
+					ch.send(getRole(cmd1[2])
+					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
 					.setTitle(abn.abn[0].number)
