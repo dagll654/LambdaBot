@@ -91,7 +91,7 @@ client.on('message', msg => {
 		msg.react('✅')
 		msg.react('🚫')
 		const filter = (reaction, user) => reaction.emoji.name === ('✅' || '🚫') && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id)
-		const collector = message.createReactionCollector(filter, { time: 15000 });
+		const collector = msg.createReactionCollector(filter, { time: 15000 });
 		collector.on('collect', r => console.log(`Collected ${r.emoji.name}`));
 		collector.on('end', collected => console.log(`Collected ${collected.size} items`));
 	}
