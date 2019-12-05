@@ -549,24 +549,26 @@ client.on('message', msg => {
 						break
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						switch (cmd[2]) {
-							case "resing":
-								msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
-								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
-								collector.on('collect', cmsg => {
-								if (cmsg.content === "y") {
-									msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
-									var cptxt = drFind(msg.member)
-									msg.member.removeRole(getRole(cptxt + " (C)"))
-									msg.member.giveRole(getRole(cptxt))
-									collector.stop()
-								}
-								if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
-								})
+							case "resign":
+								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
+									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+									collector.on('collect', cmsg => {
+									if (cmsg.content === "y") {
+										msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
+										var cptxt = drFind(msg.member)
+										msg.member.removeRole(getRole(cptxt + " (C)"))
+										msg.member.addRole(getRole(cptxt))
+										collector.stop()
+									}
+									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
+									})
 							
 								break
-							default:
-								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
-								break
+								default:
+									msg.reply("incorrect usage. Avaliable arguments: resign, list.")
+									break
+								} else {msg.reply("you are not a captain!")}
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 				default:
