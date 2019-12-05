@@ -13,8 +13,8 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
- dbvars = [0, 1]
- dbvnames = ['debugduck', 'debugsay']
+ dbvars = [0, 1, 0]
+ dbvnames = ['debugduck', 'debugsay', 'debugvote']
  quotelog = []
 
 client.on('ready', () => {
@@ -83,6 +83,13 @@ client.on('message', msg => {
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
+	
+	// Vote stuff
+	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1)) {
+		dbvars[2] === 0
+		msg.react('✅')
+		msg.react('🚫')
+	}
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
@@ -566,6 +573,13 @@ client.on('message', msg => {
 							case "list": 
 								// At the end (non-restricted)
 								break
+							case "vote":
+								if (cmd[3]) {
+									dbvars[2] = 1
+									ch.send("Initiating vote for " + cmd[3] + " to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
+								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
+							
+								break
 						}
 						
 					// Captain commands
@@ -606,9 +620,8 @@ client.on('message', msg => {
 							})
 							ch.send(cpts)
 							break
-						default:
-							break
 					}
+					break
 				}
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
