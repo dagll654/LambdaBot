@@ -130,15 +130,15 @@ client.on('message', msg => {
 			]
 	const cdeproles = [
 			"Control Team (C)",
-			"Information Team (C)"//,
-			//"Security Team (C)",
-			//"Training Team (C)",
-			//"Central Team (C)",
-			//"Welfare Team (C)",
-			//"Disciplinary Team (C)",
-			//"Record Team (C)",
-			//"Extraction Team (C)",
-			//"Architecture Team (C)"
+			"Information Team (C)",
+			"Security Team (C)",
+			"Training Team (C)",
+			"Central Team (C)",
+			"Welfare Team (C)",
+			"Disciplinary Team (C)",
+			"Record Team (C)",
+			"Extraction Team (C)",
+			"Architecture Team (C)"
 			]
 	deproles.forEach(r => roles1.push(r))
 	
@@ -563,15 +563,14 @@ client.on('message', msg => {
 						switch (cmd[2]) {
 							case "list": 
 								var cpts = ""
-								var lolarr = []
-								for (i = 0; i < cdeproles.length; i++) {
-									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != [] ) {
+								var i = 0
+								cdeproles.forEach(r => {
+									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != []) {
 										cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
 									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
-								}
-								//ch.send(cpts)
-								console.log(lolarr)
+								})
+								ch.send(cpts)
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: list.")
