@@ -18,6 +18,7 @@ const Discord = require('discord.js');
  quotelog = []
  votingteam = ""
  votee = ""
+ voting = 0
 
 client.on('ready', () => {
 	
@@ -88,6 +89,7 @@ client.on('message', msg => {
 	
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
+		voting = 1
 		dbvars[2] = 0
 		timeout = 1
 		vtd = []
@@ -112,11 +114,13 @@ client.on('message', msg => {
 			}
 		})
 		collector.on('end', collected => {
+			voting = 0
 			if (timeout === 1) {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
-			if (yee > boo) {}
-			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n `)
+			if (yee > boo) {voteres = "*" + client.users.find("id", votee) + "* is now the captain of the " + votingteam + "!"}
+			if (boo > yee) {voteres = "*" + client.users.find("id", votee) + "* will not become the captain of the " + votingteam + "."}
+			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 		}
@@ -606,15 +610,17 @@ client.on('message', msg => {
 								// At the end (non-restricted)
 								break
 							case "vote":
-								if (cmd[3]) {
-									dbvars[2] = 1
-									votingteam = drFind(msg.member)
-									ch.send("Initiating vote for " + cmd[3] + " to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
-								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
-							
+								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+									if (cmd[3].startsWith("<@!")) {
+										votee = cmd[3].slice(3, 18)
+										dbvars[2] = 1
+										votingteam = drFind(msg.member)
+										ch.send("Initiating vote for *" + client.users.find("id", cmd[3].slice(3, 18)).tag + "* to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
+									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
+								} else {msg.reply("Your department already has a captain, *" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "*!")}
 								break
 						}
-						
+						//DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id)
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
