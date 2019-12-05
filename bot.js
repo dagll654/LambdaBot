@@ -392,7 +392,7 @@ client.on('message', msg => {
 					ch.send("@everyone") 
 					break
 				case "roleraw":
-					console.log(getRole(cmd1[2])
+					console.log(getRole(cmd1[2]))
 					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
