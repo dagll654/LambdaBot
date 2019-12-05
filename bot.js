@@ -279,10 +279,8 @@ client.on('message', msg => {
 		yeet(8)
 	}
 	
-
-	
 	// If the message's author is a bot, just ignore it
-	if(msg.author.bot && ((msg.content.startsWith("Initiating vote for ") === false)) return;
+	if (msg.author.bot && ((msg.content.startsWith("Initiating vote for ") === false))) return;
 	
 	// Command check
 	if (mesc.startsWith("!")) {
