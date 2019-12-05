@@ -97,8 +97,8 @@ client.on('message', msg => {
 		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
-			if (rct.emoji.name === '✅') {yee++}
-			if (rct.emoji.name === '🚫') {boo++}
+			if (rct.emoji.name === '✅') {yee++; console.log(`${rct.users.map(u => u.id)[rct.users.map(u => u.id).size - 1]} voted yee!`)}
+			if (rct.emoji.name === '🚫') {boo++; console.log(`${rct.users.map(u => u.id)[rct.users.map(u => u.id).size - 1]} voted boo!`)}
 			vtd += rct.users.map(u => u.id)[rct.users.map(u => u.id).size - 1]
 			if (vtd.size >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).size) {
 			timeout = 0
@@ -108,7 +108,8 @@ client.on('message', msg => {
 		collector.on('end', collected => {
 			if (timeout = 1) {
 				ch.send("Cancelling the vote (timeout)")
-			} else {console.log(`${vtd.size} people voted: ${yee} yee and ${boo} boo`)}
+			} 
+			console.log(`${vtd.size} people voted: ${yee} yee and ${boo} boo`)
 		})
 	}
 		
