@@ -392,7 +392,12 @@ client.on('message', msg => {
 					ch.send("@everyone") 
 					break
 				case "roleraw":
-					console.log(getRole(cmd1[2]))
+					var rtmp = ""
+					for (i = 2; i < cmd1.length; i++) {
+						rtmp += cmd1[i]
+						if (i < (cmd1.length - 1)) {rtmp += " "}
+					}
+					console.log(getRole(rtmp))
 					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
@@ -553,13 +558,12 @@ client.on('message', msg => {
 							case "list": 
 								var cpts = ""
 								var lolarr = []
-								cdeproles.forEach(r => {
-									//if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != [] ) {
-									//	cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-									//} else {cpts += r.replace(/ (C)/, " - ") + "none"}
-									//if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
-									lolarr.push(getRole(r).id)
-								})
+								for (i = 0; i < cdeproles.length; i++) {
+									if (DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag) != [] ) {
+										cpts += r.replace(/ (C)/, " - ") + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+									} else {cpts += r.replace(/ (C)/, " - ") + "none"}
+									if (i < (cmd1.length - 1)) {cpts += ", "; i++} else {cpts += "."}
+								}
 								//ch.send(cpts)
 								console.log(lolarr)
 								break
