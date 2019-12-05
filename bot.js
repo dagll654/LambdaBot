@@ -113,7 +113,7 @@ client.on('message', msg => {
 		})
 		collector.on('end', collected => {
 			if (timeout === 1) {
-				ch.send("Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.")
+				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
 			if (yee > boo) {}
 			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n `)
