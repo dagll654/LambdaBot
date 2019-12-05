@@ -286,6 +286,8 @@ client.on('message', msg => {
 		voteeuser = DELTAS.members.find("id", mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 22))
 		console.log(voteeuser)
 		console.log("THIS SHIT " + mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 22))
+		cptxt = drFind(voteeuser)
+		console.log(drFind(voteeuser))
 		dbvars[2] = 0
 		timeout = 1
 		vtd = [] 
@@ -316,8 +318,6 @@ client.on('message', msg => {
 		} else {
 			if (yee > boo) {
 				voteres = "**" + voteeuser.tag + "** is now the captain of the " + votingteam + "!"
-				cptxt = drFind(voteeuser)
-				console.log(drFind(voteeuser))
 				voteeuser.removeRole(getRole(cptxt).id)
 				voteeuser.addRole(getRole(cptxt + " (C)").id)
 			}
