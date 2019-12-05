@@ -88,12 +88,28 @@ client.on('message', msg => {
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		dbvars[2] = 0
+		timeout = 1
+		vtd = []
+		yee = 0
+		boo = 0
 		msg.react('✅')
 		msg.react('🚫')
-		const filter = (reaction, user) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id)
-		const collector = msg.createReactionCollector(filter, { time: 15000 });
-		collector.on('collect', r => console.log(`Collected ${r.emoji.name}`));
-		collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
+		const collector = msg.createReactionCollector(filter, { time: 15000 })
+		collector.on('collect', rct => {//${rct.emoji.name}
+			if (rct.emoji.name === '✅') {yee++}
+			if rct.emoji.name === '🚫') {boo++}
+			vtd += rct.users.map(u => u.id)[rct.users.map(u => u.id).size - 1]
+			if vtd >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).size {
+			timeout = 0
+			collector.stop()
+			}
+		})
+		collector.on('end', collected => {
+			if (timeout = 1) {
+				ch.send("Cancelling the vote (timeout)")
+			} else {console.log(`${vtd.size} people voted: ${yee} yee and ${boo} boo`)}
+		})
 	}
 		
 	// Duck club secretiveness ensurance
