@@ -121,8 +121,8 @@ client.on('message', msg => {
 		}
 			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 		}
-		
-	}}
+		})
+	}
 		
 	// Duck club secretiveness ensurance
 	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
