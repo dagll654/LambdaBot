@@ -530,7 +530,7 @@ client.on('message', msg => {
 					break
 				case "leave":
 					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
@@ -543,7 +543,7 @@ client.on('message', msg => {
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!dep captain resign)")}
-				case "captain":
+				case "captain": {
 					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						if (true) {return}
 						break
@@ -579,6 +579,7 @@ client.on('message', msg => {
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 					break
+				}
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
 					break
