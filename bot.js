@@ -568,7 +568,7 @@ client.on('message', msg => {
 								default:
 									msg.reply("incorrect usage. Avaliable arguments: resign, list.")
 									break
-								} else {msg.reply("you are not a captain!")}
+								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 				default:
