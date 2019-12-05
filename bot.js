@@ -388,6 +388,12 @@ client.on('message', msg => {
 					lambHook.send("test")
 					console.log("Debug command !debug hook noticed.")
 					break
+				case "roletest":
+					cdeproles.forEach(r => {
+						rtemp = getRole(r)
+						console.log(rtemp)
+					})
+					break
 				case "atthem":
 					ch.send("@everyone") 
 					break
@@ -486,9 +492,9 @@ client.on('message', msg => {
 			if (i < (cmd1.length - 1)) {rtmp += " "}
 		}
 		// If the role is stated to be operable in the relevant array
-		if (roles1.includes(rtmp)) {
+		if (ncdeproles.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
-				if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+				if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					// Find the role among the guild's roles and add it
 					msg.member.addRole(getRole(rtmp))
 					ch.send("Successfully given the specified role to <@" + msg.author.id + ">.")
