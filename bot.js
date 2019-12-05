@@ -389,7 +389,7 @@ client.on('message', msg => {
 					console.log("Debug command !debug hook noticed.")
 					break
 				case "atthem":
-					ch.send("@everyone")
+					ch.send("@everyone") //
 					break
 				case "roleraw":
 					console.log(getRole(cmd1[2])
