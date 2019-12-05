@@ -16,6 +16,7 @@ const Discord = require('discord.js');
  dbvars = [0, 1, 0]
  dbvnames = ['debugduck', 'debugsay', 'debugvote']
  quotelog = []
+ votingteam = ""
 
 client.on('ready', () => {
 	
@@ -85,10 +86,14 @@ client.on('message', msg => {
 	var mesc = msg.content
 	
 	// Vote stuff
-	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1)) {
-		dbvars[2] === 0
+	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
+		dbvars[2] = 0
 		msg.react('✅')
 		msg.react('🚫')
+		const filter = (reaction, user) => reaction.emoji.name === ('✅' || '🚫') && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id)
+		const collector = message.createReactionCollector(filter, { time: 15000 });
+		collector.on('collect', r => console.log(`Collected ${r.emoji.name}`));
+c		ollector.on('end', collected => console.log(`Collected ${collected.size} items`));
 	}
 		
 	// Duck club secretiveness ensurance
@@ -576,6 +581,7 @@ client.on('message', msg => {
 							case "vote":
 								if (cmd[3]) {
 									dbvars[2] = 1
+									votingteam = drFind(msg.member)
 									ch.send("Initiating vote for " + cmd[3] + " to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")
 								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 							
