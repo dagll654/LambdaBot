@@ -229,7 +229,7 @@ client.on('message', msg => {
 			}
 		}}
 		if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-		for (i = 0; i =< mmbr.roles.map(r => r.name).length; i++) {
+		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
 			if (cdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
 				ret = ncdeproles[cdeproles.indexOf(mmbr.roles.map(r => r.name)[i])]
 			}
