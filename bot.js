@@ -98,7 +98,7 @@ client.on('message', msg => {
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
 			lru = rct.users.map(u => u.id).pop()
-			lrn = DELTAS.fetchMember(lru)
+			lrn = Client.fetchUser(lru)
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
