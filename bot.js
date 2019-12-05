@@ -281,6 +281,7 @@ client.on('message', msg => {
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
+		voteeuser = client.users.find("id", votee)
 		dbvars[2] = 0
 		timeout = 1
 		vtd = []
@@ -310,13 +311,13 @@ client.on('message', msg => {
 				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
 		} else {
 			if (yee > boo) {
-				voteres = "**" + votee.tag + "** is now the captain of the " + votingteam + "!"
+				voteres = "**" + voteeuser.tag + "** is now the captain of the " + votingteam + "!"
 				cptxt = drFind(votee)
-				votee.removeRole(getRole(cptxt))
-				votee.addRole(getRole(cptxt + " (C)"))
+				voteeuser.removeRole(getRole(cptxt))
+				voteeuser.addRole(getRole(cptxt + " (C)"))
 			}
 			
-			if (boo > yee) {voteres = "**" + votee.tag + "** will not become the captain of the " + votingteam + "."}
+			if (boo > yee) {voteres = "**" + voteeuser.tag + "** will not become the captain of the " + votingteam + "."}
 				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 		
 				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
@@ -619,7 +620,7 @@ client.on('message', msg => {
 							if (voting != 1) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 									if (cmd[3].startsWith("<@")) {
-										var votee = client.users.find("id", cmd[3].slice((cmd[3].length - 19), 20))
+										var votee = cmd[3].slice((cmd[3].length - 19), 20)
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), 20))
