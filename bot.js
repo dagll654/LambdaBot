@@ -547,7 +547,7 @@ client.on('message', msg => {
 					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						if (true) {return}
 						break
-					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
