@@ -559,23 +559,16 @@ client.on('message', msg => {
 					} else {msg.reply("captains cannot simply leave their team! (!dep captain resign)")}
 					break
 				case "captain": {
+					
+					// Non-captain commands
 					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "list": 
-								var cpts = ""
-								cdeproles.forEach(r => {
-									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
-										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
-									if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
-								})
-								ch.send(cpts)
-								break
-							default:
-								msg.reply("incorrect usage. Avaliable arguments: list.")
+								// At the end (non-restricted)
 								break
 						}
-						break
+						
+					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "resign":
@@ -595,21 +588,27 @@ client.on('message', msg => {
 								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
 								break
 							case "list": 
-								var cpts = ""
-								cdeproles.forEach(r => {
-									if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
-										cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-									} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
-									if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
-								})
-								ch.send(cpts)
+								// At the end (non-restricted)
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
 								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
-					break
+					switch (cmd[2]) {
+						case "list":
+							var cpts = ""
+							cdeproles.forEach(r => {
+								if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
+									cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+								} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
+								if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
+							})
+							ch.send(cpts)
+							break
+						default:
+							break
+					}
 				}
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
