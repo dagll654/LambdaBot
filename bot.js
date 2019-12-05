@@ -391,7 +391,7 @@ client.on('message', msg => {
 				case "roletest":
 					cdeproles.forEach(r => {
 						rtemp = getRole(r)
-						console.log(rtemp)
+						console.log(rtemp.id)
 					})
 					break
 				case "atthem":
