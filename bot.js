@@ -93,6 +93,9 @@ client.on('message', msg => {
 		vtd = []
 		yee = 0
 		boo = 0
+		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 		msg.react('✅')
 		msg.react('🚫')
 		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
@@ -105,9 +108,6 @@ client.on('message', msg => {
 			vtd.push(lru)
 			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
 			timeout = 0
-			if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-				reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-			} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 			collector.stop()
 			}
 		})
