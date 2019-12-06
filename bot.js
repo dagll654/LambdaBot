@@ -5,7 +5,7 @@ const Discord = require('discord.js')
   const { Client, RichEmbed } = require('discord.js')
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN)
   const abn = require("./abnb.json")
-  const fs = require("./fs.json")
+  const fs = require("./fs.js")
   const animojis = [
 			"restartsForDays",
 			"pepanger",
