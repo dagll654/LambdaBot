@@ -20,7 +20,7 @@
 			"Record Team (C)",
 			"Extraction Team (C)",
 			"Architecture Team (C)"
-			]
+			],
 	"ncdeproles": [
 			"Control Team",
 			"Information Team",
@@ -32,7 +32,7 @@
 			"Record Team",
 			"Extraction Team",
 			"Architecture Team"
-			]
+			],
 	"cdeproles": [
 			"Control Team (C)",
 			"Information Team (C)",
