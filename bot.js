@@ -83,13 +83,13 @@ client.on('ready', () => {
 			})
 			console.log("To push:")
 			console.log(dbpush)
-			dbpush.forEach(e => {
-			var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
-			connection.query(sql, function (err, result) {
-			if (err) throw err;
-			console.log(`${e.tag} inserted!`)
-			})
-			})
+			//dbpush.forEach(e => {
+			//var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
+			//connection.query(sql, function (err, result) {
+			//if (err) throw err;
+			//console.log(`${e.tag} inserted!`)
+			//})
+			//})
 			if (err) throw err
 			connection.release()
 
