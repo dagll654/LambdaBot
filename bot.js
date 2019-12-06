@@ -24,6 +24,7 @@ const Discord = require('discord.js');
 	});
 	
  var employees = []
+ var dbployees = []
  x = 0 
  x1 = 0
  dbg1 = 0
@@ -68,6 +69,14 @@ client.on('ready', () => {
 		}
 	})
 	console.log(employees)
+	
+	pool.getConnection(function (err, connection) {
+		connection.query(`SELECT * FROM employees`, function (err, result) {	
+			console.log(result)
+			if (err) throw err
+			connection.release()
+		})
+	})
 	
 	// This is secret. Don't look!
 	console.log(DELTAS.roles.get('608255705694076975').members.map(m=>m.user.tag));
