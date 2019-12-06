@@ -1,4 +1,4 @@
-<script type="module">
+{
 const Discord = require('discord.js')
  const db = require('mysql')
  const client = new Discord.Client()
@@ -800,4 +800,4 @@ client.on('message', msg => {
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
 
-</script>
+}
