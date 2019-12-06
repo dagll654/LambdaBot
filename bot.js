@@ -81,6 +81,8 @@ client.on('ready', () => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 				else {dbpush.push({"id": e.id, "tag": e.tag})}
 			})
+			console.log("To push:")
+			console.log(dbpush)
 			dbpush.forEach(e => {
 			var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
 			connection.query(sql, function (err, result) {
@@ -90,8 +92,7 @@ client.on('ready', () => {
 			})
 			if (err) throw err
 			connection.release()
-			console.log("To push:")
-			console.log(dbpush)
+
 		})
 	})
 	
