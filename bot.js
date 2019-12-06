@@ -75,11 +75,11 @@ client.on('ready', () => {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			dbpush = []
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
-			result.forEach(e => dbids.push(e.userid))
+			result.forEach(e => dbids.push(e.userid).toString())
 			console.log(dbids)
 			console.log(dbployees)
 			employees.forEach(e => {
-				if (dbids.includes(Number(e.id))) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
+				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 				else {dbpush.push({"id": e.id, "tag": e.tag})}
 			})
 			console.log("To push:")
