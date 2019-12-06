@@ -520,7 +520,7 @@ client.on('message', msg => {
 					break
 				case "dbase2":
 					pool.getConnection(function (err, connection) {
-						connection.query(`SELECT ${cmd2} FROM users`, function (err, result) {
+						connection.query(`SELECT ${cmd[2]} FROM users`, function (err, result) {
 						connection.release()
 							console.log(result)
 							if (err) throw err
