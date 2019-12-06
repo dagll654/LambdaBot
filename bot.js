@@ -25,6 +25,7 @@ const Discord = require('discord.js');
 	
  var employees = []
  var dbployees = []
+ var dbids = []
  x = 0 
  x1 = 0
  dbg1 = 0
@@ -73,9 +74,10 @@ client.on('ready', () => {
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag}))
+			result.forEach(e => dbids.push(e.userid))
 			console.log(dbployees)
 			employees.forEach(e => {
-				if (dbployees.get("id", e.id) != undefined) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
+				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 			})
 			if (err) throw err
 			connection.release()
