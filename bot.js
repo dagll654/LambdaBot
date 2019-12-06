@@ -74,7 +74,7 @@ client.on('ready', () => {
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			dbpush = []
-			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag}))
+			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
 			result.forEach(e => dbids.push(e.userid))
 			console.log(dbployees)
 			employees.forEach(e => {
@@ -83,13 +83,13 @@ client.on('ready', () => {
 			})
 			console.log("To push:")
 			console.log(dbpush)
-			//dbpush.forEach(e => {
-			//var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
-			//connection.query(sql, function (err, result) {
-			//if (err) throw err;
-			//console.log(`${e.tag} inserted!`)
-			//})
-			//})
+			dbpush.forEach(e => {
+			var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
+			connection.query(sql, function (err, result) {
+			if (err) throw err;
+			console.log(`${e.tag} inserted!`)
+			})
+			})
 			if (err) throw err
 			connection.release()
 
