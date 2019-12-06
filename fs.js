@@ -1,4 +1,4 @@
-function drFind(mmbr) {
+export function drFind(mmbr) {
 		ret = ""
 		if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {

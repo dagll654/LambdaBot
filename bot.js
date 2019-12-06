@@ -31,7 +31,7 @@ const Discord = require('discord.js')
  voting = 0
  
  	// Function for finding the dep role among a member's roles
-	function drFind(){} = f.drFind
+	import{ drFind } from "./fs.js"
  
 client.on('ready', () => {
 	
