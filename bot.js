@@ -36,7 +36,7 @@ client.on('ready', () => {
     if (err) throw err;
     console.log("Database created successfully");
   });
-	}
+	})
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
