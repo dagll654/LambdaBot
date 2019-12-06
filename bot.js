@@ -29,12 +29,16 @@ const Discord = require('discord.js');
  
  
 client.on('ready', () => {
-	
-	conn.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
 
-	
+	conn.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected!");
+	var sql = "SELECT * FROM users";
+	conn.query(sql, function (err, result) {
+	if (err) throw err;
+	console.log(result);
+	});
+});
 	
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
