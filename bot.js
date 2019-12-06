@@ -76,6 +76,7 @@ client.on('ready', () => {
 			dbpush = []
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
 			result.forEach(e => dbids.push(e.userid))
+			console.log(dbids)
 			console.log(dbployees)
 			employees.forEach(e => {
 				if (dbids.includes(Number(e.id))) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
