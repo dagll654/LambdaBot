@@ -29,6 +29,8 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
+ 	// Function for finding the dep role among a member's roles
+	function drFind(mmbr) = fs.drFind
  
 client.on('ready', () => {
 	console.log(employees)
@@ -234,24 +236,6 @@ client.on('message', msg => {
 	function argCheck(arr, argcount) {
 		return arr.length >= argcount
 	}
-	
-	// Function for finding the dep role among a member's roles
-	function drFind(mmbr) {
-		ret = ""
-		if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
-			if (ncdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
-				ret = mmbr.roles.map(r => r.name)[i]
-			}
-		}}
-		if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
-			if (cdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
-				ret = ncdeproles[cdeproles.indexOf(mmbr.roles.map(r => r.name)[i])]
-			}
-		}}
-		return ret
-	} //
 	
 	// Just a function that times the message out in x seconds
 	function yeet(seckslul) {
