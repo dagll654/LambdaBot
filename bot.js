@@ -75,7 +75,7 @@ client.on('ready', () => {
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag}))
 			console.log(dbployees)
 			employees.forEach(e => {
-				if (dbployees.find("id", e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
+				if (dbployees.find("id", e.id) != undefined) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 			})
 			if (err) throw err
 			connection.release()
