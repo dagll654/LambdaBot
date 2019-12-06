@@ -30,15 +30,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {
 
-	conn.connect(function(err) {
-	if (err) throw err;
-	console.log("Connected!");
-	var sql = "SELECT * FROM users";
-	conn.query(sql, function (err, result) {
-	if (err) throw err;
-	console.log(result);
-	});
-});
+	
 	
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
@@ -515,9 +507,26 @@ client.on('message', msg => {
 				case "emojisraw":
 					console.log(DELTAS.emojis)
 					break
-				case "emtest":
-					ch.send(DELTAS.emojis.find("name", "restartsForDays"))
-					break
+				case "dbase1":
+					conn.connect(function(err) {
+						if (err) throw err;
+						console.log("Connected!");
+						var sql = "SELECT * FROM users";
+						conn.query(sql, function (err, result) {
+							if (err) throw err;
+							console.log(result);
+						});
+					});
+				case "dbase2":
+					conn.connect(function(err) {
+						if (err) throw err;
+						console.log("Connected!");
+						var sql = `SELECT ${cmd[2]} FROM users`;
+						conn.query(sql, function (err, result) {
+							if (err) throw err;
+							console.log(result);
+						});
+					});
 				case "var":
 					console.log("Debug command !debug var noticed.")
 					switch (cmd[2]) { 
