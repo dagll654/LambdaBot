@@ -626,20 +626,24 @@ client.on('message', msg => {
 							case "vote":
 							console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))
 							if (voting != 1) {
+								voteeid = ""
+								cmd[3].split("").forEach(c => {
+									if (nmbrs.includes(c)) {voteeid += c}
+								})
 								if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1))))) {
-								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))) === drFind(msg.member)) {
+								if (drFind(DELTAS.members.find("id", voteeid))) {
+								if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
-								} else {msg.reply("the specified user is not an employee."); break}
+								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+								} else if (drFind(DELTAS.members.find("id", voteeid))) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
 								} else {msg.reply("the specified user is not in the same department as you."); break}
 								break
-								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
+								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
 						} 
 						//DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id)
