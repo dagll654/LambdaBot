@@ -10,7 +10,8 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
-	var conn = db.createConnection({
+	var pool        = mysql.createPool({
+	connectionLimit : 3, // default = 10
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
 	password: process.env.DB_PASS,
@@ -508,28 +509,20 @@ client.on('message', msg => {
 					console.log(DELTAS.emojis)
 					break
 				case "dbase1":
-					conn.connect(function(err) {
-						if (err) throw err;
-						console.log("Connected!");
-						var sql = "SELECT * FROM users";
-						conn.query(sql, function (err, result) {
+					pool.getConnection(function (err, connection) {
+						connection.query("SELECT * FROM tblcomment", function (err, rows) {
+						connection.release();
 							if (err) throw err;
-							console.log(result);
 						});
-						conn.release
 					});
 					
 					break
 				case "dbase2":
-					conn.connect(function(err) {
-						if (err) throw err;
-						console.log("Connected!");
-						var sql = `SELECT ${cmd[2]} FROM users`;
-						conn.query(sql, function (err, result) {
+					pool.getConnection(function (err, connection) {
+						connection.query("SELECT 1 FROM tblcomment", function (err, rows) {
+						connection.release();
 							if (err) throw err;
-							console.log(result);
 						});
-						conn.release
 					});
 					
 					break
