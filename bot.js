@@ -65,14 +65,14 @@ client.on('ready', () => {
 	// Getting all of the 'employees' - members with a department role
 	DELTAS.members.forEach(m => {
 		if(drFind(m)) {
-			employees.push({"id": "0", "tag": m.user.tag, "team": drFind(m)})
+			employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 		}
 	})
 	console.log(employees)
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
-			result.forEach(e => dbployees.push([e.userid, e.usertag]))
+			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag}))
 			console.log(dbployees)
 			if (err) throw err
 			connection.release()
