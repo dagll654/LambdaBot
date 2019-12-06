@@ -10,7 +10,7 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
-	var pool        = mysql.createPool({
+	var pool        = db.createPool({
 	connectionLimit : 3, // default = 10
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
