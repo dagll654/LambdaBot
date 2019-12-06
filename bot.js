@@ -13,7 +13,8 @@ const Discord = require('discord.js');
 	var conn = db.createConnection({
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
-	password: process.env.DB_PASS
+	password: process.env.DB_PASS,
+	database: "sql7314688"
 	});
 			
 
