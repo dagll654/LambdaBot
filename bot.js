@@ -187,8 +187,8 @@ client.on('message', msg => {
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign, resign.",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign, resign."
+			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign.",
+			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign."
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -283,11 +283,14 @@ client.on('message', msg => {
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 		voting = 1
-		voteeuser = DELTAS.members.find("id", mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 23))
+		voteeid = ""
+		mesc.split(" ")[3].split("").forEach(c => {
+			if nmbrs.includes(c) {voteeid += c}
+		})
+		voteeuser = DELTAS.members.find("id", voteeid)
 		console.log(voteeuser)
-		console.log("THIS SHIT " + mesc.split(" ")[3].slice((mesc.split(" ")[3].length - 21), 23))
+		console.log("THIS SHIT " + voteeid)
 		cptxt = drFind(voteeuser)
-		console.log(drFind(voteeuser))
 		dbvars[2] = 0
 		timeout = 1
 		vtd = [] 
@@ -645,7 +648,7 @@ client.on('message', msg => {
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "vote":
-								msg.reply("you are your departments captain. If you want someone else to become the captain, type !dep resign first.")
+								msg.reply("you are your department's captain. If you want someone else to become the captain, type !dep resign first.")
 								break
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
