@@ -187,8 +187,8 @@ client.on('message', msg => {
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
-			"Usage: !department/!dep (arguments). Arguments: wip",
-			"Usage: !department/!dep (arguments). Arguments: wip"
+			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign, resign.",
+			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign, resign."
 			]	
 	
 	// An array containing all digits, for convenience of comparing
@@ -624,26 +624,29 @@ client.on('message', msg => {
 							case "vote":
 							console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))
 							if (voting != 1) {
+								if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
 								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1))))) {
 								if (drFind(DELTAS.members.find("id", cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))) === drFind(msg.member)) {
 								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
-									if (cmd[3].startsWith("<@")) {
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-									} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!")}
 								} else {msg.reply("the specified user is not an employee."); break}
 								} else {msg.reply("the specified user is not in the same department as you."); break}
 								break
+								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person")}
 						} else {msg.reply("an election is in process currently!"); break}
 						} 
 						//DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id)
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
+							case "vote":
+								msg.reply("you are your departments captain. If you want someone else to become the captain, type !dep resign first.")
+								break
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
