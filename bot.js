@@ -31,12 +31,6 @@ const Discord = require('discord.js');
  
  
 client.on('ready', () => {
-
-	DELTAS.members.forEach(m => {
-		if(drFind(m)) {
-			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
-		}
-	})
 	console.log(employees)
 	
 	// Getting the Lambda's Deltas guild for easy use
@@ -45,6 +39,11 @@ client.on('ready', () => {
 	
 	// Debug line: logs all members
 	//DELTAS.members.forEach(member => console.log(member.user.username));
+	DELTAS.members.forEach(m => {
+		if(drFind(m)) {
+			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
+		}
+	})
 	
 	// This is secret. Don't look!
 	console.log(DELTAS.roles.get('608255705694076975').members.map(m=>m.user.tag));
