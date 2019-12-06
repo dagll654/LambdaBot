@@ -5,8 +5,7 @@ const Discord = require('discord.js')
   const { Client, RichEmbed } = require('discord.js')
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN)
   const abn = require("./abnb.json")
-  const f = require("./fs.json")
-  <script src="fs.js" type="module"></script>
+  const fs = require("./fs.json")
   const animojis = [
 			"restartsForDays",
 			"pepanger",
@@ -33,7 +32,7 @@ const Discord = require('discord.js')
  voting = 0
  
  	// Function for finding the dep role among a member's roles
-	import{ drFind } from "./fs.js"
+	// fs.drFind
  
 client.on('ready', () => {
 	
@@ -46,8 +45,8 @@ client.on('ready', () => {
 	
 	// Getting all of the 'employees' - members with a department role
 	DELTAS.members.forEach(m => {
-		if(drFind(m)) {
-			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
+		if(fs.drFind(m)) {
+			employees.push({"id": m.id, "tag": m.tag, "team": fs.drFind(m)})
 		}
 	})
 		console.log(employees)
@@ -294,7 +293,7 @@ client.on('message', msg => {
 		})
 		voteeuser = DELTAS.members.find("id", voteeid)
 		console.log("THIS SHIT " + voteeid)
-		cptxt = drFind(voteeuser)
+		cptxt = fs.drFind(voteeuser)
 		dbvars[2] = 0
 		timeout = 1
 		vtd = [] 
@@ -624,12 +623,12 @@ client.on('message', msg => {
 				case "leave":
 					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
+						msg.reply("do you really want to leave the " + fs.drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {
-							msg.reply("you have left the " + drFind(msg.member) + ".") 
-							msg.member.removeRole(getRole(drFind(msg.member)))
+							msg.reply("you have left the " + fs.drFind(msg.member) + ".") 
+							msg.member.removeRole(getRole(fs.drFind(msg.member)))
 							collector.stop()
 						}
 						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
@@ -653,14 +652,14 @@ client.on('message', msg => {
 									if (nmbrs.includes(c)) {voteeid += c}
 								})
 								if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
-								if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
-								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+								if (fs.drFind(DELTAS.members.find("id", voteeid)) === fs.drFind(msg.member)) {
+								if (DELTAS.roles.get(getRole(fs.drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 										dbvars[2] = 1
-										votingteam = drFind(msg.member)
+										votingteam = fs.drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
-										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
+										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + fs.drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(fs.drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
 								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
 								break
 								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
@@ -675,19 +674,19 @@ client.on('message', msg => {
 								break
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
+									msg.reply("do you really want to resign your post as the " + fs.drFind(msg.member) + " captain? **y**/**n**")
 									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 									collector.on('collect', cmsg => {
 									if (cmsg.content === "y") {
-										msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
-										var cptxt = drFind(msg.member)
+										msg.reply("you have resigned as the " + fs.drFind(msg.member) + " captain.") 
+										var cptxt = fs.drFind(msg.member)
 										msg.member.removeRole(getRole(cptxt + " (C)"))
 										msg.member.addRole(getRole(cptxt))
 										collector.stop()
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
-								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
+								} else {msg.reply("you are not the captain of the " + fs.drFind(msg.member) + "!")}
 								break
 							case "list": 
 								// At the end (non-restricted)
