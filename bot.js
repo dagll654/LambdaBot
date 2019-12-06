@@ -72,7 +72,8 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
-			dbployees = result.map(e => {[e.userid, e.usertag]})
+			dbployees.push([e.userid, e.usertag])
+			
 			console.log(dbployees)
 			if (err) throw err
 			connection.release()
