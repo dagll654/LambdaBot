@@ -288,7 +288,6 @@ client.on('message', msg => {
 			if (nmbrs.includes(c)) {voteeid += c}
 		})
 		voteeuser = DELTAS.members.find("id", voteeid)
-		console.log(voteeuser)
 		console.log("THIS SHIT " + voteeid)
 		cptxt = drFind(voteeuser)
 		dbvars[2] = 0
