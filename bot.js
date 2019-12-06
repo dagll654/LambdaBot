@@ -64,7 +64,7 @@ client.on('ready', () => {
 	// Getting all of the 'employees' - members with a department role
 	DELTAS.members.forEach(m => {
 		if(drFind(m)) {
-			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
+			employees.push({"id": "0", "tag": m.user.tag, "team": drFind(m)})
 		}
 	})
 	console.log(employees)
