@@ -517,6 +517,7 @@ client.on('message', msg => {
 							console.log(result);
 						});
 					});
+					break
 				case "dbase2":
 					conn.connect(function(err) {
 						if (err) throw err;
@@ -527,6 +528,7 @@ client.on('message', msg => {
 							console.log(result);
 						});
 					});
+					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
 					switch (cmd[2]) { 
