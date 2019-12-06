@@ -73,11 +73,14 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
+			dbpush = []
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag}))
 			result.forEach(e => dbids.push(e.userid))
 			console.log(dbployees)
 			employees.forEach(e => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
+				else {dbpush.push(e)}
+			console.log(`To push: ${dbpush}`)
 			})
 			if (err) throw err
 			connection.release()
