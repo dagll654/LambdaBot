@@ -33,7 +33,6 @@ const Discord = require('discord.js');
 	function drFind(mmbr) = fs.drFind
  
 client.on('ready', () => {
-	console.log(employees)
 	
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
@@ -41,11 +40,14 @@ client.on('ready', () => {
 	
 	// Debug line: logs all members
 	//DELTAS.members.forEach(member => console.log(member.user.username));
+	
+	// Getting all of the 'employees' - members with a department role
 	DELTAS.members.forEach(m => {
 		if(drFind(m)) {
 			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
 		}
 	})
+		console.log(employees)
 	
 	// This is secret. Don't look!
 	console.log(DELTAS.roles.get('608255705694076975').members.map(m=>m.user.tag));
