@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+ const db = require('mysql');
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
@@ -9,6 +10,12 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
+	var conn = db.createConnection({
+	host: "sql7.freesqldatabase.com",
+	user: "sql7314688",
+	password: process.env.DB_PASS
+	});
+			
 
  x = 0 
  x1 = 0
