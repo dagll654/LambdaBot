@@ -1,4 +1,4 @@
-{
+
 const Discord = require('discord.js')
  const db = require('mysql')
  const client = new Discord.Client()
@@ -6,6 +6,7 @@ const Discord = require('discord.js')
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN)
   const abn = require("./abnb.json")
   const f = require("./fs.json")
+  <script src="fs.js" type="module"></script>
   const animojis = [
 			"restartsForDays",
 			"pepanger",
@@ -800,4 +801,3 @@ client.on('message', msg => {
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
 
-}
