@@ -4,12 +4,17 @@ const Discord = require('discord.js');
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
   const abn = require("./abnb.json");
+  const jn = require("./junk.json");
   const animojis = [
 			"restartsForDays",
 			"pepanger",
 			"animenacing",
 			"Hod"
 			]
+	const deproles = jn.deproles
+	const ncdeproles = jn.ncdeproles
+	const cdeproles = jn.cdeproles
+	
 	var pool        = db.createPool({
 	connectionLimit : 3, // default = 10
 	host: "sql7.freesqldatabase.com",
@@ -17,9 +22,8 @@ const Discord = require('discord.js');
 	password: process.env.DB_PASS,
 	database: "sql7314688"
 	});
-	var employees = []
-			
-
+	
+ var employees = []
  x = 0 
  x1 = 0
  dbg1 = 0
@@ -135,52 +139,7 @@ client.on('message', msg => {
 			]
 	
 	// Department roles
-	const deproles = [
-			"Control Team",
-			"Information Team",
-			"Security Team",
-			"Training Team",
-			"Central Team",
-			"Welfare Team",
-			"Disciplinary Team",
-			"Record Team",
-			"Extraction Team",
-			"Architecture Team",
-			"Control Team (C)",
-			"Information Team (C)",
-			"Security Team (C)",
-			"Training Team (C)",
-			"Central Team (C)",
-			"Welfare Team (C)",
-			"Disciplinary Team (C)",
-			"Record Team (C)",
-			"Extraction Team (C)",
-			"Architecture Team (C)"
-			]
-	const ncdeproles = [
-			"Control Team",
-			"Information Team",
-			"Security Team",
-			"Training Team",
-			"Central Team",
-			"Welfare Team",
-			"Disciplinary Team",
-			"Record Team",
-			"Extraction Team",
-			"Architecture Team"
-			]
-	const cdeproles = [
-			"Control Team (C)",
-			"Information Team (C)",
-			"Security Team (C)",
-			"Training Team (C)",
-			"Central Team (C)",
-			"Welfare Team (C)",
-			"Disciplinary Team (C)",
-			"Record Team (C)",
-			"Extraction Team (C)",
-			"Architecture Team (C)"
-			]
+	// nothing lol cause it's in the beginning now
 	deproles.forEach(r => roles1.push(r))
 	
 	// Messages by the bot that will be deleted indefinitely

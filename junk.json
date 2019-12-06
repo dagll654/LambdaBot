@@ -1,0 +1,51 @@
+{
+	"deproles": [
+			"Control Team",
+			"Information Team",
+			"Security Team",
+			"Training Team",
+			"Central Team",
+			"Welfare Team",
+			"Disciplinary Team",
+			"Record Team",
+			"Extraction Team",
+			"Architecture Team",
+			"Control Team (C)",
+			"Information Team (C)",
+			"Security Team (C)",
+			"Training Team (C)",
+			"Central Team (C)",
+			"Welfare Team (C)",
+			"Disciplinary Team (C)",
+			"Record Team (C)",
+			"Extraction Team (C)",
+			"Architecture Team (C)"
+			]
+	"ncdeproles": [
+			"Control Team",
+			"Information Team",
+			"Security Team",
+			"Training Team",
+			"Central Team",
+			"Welfare Team",
+			"Disciplinary Team",
+			"Record Team",
+			"Extraction Team",
+			"Architecture Team"
+			]
+	"cdeproles": [
+			"Control Team (C)",
+			"Information Team (C)",
+			"Security Team (C)",
+			"Training Team (C)",
+			"Central Team (C)",
+			"Welfare Team (C)",
+			"Disciplinary Team (C)",
+			"Record Team (C)",
+			"Extraction Team (C)",
+			"Architecture Team (C)"
+			]
+
+
+
+}
