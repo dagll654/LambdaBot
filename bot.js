@@ -510,7 +510,7 @@ client.on('message', msg => {
 					break
 				case "dbase1":
 					pool.getConnection(function (err, connection) {
-						connection.query("SELECT * FROM tblcomment", function (err, rows) {
+						connection.query("SELECT * FROM users", function (err, result) {
 						connection.release();
 							if (err) throw err;
 						});
@@ -519,7 +519,7 @@ client.on('message', msg => {
 					break
 				case "dbase2":
 					pool.getConnection(function (err, connection) {
-						connection.query("SELECT 1 FROM tblcomment", function (err, rows) {
+						connection.query("SELECT 1 FROM userst", function (err, result) {
 						connection.release();
 							if (err) throw err;
 						});
