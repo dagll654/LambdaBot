@@ -17,6 +17,7 @@ const Discord = require('discord.js');
 	password: process.env.DB_PASS,
 	database: "sql7314688"
 	});
+	var employees = []
 			
 
  x = 0 
@@ -31,7 +32,12 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {
 
-	
+	DELTAS.members.forEach(m => {
+		if(drFind(m)) {
+			employees.push({"id": m.id, "tag": m.tag, "team": drFind(m)})
+		}
+	})
+	console.log(employees)
 	
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
