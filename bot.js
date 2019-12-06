@@ -512,18 +512,20 @@ client.on('message', msg => {
 					pool.getConnection(function (err, connection) {
 						connection.query("SELECT * FROM users", function (err, result) {
 						connection.release();
+							console.log(result)
 							if (err) throw err;
-						});
-					});
+						})
+					})
 					
 					break
 				case "dbase2":
 					pool.getConnection(function (err, connection) {
 						connection.query("SELECT 1 FROM userst", function (err, result) {
-						connection.release();
-							if (err) throw err;
-						});
-					});
+						connection.release()
+							console.log(result)
+							if (err) throw err
+						})
+					})
 					
 					break
 				case "var":
