@@ -29,7 +29,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {
 	
-	con.connect(function(err) {
+	conn.connect(function(err) {
 	if (err) throw err;
 		console.log("Connected!");
 	});
