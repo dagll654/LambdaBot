@@ -285,7 +285,7 @@ client.on('message', msg => {
 		voting = 1
 		voteeid = ""
 		mesc.split(" ")[3].split("").forEach(c => {
-			if nmbrs.includes(c) {voteeid += c}
+			if (nmbrs.includes(c)) {voteeid += c}
 		})
 		voteeuser = DELTAS.members.find("id", voteeid)
 		console.log(voteeuser)
