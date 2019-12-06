@@ -221,7 +221,7 @@ client.on('message', msg => {
 	
 	// Function for finding the dep role among a member's roles
 	function drFind(mmbr) {
-		ret = void(0)
+		ret = ""
 		if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
 			if (ncdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
@@ -639,7 +639,7 @@ client.on('message', msg => {
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-								} else if ((drFind(DELTAS.members.find("id", voteeid)) === undefined) === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
+								} else if ((drFind(DELTAS.members.find("id", voteeid)) === "") === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
 								break
 								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
