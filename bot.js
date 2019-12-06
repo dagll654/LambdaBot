@@ -79,7 +79,7 @@ client.on('ready', () => {
 			console.log(dbployees)
 			employees.forEach(e => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
-				else {dbpush.push(e)}
+				else {dbpush.push({"id": e.id, "tag": e.tag})}
 			console.log(`To push: ${dbpush}`)
 			})
 			if (err) throw err
