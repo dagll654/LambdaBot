@@ -1,9 +1,10 @@
-const Discord = require('discord.js');
- const db = require('mysql');
- const client = new Discord.Client();
-  const { Client, RichEmbed } = require('discord.js');
-  const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
-  const abn = require("./abnb.json");
+const Discord = require('discord.js')
+ const db = require('mysql')
+ const client = new Discord.Client()
+  const { Client, RichEmbed } = require('discord.js')
+  const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN)
+  const abn = require("./abnb.json")
+  const f = require("./fs.json")
   const animojis = [
 			"restartsForDays",
 			"pepanger",
@@ -30,7 +31,7 @@ const Discord = require('discord.js');
  voting = 0
  
  	// Function for finding the dep role among a member's roles
-	function drFind(mmbr) = fs.drFind
+	function drFind = f.drFind
  
 client.on('ready', () => {
 	
