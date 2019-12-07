@@ -602,6 +602,18 @@ client.on('message', msg => {
 	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
+				case "list":
+					var cpts = ""
+					cdeproles.forEach(r => {
+						empcount = 0
+						empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
+						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
+							cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+						} else {cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - none`}
+						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
+					})
+					ch.send(cpts)
+					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
@@ -697,22 +709,6 @@ client.on('message', msg => {
 								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
-					switch (cmd[1]) {
-						case "list":
-							var cpts = ""
-							cdeproles.forEach(r => {
-								empcount = 0
-								empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
-								if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
-									
-									cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-								} else {cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - none`}
-								if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
-							})
-							ch.send(cpts)
-							break
-					}
-					break
 				}
 				default:
 					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
