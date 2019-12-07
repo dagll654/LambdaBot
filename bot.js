@@ -41,6 +41,11 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
+ 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
+	function fdbPush(e) {
+		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment, "inventorys": e.inventorys, "inventoryw": e.inventoryw})
+	}
+ 
  	// Function for finding the dep role among a member's roles
 	function drFind(mmbr) {
 		ret = ""
@@ -79,7 +84,7 @@ client.on('ready', () => {
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			dbpush = []
-			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
+			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
 			console.log(dbids)
 			employees.forEach(e => {
@@ -498,7 +503,7 @@ client.on('message', msg => {
 				pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) { 
 								dbployees = []
-								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
+								result.forEach(e => fdbPush(e))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
 								curruser = dbployees[dbids.indexOf(cmd[4])]
@@ -629,7 +634,7 @@ client.on('message', msg => {
 						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
-								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
+								result.forEach(e => fdbPush(e))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
 								eqa = curruser.equipment.split("")
