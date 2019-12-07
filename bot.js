@@ -79,7 +79,7 @@ client.on('ready', () => {
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			dbpush = []
-			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
+			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
 			result.forEach(e => dbids.push(e.userid).toString())
 			console.log(dbids)
 			employees.forEach(e => {
@@ -498,7 +498,7 @@ client.on('message', msg => {
 				pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) { 
 								dbployees = []
-								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
+								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
 								curruser = dbployees[dbids.indexOf(cmd[4])]
@@ -629,9 +629,13 @@ client.on('message', msg => {
 						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
-								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
+								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
+								eqa = curruser.split("")
+								eqct = [eqa[2] + 10 * eqa[1] + 100 * eqa[0], eqa[5] + 10 * eqa[4] + 100 * eqa[3]]
+								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
+								console.log(gearc)
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `						LV${Math.ceil(stats[0]/25)} <:fortitude:652534887332577290>${stats[0]}		LV${Math.ceil(stats[1]/25)} <:prudence:652534926503182342> ${stats[1]}		LV${Math.ceil(stats[2]/25)} <:temperance:652534935583981568> ${stats[2]}		LV${Math.ceil(stats[3]/25)} <:justice:652534947378102282> ${stats[3]}`)
