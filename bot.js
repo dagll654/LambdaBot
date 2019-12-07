@@ -633,7 +633,8 @@ client.on('message', msg => {
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
 								eqa = curruser.equipment.split("")
-								eqct = [eqa[2] + 10 * eqa[1] + 100 * eqa[0], eqa[5] + 10 * eqa[4] + 100 * eqa[3]]
+								eqct = [Number(eqa[2]) + 10 * Number(eqa[1]) + 100 * Number(eqa[0]), Number(eqa[5]) + 10 * Number(eqa[4]) + 100 * Number(eqa[3])]
+								console.log(eqct)
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
 								console.log(gearc)
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
