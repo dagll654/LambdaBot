@@ -697,7 +697,7 @@ client.on('message', msg => {
 								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
-					switch (cmd[2]) {
+					switch (cmd[1]) {
 						case "list":
 							var cpts = ""
 							cdeproles.forEach(r => {
