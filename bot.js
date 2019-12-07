@@ -602,7 +602,7 @@ client.on('message', msg => {
 								curruser = dbployees[dbids.indexOf(msg.author.id)]
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `\n\n	<:fortitude:652534887332577290> ${stats[0]}		<:prudence:652534926503182342> ${stats[1]}\n	<:temperance:652534935583981568> ${stats[2]}	<:justice:652534947378102282> ${stats[3]}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `\n		<:fortitude:652534887332577290>${stats[0]}		<:prudence:652534926503182342> ${stats[1]}\n		<:temperance:652534935583981568> ${stats[2]}		<:justice:652534947378102282> ${stats[3]}`)
 								if (err) throw err
 								connection.release()
 							})
