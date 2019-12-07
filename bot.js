@@ -616,7 +616,7 @@ client.on('message', msg => {
 						} else {cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - none`}
 						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n"} else {cpts += ".`"}
 					})
-					ch.send("List of departments and the respective captains: \n`"cpts)
+					ch.send("List of departments and the respective captains: \n`" + cpts)
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
