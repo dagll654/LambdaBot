@@ -100,6 +100,7 @@ client.on('ready', () => {
 		})
 	})
 	
+	
 	// This is secret. Don't look!
 	console.log(DELTAS.roles.get('608255705694076975').members.map(m=>m.user.tag));
 
@@ -568,7 +569,7 @@ client.on('message', msg => {
 					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
 						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
 					}
-					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}` + "\n```")
+					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
 					
 					break
 					} else {msg.reply("incorrect department name."); break}
@@ -591,6 +592,18 @@ client.on('message', msg => {
 					
 					break
 					}
+					break
+				case "profile":
+						pool.getConnection(function (err, connection) {
+							connection.query(`SELECT * FROM employees`, function (err, result) {
+								dbployees = []
+								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
+								console.log(dbployees.get("id", msg.author.id).fortitude)
+								if (err) throw err
+								connection.release()
+							})
+						})
+				
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
