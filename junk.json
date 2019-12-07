@@ -92,9 +92,18 @@
 			"Do the crossbow in your face",
 			"Please, just the tip, come on...",
 			"No! NOT FROM BEHIND!!",
-			"Now I destroyed my dick!"
+			"Now I des,troyed my dick!"
 			]
-
+	"health": "<:health:652900041476014090>",
+	"sanity": "<:sanity:652900056772509696>",
+	"redd": "<:redd:652900094198284290>",
+	"whited": "<:whited:652900121507528705>",
+	"blackd": "<:blackd:652900136678064168>",
+	"paled": "<:paled:652900149152055297>",
+	"fortitude": "<:fortitude:652534887332577290>",
+	"prudence": "<:prudence:652534926503182342>",
+	"temperance": "<:temperance:652534935583981568>",
+	"justice": "<:justice:652534947378102282>"
 
 
 }
