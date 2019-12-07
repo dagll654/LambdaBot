@@ -597,7 +597,7 @@ client.on('message', msg => {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
-								console.log(dbployees.get("id", msg.author.id).fortitude)
+								console.log(dbployees)
 								if (err) throw err
 								connection.release()
 							})
