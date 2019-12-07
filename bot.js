@@ -622,7 +622,9 @@ client.on('message', msg => {
 								connection.release()
 							})
 						})
-						pool.getConnection(function (err, connection) {
+						dbployees = []
+						dbids = []
+						setTimeout(function(){pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
@@ -634,7 +636,7 @@ client.on('message', msg => {
 								if (err) throw err
 								connection.release()
 							})
-						})
+						})}, 100)
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
