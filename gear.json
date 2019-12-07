@@ -3,6 +3,10 @@
 		{	"id": 0,
 			"name": "Suit",
 			"resistance": [1, 1, 1.5, 2]
+		},
+		{	"id": 1,
+			"name": "Godmode",
+			"resistance": [0, 0, 0, 0]
 		}
 			],
 	"weapons": [
@@ -12,6 +16,13 @@
 			"dtype": [1, 0, 0, 0],
 			"speed": "medium",
 			"range": "medium"
+		},
+		{	"id": 1,
+			"name": "The Almighty Banhammer",
+			"damage": [999, 999],
+			"dtype": [1, 1, 1, 1],
+			"speed": "fast",
+			"range": "very long"
 		}
 			]
 

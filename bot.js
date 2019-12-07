@@ -655,11 +655,24 @@ client.on('message', msg => {
 							})	
 						})
 					break
+				case "inventory":
+					pool.getConnection(function (err, connection) {
+						connection.query(`SELECT * FROM employees`, function (err, result) {
+							dbployees = []
+							result.forEach(e => fdbPush(e))
+							dbids = []
+							dbployees.forEach(e => dbids.push(e.id))
+							curruser = dbployees[dbids.indexOf(msg.author.id)]
+							curruser.inventorys.split(" ")
+							ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```")
+						})
+					})						
+					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
 						
-					} else {msg.reply("Awaliable arguments: list, captain, assign, leave.")}
+					} else {msg.reply("Awaliable arguments: list, captain, assign, leave, profile.")}
 					
 					break
 				case "assign":
