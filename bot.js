@@ -674,7 +674,7 @@ client.on('message', msg => {
 								invw += gear.weapons[id].name
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							}) 
-							ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```		PE Boxes: wip\n\n        Suits: " + invs + "\n        Weapons: " + invw)
+						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits: " + ${invs} + "\n        Weapons: ${invw}`)
 							
 						})
 					})						
