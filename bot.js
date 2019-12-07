@@ -606,13 +606,14 @@ client.on('message', msg => {
 					var cpts = ""
 					cdeproles.forEach(r => {
 						empcount = 0
+						empcounts = ""
 						emps = "s"
 						empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
-						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === 1) {emps = ""}
-						if (empcount = 0) {empcount = "no"}
+						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === "1") {emps = ""}
+						if (empcount = 0) {empcounts = "no"} else {empcounts = empcount.toString()}
 						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
-							cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcount} employee${emps}) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-						} else {cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcount} employee${emps}) - none`}
+							cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+						} else {cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - none`}
 						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
 					})
 					ch.send(cpts)
