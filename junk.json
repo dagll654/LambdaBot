@@ -44,7 +44,7 @@
 			"Record Team (C)",
 			"Extraction Team (C)",
 			"Architecture Team (C)"
-			]
+			],
 	"help1": [
 			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !department (!dep). To get help on a specific command, use !help [CommandName].",
 			"Usage: !giverole RoleName. Awaliable roles: (almost?) all of the department roles, for vanity choices.",
@@ -59,7 +59,7 @@
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
 			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign.",
 			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign."
-			]	
+			],
 	"cmds": [
 			"!giverole",
 			"!removerole",
@@ -74,7 +74,7 @@
 			"!em",
 			"!department",
 			"!dep"
-			]
+			],
 	"qte": [
 			"It's not cheating if you make the rules!", 
 			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",

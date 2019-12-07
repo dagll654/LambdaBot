@@ -560,7 +560,7 @@ client.on('message', msg => {
 					currdepm = DELTAS.roles.get(getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
 					depm = ""
 					cpt = "none."
-					if (currdepm[0] === undefined) === false) {
+					if ((currdepm[0] === undefined) === false) {
 					currdepm.forEach(m => {
 						depm += m
 						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
