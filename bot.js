@@ -564,7 +564,7 @@ client.on('message', msg => {
 					currdepm.forEach(m => {
 						depm += m
 						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
-					}
+					})
 					} else {depm = "The department is empty... *crickets*"}
 					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
 						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
