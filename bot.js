@@ -81,7 +81,6 @@ client.on('ready', () => {
 			result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
 			result.forEach(e => dbids.push(e.userid).toString())
 			console.log(dbids)
-			console.log(dbployees)
 			employees.forEach(e => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 				else {dbpush.push({"id": e.id, "tag": e.tag})}
@@ -569,7 +568,7 @@ client.on('message', msg => {
 					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
 						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
 					}
-					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}`)
+					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}` + "\n```")
 					
 					break
 					} else {msg.reply("incorrect department name."); break}
