@@ -14,6 +14,10 @@ const Discord = require('discord.js');
 	const deproles = jn.deproles
 	const ncdeproles = jn.ncdeproles
 	const cdeproles = jn.cdeproles
+	const help1 = jn.help1 
+	const qte = jn.qte
+	const qte2 = "Lambdadelta Quote #"
+	const cmds = jn.cmds
 	
 	var pool        = db.createPool({
 	connectionLimit : 3, // default = 10
@@ -133,25 +137,6 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
-
-
-
-	// Command pool
-	const cmds = [
-			"!giverole",
-			"!removerole",
-			"!quote",
-			"!math",
-			"!help",
-			"!duckclub",
-			"!abn",
-			"!say",
-			"!debug",
-			"!menacing",
-			"!em",
-			"!department",
-			"!dep"
-			]
 	
 	// Handy vars
 	var ch = msg.channel
@@ -176,43 +161,9 @@ client.on('message', msg => {
 			]
 	
 	// The quote pool
-	const qte = [
-			"It's not cheating if you make the rules!", 
-			"Clerk? What clerk? Oh, that one? His head just exploded accidentally. I didn't do it, why are you asking?",
-			"No I will NOT lower the difficulty!",
-			"No I didn't jinx myself!.. well maybe I did...",
-			"Hello, this is LambdadeltaYT back with your daily portion of smallbrain plays.",
-			"Ahh, fuck my life, break it into a million pieces, make an onahole out of it and fuck that as well!",
-			"AAAAAAAAAAAAAAAAAAAAAARGH!!!",
-			"He rubbed me the wrong way at first, but at least he rubbed me.",
-			"I don't want to pull out early!",
-			"Ahh, fuck me, Cloie...",
-			"'Here I come'... I love when he says that.",
-			"Emus are like babies.",
-			"Babies are crazy!",
-			"Do the crossbow in your face",
-			"Please, just the tip, come on...",
-			"No! NOT FROM BEHIND!!",
-			"Now I destroyed my dick!"
-			]
-	const qte2 = "Lambdadelta Quote #"
 	
 	// Help command pool
-	const help1 = [
-			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !department (!dep). To get help on a specific command, use !help [CommandName].",
-			"Usage: !giverole RoleName. Awaliable roles: (almost?) all of the department roles, for vanity choices.",
-			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
-			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
-			"Usage: !math (number) +/- (number). Is only capable of addition and substraction. Can do any numbers now!",
-			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
-			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
-			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
-			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
-			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
-			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign.",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign."
-			]	
+	
 	
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
