@@ -487,6 +487,12 @@ client.on('message', msg => {
 					}
 					break
 				case "profile":
+				pool.getConnection(function (err, connection) {
+					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + cmd[4] + "';", function (err, result) {
+						if (err) throw err
+						connection.release()
+					})
+				})
 					
 					break
 				default:
@@ -603,7 +609,7 @@ client.on('message', msg => {
 								curruser = dbployees[dbids.indexOf(msg.author.id)]
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `\n		LV${Math.ceil(stats[0]/25)} <:fortitude:652534887332577290>${stats[0]}		LV${Math.ceil(stats[1]/25)} <:prudence:652534926503182342> ${stats[1]}		LV${Math.ceil(stats[2]/25)} <:temperance:652534935583981568> ${stats[2]}		LV${Math.ceil(stats[3]/25)} <:justice:652534947378102282> ${stats[3]}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV${Math.ceil(stats[0]/25)} <:fortitude:652534887332577290>${stats[0]}		LV${Math.ceil(stats[1]/25)} <:prudence:652534926503182342> ${stats[1]}		LV${Math.ceil(stats[2]/25)} <:temperance:652534935583981568> ${stats[2]}		LV${Math.ceil(stats[3]/25)} <:justice:652534947378102282> ${stats[3]}`)
 								if (err) throw err
 								connection.release()
 							})
