@@ -493,6 +493,19 @@ client.on('message', msg => {
 						connection.release()
 					})
 				})
+				pool.getConnection(function (err, connection) {
+							connection.query(`SELECT * FROM employees`, function (err, result) { 
+								dbployees = []
+								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
+								dbids = []
+								dbployees.forEach(e => dbids.push(e.id))
+								curruser = dbployees[dbids.indexOf(cmd[4])]
+								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
+								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]} for ${curruser.tag}`)
+								if (err) throw err
+								connection.release()
+							})
+						})
 					
 					break
 				default:
@@ -611,22 +624,6 @@ client.on('message', msg => {
 						dbployees = []
 						dbids = []
 						stats = []
-						pool.getConnection(function (err, connection) {
-						connection.query(`SELECT * FROM employees`, function (err, result) {
-							dbpush = []
-							result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
-							result.forEach(e => dbids.push(e.userid).toString())
-							dbpush.forEach(e => {
-							var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
-							connection.query(sql, function (err, result) {
-							if (err) throw err;
-							console.log(`${e.tag} inserted!`)
-							})
-							})
-							if (err) throw err
-							connection.release()
-							})
-						})
 						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
