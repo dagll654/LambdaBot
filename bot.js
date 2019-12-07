@@ -552,14 +552,27 @@ client.on('message', msg => {
 	
 	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
-			switch (cmd[1]) {
+			switch (cmd[1c]) {
 				case "list":
-					if (cdeproles.includes(cmd1[2] + " " + cmd1[3])) {
-					
-					
+					if (cmd[2]) {
+					if (ncdeproles.includes(cmd1[2] + " " + cmd1[3])) {
+					currdep = getRole(cmd1[2] + " " + cmd1[3])
+					currdepm = DELTAS.roles.get(getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
+					depm = ""
+					cpt = "none."
+					if (currdepm[0] === undefined) === false) {
+					currdepm.forEach(m => {
+						depm += m
+						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
+					}
+					} else {depm = "The department is empty... *crickets*"}
+					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
+						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
+					}
+					ch.send("```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}`)
 					
 					break
-					
+					else {msg.reply("incorrect department name.")}
 					} else {
 						
 					var cpts = ""
