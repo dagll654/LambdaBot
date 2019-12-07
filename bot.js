@@ -638,7 +638,7 @@ client.on('message', msg => {
 								console.log(gearc)
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `						LV${Math.ceil(stats[0]/25)} <:fortitude:652534887332577290>${stats[0]}		LV${Math.ceil(stats[1]/25)} <:prudence:652534926503182342> ${stats[1]}		LV${Math.ceil(stats[2]/25)} <:temperance:652534935583981568> ${stats[2]}		LV${Math.ceil(stats[3]/25)} <:justice:652534947378102282> ${stats[3]}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + `					LV${Math.ceil(stats[0]/25)} <:fortitude:652534887332577290>${stats[0]}		LV${Math.ceil(stats[1]/25)} <:prudence:652534926503182342> ${stats[1]}		LV${Math.ceil(stats[2]/25)} <:temperance:652534935583981568> ${stats[2]}		LV${Math.ceil(stats[3]/25)} <:justice:652534947378102282> ${stats[3]}\n\n#		Suit: ${gearc[0].name}\n#		Weapon: ${gearc[1].name}` + "\n```")
 								if (err) throw err
 								connection.release()
 							})
