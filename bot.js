@@ -664,7 +664,18 @@ client.on('message', msg => {
 							dbployees.forEach(e => dbids.push(e.id))
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
 							curruser.inventorys.split(" ")
-							ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```")
+							invs = ""
+							invw = ""
+							curruser.inventorys.split(" ").forEach(id => {
+								invs += gear.suits[id]
+								if (curruser.inventorys.split(" ").indexOf(id) < (curruser.inventorys.split(" ").length - 1)) {invs += ", "} else {invs += ".```"}
+							}) 
+							curruser.inventoryw.split(" ").forEach(id => {
+								invw += gear.weapons[id]
+								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += ".```"}
+							}) 
+							ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n			PE Boxes: wip\n\n		Suits: " + invs + "\nWeapons: " + invw)
+							
 						})
 					})						
 					break
