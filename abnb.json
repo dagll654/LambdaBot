@@ -74,7 +74,7 @@
                                 "color": [0, 0, 0],
                                 "risk": "ZAYIN",
                                 "thumbnail": "",
-                                "description": "A giant skull with a crown of thorns and cross tied to it, levitating about a meter above the ground."
+                                "description": `A giant skull with a crown of thorns and cross tied to it, levitating about a meter above the ground."
 Despite its harsh appearance, it is hardly harmful. It often makes noises by clacking its teeth together but there is no need to pay extra attention to that noise. Less attention is required compared to other Abnormalities.
 It feeds on human 'sins', revealed through confession. Employee on duty must sit (or stand) in front of the creature and confess to his/her sins.
 Recently, a positive impact was discovered. A study showed that the employees who succeeded in confessing have recovered some part of their mental health. The cause of this decrease is still mystery. Also, the outcome is not known for confessions on non-factual events.
@@ -82,7 +82,7 @@ Recently, a positive impact was discovered. A study showed that the employees wh
 (Redacted) : "This happened during <Redacted>, about 4 in the afternoon. Damn, does this even work...? Anyway, there was a train track about 20 minutes away from my house. I had a neighborhood friend I used to hang out with. We were close, I think. One day, there was something like a Halloween party. We decided to dress up as animals. One of my friends was a deer. The costume was made with some crappy antlers, and some clothes with dark spots on it, not convincing at all. I... I don't know how the kid got into the forest. We noticed he was gone after a while, maybe an hour. We found him wandering around between the trees, and yelled 'STOP!' I guess he thought we were calling him here. He ran toward us and... We heard a few gunshots and that was it. The blood splattered to my shoes. We never dressed up like animals again. That's it.'
 Observation Log 4_435
 Of course its eye sockets were empty, it was a skull. It didn't mean that it couldn't see. I can feel its gaze on me, listening. Letting stuff out in confession did lightened the psychological burden.
-Later we went to the hometown to investigate the aforementioned incident. A boy named (Redacted) was indeed shot to death 3 times with a shotgun after entering the forest dressed like a deer, during hunting season. Unlike the confessed story, there was a witness that said (Redacted) was not close to the group of kids in the area, they didn't get along well. Also, the witness mentioned hearing children yell 'RUN,' immediately before the blast of the shotgun.",
+Later we went to the hometown to investigate the aforementioned incident. A boy named (Redacted) was indeed shot to death 3 times with a shotgun after entering the forest dressed like a deer, during hunting season. Unlike the confessed story, there was a witness that said (Redacted) was not close to the group of kids in the area, they didn't get along well. Also, the witness mentioned hearing children yell 'RUN,' immediately before the blast of the shotgun.`,
                                 "gift": "Penitence"
                         },
                         {
@@ -90,7 +90,7 @@ Later we went to the hometown to investigate the aforementioned incident. A boy 
                                 "color": [0, 0, 0],
                                 "risk": "TETH",
                                 "thumbnail": "",
-                                "description": "An Abnormality in the form of a burnt girl. Even if there’s nothing left to burn, the fire engulfing her does not extinguish.
+                                "description": `An Abnormality in the form of a burnt girl. Even if there’s nothing left to burn, the fire engulfing her does not extinguish.
 A match has impaled the girl like a stake. The match is usually burns and the Abnormality does not show any signs of distress. Some even speculate that the Abnormality is the match, not the girl. However, there have been recent sightings of the scorched girl weeping.
 Excerpt from Doctor <Redacted>'s Research Log, an Abnormality Specialist
 The charred body signifies the child’s shattered hope, while the perpetual fire means her desire for affection. She is always struggling between the two.
@@ -99,7 +99,7 @@ Employees Conversations
 
 She’s like a ticking time bomb. It’s difficult to know if she’s in a good mood or not. We just pray to the God that it's not me before entering the containment unit. She won’t get better. We can only stop her from getting worse.
 <Employee M-3923 Counseling Log>
-I never thought the Abnormality would be able to escape. Maybe we were getting careless, but it seemed that all it could do was just burn up the match in its body. Yes, our response was a bit late. (Omitted) Most Abnormalities that try to escape would attack the employees in front of them. But it didn’t show any aggression toward the employees nearby. Instead, it headed to a different department, the most crowded place in the company. If we didn’t suppress it at the door, half the people here wouldn't be alive today.",
+I never thought the Abnormality would be able to escape. Maybe we were getting careless, but it seemed that all it could do was just burn up the match in its body. Yes, our response was a bit late. (Omitted) Most Abnormalities that try to escape would attack the employees in front of them. But it didn’t show any aggression toward the employees nearby. Instead, it headed to a different department, the most crowded place in the company. If we didn’t suppress it at the door, half the people here wouldn't be alive today.`,
                                 "gift": "Forth Match Flame"
                         },
                         {
@@ -107,7 +107,7 @@ I never thought the Abnormality would be able to escape. Maybe we were getting c
                                 "color": [0, 0, 0],
                                 "risk": "WAW",
                                 "thumbnail": "",
-                                "description": "Creature has the appearance of a woman ready fight any villain for peace and justice.
+                                "description": `Creature has the appearance of a woman ready fight any villain for peace and justice.
 Generally the creature is kind and polite to the employee and is able to converse casually. Creature continues to believe that it is a hero sent to save the world and is considerably proud of that fact.
 When the creature is faced with 'Anxiety' or 'Skepticism', within 2-4 days its outer persona changes and creature displays symptoms of dissociative disorder.
 Its definition of good and evil is fixed in its mind. Some assume that, when the creature’s beliefs led to the horrible doubt about the existence of evil, it chose to become ‘evil’ to negate that doubt.
@@ -132,7 +132,7 @@ Magical girl: I.. I did it. Oh, I, I couldn’t stop myself. If someone died, th
 Employee: What happened?
 Magical girl: I don’t know. They aren’t moving. There is so much blood. I’m sorry. I just want to say sorry.
 (Omitted)
-Three corpses were found in the abnormality’s containment chamber. The discovered bodies were of the employees assigned to prevent incidents. Afterwards, Magical Girl lost recollection of the entire incident.",
+Three corpses were found in the abnormality’s containment chamber. The discovered bodies were of the employees assigned to prevent incidents. Afterwards, Magical Girl lost recollection of the entire incident.`,
                                 "gift": "In the Name of Love and Hate"
                         },
                         {
@@ -140,7 +140,7 @@ Three corpses were found in the abnormality’s containment chamber. The discove
                                 "color": [0, 0, 0],
                                 "risk": "ALEPH",
                                 "thumbnail": "",
-                                "description": "It has the shape of a human but it is surely not one. At a certain period of time it devours an employee and wears the skin. During that process that the bone structure and the organs are made a mess, so it takes a strange form.
+                                "description": `It has the shape of a human but it is surely not one. At a certain period of time it devours an employee and wears the skin. During that process that the bone structure and the organs are made a mess, so it takes a strange form.
 The creature does have a tongue but it does not know how to talk, so therefore can only make meaningless sounds. There is no telling what is inside the shell but its skin wears out continuously, so there is a need to change and maintain the outer skin. It does not feel regular pain so it does not care about broken bones. The creature may break its own bones and cut itself up in order to escape through a small route.
 More and more, I discovered that this Abnormality might be evolving. It shows the act of following the character of the person who was the owner of the shell. And it tries to make an attempt to equate itself with human beings."
 When escaped, it wears skin of the employee it killed and mimics that person. Then, without any sign, it reveals the true form. More resemblance to human is shown compared to the early form. Now it is confirmed that the abnormality possesses bipedalism, organs are in proper position. With additional physical strength. Employees are afraid of this form."
@@ -200,7 +200,7 @@ M2023 : Hey, say something.
 F2930 : Manager! Manager! ████████! !!
 Employee B proceeded to take measure immediately upon hearing the word. However, "Nothing there." ripped out of Employee A, revealing the first form. Recording were audio only, leaving what exactly happened mysteries.
 The skin containing “Nothing there” tries to impersonate the employee who it tried to kill. It mimics the behaviors or words of the employee it last saw.
-And many skins yelled only one word. “Manager”.",
+And many skins yelled only one word. “Manager”.`,
                                 "gift": "Mimicry"
                         }
 					]
