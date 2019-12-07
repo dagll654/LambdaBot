@@ -199,7 +199,7 @@ client.on('message', msg => {
 	
 	// Help command pool
 	const help1 = [
-			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em. To get help on a specific command, use !help [CommandName].",
+			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !department (!dep). To get help on a specific command, use !help [CommandName].",
 			"Usage: !giverole RoleName. Awaliable roles: (almost?) all of the department roles, for vanity choices.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
@@ -603,6 +603,14 @@ client.on('message', msg => {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "list":
+					if (cdeproles.includes(cmd1[2] + " " + cmd1[3])) {
+					
+					
+					
+					break
+					
+					} else {
+						
 					var cpts = ""
 					cdeproles.forEach(r => {
 						empcount = 0
@@ -617,12 +625,15 @@ client.on('message', msg => {
 						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n"} else {cpts += ".```"}
 					})
 					ch.send("List of departments and the respective captains: \n```md\n" + cpts)
+					
 					break
+					}
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
 						
-					} else {msg.reply("wip")}
+					} else {msg.reply("Awaliable arguments: list, captain, assign, leave.")}
+					
 					break
 				case "assign":
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
@@ -634,7 +645,7 @@ client.on('message', msg => {
 						if (ncdeproles.includes(rtmp)) {
 							msg.member.addRole(getRole(rtmp))
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
-						} else {msg.reply("error: incorrect team name.")}
+						} else {msg.reply("error: incorrect team name. Example: !dep assign Extraction Team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
 				case "leave":
