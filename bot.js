@@ -552,7 +552,7 @@ client.on('message', msg => {
 	
 	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
-			switch (cmd[1c]) {
+			switch (cmd[1]) {
 				case "list":
 					if (cmd[2]) {
 					if (ncdeproles.includes(cmd1[2] + " " + cmd1[3])) {
