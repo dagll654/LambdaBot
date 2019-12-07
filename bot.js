@@ -701,9 +701,12 @@ client.on('message', msg => {
 						case "list":
 							var cpts = ""
 							cdeproles.forEach(r => {
+								empcount = 0
+								empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
 								if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {
-									cpts += ncdeproles[cdeproles.indexOf(r)] + " - " + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-								} else {cpts += ncdeproles[cdeproles.indexOf(r)] + " - none"}
+									
+									cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+								} else {cpts += ncdeproles[cdeproles.indexOf(r)] + `(${empcount} employees) - none`}
 								if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
 							})
 							ch.send(cpts)
