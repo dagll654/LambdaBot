@@ -599,7 +599,9 @@ client.on('message', msg => {
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
-								console.log(dbids)
+								curruser = dbployees[dbids.indexOf(msg.author.id)]
+								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
+								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								if (err) throw err
 								connection.release()
 							})
