@@ -601,9 +601,9 @@ client.on('message', msg => {
 					break
 				case "profile":
 				var curruser = {"id": 101}
-					if (cmd[3] && (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@") || cmd[3].startsWith("<@!"))) {
+					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
 						cuid = ""
-						cmd[3].split("").forEach(c => {
+						cmd[2].split("").forEach(c => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
 						curruser = dbployees[dbids.indexOf(cuid)]
