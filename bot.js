@@ -639,6 +639,8 @@ client.on('message', msg => {
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								wepd = `${gearc[1].danage[0]}-${gearc[1].damage[1]} `
+								console.log(gearc[1].dtype)
+								console.log(jn.dtype)
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
