@@ -569,7 +569,7 @@ client.on('message', msg => {
 					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
 						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
 					}
-					ch.send("```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}`)
+					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}`)
 					
 					break
 					} else {msg.reply("incorrect department name."); break}
