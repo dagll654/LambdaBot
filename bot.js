@@ -612,11 +612,11 @@ client.on('message', msg => {
 						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === "1") {emps = ""}
 						if (empcount === 0) {empcounts = "no"} else {empcounts = empcount.toString()}
 						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
-							cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+							cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - **` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] + "**"
 						} else {cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcounts} employee${emps}) - none`}
-						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", "} else {cpts += "."}
+						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n"} else {cpts += ".`"}
 					})
-					ch.send(cpts)
+					ch.send("List of departments and the respective captains: \n`"cpts)
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
