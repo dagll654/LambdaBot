@@ -614,9 +614,9 @@ client.on('message', msg => {
 						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
 							cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n		>#` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 						} else {cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n		>#none`}
-						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n\n"} else {cpts += ".```"}
+						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n\n"} else {cpts += ".`"}
 					})
-					ch.send("List of departments and the respective captains: \n```md\n" + cpts)
+					ch.send("List of departments and the respective captains: \n`md\n" + cpts)
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
