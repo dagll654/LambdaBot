@@ -597,7 +597,7 @@ client.on('message', msg => {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
-								console.log(dbployees.find("id", msg.author.id).fortitude)
+								console.log(dbployees.get("id", msg.author.id).fortitude)
 								if (err) throw err
 								connection.release()
 							})
@@ -668,7 +668,7 @@ client.on('message', msg => {
 								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
 						} 
-						//DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id)
+
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
