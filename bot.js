@@ -608,7 +608,7 @@ client.on('message', msg => {
 						empcount = 0
 						emps = "s"
 						empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
-						if (empcount.split("")[empcount.split("").length - 1] === 1) {emps = ""}
+						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === 1) {emps = ""}
 						if (empcount = 0) {empcount = "no"}
 						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
 							cpts += ncdeproles[cdeproles.indexOf(r)] + ` (${empcount} employee${emps}) - ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
