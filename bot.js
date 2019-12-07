@@ -572,7 +572,7 @@ client.on('message', msg => {
 					ch.send("```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n	Employees: ${depm}`)
 					
 					break
-					else {msg.reply("incorrect department name.")}
+					} else {msg.reply("incorrect department name."); break}
 					} else {
 						
 					var cpts = ""
