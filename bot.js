@@ -612,8 +612,8 @@ client.on('message', msg => {
 						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === "1") {emps = ""}
 						if (empcount === 0) {empcounts = "no"} else {empcounts = empcount.toString()}
 						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
-							cpts += "< " + ncdeproles[cdeproles.indexOf(r)] + ` > (${empcounts} employee${emps}) \n		># ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-						} else {cpts += "< " + ncdeproles[cdeproles.indexOf(r)] + ` > (${empcounts} employee${emps}) \n		># none`}
+							cpts += "< " + ncdeproles[cdeproles.indexOf(r)] + ` > (${empcounts} employee${emps}) \n		# ` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
+						} else {cpts += "< " + ncdeproles[cdeproles.indexOf(r)] + ` > (${empcounts} employee${emps}) \n		# none`}
 						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n\n"} else {cpts += ".```"}
 					})
 					ch.send("List of departments and the respective captains: \n```md\n" + cpts)
