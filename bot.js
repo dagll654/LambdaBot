@@ -610,6 +610,7 @@ client.on('message', msg => {
 					} else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 						dbployees = []
 						dbids = []
+						stats = []
 						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
@@ -624,6 +625,7 @@ client.on('message', msg => {
 						})
 						dbployees = []
 						dbids = []
+						stats = []
 						setTimeout(function(){pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
