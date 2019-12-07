@@ -632,7 +632,7 @@ client.on('message', msg => {
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment}))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
-								eqa = curruser.split("")
+								eqa = curruser.equipment.split("")
 								eqct = [eqa[2] + 10 * eqa[1] + 100 * eqa[0], eqa[5] + 10 * eqa[4] + 100 * eqa[3]]
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
 								console.log(gearc)
