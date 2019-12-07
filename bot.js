@@ -6,6 +6,7 @@ const Discord = require('discord.js');
   const abn = require("./abnb.json");
   const jn = require("./junk.json");
   const gear = require("./gear.json")
+  //Resistance and damage goes like [RED, WHITE, BLACK, PALE]
   const animojis = [
 			"restartsForDays",
 			"pepanger",
