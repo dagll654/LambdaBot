@@ -73,7 +73,6 @@ client.on('ready', () => {
 			employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 		}
 	})
-	console.log(employees)
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
@@ -598,12 +597,12 @@ client.on('message', msg => {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice}))
-								console.log(dbployees.get("id", msg.author.id).fortitude)
+								console.log(dbployees.find("id", msg.author.id).fortitude)
 								if (err) throw err
 								connection.release()
 							})
 						})
-				
+					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
