@@ -1,0 +1,19 @@
+// Resistance and damage goes like [RED, WHITE, BLACK, PALE]
+{
+	"suits": [
+		{	"id": 0,
+			"name": "Suit",
+			"resistance": [1, 1, 1.5, 2]
+		}
+			],
+	"weapons": [
+		{	"id": 0,
+			"name": "Riot Stick",
+			"damage": [4, 6],
+			"dtype": [1, 0, 0, 0],
+			"speed": "medium",
+			"range": "medium"
+		}
+			]
+
+}

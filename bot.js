@@ -5,6 +5,7 @@ const Discord = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
   const abn = require("./abnb.json");
   const jn = require("./junk.json");
+  const gear = require("./gear.json")
   const animojis = [
 			"restartsForDays",
 			"pepanger",
