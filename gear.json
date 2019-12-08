@@ -5,8 +5,8 @@
 			"resistance": [1, 1, 1.5, 2]
 		},
 		{	"id": 1,
-			"name": "Godmode",
-			"resistance": [0, 0, 0, 0]
+			"name": "Guilt",
+			"resistance": [3, 3, 3, 3]
 		}
 			],
 	"weapons": [
@@ -18,9 +18,9 @@
 			"range": "medium"
 		},
 		{	"id": 1,
-			"name": "The Almighty Banhammer",
-			"damage": [999, 999],
-			"dtype": [1, 1, 1, 1],
+			"name": "Squaky Toy",
+			"damage": [0, 1],
+			"dtype": [0, 1, 0, 0],
 			"speed": "fast",
 			"range": "very long"
 		}
