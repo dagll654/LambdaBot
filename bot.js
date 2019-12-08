@@ -687,7 +687,7 @@ client.on('message', msg => {
 						ch.awaitMessages(filter, {max: 1, time: 10000}).then(m => imid = m.id)
 						console.log("IMID = " + imid)
 						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
-						collector.on('collect', cmsg => {
+						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
 							menu = 1
 							if (c1msg === "equip" && menu === 1) {
