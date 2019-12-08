@@ -657,66 +657,7 @@ client.on('message', msg => {
 							})	
 						})
 					break
-				case "i":
-				case "inv":
-				case "inventory":
-					pool.getConnection(function (err, connection) {
-						connection.query(`SELECT * FROM employees`, function (err, result) {
-							dbployees = []
-							result.forEach(e => fdbPush(e))
-							dbids = []
-							dbployees.forEach(e => dbids.push(e.id))
-							curruser = dbployees[dbids.indexOf(msg.author.id)]
-							curruser.inventorys.split(" ")
-							invs = ""
-							invw = ""
-							ainvs = []
-							ainvw = []
-							curruser.inventorys.split(" ").forEach(id => {
-								invs += gear.suits[id].name
-								ainvs.push({"name": gear.suits[id].name, "id": id})
-								if (curruser.inventorys.split(" ").indexOf(id) < (curruser.inventorys.split(" ").length - 1)) {invs += ", "} else {invs += "."}
-							}) 
-							curruser.inventoryw.split(" ").forEach(id => {
-								invw += gear.weapons[id].name
-								ainvw.push([gear.weapons[id].name, id])
-								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
-							})
-						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
-						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
-						ch.fetchMessages({ limit: 3 })
-						.then(m => console.log(m.findKey(v => v.author.id === client.user.id)))
-						.catch(console.error)
-						invmenu.on('collect', cmsg => {
-							c1msg = cmsg.content.toLowerCase()
-							if (c1msg === "equip") {
-								ch.send("Equip suit or weapon?")
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
-								.then(m => {
-								console.log("Response: " + m.array()[0].content)
-								if (m.array()[0].content === "suit") {
-									invs2 = ""
-									suitchoice = []
-									console.log("AINVS: "+ainvs)
-									ainvs.forEach(s => {
-										invs2 += s.name + ` (${s.id + 1})`
-										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
-									})
-									ch.send("Choose the suit to equip: " + invs2)
-									//checkSymbols(str, arr)
-								}
-								if (m.array()[0].content === "weapon") {
-									ch.send("Choose the weapon to equip: ")
-								}
-								})
-								.catch(console.error)
-
-							}
-							
-						})
-						})
-					})						
-					break
+				
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
