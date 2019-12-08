@@ -676,9 +676,9 @@ client.on('message', msg => {
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
-						console.log(DELTAS.members.get(client.user.id).lastMessageID)
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 						invmenu.on('collect', cmsg => {
+							console.log(DELTAS.members.get(client.user.id).lastMessageID)
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
 								ch.send("Equip suit or weapon?")
