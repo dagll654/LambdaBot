@@ -619,6 +619,7 @@ client.on('message', msg => {
 					break
 					}
 					break
+				case "p":
 				case "profile":
 				var curruser = {"id": 101}
 					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
@@ -655,6 +656,8 @@ client.on('message', msg => {
 							})	
 						})
 					break
+				case "i":
+				case "inv":
 				case "inventory":
 					pool.getConnection(function (err, connection) {
 						connection.query(`SELECT * FROM employees`, function (err, result) {
@@ -666,16 +669,49 @@ client.on('message', msg => {
 							curruser.inventorys.split(" ")
 							invs = ""
 							invw = ""
+							ainvs = []
+							ainvw = []
 							curruser.inventorys.split(" ").forEach(id => {
 								invs += gear.suits[id].name
+								ainvs.push([gear.suits[id].name, id])
 								if (curruser.inventorys.split(" ").indexOf(id) < (curruser.inventorys.split(" ").length - 1)) {invs += ", "} else {invs += "."}
 							}) 
 							curruser.inventoryw.split(" ").forEach(id => {
 								invw += gear.weapons[id].name
+								ainvw.push([gear.weapons[id].name, id])
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							}) 
-						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits: " + ${invs} + "\n        Weapons: ${invw}`)
+						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
+						filter = m => (msg.author.id === '607520778178527246') && (mesc.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))
+						imid = ""
+						ch.awaitMessages(filter, {max: 1, time: 10000}).then(m => imid = m.id)
+						console.log("IMID = " + imid)
+						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
+						collector.on('collect', cmsg => {
+							c1msg = cmsg.content.toLowerCase()
+							menu = 1
+							if (c1msg === "equip" && menu === 1) {
+								menu = 2
+								ch.send("Equip suit or weapon?")
+							}
+							if (c1msg === "suit" && menu === 2) {
+								menu = 3
+								invs2 = ""
+								suitchoice = []
+								ainvs.forEach(s => {
+									invs2 += ainvs[indexOf(s)].name + ` (${ainvs[indexOf(s)].id})`
+									if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+								})
+								ch.send("Choose the suit to equip: " + )
+								//checkSymbols(str, arr)
+							}
+							if (c1msg === "weapon" && menu === 2) {
+								menu = 4
+								ch.send("Choose the weapon to equip: ")
+							}
+							if (c1msg === )
 							
+						})
 						})
 					})						
 					break
