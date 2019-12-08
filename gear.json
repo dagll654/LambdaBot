@@ -18,7 +18,7 @@
 			"range": "medium"
 		},
 		{	"id": 1,
-			"name": "Squaky Toy",
+			"name": "Squeaky Toy",
 			"damage": [0, 1],
 			"dtype": [0, 1, 0, 0],
 			"speed": "fast",
