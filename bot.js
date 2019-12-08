@@ -720,7 +720,6 @@ client.on('message', msg => {
 								.catch(console.error)
 							}
 						})
-						.catch(console.error)
 						})
 					connection.release()
 					})						
