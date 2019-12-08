@@ -706,8 +706,7 @@ client.on('message', msg => {
 										}
 									})
 									.catch(console.error)
-									break
-								}
+								} else
 								if (m.array()[0].content === "weapon") {
 									invw2 = ""
 									suitchoice = []
@@ -718,9 +717,8 @@ client.on('message', msg => {
 										if (ainvw.indexOf(s) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
 									})
 									ch.send("Choose the suit to equip: " + invs2)
-									break
-								}
-								msg.reply("error: incorrect response.").
+								} else
+								msg.reply("error: incorrect response.")
 								})
 								.catch(console.error)
 							}
