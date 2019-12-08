@@ -692,6 +692,7 @@ client.on('message', msg => {
 								m.delete(1)
 								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
+									m.delete(1)
 									invs2 = ""
 									suitchoice = []
 									console.log("AINVS: ")
@@ -705,13 +706,15 @@ client.on('message', msg => {
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvsd.includes(Number(m.array()[0].content))) {
+											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
+												m.delete(1)
 												connection.query("UPDATE `employees` SET `suit` = '" + m.array()[0].content + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
 												msg.delete(1) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped") 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[Number(m.array()[0].content) - 1].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(2000)
+												
 											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
 									})
