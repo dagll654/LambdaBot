@@ -679,10 +679,11 @@ client.on('message', msg => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
 							cmsg.delete()
+							menumsg = DELTAS.members.get(client.user.id).lastMessage
 							console.log(DELTAS.members.get(client.user.id).lastMessageID)
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
-								ch.send("Equip suit or weapon?")
+								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + "Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
 								console.log("Response: " + m.array()[0].content)
@@ -695,7 +696,7 @@ client.on('message', msg => {
 										invs2 += s.name + ` (${Number(s.id) + 1})`
 										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
 									})
-									ch.send("Choose the suit to equip: " + invs2)
+									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
 									ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
@@ -714,7 +715,7 @@ client.on('message', msg => {
 										invs2 += s.name + ` (${Number(s.id) + 1})`
 										if (ainvw.indexOf(s) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
 									})
-									ch.send("Choose the suit to equip: " + invs2)
+									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
 								} else
 								msg.reply("error: incorrect response.")
 								})
