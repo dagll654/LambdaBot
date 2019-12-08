@@ -702,7 +702,7 @@ client.on('message', msg => {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
-								m.delete(1)
+								m.delete(10)
 								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
@@ -753,7 +753,7 @@ client.on('message', msg => {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
-												wepd = `${gear.weapons[Number(m.array()[0]-1].damage[0]} - ${gear.weapons[Number(m.array()[0]-1].damage[1]} `
+												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
 												for (i = 0; i < 4; i++) {
 													if (gear.weapons[Number(m.array()[0].content) - 1)].dtype[i] > 0) {wepd += jn.dtype[i]}
 												}
@@ -761,7 +761,7 @@ client.on('message', msg => {
 													if (err) throw err
 												})
 												msg.delete(1) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[Number(m.array()[0].content) - 1].name}   -   ${wepd}`) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[Number(m.array()[0]).content) - 1].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
 												upd()
 												
