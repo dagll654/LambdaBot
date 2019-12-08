@@ -742,7 +742,7 @@ client.on('message', msg => {
 									console.log(ainvw)
 									ainvw.forEach(w => {
 										invw2 += w.name + ` (${Number(w.id) + 1})`
-										if (ainvs.indexOf(w) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
+										if (ainvw.indexOf(w) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
 									//checkSymbols(str, arr)
