@@ -683,7 +683,7 @@ client.on('message', msg => {
 							console.log(DELTAS.members.get(client.user.id).lastMessageID)
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
-								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + "Equip suit or weapon?")
+								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
 								console.log("Response: " + m.array()[0].content)
