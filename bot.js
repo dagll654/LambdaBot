@@ -701,7 +701,7 @@ client.on('message', msg => {
 									//checkSymbols(str, arr)
 									ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
-										if (checkSymbols(m.array()[0].content, nmbrs) {
+										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											
 										}
 									})
