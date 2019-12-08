@@ -709,7 +709,6 @@ client.on('message', msg => {
 								menu = 4
 								ch.send("Choose the weapon to equip: ")
 							}
-							if (c1msg === )
 							
 						})
 						})
