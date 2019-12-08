@@ -687,7 +687,7 @@ client.on('message', msg => {
 							}) 
 							curruser.inventoryw.split(" ").forEach(id => {
 								invw += gear.weapons[id].name
-								ainvw.push([gear.weapons[id].name, id])
+								ainvw.push({"name": gear.weapons[id].name, "id": id})
 								ainvsw.push(Number(id))
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
