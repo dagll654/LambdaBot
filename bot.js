@@ -688,16 +688,12 @@ client.on('message', msg => {
 						.catch(console.error)
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
-							menu = 1
 							if (c1msg === "equip" && menu === 1) {
-								menu = 2
 								ch.send("Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
-								.then(m => console.log(m))
-								.catch(console.error)
-							}
-							if (c1msg === "suit" && menu === 2) {
-								menu = 3
+								.then(m => {
+									
+								if (m.content === "suit") {
 								invs2 = ""
 								suitchoice = []
 								ainvs.forEach(s => {
@@ -706,10 +702,13 @@ client.on('message', msg => {
 								})
 								ch.send("Choose the suit to equip: " + invs2)
 								//checkSymbols(str, arr)
-							}
-							if (c1msg === "weapon" && menu === 2) {
-								menu = 4
-								ch.send("Choose the weapon to equip: ")
+								}
+								if (m.content === "weapon" && menu === 2) {
+									ch.send("Choose the weapon to equip: ")
+								}
+								})
+								.catch(console.error)
+
 							}
 							
 						})
