@@ -692,7 +692,7 @@ client.on('message', msg => {
 							if (c1msg === "equip" && menu === 1) {
 								menu = 2
 								ch.send("Equip suit or weapon?")
-								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(ch.send("this works"))
 								.catch(console.error)
 							}
