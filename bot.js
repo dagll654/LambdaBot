@@ -678,6 +678,7 @@ client.on('message', msg => {
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 						invmenu.on('collect', cmsg => {
+							cmsg.delete()
 							console.log(DELTAS.members.get(client.user.id).lastMessageID)
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
@@ -718,7 +719,8 @@ client.on('message', msg => {
 								msg.reply("error: incorrect response.")
 								})
 								.catch(console.error)
-							}
+							} else if (c1msg === "exit") {DELTAS.members.get(client.user.id).lastMessage.delete()}
+							else msg.reply("error: incorrect response.")
 						})
 						})
 					connection.release()
