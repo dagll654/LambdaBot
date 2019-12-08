@@ -708,7 +708,7 @@ client.on('message', msg => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												m.delete(1)
-												connection.query("UPDATE `employees` SET `suit` = '" + m.array()[0].content + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
+												connection.query("UPDATE `employees` SET `suit` = '" + Number(m.array()[0].content - 1).toString + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
 												msg.delete(1) 
