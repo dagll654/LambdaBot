@@ -720,10 +720,10 @@ client.on('message', msg => {
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
-												equpd = (Number(m.array()[0].content) - 1).toString
+												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
-												connection.query("UPDATE `employees` SET `suit` = '" + (Number(m.array()[0].content - 1)).toString + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
+												connection.query("UPDATE `employees` SET `suit` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
 												msg.delete(1) 
