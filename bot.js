@@ -12,6 +12,13 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
+	const deproles = jn.deproles
+	const ncdeproles = jn.ncdeproles
+	const cdeproles = jn.cdeproles
+	const help1 = jn.help1 
+	const qte = jn.qte
+	const qte2 = "Lambdadelta Quote #"
+	const cmds = jn.cmds
 	
 	var pool        = db.createPool({
 	connectionLimit : 3, // default = 10
@@ -82,6 +89,8 @@ client.on('ready', () => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 				else {dbpush.push({"id": e.id, "tag": e.tag})}
 			})
+			console.log("To push:")
+			console.log(dbpush)
 			dbpush.forEach(e => {
 			var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
 			connection.query(sql, function (err, result) {
@@ -121,13 +130,6 @@ client.on('disconnect', () => {
 // Message event
 //====================================================================
 client.on('message', msg => {
-	const deproles = jn.deproles
-	const ncdeproles = jn.ncdeproles
-	const cdeproles = jn.cdeproles
-	const help1 = jn.help1 
-	const qte = jn.qte
-	const qte2 = "Lambdadelta Quote #"
-	const cmds = jn.cmds
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
