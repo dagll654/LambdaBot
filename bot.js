@@ -683,7 +683,9 @@ client.on('message', msg => {
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
 						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000, limit: 50 })
-						ch.fetchMessages({ limit: 3 }).then(m => console.log(m.find(v => v.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))))
+						ch.fetchMessages({ limit: 3 })
+						.then(m => console.log(m.findKey(v => v.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))))
+						.catch(console.error)
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
 							menu = 1
