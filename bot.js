@@ -702,7 +702,7 @@ client.on('message', msg => {
 									invs2 += ainvs[indexOf(s)].name + ` (${ainvs[indexOf(s)].id})`
 									if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
 								})
-								ch.send("Choose the suit to equip: " + )
+								ch.send("Choose the suit to equip: " + invs2)
 								//checkSymbols(str, arr)
 							}
 							if (c1msg === "weapon" && menu === 2) {
