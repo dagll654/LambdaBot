@@ -42,7 +42,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "equipment": e.equipment, "inventorys": e.inventorys, "inventoryw": e.inventoryw})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -632,8 +632,7 @@ client.on('message', msg => {
 								result.forEach(e => fdbPush(e))
 								dbids = []
 								dbployees.forEach(e => dbids.push(e.id))
-								eqa = curruser.equipment.split("")
-								eqct = [Number(eqa[2]) + 10 * Number(eqa[1]) + 100 * Number(eqa[0]), Number(eqa[5]) + 10 * Number(eqa[4]) + 100 * Number(eqa[3])]
+								eqct = [curruser.suit, curruser.weapon]
 								// [Suit, Weapon]
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
@@ -707,12 +706,7 @@ client.on('message', msg => {
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content))) {
-												equpd = ainvs[Number(m.array()[0].content) - 1].id
-												console.log("EQUPD: " + equpd + "\nNUMBER: " + Number(m.array()[0].content))
-												equpd = equpd + curruser.equipment.slice(3, 6)
-												console.log("SLICE: " + curruser.equipment.slice(3, 6))
-												console.log("EQUPD: " + equpd)
-												connection.query("UPDATE `employees` SET `equipment` = '" + equpd + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
+												connection.query("UPDATE `employees` SET `suit` = '" + m.array()[0].content + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
 												msg.delete(1) 

@@ -1,23 +1,23 @@
 {
 	"suits": [
-		{	"id": "000",
+		{	"id": "0",
 			"name": "Suit",
 			"resistance": [1, 1, 1.5, 2]
 		},
-		{	"id": "001",
+		{	"id": "1",
 			"name": "Guilt",
 			"resistance": [3, 3, 3, 3]
 		}
 			],
 	"weapons": [
-		{	"id": "000",
+		{	"id": "0",
 			"name": "Riot Stick",
 			"damage": [4, 6],
 			"dtype": [1, 0, 0, 0],
 			"speed": "medium",
 			"range": "medium"
 		},
-		{	"id": "001",
+		{	"id": "1",
 			"name": "Squeaky Toy",
 			"damage": [0, 1],
 			"dtype": [0, 1, 0, 0],
