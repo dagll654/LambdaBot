@@ -692,15 +692,11 @@ client.on('message', msg => {
 								ch.send("Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
-								console.log(m.array()[0])	
-								console.log(m.array()[0].content)
+								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
 									suitchoice = []
-									ainvs.forEach(s => {
-										invs2 += ainvs[indexOf(s)].name + ` (${ainvs[indexOf(s)].id})`
-										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
-									})
+									console.log("AINVS: "+ainvs)
 									ch.send("Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
 								}
