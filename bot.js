@@ -726,6 +726,7 @@ client.on('message', msg => {
 						})
 						.catch(console.error)
 						})
+					connection.release()
 					})						
 					break
 				case "info":
