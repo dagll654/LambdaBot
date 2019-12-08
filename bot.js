@@ -709,7 +709,7 @@ client.on('message', msg => {
 											if (ainvsd.includes(Number(m.array()[0].content))) {
 												equpd = ainvs[Number(m.array()[0].content) - 1].id
 												equpd = equpd + curruser.equipment.slice(3, 6)
-												console.log("EQUPD": equpd)
+												console.log("EQUPD:" + equpd)
 												connection.query("UPDATE `employees` SET `equipment` = '" + equpd + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
