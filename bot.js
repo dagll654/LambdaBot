@@ -707,12 +707,9 @@ client.on('message', msg => {
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content))) {
-												equpd = (Number(m.array()[0].content) - 1).toString()
-												for (i = 0; i < (3 - equpd.length); i++) {
-													let txtt = "0" + equpd
-													equpd = txtt
-												}
+												equpd = ainvs[Number(m.array()[0].content - 1]
 												equpd = equpd + curruser.equipment.slice(3, 6)
+												console.log("EQUPD": equpd)
 												connection.query("UPDATE `employees` SET `equipment` = '" + equpd + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
