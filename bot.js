@@ -680,12 +680,10 @@ client.on('message', msg => {
 								invw += gear.weapons[id].name
 								ainvw.push([gear.weapons[id].name, id])
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
-							}) 
-						filter = m => (msg.author.id === '607520778178527246') && (mesc.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))
-						imid = ""
-						ch.awaitMessages(filter, {max: 1, time: 10000}).then(m => {imid = m.id; console.log("IMID = " + imid)})
+							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
-						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
+						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000, limit: 50 })
+						console.log(ch.fetchMessages({ limit: 3 }).find(v => v.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```")))
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
 							menu = 1
