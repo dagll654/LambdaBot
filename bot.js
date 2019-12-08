@@ -692,7 +692,7 @@ client.on('message', msg => {
 								ch.send("Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
-								console.log(m)
+								console.log(m.content)
 								if (m.content === "suit") {
 								invs2 = ""
 								suitchoice = []
