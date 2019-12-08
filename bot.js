@@ -678,7 +678,7 @@ client.on('message', msg => {
 							ainvs = []
 							ainvw = []
 							ainvsd = []
-							ainvsw = []
+							ainvwd = []
 							curruser.inventorys.split(" ").forEach(id => {
 								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[id].name, "id": id})
@@ -718,7 +718,7 @@ client.on('message', msg => {
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
+											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
