@@ -692,7 +692,9 @@ client.on('message', msg => {
 							if (c1msg === "equip" && menu === 1) {
 								menu = 2
 								ch.send("Equip suit or weapon?")
-								invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
+								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 10000 })
+								.then(ch.send("this works"))
+								.catch(console.error)
 							}
 							if (c1msg === "suit" && menu === 2) {
 								menu = 3
