@@ -676,10 +676,11 @@ client.on('message', msg => {
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
+						ch.fetchMessages()
+						.then(msgs => {
+						menumsg = msgs.find(m => m.content.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))
+									.then(console.log(m => m.array()[0].content))
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
-						ch.fetchMessages({ limit: 3 })
-						.then(m => console.log(m.findKey(v => v.author.id === client.user.id)))
-						.catch(console.error)
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
@@ -690,23 +691,42 @@ client.on('message', msg => {
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
 									suitchoice = []
-									console.log("AINVS: "+ainvs)
+									console.log("AINVS: ")
+									console.log(ainvs)
 									ainvs.forEach(s => {
 										invs2 += s.name + ` (${Number(s.id) + 1})`
 										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
 									})
 									ch.send("Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
+									ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+									.then(m => {
+										if (checkSymbols(m.array()[0].content, nmbrs) {
+											
+										}
+									})
+									.catch(console.error)
+									break
 								}
 								if (m.array()[0].content === "weapon") {
-									ch.send("Choose the weapon to equip: ")
+									invw2 = ""
+									suitchoice = []
+									console.log("AINVW: ")
+									console.log(ainvw)
+									ainvw.forEach(s => {
+										invs2 += s.name + ` (${Number(s.id) + 1})`
+										if (ainvw.indexOf(s) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
+									})
+									ch.send("Choose the suit to equip: " + invs2)
+									break
 								}
+								msg.reply("error: incorrect response.").
 								})
 								.catch(console.error)
-
 							}
-							
 						})
+						})
+						.catch(console.error)
 						})
 					})						
 					break
