@@ -1,3 +1,4 @@
+//fuck
 const Discord = require('discord.js');
  const db = require('mysql');
  const client = new Discord.Client();
