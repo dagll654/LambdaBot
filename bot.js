@@ -688,7 +688,7 @@ client.on('message', msg => {
 						.catch(console.error)
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
-							if (c1msg === "equip" && menu === 1) {
+							if (c1msg === "equip") {
 								ch.send("Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
@@ -703,7 +703,7 @@ client.on('message', msg => {
 								ch.send("Choose the suit to equip: " + invs2)
 								//checkSymbols(str, arr)
 								}
-								if (m.content === "weapon" && menu === 2) {
+								if (m.content === "weapon") {
 									ch.send("Choose the weapon to equip: ")
 								}
 								})
