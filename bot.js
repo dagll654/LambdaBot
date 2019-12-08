@@ -652,8 +652,6 @@ client.on('message', msg => {
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								wepd = `${gearc[1].damage[0]}-${gearc[1].damage[1]} `
-								console.log(gearc[1].dtype)
-								console.log(jn.dtype)
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
@@ -666,6 +664,7 @@ client.on('message', msg => {
 				case "i":
 				case "inv":
 				case "inventory":
+					msg.delete(1)
 					pool.getConnection(function (err, connection) {
 						connection.query(`SELECT * FROM employees`, function (err, result) {
 							dbployees = []
@@ -738,14 +737,38 @@ client.on('message', msg => {
 								} else
 								if (m.array()[0].content === "weapon") {
 									invw2 = ""
-									suitchoice = []
+									weaponchoice = []
 									console.log("AINVW: ")
 									console.log(ainvw)
-									ainvw.forEach(s => {
-										invs2 += s.name + ` (${Number(s.id) + 1})`
-										if (ainvw.indexOf(s) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
+									ainvw.forEach(w => {
+										invw2 += w.name + ` (${Number(w.id) + 1})`
+										if (ainvs.indexOf(w) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
+									//checkSymbols(str, arr)
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+									.then(m => {
+										if (checkSymbols(m.array()[0].content, nmbrs)) {
+											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
+												equpd = (Number(m.array()[0].content) - 1).toString()
+												console.log("EQUPD: " + equpd)
+												m.delete(1)
+												wepd = `${gear.weapons[Number(m.array()[0]-1].damage[0]} - ${gear.weapons[Number(m.array()[0]-1].damage[1]} `
+												for (i = 0; i < 4; i++) {
+													if (gear.weapons[Number(m.array()[0].content) - 1)].dtype[i] > 0) {wepd += jn.dtype[i]}
+												}
+												connection.query("UPDATE `employees` SET `weapon` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
+													if (err) throw err
+												})
+												msg.delete(1) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[Number(m.array()[0].content) - 1].name}   -   ${wepd}`) 
+												menumsg.delete(8000)
+												upd()
+												
+											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
+										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
+									})
+									.catch(console.error)
 								} else
 								msg.reply("error: incorrect response.")
 								})
