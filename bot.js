@@ -676,9 +676,9 @@ client.on('message', msg => {
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
-						ch.fetchMessages()
+						ch.fetchMessages( { limit: 10 } )
 						.then(msgs => {
-						menumsg = msgs.find(m => m.content.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))
+						msgs.find(m => m.content.startsWith("\n```mb\n 📦 | Showing inventory of "))
 									.then(console.log(m => m.array()[0].content))
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 						invmenu.on('collect', cmsg => {
