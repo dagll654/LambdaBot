@@ -65,7 +65,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {
 
-	
+	console.log(client.user)
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
@@ -677,7 +677,7 @@ client.on('message', msg => {
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
 						ch.fetchMessages( { limit: 10 } )
-						.then(msgs => {
+						.then(msgs => {})
 						msgs.find(m => m.content.startsWith("\n```mb\n 📦 | Showing inventory of "))
 									.then(console.log(m => m.array()[0].content))
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
@@ -722,7 +722,6 @@ client.on('message', msg => {
 								})
 								.catch(console.error)
 							}
-						})
 						})
 						.catch(console.error)
 						})
