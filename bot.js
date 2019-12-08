@@ -65,10 +65,11 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {
 
-	console.log(client.user)
+
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
+	console.log(DELTAS.members.get(client.user.id))
 	
 	// Debug line: logs all members
 	//DELTAS.members.forEach(member => console.log(member.user.username));
