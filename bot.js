@@ -688,7 +688,7 @@ client.on('message', msg => {
 							curruser.inventoryw.split(" ").forEach(id => {
 								invw += gear.weapons[id].name
 								ainvw.push({"name": gear.weapons[id].name, "id": id})
-								ainvsw.push(Number(id))
+								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
