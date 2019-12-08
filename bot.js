@@ -682,7 +682,7 @@ client.on('message', msg => {
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
-						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000, limit: 50 })
+						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 						ch.fetchMessages({ limit: 3 })
 						.then(m => console.log(m.findKey(v => v.author.id === client.user.id)))
 						.catch(console.error)
@@ -692,6 +692,7 @@ client.on('message', msg => {
 							if (c1msg === "equip" && menu === 1) {
 								menu = 2
 								ch.send("Equip suit or weapon?")
+								invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 							}
 							if (c1msg === "suit" && menu === 2) {
 								menu = 3
