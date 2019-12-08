@@ -673,7 +673,7 @@ client.on('message', msg => {
 							ainvw = []
 							curruser.inventorys.split(" ").forEach(id => {
 								invs += gear.suits[id].name
-								ainvs.push([gear.suits[id].name, id])
+								ainvs.push({"name": gear.suits[id].name, "id": id})
 								if (curruser.inventorys.split(" ").indexOf(id) < (curruser.inventorys.split(" ").length - 1)) {invs += ", "} else {invs += "."}
 							}) 
 							curruser.inventoryw.split(" ").forEach(id => {
@@ -697,6 +697,9 @@ client.on('message', msg => {
 									invs2 = ""
 									suitchoice = []
 									console.log("AINVS: "+ainvs)
+									ainvs.forEach(s => {
+										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+									})
 									ch.send("Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
 								}
