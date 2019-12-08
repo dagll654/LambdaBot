@@ -692,7 +692,7 @@ client.on('message', msg => {
 									suitchoice = []
 									console.log("AINVS: "+ainvs)
 									ainvs.forEach(s => {
-										invs2 += s.name + ` (${s.id + 1})`
+										invs2 += s.name + ` (${Number(s.id) + 1})`
 										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
 									})
 									ch.send("Choose the suit to equip: " + invs2)
