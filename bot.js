@@ -685,7 +685,7 @@ client.on('message', msg => {
 						filter = m => (msg.author.id === '607520778178527246') && (mesc.startsWith("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```"))
 						imid = ""
 						ch.awaitMessages(filter, {max: 1, time: 10000}).then(m => imid = m.id)
-						console.log("IMID = " + imid)
+						await(imid).then(console.log("IMID = " + imid))
 						const invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 20000 })
 						invmenu.on('collect', cmsg => {
 							c1msg = cmsg.content.toLowerCase()
