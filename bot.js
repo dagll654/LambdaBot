@@ -665,20 +665,24 @@ client.on('message', msg => {
 							invw = ""
 							ainvs = []
 							ainvw = []
+							ainvsd = []
+							ainvsw = []
 							curruser.inventorys.split(" ").forEach(id => {
 								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[id].name, "id": id})
+								ainvsd.push(Number(id))
 								if (curruser.inventorys.split(" ").indexOf(id) < (curruser.inventorys.split(" ").length - 1)) {invs += ", "} else {invs += "."}
 							}) 
 							curruser.inventoryw.split(" ").forEach(id => {
 								invw += gear.weapons[id].name
 								ainvw.push([gear.weapons[id].name, id])
+								ainvsw.push(Number(id))
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
-							cmsg.delete()
+							cmsg.delete(1)
 							menumsg = DELTAS.members.get(client.user.id).lastMessage
 							console.log(DELTAS.members.get(client.user.id).lastMessageID)
 							c1msg = cmsg.content.toLowerCase()
@@ -686,6 +690,7 @@ client.on('message', msg => {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
+								m.delete(1)
 								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
@@ -698,11 +703,24 @@ client.on('message', msg => {
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
-									ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											
-										}
+											if (ainvsd.includes(Number(m.array()[0].content))) {
+												equpd = (Number(m.array()[0].content) - 1).toString()
+												for (i = 0; i < (3 - equpd.length); i++) {
+													let txtt = "0" + equpd
+													equpd = txtt
+												}
+												equpd = equpd + curruser.equipment.slice(3, 6)
+												connection.query("UPDATE `employees` SET `equipment` = '" + equpd + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
+													if (err) throw err
+												})
+												msg.delete(1) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped") 
+												menumsg.delete(2000)
+											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
+										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
 								} else
