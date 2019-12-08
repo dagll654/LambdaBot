@@ -761,7 +761,7 @@ client.on('message', msg => {
 													if (err) throw err
 												})
 												msg.delete(1) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[Number(m.array()[0]).content - 1].name}   -   ${wepd}`) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[(Number(m.array()[0]).content) - 1].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
 												upd()
 												
