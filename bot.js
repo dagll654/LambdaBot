@@ -755,7 +755,7 @@ client.on('message', msg => {
 												m.delete(1)
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
 												for (i = 0; i < 4; i++) {
-													if (gear.weapons[Number(m.array()[0].content) - 1)].dtype[i] > 0) {wepd += jn.dtype[i]}
+													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
 												}
 												connection.query("UPDATE `employees` SET `weapon` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
