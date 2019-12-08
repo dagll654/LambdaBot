@@ -40,6 +40,20 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
+	// Function that updates the god damn information on employee stats/equipment/whatever
+	function upd() {
+		pool.getConnection(function (err, connection) {
+			connection.query(`SELECT * FROM employees`, function (err, result) { 
+				dbployees = []
+				result.forEach(e => fdbPush(e))
+				dbids = []
+				dbployees.forEach(e => dbids.push(e.id))
+				if (err) throw err
+				connection.release()
+			})
+		})
+	}
+ 
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
 		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw})
@@ -692,7 +706,6 @@ client.on('message', msg => {
 								m.delete(1)
 								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
-									m.delete(1)
 									invs2 = ""
 									suitchoice = []
 									console.log("AINVS: ")
@@ -713,7 +726,8 @@ client.on('message', msg => {
 												})
 												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[Number(m.array()[0].content) - 1].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
-												menumsg.delete(2000)
+												menumsg.delete(8000)
+												upd()
 												
 											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
