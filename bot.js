@@ -309,10 +309,10 @@ client.on('message', msg => {
 				
 				if (roll(100) > successChance) {neboxes++}
 				else {peboxes++}
-				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (i-1))
+				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (9 - i))
 				progressBarOld = progressBar
 				progressBar = ""
-				for (j = 0; j < (i - 1); j++) {
+				for (j = 0; j < (9 - i); j++) {
 					progressArray.push(0)
 				}
 				for (j = 0; j < peboxes; j++) {
@@ -324,14 +324,12 @@ client.on('message', msg => {
 				console.log("Progress array normal length: " + progressArray.length)
 				for (j = 0; j < 5; j++) {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-					progressArrayComplex[j] = [j*2, j*2+1]
+					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				
 				setTimeout(function(){m.edit(progressBar)}, (i+1)*1000) 
 			}
-			
-			progress(m)
 			
 		})
 			
