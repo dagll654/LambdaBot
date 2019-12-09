@@ -655,7 +655,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `					LV${Math.ceil(stats[0]/25)} ${jn.fortitude} ${stats[0]}		LV${Math.ceil(stats[1]/25)} ${jn.prudence} ${stats[1]}		LV${Math.ceil(stats[2]/25)} ${jn.temperance} ${stats[2]}		LV${Math.ceil(stats[3]/25)} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV${Math.ceil(stats[0]/25)} ${jn.fortitude} ${stats[0]}		LV${Math.ceil(stats[1]/25)} ${jn.prudence} ${stats[1]}		LV${Math.ceil(stats[2]/25)} ${jn.temperance} ${stats[2]}		LV${Math.ceil(stats[3]/25)} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 								connection.release()
 							})	
