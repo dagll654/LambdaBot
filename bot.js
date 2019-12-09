@@ -253,7 +253,7 @@ client.on('message', msg => {
 	}
 	
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-		cmd = mesc.split(" ").toLowerCase
+		cmd = msg.content.split(" ").toLowerCase
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		curruser = dbployees[dbids.indexOf(cmd[1])]
