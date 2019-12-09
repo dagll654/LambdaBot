@@ -304,7 +304,7 @@ client.on('message', msg => {
 		successChance = 0
 		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		succtext = ("Success chance: " + `(${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100 = ${successChance} (${successChancet})`)
+		succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 		progressBar = ""
 		progressBarOld = ""
@@ -349,7 +349,7 @@ client.on('message', msg => {
 						start_position: while(true) {
 							var result = await wait(1000)
 							console.log("thing")
-							await mssage.edit(arr[i])
+							mssage.edit(arr[i])
 							i++
 							if (i < (arr.length + 1)) continue start_position
 							break
@@ -357,6 +357,7 @@ client.on('message', msg => {
 				}
 				
 				asyncEdit(m, progressBarStorage)
+				.then(ch.send("done"))
 			
 		})
 			
