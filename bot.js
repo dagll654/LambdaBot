@@ -629,10 +629,10 @@ client.on('message', msg => {
 					break
 				case "w":
 				case "work":
-					if (abn.lista.includes(cmd[1])) {
-					if (jn.abnWorkable.includes(cmd[1])) {
-					if (jn.workOrders.includes(cmd[2])) {
-						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[2])]
+					if (abn.lista.includes(cmd[2])) {
+					if (jn.abnWorkable.includes(cmd[2])) {
+					if (jn.workOrders.includes(cmd[3])) {
+						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
 						console.log(curruser.get(respectiveStat))
 						} else msg.reply("error: incorrect work order.")
