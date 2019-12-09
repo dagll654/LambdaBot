@@ -312,6 +312,7 @@ client.on('message', msg => {
 				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (9 - i))
 				progressBarOld = progressBar
 				progressBar = ""
+				progressArray = []
 				for (j = 0; j < (9 - i); j++) {
 					progressArray.push(0)
 				}
