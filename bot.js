@@ -151,6 +151,7 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
+	const bch = DELTAS.channels.get("607558082381217851")
 	
 	// Handy vars
 	var ch = msg.channel
@@ -632,10 +633,17 @@ client.on('message', msg => {
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
+						currentAbno = abn.lista[abn.lista.indexOf(cmd[2])].name
+						bch.send("currentAbno: " + currentAbno)
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
-						console.log("stats - " + curruser.stats)
-						console.log(respectiveStat + " - " + curruser.stats[jn.stats.indexOf(respectiveStat)])
+						statIndex = jn.workOrders.indexOf(cmd[3])
+						userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
+						userTemp = curruser.temperance
+						userStatLevel = Math.ceil(userStat/25)
+						successChance = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
+						bch.send("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance}`)
+						
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
