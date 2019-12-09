@@ -252,7 +252,21 @@ client.on('message', msg => {
 		yeet(8)
 	}
 	
-	
+	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
+		cmd = mesc.split(" ").toLowerCase
+		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
+		curruser = dbployees[dbids.indexOf(cmd[1]]
+		statIndex = jn.workOrders.indexOf(cmd[3])
+		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
+		userTemp = curruser.temperance
+		userStatLevel = Math.ceil((userStat+1)/25)
+		successChance = 0
+		successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
+		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
+		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
+		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+	}
 	
 	
 	// Vote stuff
@@ -637,20 +651,7 @@ client.on('message', msg => {
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
-						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
-						curruser = dbployees[dbids.indexOf(msg.author.id)]
-						statIndex = jn.workOrders.indexOf(cmd[3])
-						userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
-						userTemp = curruser.temperance
-						userStatLevel = Math.ceil((userStat+1)/25)
-						successChance = 0
-						successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
-						if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-						succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
-						ch.send("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
-						
-						
+						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
