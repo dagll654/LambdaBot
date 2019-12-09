@@ -35,7 +35,7 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
- dbvars = [0, 0, 0, 0]
+ dbvars = [0, 0, 0, 1]
  dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
  quotelog = []
  votingteam = ""
@@ -79,7 +79,18 @@ const Discord = require('discord.js');
 	}
 	
 	client.setInterval(function(){
-		if (today.getMinutes < 1) {}
+		if (today.getMinutes < 1) {
+			if (dbvars[3] === 0)) {
+			dbvars[3] = 1
+			pool.getConnection(function (err, connection) {
+					dbployees.forEach
+					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + cmd[4] + "';", function (err, result) {
+						if (err) throw err
+						connection.release()
+					})
+				})
+			}
+		} else {dbvars = 0}
 	}, 5000)
 	console.log((today.getMinutes() + 1) + " - minutes plus one")
 	
@@ -104,6 +115,7 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
+			console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
@@ -363,10 +375,10 @@ client.on('message', msg => {
 							if (i < (arr.length + 1)) continue start_position
 							break
 						}
+						ch.send("done")
 				}
 				
 				asyncEdit(m, progressBarStorage)
-				.then(ch.send("done"))
 			
 		})
 			
