@@ -633,8 +633,9 @@ client.on('message', msg => {
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
-						currentAbno = abn.lista[abn.lista.indexOf(cmd[2])].name
-						bch.send("currentAbno: " + currentAbno)
+						currentAbno = abn.lista[abn.lista.indexOf(cmd[2])]
+						bch.send("currentAbno: " + currentAbno.name)
+						console.log("currentAbno: " + currentAbno.name)
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
 						statIndex = jn.workOrders.indexOf(cmd[3])
