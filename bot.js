@@ -374,6 +374,8 @@ client.on('message', msg => {
 							break
 					}
 				progressBarStorage.push(progressBar)
+				if (i < currentAbno.peoutput) {continue start_position2; i++}
+				break
 				}
 
 				async function asyncEdit(mssage, arr) {
