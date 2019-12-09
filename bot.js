@@ -92,7 +92,7 @@ const Discord = require('discord.js');
 						if (sp > e.prudence) {sp = e.prudence}
 						connection.query("UPDATE `employees` SET `hp` = '" + hp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						connection.query("UPDATE `employees` SET `sp` = '" + sp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
-					}
+					})
 					connection.release()
 				})
 			}
