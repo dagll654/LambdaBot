@@ -351,7 +351,7 @@ client.on('message', msg => {
 						   console.log("thing")
 							mssage.edit(arr[i])
 						   i++
-						   if (i < arr.length) continue start_position;
+						   if (i < (arr.length + 1)) continue start_position;
 						   break
 						}
 				}
