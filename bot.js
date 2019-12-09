@@ -80,7 +80,7 @@ const Discord = require('discord.js');
 	
 	client.setInterval(function(){
 		if (today.getMinutes < 1) {
-			if (dbvars[3] === 0)) {
+			if (dbvars[3] === 0) {
 			dbvars[3] = 1
 			pool.getConnection(function (err, connection) {
 					dbployees.forEach
