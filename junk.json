@@ -46,7 +46,7 @@
 			"Architecture Team (C)"
 			],
 	"help1": [
-			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !department (!dep). To get help on a specific command, use !help [CommandName].",
+			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !lobcorp (!lc). To get help on a specific command, use !help [CommandName].",
 			"Usage: !giverole RoleName. Awaliable roles: (almost?) all of the department roles, for vanity choices.",
 			"Usage: !removerole RoleName. Can only remove roles that can be removed with the !giverole command.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
