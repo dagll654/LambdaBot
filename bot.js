@@ -274,11 +274,11 @@ client.on('message', msg => {
 		if (arr[0] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
-		console.log("A1 " + a) 
+		//console.log("A1 " + a) 
 		if (arr[1] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
-		console.log("A2 " + a) 
+		//console.log("A2 " + a) 
 		return jn.boxes[jn.boxcodes.indexOf(a)]
 	}
 	
@@ -381,7 +381,7 @@ client.on('message', msg => {
 						start_position: while(true) {
 							var result = await wait(1000)
 							//console.log("thing")
-							var bleh = await mssage.edit(arr[i])
+							mssage.edit(arr[i])
 							i++
 							if (i < (arr.length + 1)) continue start_position
 							break
