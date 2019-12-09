@@ -321,14 +321,13 @@ client.on('message', msg => {
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
-				console.log("Progress array normal length: " + progressArray.length)
+				console.log("Progress array normal: " + progressArray)
 				for (j = 0; j < 5; j++) {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				
-				setTimeout(function(){m.edit(progressBar)}, (i+1)*1000) 
 			}
 			
 		})
