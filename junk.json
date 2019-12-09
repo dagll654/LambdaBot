@@ -129,6 +129,13 @@
 				"prudence",
 				"temperance",
 				"justice"
-				]
-
+				],
+	"statLevels"	[
+					"I",
+					"II",
+					"III",
+					"IV",
+					"V",
+					"EX"
+					]
 }

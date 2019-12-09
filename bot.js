@@ -204,6 +204,15 @@ client.on('message', msg => {
 		if (arr.length === 0) {return false} else {return arr.every(i => i === compoint)}
 	}
 	
+	function statLVL(stat) {
+		if (stat < 30) {return "I"}
+		else if (stat < 45) {return "II"}
+		else if (stat < 65) {return "III"}
+		else if (stat < 85) {return "IV"}
+		else if (stat < 100) {return "V"}
+		else {return "EX"}
+	}
+	
 	// Function for checking if the given amount of arguments is valid
 	function argCheck(arr, argcount) {
 		return arr.length >= argcount
@@ -260,12 +269,15 @@ client.on('message', msg => {
 		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
-		userStatLevel = Math.ceil((userStat+1)/25)
+		userStatLevelText = statLVL(userStat)
+		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
+		if (userStatLevel > 4) {userStatLevel = 4} 
 		successChance = 0
 		successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		
 	}
 	
 	
@@ -684,7 +696,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV${Math.ceil((stats[0]+1)/25)} ${jn.fortitude} ${stats[0]}		LV${Math.ceil((stats[1]+1)/25)} ${jn.prudence} ${stats[1]}		LV${Math.ceil((stats[2]+1)/25)} ${jn.temperance} ${stats[2]}		LV${Math.ceil((stats[3]+1)/25)} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}		LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}		LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 								connection.release()
 							})	
