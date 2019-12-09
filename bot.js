@@ -347,13 +347,12 @@ client.on('message', msg => {
 				async function asyncEdit(mssage, arr) {
 						i = 0
 						start_position: while(true) {
-						   var result = await wait(1000)
-						   console.log("thing")
-							mssage.edit(arr[i]).then(m => {
-								i++
-								if (i < (arr.length + 1)) continue start_position
-								})
-						   break
+							var result = await wait(1000)
+							console.log("thing")
+							await mssage.edit(arr[i])
+							i++
+							if (i < (arr.length + 1)) continue start_position
+							break
 						}
 				}
 				
