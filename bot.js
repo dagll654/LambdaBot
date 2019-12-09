@@ -242,7 +242,7 @@ client.on('message', msg => {
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
 		console.log("A2: " + a)
-		return jn.boxes[jn.boxcodes.indexOf(arr)]
+		return jn.boxes[jn.boxcodes.indexOf(a)]
 	}
 	
 	// Roll an x-sided die, even if that makes absolutely no sence in practice
