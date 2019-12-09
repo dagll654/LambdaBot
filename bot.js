@@ -77,7 +77,10 @@ const Discord = require('discord.js');
 		return ret
 	}
 	
-	
+	client.setInterval(function(){
+		if (today.getMinutes < 1) {}
+	}, 31000)
+	console.log((today.getMinutes + 1) + " - minutes plus one")
 	
  
 client.on('ready', () => {	
