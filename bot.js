@@ -346,7 +346,7 @@ client.on('message', msg => {
 
 				async function asyncEdit(mssage, arr) {
 					for (i = 0; i < arr.length; i++) {
-						var result = await wait(1000*(i+1))
+						var result = await wait(600*(i+1))
 						mssage.edit(arr[i])
 					}
 				}
