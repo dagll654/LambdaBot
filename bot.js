@@ -312,7 +312,7 @@ client.on('message', msg => {
 				
 				if (roll(100) > successChance) {neboxes++}
 				else {peboxes++}
-				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (9 - i))
+				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (currentAbno.peoutput - (i+1)))
 				progressBarOld = progressBar
 				progressBar = ""
 				progressArray = []
@@ -326,7 +326,7 @@ client.on('message', msg => {
 					progressArray.push(-1)
 				}
 				console.log("Progress array normal: " + progressArray)
-				for (j = 0; j < 5; j++) {
+				for (j = 0; j < currentAbno.peoutput/2; j++) {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
 					console.log("Progress array " + j + " " + progressArrayComplex)
