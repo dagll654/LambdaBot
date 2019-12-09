@@ -56,7 +56,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, function getStat(stat) {switch (stat) {case "fortitude": return this.fortitude break case "prudence": return this.prudence break case "temperance": return this.temperance break case "justice": return this.justice break default: return this.temperance break}}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, get stats {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -634,7 +634,8 @@ client.on('message', msg => {
 					if (jn.workOrders.includes(cmd[3])) {
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
-						console.log(respectiveStat + " - " + curruser.getStat(respectiveStat))
+						console.log("stats - " + curruser.stats)
+						console.log(respectiveStat + " - " + curruser.stats[jn.stats.indexOf(respectiveStat)])
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
