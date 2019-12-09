@@ -370,7 +370,7 @@ client.on('message', msg => {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
 					console.log("Progress array " + j + " " + progressArrayComplex)
-					if (j < currentAbno.peoutput/2) {j++; continue start_position}
+					if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
 							break
 					}
 				progressBarStorage.push(progressBar)
