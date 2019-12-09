@@ -349,7 +349,7 @@ client.on('message', msg => {
 						start_position: while(true) {
 						   var result = await wait(1000)
 						   console.log("thing")
-							mssage.edit(arr[i]).then({
+							mssage.edit(arr[i]).then(m => {
 								i++
 								if (i < (arr.length + 1)) continue start_position
 								})
