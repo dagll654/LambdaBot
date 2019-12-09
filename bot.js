@@ -302,6 +302,7 @@ client.on('message', msg => {
 		progressBarOld = ""
 		progressArray = []
 		progressArrayComplex = []
+		progressBarStorage = []
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
@@ -332,7 +333,8 @@ client.on('message', msg => {
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
-				
+				progressBarStorage.push(progressBar)
+				setTimeout(function(){m.edit(progressBarStorage[i])}, 1000*(i+1))
 			}
 			
 		})
