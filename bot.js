@@ -76,8 +76,12 @@ const Discord = require('discord.js');
 		}}
 		return ret
 	}
+	
+
  
 client.on('ready', () => {	
+
+	client.setInterval(function(){console.log("tick, tock")}, 3000)
 
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
