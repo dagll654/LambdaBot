@@ -28,14 +28,15 @@ const Discord = require('discord.js');
 	database: "sql7314688"
 	});
 	
+	var today = new Date()
  var employees = []
  var dbployees = []
  var dbids = []
  x = 0 
  x1 = 0
  dbg1 = 0
- dbvars = [0, 0, 0]
- dbvnames = ['debugduck', 'debugsay', 'debugvote']
+ dbvars = [0, 0, 0, 0]
+ dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
  quotelog = []
  votingteam = ""
  voting = 0
@@ -79,7 +80,7 @@ const Discord = require('discord.js');
 	
 	client.setInterval(function(){
 		if (today.getMinutes < 1) {}
-	}, 31000)
+	}, 5000)
 	console.log((today.getMinutes + 1) + " - minutes plus one")
 	
  
