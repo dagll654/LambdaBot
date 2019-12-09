@@ -642,8 +642,10 @@ client.on('message', msg => {
 						userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 						userTemp = curruser.temperance
 						userStatLevel = Math.ceil(userStat/25)
-						successChance = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
-						bch.send("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance}`)
+						successChance = 0
+						successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
+						if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
+						bch.send("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
 						
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
