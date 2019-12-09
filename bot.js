@@ -277,7 +277,7 @@ client.on('message', msg => {
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
-		succtext.replace("Success chance:", "bruh")
+		succtext = succtext.replace("Success chance:", "bruh")
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 		
 	}
