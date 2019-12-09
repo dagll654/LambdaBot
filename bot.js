@@ -237,7 +237,6 @@ client.on('message', msg => {
 		let a = 0
 		if (arr[0] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
-		console.log("A1: " + a)
 		if (arr[1] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
@@ -303,13 +302,14 @@ client.on('message', msg => {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
 		}
-		ch.send("			" + progressBar).then(m => {
+		ch.send(progressBar).then(m => {
 			neboxes = 0
 			peboxes = 0
 			async function progress() {
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if (roll(100) > successChance) {neboxes++}
 				else {peboxes++}
+				console.log("PE: " + peboxes + ", NE: " + neboxes)
 				progressBarOld = progressBar
 				progressBar = ""
 				for (j = 0; j < (currentAbno.peoutput - 1); j++) {
@@ -321,8 +321,11 @@ client.on('message', msg => {
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
+				console.log("Progress array normal: " + progressArray)
 				for (j = 0; j < 5; j++) {
 					progressBar += box([j*2, j*2+1])
+					progressArrayComplex[j] = [j*2, j*2+1]
+					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				wait(1000)
 				m.edit("			" + progressBar)
