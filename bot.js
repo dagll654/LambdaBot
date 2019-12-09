@@ -328,7 +328,7 @@ client.on('message', msg => {
 					progressArrayComplex[j] = [j*2, j*2+1]
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
-				m.edit("			" + progressBar))}
+				m.edit("			" + progressBar)})
 			}
 			}
 			progress()
