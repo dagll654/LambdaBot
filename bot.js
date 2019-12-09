@@ -310,10 +310,10 @@ client.on('message', msg => {
 				await wait(1000).then({
 				if (roll(100) > successChance) {neboxes++}
 				else {peboxes++}
-				console.log("PE: " + peboxes + ", NE: " + neboxes)
+				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (i-1))
 				progressBarOld = progressBar
 				progressBar = ""
-				for (j = 0; j < (currentAbno.peoutput - 1); j++) {
+				for (j = 0; j < (i - 1); j++) {
 					progressArray.push(0)
 				}
 				for (j = 0; j < peboxes; j++) {
