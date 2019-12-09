@@ -35,7 +35,7 @@ const Discord = require('discord.js');
  x = 0 
  x1 = 0
  dbg1 = 0
- dbvars = [0, 0, 0, 1]
+ dbvars = [0, 0, 0, 0]
  dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
  quotelog = []
  votingteam = ""
@@ -57,7 +57,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -78,22 +78,25 @@ const Discord = require('discord.js');
 		return ret
 	}
 	
+	// Heal 1/24 of max HP and SP every 2.5 minutes ( = full heal in an hour)
 	client.setInterval(function(){
-		if (today.getMinutes < 1) {
 			if (dbvars[3] === 0) {
-			dbvars[3] = 1
 			pool.getConnection(function (err, connection) {
-					dbployees.forEach
-					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + cmd[4] + "';", function (err, result) {
-						if (err) throw err
-						connection.release()
-					})
+					upd()
+					dbployees.forEach(e => {
+						let hp = e.hp
+						if (hp < e.fortitude) {hp = hp + Math.ceil(e.fortitude/24)}
+						if (hp > e.fortitude) {hp = e.fortitude}
+						let sp = e.sp
+						if (sp < e.prudence) {sp = sp + Math.ceil(e.prudence/24)}
+						if (sp > e.prudence) {sp = e.prudence}
+						connection.query("UPDATE `employees` SET `hp` = '" + hp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
+						connection.query("UPDATE `employees` SET `sp` = '" + sp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
+					}
+					connection.release()
 				})
 			}
-		} else {dbvars = 0}
-	}, 5000)
-	console.log((today.getMinutes() + 1) + " - minutes plus one")
-	
+	}, 150000)
  
 client.on('ready', () => {	
 
@@ -804,7 +807,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}		LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}		LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}		LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}		LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 								connection.release()
 							})	
