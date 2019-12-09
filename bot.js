@@ -237,9 +237,11 @@ client.on('message', msg => {
 		let a = 0
 		if (arr[0] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
+		console.log("A1 " + a) 
 		if (arr[1] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
+		console.log("A2 " + a) 
 		return jn.boxes[jn.boxcodes.indexOf(a)]
 	}
 	
@@ -278,6 +280,7 @@ client.on('message', msg => {
 		yeet(8)
 	}
 	
+	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
 		var wrk = mesc.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
