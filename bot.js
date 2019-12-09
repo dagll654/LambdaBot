@@ -629,7 +629,7 @@ client.on('message', msg => {
 					break
 				case "w":
 				case "work":
-					if (abnb.lista.includes(cmd[1])) {
+					if (abn.lista.includes(cmd[1])) {
 					if (jn.abnWorkable.includes(cmd[1])) {
 					if (jn.workOrders.includes(cmd[2])) {
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[2])]
