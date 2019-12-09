@@ -231,6 +231,16 @@ client.on('message', msg => {
 		return emvar
 	}
 	
+	// Function for getting a box by array explaining its contents
+	function box(arr) {
+		return jn.boxes[jn.boxcodes.indexOf(arr)]
+	}
+	
+	// Roll an x-sided die, even if that makes absolutely no sence in practice
+	function roll(sides) {
+		return Math.ceil(Math.random() * sides)
+	}
+	
 	// Function for getting a role by name 
 	function getRole(nme) {
 		if (msg.guild.roles.map(r => r.name).includes(nme)) {
@@ -277,8 +287,14 @@ client.on('message', msg => {
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
-		succtext = succtext.replace("Success chance:", "bruh")
-		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		progressBar = ""
+		progressArray = []
+		console.log("Rolled 5d10: " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10))
+		for (i = 0; i < (currentAbno.peoutput/2); i++) {
+			progressBar += box([0, 0])
+		}
+		ch.send(progressBar)
+			
 		
 	}
 	
