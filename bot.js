@@ -374,7 +374,7 @@ client.on('message', msg => {
 							break
 					}
 				progressBarStorage.push(progressBar)
-				if (i < currentAbno.peoutput) {continue start_position2; i++}
+				if (i < currentAbno.peoutput) {i++; continue start_position2}
 				break
 				}
 
