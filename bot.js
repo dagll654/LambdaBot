@@ -634,7 +634,7 @@ client.on('message', msg => {
 					if (jn.workOrders.includes(cmd[3])) {
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
-						console.log(curruser.get(respectiveStat))
+						console.log(respectiveStat + " - " + curruser.getStat(respectiveStat))
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
