@@ -334,7 +334,9 @@ client.on('message', msg => {
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				progressBarStorage.push(progressBar)
-				setTimeout(function(){m.edit(progressBarStorage[i])}, 1000*(i+1))
+				}
+			for (i = 0; i < progressBarStorage.length; i++) { 
+				setTimeout(function(){m.edit(progressBarStorage[i])}, 1000 * (i + 1))
 			}
 			
 		})
