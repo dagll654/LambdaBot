@@ -671,6 +671,8 @@ client.on('message', msg => {
 				case "p":
 				case "profile":
 				upd()
+				upd()
+				upd()
 				var curruser = {"id": 101}
 					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
 						cuid = ""
