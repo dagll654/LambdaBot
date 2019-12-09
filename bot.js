@@ -634,8 +634,6 @@ client.on('message', msg => {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
 						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-						bch.send("currentAbno: " + currentAbno.name)
-						console.log("currentAbno: " + currentAbno.name)
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 						curruser = dbployees[dbids.indexOf(msg.author.id)]
 						statIndex = jn.workOrders.indexOf(cmd[3])
@@ -645,7 +643,9 @@ client.on('message', msg => {
 						successChance = 0
 						successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
 						if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-						bch.send("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
+						succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
+						ch.send("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+						
 						
 						} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
