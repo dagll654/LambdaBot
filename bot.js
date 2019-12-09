@@ -584,7 +584,7 @@ client.on('message', msg => {
 		
 	}
 	
-	if ((cmd[0] === "!department") || (cmd[0] === "!dep")) {
+	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "list":

@@ -57,8 +57,8 @@
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign.",
-			"Usage: !department/!dep (arguments). Arguments: captain, leave, assign."
+			"Usage: !lobcorp/!lc (arguments). Arguments: captain, leave, assign.",
+			"Usage: !lobcorp/!lc (arguments). Arguments: captain, leave, assign."
 			],
 	"cmds": [
 			"!giverole",
@@ -72,8 +72,8 @@
 			"!debug",
 			"!menacing",
 			"!em",
-			"!department",
-			"!dep"
+			"!lobcorp",
+			"!lc"
 			],
 	"qte": [
 			"It's not cheating if you make the rules!", 
