@@ -633,7 +633,7 @@ client.on('message', msg => {
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
-						currentAbno = abn.lista[abn.lista.indexOf(cmd[2])]
+						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 						bch.send("currentAbno: " + currentAbno.name)
 						console.log("currentAbno: " + currentAbno.name)
 						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
