@@ -83,14 +83,14 @@ client.on('ready', () => {
 		return new Promise(resolve => {
 			setTimeout(() => {
 				resolve('resolved')
-			}, 1000)
+			}, 5000)
 		})
 	}	
 
 	async function asyncCall() {
 	  console.log('calling')
 	  var result = await wait()
-	  console.log("Resolved in a second?")
+	  console.log("Resolved in 5 seconds?")
 	}
 
 	asyncCall()
