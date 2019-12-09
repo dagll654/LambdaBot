@@ -236,12 +236,10 @@ client.on('message', msg => {
 		let a = 0
 		if (arr[0] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
-		else {a = a + 7}
 		console.log("A1: " + a)
 		if (arr[1] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
 		else {a = a + 7}
-		console.log("A2: " + a)
 		return jn.boxes[jn.boxcodes.indexOf(a)]
 	}
 	
@@ -324,7 +322,7 @@ client.on('message', msg => {
 				for (j = 0; j < 5; j++) {
 					progressBar += box([j*2, j*2+1])
 				}
-				setTimeout(function(){m.edit("			" + progressBar)}, (i+1)*1000)
+				m.edit("			" + progressBar)
 			}
 			
 		})
