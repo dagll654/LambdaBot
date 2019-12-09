@@ -237,6 +237,7 @@ client.on('message', msg => {
 		let a = 0
 		if (arr[0] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
+		else {a = a + 7}
 		console.log("A1 " + a) 
 		if (arr[1] === 1) {a = a + 1}
 		else if (arr[0] === -1) {a = a + 3}
