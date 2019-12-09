@@ -235,9 +235,9 @@ client.on('message', msg => {
 	function box(arr) {// 1 = 1, -1 = 3, 0 = 7
 		let a = 0
 		switch (arr[0]) {
-			case 1: a = 1; break;
-			case -1: a = 3; break;
-			case 0: a = 7; break
+			case 1: a += 1; break;
+			case -1: a += 3; break;
+			case 0: a += 7; break
 		}
 		console.log("A1: " + a)
 		switch (arr[1]) {
