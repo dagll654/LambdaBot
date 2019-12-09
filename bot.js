@@ -77,24 +77,7 @@ const Discord = require('discord.js');
 		return ret
 	}
  
-client.on('ready', () => {
-	
-	function wait() {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				resolve('resolved')
-			}, 5000)
-		})
-	}	
-
-	async function asyncCall() {
-	  console.log('calling')
-	  var result = await wait()
-	  console.log("Resolved in 5 seconds?")
-	}
-
-	asyncCall()
-
+client.on('ready', () => {	
 
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
@@ -200,6 +183,15 @@ client.on('message', msg => {
 	
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	
+	// Wait 1 second
+	function wait() {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('resolved')
+			}, 1000)
+		})
+	}	
 	
 	// Function for checking if all the elements of arr are included in arr2
 	function checkArray(arr, arr2) {
@@ -351,9 +343,15 @@ client.on('message', msg => {
 				}
 				progressBarStorage.push(progressBar)
 				}
-			for (i = 0; i < progressBarStorage.length; i++) { 
-				setTimeout(function(){m.edit(progressBarStorage[i])}, 1000 * (i + 1))
-			}
+
+				async function asyncEdit(mssage, arr) {
+					for (i = 0; i < arr.length; i++) {
+						var result = await wait()
+						mssage.edit(arr[i])
+					}
+				}
+				
+				asyncEdit(m, progressBarStorage)
 			
 		})
 			
