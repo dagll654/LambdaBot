@@ -348,7 +348,7 @@ client.on('message', msg => {
 			neboxes = 0
 			peboxes = 0
 			i = 0
-			start_position2: while(true) {// for (i = 0; i < currentAbno.peoutput; i++) {
+			for (i = 0; i < currentAbno.peoutput; i++) {
 				
 				if (roll(100) > successChance) {neboxes++; }
 				else {peboxes++}
@@ -374,8 +374,6 @@ client.on('message', msg => {
 							break
 					}
 				progressBarStorage.push(progressBar)
-				if (i < currentAbno.peoutput) {i++; continue start_position2}
-				break
 				}
 
 				async function asyncEdit(mssage, arr) {
@@ -383,7 +381,7 @@ client.on('message', msg => {
 						start_position: while(true) {
 							var result = await wait(1000)
 							//console.log("thing")
-							await mssage.edit(arr[i])
+							var bleh = await mssage.edit(arr[i])
 							i++
 							if (i < (arr.length + 1)) continue start_position
 							break
