@@ -301,6 +301,7 @@ client.on('message', msg => {
 		console.log("Rolled 5d10: " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10))
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
+			progressArray.push([0, 0])
 		}
 		ch.send(progressBar)
 			
