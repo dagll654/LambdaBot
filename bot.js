@@ -316,7 +316,7 @@ client.on('message', msg => {
 				progressBarOld = progressBar
 				progressBar = ""
 				progressArray = []
-				for (j = 0; j < (9 - i); j++) {
+				for (j = 0; j < (currentAbno.peoutput - (i+1)); j++) {
 					progressArray.push(0)
 				}
 				for (j = 0; j < peboxes; j++) {
