@@ -328,7 +328,7 @@ client.on('message', msg => {
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				
-				setTimeout(function(){message.edit(progressBar)}, (i+1)*1000) 
+				setTimeout(function(){m.edit(progressBar)}, (i+1)*1000) 
 			}
 			
 			progress(m)
