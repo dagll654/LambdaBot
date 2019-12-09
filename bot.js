@@ -345,14 +345,14 @@ client.on('message', msg => {
 				}
 
 				async function asyncEdit(mssage, arr) {
-						let i = 0
-					[lbl] repeat:
-						if(i => arr.length) {goto end}
-						var result = await wait(1000)
-						mssage.edit(arr[i])
-						i++
-						goto repeat
-					[lbl] end:
+						i = 0
+						start_position: while(true) {
+						   var result = await wait(1000)
+							mssage.edit(arr[i])
+						   i++
+						   if (i < arr.length) continue start_position;
+						   break
+						}
 				}
 				
 				asyncEdit(m, progressBarStorage)
