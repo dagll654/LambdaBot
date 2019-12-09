@@ -92,7 +92,7 @@
 			"Do the crossbow in your face",
 			"Please, just the tip, come on...",
 			"No! NOT FROM BEHIND!!",
-			"Now I des,troyed my dick!"
+			"Now I destroyed my dick!"
 			],
 	"health": "<:health:652900041476014090>",
 	"sanity": "<:sanity:652900056772509696>",
@@ -106,7 +106,29 @@
 			"<:whited:652900121507528705>",
 			"<:blackd:652900136678064168>",
 			"<:paled:652900149152055297>"
-			]
-
+			],
+	"risk": [
+			"ZAYIN",
+			"TETH",
+			"HE",
+			"WAW",
+			"ALEPH",
+			"perhaps something more? :)"
+			],
+	"abnWorkable":  [
+					"o-03-03"
+					],
+	"workOrders":   [
+					"instinct",
+					"insight",
+					"attachment",
+					"repression"
+					],
+	"stats": 	[
+				"fortitude",
+				"prudence",
+				"temperance",
+				"justice"
+				]
 
 }

@@ -627,6 +627,18 @@ client.on('message', msg => {
 					break
 					}
 					break
+				case "w":
+				case "work":
+					if abnb.lista.includes(cmd[1]) {
+					if jn.abnWorkable.includes(cmd[1]) {
+					if jn.workOrders.includes(cmd[2]) {
+						respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[2])]
+						curruser = dbployees[dbids.indexOf(msg.author.id)]
+						console.log(curruser.get(respectiveStat))
+						} else msg.reply("error: incorrect work order.")
+					} else msg.reply("error: work on the specified abnormality unavaliable.")
+					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
+					break
 				case "p":
 				case "profile":
 				var curruser = {"id": 101}
@@ -923,7 +935,7 @@ client.on('message', msg => {
 				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
-				.setFooter("EGO Gift: " + abn.abn[n].gift)
+				.setFooter("EGO: " + abn.abn[n].ego)
 			ch.send({embed})
 		.catch(console.error)
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
