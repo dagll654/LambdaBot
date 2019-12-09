@@ -147,11 +147,12 @@ client.on('message', msg => {
 	
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
+	const bsch = ESERV.channels.get('653572131262693379')
+	const bch = DELTAS.channels.get('607558082381217851')
 	var emojiid = DELTAS.emojis.map(e => e.id)
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
-	const bch = DELTAS.channels.get("607558082381217851")
 	
 	// Handy vars
 	var ch = msg.channel
@@ -250,6 +251,9 @@ client.on('message', msg => {
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
 		yeet(8)
 	}
+	
+	
+	
 	
 	// Vote stuff
 	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
@@ -639,7 +643,7 @@ client.on('message', msg => {
 						statIndex = jn.workOrders.indexOf(cmd[3])
 						userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 						userTemp = curruser.temperance
-						userStatLevel = Math.ceil(userStat/25)
+						userStatLevel = Math.ceil((userStat+1)/25)
 						successChance = 0
 						successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
 						if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
@@ -679,7 +683,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV${Math.ceil(stats[0]/25)} ${jn.fortitude} ${stats[0]}		LV${Math.ceil(stats[1]/25)} ${jn.prudence} ${stats[1]}		LV${Math.ceil(stats[2]/25)} ${jn.temperance} ${stats[2]}		LV${Math.ceil(stats[3]/25)} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV${Math.ceil((stats[0]+1)/25)} ${jn.fortitude} ${stats[0]}		LV${Math.ceil((stats[1]+1)/25)} ${jn.prudence} ${stats[1]}		LV${Math.ceil((stats[2]+1)/25)} ${jn.temperance} ${stats[2]}		LV${Math.ceil((stats[3]+1)/25)} ${jn.justice} ${stats[3]}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 								connection.release()
 							})	
