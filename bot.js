@@ -298,12 +298,11 @@ client.on('message', msg => {
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 		progressBar = ""
 		progressArray = []
-		console.log("Rolled 5d10: " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10))
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArray.push([0, 0])
 		}
-		ch.send(progressBar)
+		ch.send(progressBar).then(m => console.log(m.id))
 			
 		
 	}
