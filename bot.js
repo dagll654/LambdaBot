@@ -92,8 +92,11 @@ const Discord = require('discord.js');
 						if (sp > e.prudence) {sp = e.prudence}
 						connection.query("UPDATE `employees` SET `hp` = '" + hp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						connection.query("UPDATE `employees` SET `sp` = '" + sp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
+						upd()
+						upd()
 					})
 					connection.release()
+					console.log("Healed all.")
 				})
 			}
 	}, 150000)
@@ -118,7 +121,6 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
-			console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
