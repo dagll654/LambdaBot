@@ -321,7 +321,7 @@ client.on('message', msg => {
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
-				for (j = 0; j < 5) {
+				for (j = 0; j < 5; j++) {
 					progressBar += box([j*2, j*2+1])
 				}
 				setTimeout(function(){m.edit("			" + progressBar)}, (i+1)*1000)
