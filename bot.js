@@ -57,7 +57,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": 0, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -84,6 +84,7 @@ const Discord = require('discord.js');
 			pool.getConnection(function (err, connection) {
 					upd()
 					dbployees.forEach(e => {
+						if (e.working = 0) {
 						let hp = e.hp
 						if (hp < e.fortitude) {hp = hp + Math.ceil(e.fortitude/24)}
 						if (hp > e.fortitude) {hp = e.fortitude}
@@ -94,6 +95,7 @@ const Discord = require('discord.js');
 						connection.query("UPDATE `employees` SET `sp` = '" + sp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						upd()
 						upd()
+						}
 					})
 					connection.release()
 					console.log("Healed all.")
@@ -321,6 +323,7 @@ client.on('message', msg => {
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
 		curruser = dbployees[dbids.indexOf(wrk[1])]
+		dbployees[dbids.indexOf(wrk[1])].working = 1
 		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
@@ -344,11 +347,11 @@ client.on('message', msg => {
 		ch.send(progressBar).then(m => {
 			neboxes = 0
 			peboxes = 0
-			for (i = 0; i < currentAbno.peoutput; i++) {
+			i = 0
+			start_position2: while(true) {// for (i = 0; i < currentAbno.peoutput; i++) {
 				
-				if (roll(100) > successChance) {neboxes++}
+				if (roll(100) > successChance) {neboxes++; }
 				else {peboxes++}
-				console.log("PE: " + peboxes + ", NE: " + neboxes + ", empty: " + (currentAbno.peoutput - (i+1)))
 				progressBarOld = progressBar
 				progressBar = ""
 				progressArray = []
@@ -361,12 +364,15 @@ client.on('message', msg => {
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
-				console.log("Progress array normal: " + progressArray)
-				for (j = 0; j < currentAbno.peoutput/2; j++) {
+				//console.log("Progress array normal: " + progressArray)
+				j = 0
+				start_position: while(true) {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-					console.log("Progress array " + j + " " + progressArrayComplex)
-				}
+					//console.log("Progress array " + j + " " + progressArrayComplex)
+					if (j < currentAbno.peoutput/2) {j++; continue start_position}
+							break
+					}
 				progressBarStorage.push(progressBar)
 				}
 
@@ -374,8 +380,8 @@ client.on('message', msg => {
 						i = 0
 						start_position: while(true) {
 							var result = await wait(1000)
-							console.log("thing")
-							mssage.edit(arr[i])
+							//console.log("thing")
+							await mssage.edit(arr[i])
 							i++
 							if (i < (arr.length + 1)) continue start_position
 							break
