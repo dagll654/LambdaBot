@@ -253,11 +253,11 @@ client.on('message', msg => {
 	}
 	
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-		cmd = msg.content.split(" ").toLowerCase
-		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
-		curruser = dbployees[dbids.indexOf(cmd[1])]
-		statIndex = jn.workOrders.indexOf(cmd[3])
+		wrk = msg.content.toLowerCase.split(" ")
+		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
+		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
+		curruser = dbployees[dbids.indexOf(wrk[1])]
+		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
 		userStatLevel = Math.ceil((userStat+1)/25)
@@ -265,7 +265,7 @@ client.on('message', msg => {
 		successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
-		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 	}
 	
 	
