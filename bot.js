@@ -153,6 +153,7 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
+	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 	
 	// Handy vars
 	var ch = msg.channel
@@ -305,6 +306,7 @@ client.on('message', msg => {
 		ch.send("			" + progressBar).then(m => {
 			neboxes = 0
 			peboxes = 0
+			async function progress() {
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if (roll(100) > successChance) {neboxes++}
 				else {peboxes++}
@@ -322,8 +324,11 @@ client.on('message', msg => {
 				for (j = 0; j < 5; j++) {
 					progressBar += box([j*2, j*2+1])
 				}
+				wait(1000)
 				m.edit("			" + progressBar)
 			}
+			}
+			progress()
 			
 		})
 			
