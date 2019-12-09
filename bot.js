@@ -292,17 +292,42 @@ client.on('message', msg => {
 		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
 		if (userStatLevel > 4) {userStatLevel = 4} 
 		successChance = 0
-		successChancet = Math.floor((userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100)
+		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		succtext = ("Success chance: " + `Math.floor((${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100) = ${successChance} (${successChancet})`)
+		succtext = ("Success chance: " + `(${userTemp} * 0.002 + ${currentAbno.workPreferences[statIndex][userStatLevel]})*100 = ${successChance} (${successChancet})`)
 		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 		progressBar = ""
+		progressBarOld = ""
 		progressArray = []
+		progressArrayComplex = []
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
-			progressArray.push([0, 0])
+			progressArrayComplex.push([0, 0])
 		}
-		ch.send(progressBar).then(m => console.log(m.id))
+		ch.send("			" + progressBar).then(m => {
+			neboxes = 0
+			peboxes = 0
+			for (i = 0; i < currentAbno.peoutput; i++) {
+				if (roll(100) > successChance) {neboxes++}
+				else {peboxes++}
+				progressBarOld = progressBar
+				progressBar = ""
+				for (j = 0; j < (currentAbno.peoutput - 1); j++) {
+					progressArray.push(0)
+				}
+				for (j = 0; j < peboxes; j++) {
+					progressArray.unshift(1)
+				}
+				for (j = 0; j < neboxes; j++) {
+					progressArray.push(-1)
+				}
+				for (j = 0; j < 5) {
+					progressBar += box([j*2, j*2+1])
+				}
+				setTimeout(function(){m.edit("			" + progressBar)}, (i+1)*1000)
+			}
+			
+		})
 			
 		
 	}
