@@ -364,12 +364,12 @@ client.on('message', msg => {
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
-				//console.log("Progress array normal: " + progressArray)
+				console.log("Progress array normal: " + progressArray)
 				j = 0
 				start_position: while(true) {
 					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
 					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-					//console.log("Progress array " + j + " " + progressArrayComplex)
+					console.log("Progress array " + j + " " + progressArrayComplex)
 					if (j < currentAbno.peoutput/2) {j++; continue start_position}
 							break
 					}
