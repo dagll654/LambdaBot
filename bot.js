@@ -234,17 +234,13 @@ client.on('message', msg => {
 	// Function for getting a box by array explaining its contents
 	function box(arr) {// 1 = 1, -1 = 3, 0 = 7
 		let a = 0
-		switch (arr[0]) {
-			case 1: a += 1; break;
-			case -1: a += 3; break;
-			case 0: a += 7; break
-		}
+		if (arr[0] === 1) {a = a + 1}
+		else if (arr[0] === -1) {a = a + 3}
+		else {a = a + 7}
 		console.log("A1: " + a)
-		switch (arr[1]) {
-			case 1: a += 1; break;
-			case -1: a += 3; break;
-			case 0: a += 7; break
-		}
+		if (arr[1] === 1) {a = a + 1}
+		else if (arr[0] === -1) {a = a + 3}
+		else {a = a + 7}
 		console.log("A2: " + a)
 		return jn.boxes[jn.boxcodes.indexOf(arr)]
 	}
@@ -304,7 +300,7 @@ client.on('message', msg => {
 		progressArray = []
 		console.log("Rolled 5d10: " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10) + ", " + roll(10))
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
-			progressBar += box({"1": 0,	"2": 0})
+			progressBar += box([0, 0])
 		}
 		ch.send(progressBar)
 			
