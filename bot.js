@@ -305,7 +305,7 @@ client.on('message', msg => {
 		ch.send(progressBar).then(m => {
 			neboxes = 0
 			peboxes = 0
-			async function progress() {
+			async function progress(message) {
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				
 				if (roll(100) > successChance) {neboxes++}
@@ -329,10 +329,10 @@ client.on('message', msg => {
 					console.log("Progress array " + j + " " + progressArrayComplex)
 				}
 				await wait(1000).then({
-				m.edit("			" + progressBar)})
+				message.edit("			" + progressBar)})
 			}
 			}
-			progress()
+			progress(m)
 			
 		})
 			
