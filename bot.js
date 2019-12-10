@@ -267,7 +267,7 @@ client.on('message', msg => {
 		connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
 			
 	connection.release()
-	}
+	})
 	}
 	
 	// Function for checking if all the elements of arr are included in arr2
