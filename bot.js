@@ -41,6 +41,18 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
+ //ALTER TABLE Customers ADD Email varchar(255);
+ 
+	pool.getConnection(function (err, connection) {
+			connection.query(`ALTER TABLE employees ADD dead tinyint DEFAULT 0`, function (err, result) { 
+				if (err) throw err
+			})
+			connection.query(`ALTER TABLE employees ADD working tinyint DEFAULT 0`, function (err, result) { 
+				if (err) throw err
+				connection.release()
+			})
+		})
+ 
 	// Function that updates the god damn information on employee stats/equipment/whatever
 	function upd() {
 		pool.getConnection(function (err, connection) {
