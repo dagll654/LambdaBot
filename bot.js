@@ -201,8 +201,6 @@ client.on('disconnect', () => {
 //====================================================================
 client.on('message', msg => {
 	
-	pool.getConnection(function (err, connection) {
-		
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
 	const bsch = ESERV.channels.get('653572131262693379')
@@ -394,8 +392,11 @@ client.on('message', msg => {
 	
 	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
+		pool.getConnection(function (err, connection) {
 			connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 			upd()
+			connection.release()
+		})
 		var wrk = mesc.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
@@ -916,6 +917,7 @@ client.on('message', msg => {
 						dbployees = []
 						dbids = []
 						stats = []
+						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => fdbPush(e))
@@ -932,12 +934,15 @@ client.on('message', msg => {
 								}
 								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
+								connection.release()
 							})	
+						})
 					break
 				case "i":
 				case "inv":
 				case "inventory":
 					msg.delete(1)
+					pool.getConnection(function (err, connection) {
 						connection.query(`SELECT * FROM employees`, function (err, result) {
 							dbployees = []
 							result.forEach(e => fdbPush(e))
@@ -1048,7 +1053,9 @@ client.on('message', msg => {
 							} else if (c1msg === "exit") {DELTAS.members.get(client.user.id).lastMessage.delete()}
 							else msg.reply("error: incorrect response.")
 						})
-						})					
+						})
+					connection.release()
+					})						
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
@@ -1225,10 +1232,7 @@ client.on('message', msg => {
 		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
 		else {ch.send('UwU')}
 	}
-	connection.release()
-	if (err) throw err
-	})
-	})
+})
 
 
  
