@@ -101,7 +101,7 @@ const Discord = require('discord.js');
 						upd()
 						}
 					})
-					connection.release()
+					connection.release()//
 					console.log("Healed all.")
 				})
 			}
