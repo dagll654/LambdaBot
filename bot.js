@@ -21,7 +21,7 @@ const Discord = require('discord.js');
 	const cmds = jn.cmds
 	
 	var pool        = db.createPool({
-	connectionLimit : 10, // default = 10
+	connectionLimit : 3, // default = 10
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
 	password: process.env.DB_PASS,
@@ -41,18 +41,6 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
- //ALTER TABLE Customers ADD Email varchar(255);
- 
-	pool.getConnection(function (err, connection) {
-			connection.query(`ALTER TABLE employees ADD dead tinyint DEFAULT 0`, function (err, result) { 
-				if (err) throw err
-			})
-			connection.query(`ALTER TABLE employees ADD working tinyint DEFAULT 0`, function (err, result) { 
-				if (err) throw err
-				connection.release()
-			})
-		})
- 
 	// Function that updates the god damn information on employee stats/equipment/whatever
 	function upd() {
 		pool.getConnection(function (err, connection) {
@@ -69,7 +57,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": e.working, "dead": e.dead, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": 0, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -352,29 +340,17 @@ client.on('message', msg => {
 		progressArray = []
 		progressArrayComplex = []
 		progressBarStorage = []
-		neboxes = 0
-		peboxes = 0
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
 		}
-
+		ch.send(progressBar).then(m => {
+			neboxes = 0
+			peboxes = 0
 			i = 0
 			for (i = 0; i < currentAbno.peoutput; i++) {
-				if (curruser.hp > 0) {
-				i = currentAbno.peoutput; 
-				if (roll(100) > successChance) {neboxes++;
-					if (currentAbno.dtype[0] = 1) {
-						curruser.hp = curruser.hp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
-					}
-					if (currentAbno.dtype[1] = 1) {
-						curruser.sp = curruser.sp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
-					}
-					if (currentAbno.dtype[3] = 1) {
-						let tempdmg = Math.random * currentAbno.damage[1] + currentAbno.damage[0]
-						curruser.hp = curruser.hp - tempdmg
-						curruser.sp = curruser.sp - tempdmg
-					}}
+				
+				if (roll(100) > successChance) {neboxes++; }
 				else {peboxes++}
 				progressBarOld = progressBar
 				progressBar = ""
@@ -399,23 +375,25 @@ client.on('message', msg => {
 					}
 				progressBarStorage.push(progressBar)
 				}
-			}
+
 				async function asyncEdit(mssage, arr) {
-					//	i = 0
-					//	start_position: while(true) {
-					//		var result = await wait(1000)
-					//		//console.log("thing")
-					//		mssage.edit(arr[i])
-					//		i++
-					//		if (i < (arr.length + 1)) continue start_position
-					//		break
-					//	}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working... (will take ${Math.floor((arr.length*0.5)*10)/10} seconds)`)
-						wait(arr.length*500)
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete - ${peboxes} PE boxes, ${neboxes} NE boxes, ${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)
+						i = 0
+						start_position: while(true) {
+							var result = await wait(1000)
+							//console.log("thing")
+							mssage.edit(arr[i])
+							i++
+							if (i < (arr.length + 1)) continue start_position
+							break
+						}
+						mssage.edit(arr[arr.length-1])
+						wait(1000)
+						mssage.edit(arr[arr.length-1])
 				}
 				
-				asyncEdit(msg, progressBarStorage)
+				asyncEdit(m, progressBarStorage)
+			
+		})
 			
 		
 	}
@@ -843,7 +821,7 @@ client.on('message', msg => {
 								if (err) throw err
 								connection.release()
 							})	
-						})}
+						})
 					break
 				case "i":
 				case "inv":
@@ -1150,4 +1128,3 @@ client.on('message', msg => {
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-
