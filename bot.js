@@ -804,8 +804,12 @@ client.on('message', msg => {
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
+					if (dbployees[dbids.indexOf(msg.author.id)].working === 0)
+					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0)
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
-						} else msg.reply("error: incorrect work order.")
+					} else msg.reply("error: you are dead.")
+					} else msg.reply("error: you are already currently working on an abnormality.")
+					} else msg.reply("error: incorrect work order.")
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
 					break
