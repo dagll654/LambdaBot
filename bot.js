@@ -320,6 +320,11 @@ client.on('message', msg => {
 	
 	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
+		pool.getConnection(function (err, connection) {
+			connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+			upd()
+			connection.release()
+		})
 		var wrk = mesc.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
@@ -350,8 +355,21 @@ client.on('message', msg => {
 			peboxes = 0
 			i = 0
 			for (i = 0; i < currentAbno.peoutput; i++) {
-				
-				if (roll(100) > successChance) {neboxes++; }
+				if ((curruser.hp > 0) && (curruser.sp > 0)) {
+				if (roll(100) > successChance) {neboxes++; 
+					let dmg = Math.floor(Math.random() * (currentAbno.damage[1] - currentAbno.damage[0]) + currentAbno.damage[1])
+					if (currentAbno.dtype[0] === 1) {
+						curruser.hp = curruser.hp - dmg
+					}
+					if (currentAbno.dtype[1] === 1) {
+						curruser.sp = curruser.sp - dmg
+					}
+					if (currentAbno.dtype[2] === 1) {
+						curruser.hp = curruser.hp - dmg
+						curruser.sp = curruser.sp - dmg
+					}
+					
+				}
 				else {peboxes++}
 				progressBarOld = progressBar
 				progressBar = ""
@@ -375,21 +393,26 @@ client.on('message', msg => {
 							break
 					}
 				progressBarStorage.push(progressBar)
+				} else {curruser.dead = 1}
 				}
-
+				
 				async function asyncEdit(mssage, arr) {
-						i = 0
-						start_position: while(true) {
-							var result = await wait(1000)
-							//console.log("thing")
-							mssage.edit(arr[i])
-							i++
-							if (i < (arr.length + 1)) continue start_position
-							break
-						}
-						mssage.edit(arr[arr.length-1])
-						wait(1000)
-						mssage.edit(arr[arr.length-1])
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
+						wait((arr.length/2)*500)
+						if (curruser.dead === 0) {
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
+						pool.getConnection(function (err, connection) {
+							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+							connection.query("UPDATE `employees` SET `working` = '0' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+							upd()
+							upd()
+							upd()
+							upd()
+							connection.release()
+						})
 				}
 				
 				asyncEdit(m, progressBarStorage)
