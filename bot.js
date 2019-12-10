@@ -389,15 +389,13 @@ client.on('message', msg => {
 	
 	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-
-			connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-			upd()
-
 		var wrk = mesc.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
 		curruser = dbployees[dbids.indexOf(wrk[1])]
 		dbployees[dbids.indexOf(wrk[1])].working = 1
+		connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result){if (err) throw err})
+		upd()
 		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
