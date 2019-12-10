@@ -161,7 +161,7 @@ client.on('ready', () => {
 				})
 				let bToSend = []
 				bAbnos.forEach(a => {
-					bToSend.push(a + "|" + bBals[])
+					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 				})
 				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
 				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
