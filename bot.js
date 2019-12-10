@@ -386,7 +386,9 @@ client.on('message', msg => {
 							if (i < (arr.length + 1)) continue start_position
 							break
 						}
-						ch.send("done")
+						mssage.edit(arr[arr.length-1])
+						wait(1000)
+						mssage.edit(arr[arr.length-1])
 				}
 				
 				asyncEdit(m, progressBarStorage)
