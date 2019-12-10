@@ -84,9 +84,7 @@ const Discord = require('discord.js');
 			pool.getConnection(function (err, connection) {
 					upd()
 					dbployees.forEach(e => {
-						console.log(e.tag + " is:")
 						if (e.working = '0') {
-						console.log("Eligible")
 						let hp = e.hp
 						if (hp < e.fortitude) {hp = hp + Math.ceil(e.fortitude/24)}
 						if (hp > e.fortitude) {hp = e.fortitude}
@@ -97,13 +95,13 @@ const Discord = require('discord.js');
 						connection.query("UPDATE `employees` SET `sp` = '" + sp + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						upd()
 						upd()
-						} else {console.log("Not eligible")}
+						}
 					})
 					connection.release()
 					console.log("Healed all.")
 				})
 			}
-	}, 3000)
+	}, 150000)
  
 client.on('ready', () => {	
 
