@@ -140,12 +140,7 @@ client.on('ready', () => {
 			})
 			})
 			
-			dbployees.forEach(e => {
-				let basebalances = ""
-				jn.abnWorkable.forEach(a => {
-					basebalances += jn.abnWorkable[jn.abnWorkable.indexOf(a)] + "|0"
-				})
-				//connection.query("UPDATE `employees` SET `balancespecific` = '" + basebalances + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
+			dbployees.forEach(e => {	
 				let bAbnos = []
 				let bBals = []
 				let bGotten = e.balancespecific.split(" ")
@@ -242,7 +237,7 @@ client.on('message', msg => {
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
-	// Wait 1 second
+	// was (frick puriora)
 	function wait(msc) {
 		return new Promise(resolve => {
 			setTimeout(() => {
@@ -250,6 +245,30 @@ client.on('message', msg => {
 			}, msc)
 		})
 	}	
+	
+	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
+	function bumpBoxes(val, abn, id) {
+	pool.getConnection(function (err, connection) {
+		
+		upd()
+		let emp = dbployees[dbids.indexOf(id)]
+		let bAbnos = []
+		let bBals = []
+		let bGotten = emp.balancespecific.split(" ")
+		bGotten.forEach(bg => {
+			bAbnos.push(bg.split("|")[0])
+			bBals.push(bg.split("|")[1])
+		})
+		bBals[bAbnos.indexOf(abn)] = bBals[bAbnos.indexOf(abn)] + val
+		let bToSend = []
+		bAbnos.forEach(a => {
+			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
+		})
+		connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+			
+	connection.release()
+	}
+	}
 	
 	// Function for checking if all the elements of arr are included in arr2
 	function checkArray(arr, arr2) {
@@ -461,7 +480,7 @@ client.on('message', msg => {
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP / SP:		${curruser.hp} ${jn.health}		/		${curruser.sp} ${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
 						pool.getConnection(function (err, connection) {
 							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
@@ -469,6 +488,7 @@ client.on('message', msg => {
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `working` = '0' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						bumpBoxes(peboxes, wrk[2], curruser.id) 
 							upd()
 							upd()
 							upd()
