@@ -364,8 +364,15 @@ client.on('message', msg => {
 				if (curruser.hp > 0) {
 				i = currentAbno.peoutput; 
 				if (roll(100) > successChance) {neboxes++; }
-					if currentAbno.dtype[0] = 1 {curruser.hp
-				}
+					if (currentAbno.dtype[0] = 1) {
+						curruser.hp = curruser.hp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
+					if (currentAbno.dtype[1] = 1) {
+						curruser.sp = curruser.sp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
+					if (currentAbno.dtype[3] = 1) {
+						let tempdmg = Math.random * currentAbno.damage[1] + currentAbno.damage[0]
+						curruser.hp = curruser.hp - tempdmg
+						curruser.sp = curruser.sp - tempdmg
+					}
 				else {peboxes++}
 				progressBarOld = progressBar
 				progressBar = ""
@@ -403,7 +410,7 @@ client.on('message', msg => {
 					//	}
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working... (will take ${Math.floor((arr.length*0.5)*10)/10} seconds)`)
 						wait(arr.length*500)
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete - ${}`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete - ${peboxes} PE boxes, ${neboxes} NE boxes, ${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)
 				}
 				
 				asyncEdit(msg, progressBarStorage)
