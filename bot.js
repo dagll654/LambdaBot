@@ -352,6 +352,7 @@ client.on('message', msg => {
 		}
 			neboxes = 0
 			peboxes = 0
+			ppeboxes = 0
 			i = 0
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
@@ -370,7 +371,10 @@ client.on('message', msg => {
 					}
 					
 				}
-				else {peboxes++}
+				else {
+					if (roll(21) === 21) {ppeboxes++; console.log("Rolled a PPE box!")}
+					else {peboxes++}
+				}
 				progressBarOld = progressBar
 				progressBar = ""
 				progressArray = []
@@ -401,10 +405,12 @@ client.on('message', msg => {
 						await wait((arr.length/2)*500)
 						console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
+						ppe = ""
+						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
 						pool.getConnection(function (err, connection) {
-							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + peboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
