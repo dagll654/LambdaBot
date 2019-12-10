@@ -21,7 +21,7 @@ const Discord = require('discord.js');
 	const cmds = jn.cmds
 	
 	var pool        = db.createPool({
-	connectionLimit : 3, // default = 10
+	connectionLimit : 10, // default = 10
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
 	password: process.env.DB_PASS,
