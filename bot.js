@@ -340,17 +340,20 @@ client.on('message', msg => {
 		progressArray = []
 		progressArrayComplex = []
 		progressBarStorage = []
+		neboxes = 0
+		peboxes = 0
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
 		}
-		ch.send(progressBar).then(m => {
-			neboxes = 0
-			peboxes = 0
+
 			i = 0
 			for (i = 0; i < currentAbno.peoutput; i++) {
-				
-				if (roll(100) > successChance) {neboxes++; }
+				if (curruser.hp =< 0) {
+				i = currentAbno.peoutput; 
+				if (roll(100) > successChance) {neboxes++; 
+					if currentAbno.dtype[0] = 1 {curruser.hp
+				}
 				else {peboxes++}
 				progressBarOld = progressBar
 				progressBar = ""
@@ -377,23 +380,21 @@ client.on('message', msg => {
 				}
 
 				async function asyncEdit(mssage, arr) {
-						i = 0
-						start_position: while(true) {
-							var result = await wait(1000)
-							//console.log("thing")
-							mssage.edit(arr[i])
-							i++
-							if (i < (arr.length + 1)) continue start_position
-							break
-						}
-						mssage.edit(arr[arr.length-1])
-						wait(1000)
-						mssage.edit(arr[arr.length-1])
+					//	i = 0
+					//	start_position: while(true) {
+					//		var result = await wait(1000)
+					//		//console.log("thing")
+					//		mssage.edit(arr[i])
+					//		i++
+					//		if (i < (arr.length + 1)) continue start_position
+					//		break
+					//	}
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working... (will take ${Math.floor((arr.length*0.5)*10)/10} seconds)`)
+						wait(arr.length*500)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete - ${}`)
 				}
 				
-				asyncEdit(m, progressBarStorage)
-			
-		})
+				asyncEdit(msg, progressBarStorage)
 			
 		
 	}
