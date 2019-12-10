@@ -397,7 +397,7 @@ client.on('message', msg => {
 				
 				async function asyncEdit(mssage, arr) {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
-						wait((arr.length/2)*500)
+						await wait((arr.length/2)*500)
 						console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
