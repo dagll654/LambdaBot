@@ -1,5 +1,15 @@
+
+
 const Discord = require('discord.js');
  const db = require('mysql');
+ 	var pool        = db.createPool({
+	connectionLimit : 10, // default = 10
+	host: "sql7.freesqldatabase.com",
+	user: "sql7314688",
+	password: process.env.DB_PASS,
+	database: "sql7314688"
+	});
+	pool.getConnection(function (err, connection) {
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
@@ -20,14 +30,6 @@ const Discord = require('discord.js');
 	const qte2 = "Lambdadelta Quote #"
 	const cmds = jn.cmds
 	
-	var pool        = db.createPool({
-	connectionLimit : 3, // default = 10
-	host: "sql7.freesqldatabase.com",
-	user: "sql7314688",
-	password: process.env.DB_PASS,
-	database: "sql7314688"
-	});
-	
 	var today = new Date()
  var employees = []
  var dbployees = []
@@ -43,18 +45,15 @@ const Discord = require('discord.js');
  
 	// Function that updates the god damn information on employee stats/equipment/whatever
 	function upd() {
-		pool.getConnection(function (err, connection) {
 			connection.query(`SELECT * FROM employees`, function (err, result) { 
 				dbployees = []
 				result.forEach(e => fdbPush(e))
 				dbids = []
 				dbployees.forEach(e => dbids.push(e.id))
 				if (err) throw err
-				connection.release()
-			})
 		})
 	}
- 
+	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
 		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
@@ -81,7 +80,7 @@ const Discord = require('discord.js');
 	// Heal 1/24 of max HP and SP every 2.5 minutes ( = full heal in an hour)
 	client.setInterval(function(){
 			if (dbvars[3] === 0) {
-			pool.getConnection(function (err, connection) {
+
 					upd()
 					dbployees.forEach(e => {
 						if (e.working === 0) {
@@ -101,9 +100,9 @@ const Discord = require('discord.js');
 						upd()
 						}
 					})
-					connection.release()
+
 					console.log("Healed all.")
-				})
+
 			}
 	}, 150000)
  
@@ -124,8 +123,7 @@ client.on('ready', () => {
 			employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 		}
 	})
-	
-	pool.getConnection(function (err, connection) {
+
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			dbpush = []
 			result.forEach(e => fdbPush(e))
@@ -167,9 +165,9 @@ client.on('ready', () => {
 			})
 			
 			if (err) throw err
-			connection.release()
 
-		})
+
+
 	})
 	
 	
@@ -252,7 +250,7 @@ client.on('message', msg => {
 	
 	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
 	function bumpBoxes(val, abn, id) {
-	pool.getConnection(function (err, connection) {
+
 		
 		upd()
 		let emp = dbployees[dbids.indexOf(id)]
@@ -270,8 +268,7 @@ client.on('message', msg => {
 		})
 		connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
 			
-	connection.release()
-	})
+
 	}
 	
 	// Function for checking if all the elements of arr are included in arr2
@@ -392,11 +389,10 @@ client.on('message', msg => {
 	
 	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-		pool.getConnection(function (err, connection) {
+
 			connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 			upd()
-			connection.release()
-		})
+
 		var wrk = mesc.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
@@ -486,7 +482,7 @@ client.on('message', msg => {
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
-						pool.getConnection(function (err, connection) {
+
 							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
@@ -497,8 +493,7 @@ client.on('message', msg => {
 							upd()
 							upd()
 							upd()
-							connection.release()
-						})
+
 				}
 				
 				asyncEdit(msg, progressBarStorage)
@@ -725,22 +720,22 @@ client.on('message', msg => {
 					console.log(DELTAS.emojis)
 					break
 				case "dbase1":
-					pool.getConnection(function (err, connection) {
+
 						connection.query("SELECT * FROM users", function (err, result) {
-						connection.release();
+
 							console.log(result)
 							if (err) throw err;
-						})
+
 					})
 					
 					break
 				case "dbase2":
-					pool.getConnection(function (err, connection) {
+
 						connection.query(`SELECT ${cmd[2]} FROM users`, function (err, result) {
-						connection.release()
+
 							console.log(result)
 							if (err) throw err
-						})
+
 					})
 					
 					break
@@ -759,13 +754,12 @@ client.on('message', msg => {
 					}
 					break
 				case "profile":
-				pool.getConnection(function (err, connection) {
+
 					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + cmd[4] + "';", function (err, result) {
 						if (err) throw err
-						connection.release()
-					})
+
+
 				})
-				pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) { 
 								dbployees = []
 								result.forEach(e => fdbPush(e))
@@ -775,8 +769,7 @@ client.on('message', msg => {
 								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]} for ${curruser.tag}`)
 								if (err) throw err
-								connection.release()
-							})
+
 						})
 					
 					break
@@ -917,7 +910,6 @@ client.on('message', msg => {
 						dbployees = []
 						dbids = []
 						stats = []
-						pool.getConnection(function (err, connection) {
 							connection.query(`SELECT * FROM employees`, function (err, result) {
 								dbployees = []
 								result.forEach(e => fdbPush(e))
@@ -934,15 +926,13 @@ client.on('message', msg => {
 								}
 								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
-								connection.release()
-							})	
+
 						})
 					break
 				case "i":
 				case "inv":
 				case "inventory":
 					msg.delete(1)
-					pool.getConnection(function (err, connection) {
 						connection.query(`SELECT * FROM employees`, function (err, result) {
 							dbployees = []
 							result.forEach(e => fdbPush(e))
@@ -1054,8 +1044,7 @@ client.on('message', msg => {
 							else msg.reply("error: incorrect response.")
 						})
 						})
-					connection.release()
-					})						
+					
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
@@ -1240,4 +1229,4 @@ client.on('message', msg => {
 // THIS  MUST  BE  THIS  WAY
 // NO TOUCHING
 //______________________________\\/
-client.login(process.env.BOT_TOKEN)
+	client.login(process.env.BOT_TOKEN)}
