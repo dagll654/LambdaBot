@@ -259,7 +259,7 @@ client.on('message', msg => {
 			bAbnos.push(bg.split("|")[0])
 			bBals.push(bg.split("|")[1])
 		})
-		bBals[bAbnos.indexOf(abn)] = bBals[bAbnos.indexOf(abn)] + val
+		bBals[bAbnos.indexOf(abn)] = Number(bBals[bAbnos.indexOf(abn)]) + val
 		let bToSend = []
 		bAbnos.forEach(a => {
 			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
@@ -928,7 +928,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}		LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}		LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 								connection.release()
 							})	
