@@ -801,6 +801,8 @@ client.on('message', msg => {
 					break
 				case "w":
 				case "work":
+					upd()
+					upd()
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
