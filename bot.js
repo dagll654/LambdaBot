@@ -363,16 +363,18 @@ client.on('message', msg => {
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if (curruser.hp > 0) {
 				i = currentAbno.peoutput; 
-				if (roll(100) > successChance) {neboxes++; }
+				if (roll(100) > successChance) {neboxes++;
 					if (currentAbno.dtype[0] = 1) {
 						curruser.hp = curruser.hp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
+					}
 					if (currentAbno.dtype[1] = 1) {
 						curruser.sp = curruser.sp - (Math.random * currentAbno.damage[1] + currentAbno.damage[0])
+					}
 					if (currentAbno.dtype[3] = 1) {
 						let tempdmg = Math.random * currentAbno.damage[1] + currentAbno.damage[0]
 						curruser.hp = curruser.hp - tempdmg
 						curruser.sp = curruser.sp - tempdmg
-					}
+					}}
 				else {peboxes++}
 				progressBarOld = progressBar
 				progressBar = ""
@@ -841,7 +843,7 @@ client.on('message', msg => {
 								if (err) throw err
 								connection.release()
 							})	
-						})
+						})}
 					break
 				case "i":
 				case "inv":
