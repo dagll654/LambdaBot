@@ -357,6 +357,7 @@ client.on('message', msg => {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
 				if (roll(100) > successChance) {neboxes++; 
 					let dmg = Math.floor(Math.random() * (currentAbno.damage[1] - currentAbno.damage[0]) + currentAbno.damage[1])
+					console.log("DAMAGE:" + dmg)
 					if (currentAbno.dtype[0] === 1) {
 						curruser.hp = curruser.hp - dmg
 					}
