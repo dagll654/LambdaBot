@@ -1229,4 +1229,4 @@ client.on('message', msg => {
 // THIS  MUST  BE  THIS  WAY
 // NO TOUCHING
 //______________________________\\/
-	client.login(process.env.BOT_TOKEN)}
+	client.login(process.env.BOT_TOKEN)})
