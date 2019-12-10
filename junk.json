@@ -107,6 +107,10 @@
 			"<:blackd:652900136678064168>",
 			"<:paled:652900149152055297>"
 			],
+	"goodresult": "<:goodresult:653944154463928321>",
+	"normalresult": "<:normalresult:653944167033995290>",
+	"badresult": "<:badresult:653944188387328000>",
+	"qliphothcounter": "<:qliphothcounter:653944204602376192>",
 	"risk": [
 			"ZAYIN",
 			"TETH",

@@ -123,7 +123,6 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
-			console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
@@ -227,6 +226,26 @@ client.on('message', msg => {
 		return arr.every(i => arr2.includes(i));
 	}
 	
+	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
+	function rDamage(rec, dea, res) {
+		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
+		let dMult = 1
+		console.log(levelDifference)
+		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
+		switch (levelDifference) {
+			case 4: dMult = 0.4; break;
+			case 3: dMult = 0.6; break;
+			case 2: dMult = 0.7; break;
+			case 1: dMult = 0.8; break;
+			case 0:
+			case -1: dMult = 1; break;
+			case -2: dMult = 1.2; break;
+			case -3: dMult = 1.5; break;
+			case -4: dMult = 2; break;
+		}
+		return (dMult * res)
+	}
+
 	// Function for checking if all the symbols of a given string are included in an array
 	function checkSymbols(str, arr) {
 		return str.split("").every(i => arr.includes(i))
@@ -358,21 +377,26 @@ client.on('message', msg => {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
 				if (roll(100) > successChance) {neboxes++; 
 					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
-					console.log("DAMAGE:" + dmg)
 					if (currentAbno.dtype[0] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
+						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
 						curruser.sp = curruser.sp - dmg
+						console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
+						//console.log("DAMAGE:" + dmg)
 					}
 					
 				}
 				else {
-					if (roll(21) === 21) {ppeboxes++; console.log("Rolled a PPE box!")}
+					if (roll(11) === 11) {ppeboxes++; console.log("Rolled a PPE box!")}
 					else {peboxes++}
 				}
 				progressBarOld = progressBar

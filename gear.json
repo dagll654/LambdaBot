@@ -2,11 +2,13 @@
 	"suits": [
 		{	"id": "0",
 			"name": "Suit",
-			"resistance": [1, 1, 1.5, 2]
+			"resistance": [1, 1, 1.5, 2],
+			"level": "ZAYIN"
 		},
 		{	"id": "1",
 			"name": "Depression",
-			"resistance": [3, 3, 3, 3]
+			"resistance": [3, 3, 3, 3],
+			"level": "ZAYIN"
 		}
 			],
 	"weapons": [
@@ -15,14 +17,16 @@
 			"damage": [4, 6],
 			"dtype": [1, 0, 0, 0],
 			"speed": "medium",
-			"range": "medium"
+			"range": "medium",
+			"level": "ZAYIN"
 		},
 		{	"id": "1",
 			"name": "Depression",
 			"damage": [0, 1],
 			"dtype": [0, 1, 0, 0],
 			"speed": "very slow",
-			"range": "very short"
+			"range": "very short",
+			"level": "ZAYIN"
 		}
 			]
 
