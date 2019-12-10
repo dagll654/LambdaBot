@@ -925,7 +925,7 @@ client.on('message', msg => {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
-								m.first.delete(1)
+								m.delete(1)
 								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
@@ -948,7 +948,7 @@ client.on('message', msg => {
 												connection.query("UPDATE `employees` SET `suit` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
-												m.first.delete(1)
+												msg.delete(200) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
 												upd()
@@ -975,7 +975,7 @@ client.on('message', msg => {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = Number(m.array()[0].content) - 1
 												console.log("EQUPD: " + equpd)
-												m.first.delete(1)
+												m.delete(200)
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
 												for (i = 0; i < 4; i++) {
 													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
@@ -983,7 +983,7 @@ client.on('message', msg => {
 												connection.query("UPDATE `employees` SET `weapon` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
 													if (err) throw err
 												})
-												m.first.delete(1) 
+												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
 												upd()
