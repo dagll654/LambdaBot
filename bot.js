@@ -57,7 +57,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": 0, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": e.working, "dead": e.dead, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -123,6 +123,7 @@ client.on('ready', () => {
 	
 	pool.getConnection(function (err, connection) {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
+			console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
@@ -797,8 +798,9 @@ client.on('message', msg => {
 						cmd[2].split("").forEach(c => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
+						upd()
 						curruser = dbployees[dbids.indexOf(cuid)]
-					} else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
+					} else {upd(); curruser = dbployees[dbids.indexOf(msg.author.id)]}
 						dbployees = []
 						dbids = []
 						stats = []
