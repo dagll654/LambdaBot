@@ -85,7 +85,7 @@ const Discord = require('discord.js');
 					upd()
 					dbployees.forEach(e => {
 						console.log(e.tag + " is:")
-						if (e.working = "0") {
+						if (e.working = '0') {
 						console.log("Eligible")
 						let hp = e.hp
 						if (hp < e.fortitude) {hp = hp + Math.ceil(e.fortitude/24)}
