@@ -991,7 +991,7 @@ client.on('message', msg => {
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
+											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
@@ -1003,8 +1003,8 @@ client.on('message', msg => {
 												menumsg.delete(8000)
 												upd()
 												
-											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
-										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
+											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
+										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
 								} else
