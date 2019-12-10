@@ -57,7 +57,7 @@ const Discord = require('discord.js');
  
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": e.balance, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -404,6 +404,7 @@ client.on('message', msg => {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}\n	Remaining HP/SP:	${curruser.hp}${jn.health}/${curruser.sp}${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
 						pool.getConnection(function (err, connection) {
+							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + peboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
@@ -883,7 +884,7 @@ client.on('message', msg => {
 								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split(" ").indexOf(id) < (curruser.inventoryw.split(" ").length - 1)) {invw += ", "} else {invw += "."}
 							})
-						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: wip\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
+						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
 							cmsg.delete(1)
