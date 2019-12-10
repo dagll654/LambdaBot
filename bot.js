@@ -480,7 +480,7 @@ client.on('message', msg => {
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\nRemaining SP:	${curruser.sp} ${jn.sanity}`)}
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
 						pool.getConnection(function (err, connection) {
 							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
