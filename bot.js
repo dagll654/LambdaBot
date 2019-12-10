@@ -139,11 +139,41 @@ client.on('ready', () => {
 			console.log(`${e.tag} inserted!`)
 			})
 			})
+			
+			dbployees.forEach(e => {
+				let basebalances = ""
+				jn.abnWorkable.forEach(a => {
+					basebalances += jn.abnWorkable[jn.abnWorkable.indexOf(a)] + "|0"
+				})
+				//connection.query("UPDATE `employees` SET `balancespecific` = '" + basebalances + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
+				let bAbnos = []
+				let bBals = []
+				let bGotten = e.balancespecific.split(" ")
+				bGotten.forEach(bg => {
+					bAbnos.push(bg.split("|")[0])
+					bBals.push(bg.split("|")[1])
+				})
+				jn.abnWorkable.forEach(a => {
+					if (bAbnos.includes(a) === false) {
+						bAbnos.push(a)
+						bBals.push("0")
+					}
+				})
+				let bToSend = []
+				bAbnos.forEach(a => {
+					bToSend.push(a + "|" + bBals[])
+				})
+				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
+				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
+			})
+			
 			if (err) throw err
 			connection.release()
 
 		})
 	})
+	
+	
 
 	// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
@@ -385,7 +415,7 @@ client.on('message', msg => {
 					if (currentAbno.dtype[1] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
 						curruser.sp = curruser.sp - dmg
-						console.log("DAMAGE:" + dmg)
+						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
@@ -427,7 +457,7 @@ client.on('message', msg => {
 				async function asyncEdit(mssage, arr) {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
 						await wait((arr.length/2)*500)
-						console.log("ARR length: " + arr.length)
+						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}

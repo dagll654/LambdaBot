@@ -9,6 +9,11 @@
 			"name": "Depression",
 			"resistance": [3, 3, 3, 3],
 			"level": "ZAYIN"
+		},
+		{	"id": "2",
+			"name": "Debug (god mode)",
+			"resistance": [0, 0, 0, 0],
+			"level": "ALEPH"
 		}
 			],
 	"weapons": [
@@ -27,6 +32,14 @@
 			"speed": "very slow",
 			"range": "very short",
 			"level": "ZAYIN"
+		},
+		{	"id": "2",
+			"name": "Debug (butcher)",
+			"damage": [999, 999],
+			"dtype": [0, 0, 1, 0],
+			"speed": "very slow",
+			"range": "very long",
+			"level": "ALEPH"
 		}
 			]
 
