@@ -1,5 +1,3 @@
-
-
 const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
@@ -16,7 +14,7 @@ const Discord = require('discord.js');
   const abn = require("./abnb.json");
   const jn = require("./junk.json");
   const gear = require("./gear.json")
-  import {hello} from './functions.json' // or './module'
+  const fn = require("./functions.json")
 	let val = hello(); // val is "Hello";
   const animojis = [
 			"restartsForDays",
@@ -110,7 +108,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {	
 
-	console.log(hello()) 
+	console.log(fn.hello()) 
 
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
