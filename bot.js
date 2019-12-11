@@ -55,7 +55,7 @@ const Discord = require('discord.js');
 	
 	// Get employee by id
 	function employee(id) {
-		console.log("Getting by id " + id)
+		//console.log("Getting by id " + id)
 		connection.query(`SELECT * FROM employees`, function (err, result) { 
 				dbployees = []
 				result.forEach(e => fdbPush(e))
@@ -77,7 +77,7 @@ const Discord = require('discord.js');
 	
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat, val = 0) {
-		console.log("Curruser ID (bumpStat): " + id)
+		//console.log("Curruser ID (bumpStat): " + id)
 		upd()
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = employee(id).subpoints.split("|")
@@ -510,7 +510,8 @@ client.on('message', msg => {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, wrk[2], curruser.id)
-						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*(2^(jn.risk.indexOf(currentAbno.risk.toUpperCase()))-1)))
+						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
+						console.log("Power test: " + Math.pow(2, jn.risk.indexOf(currentAbno.risk)))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)`)}
 						 
@@ -946,7 +947,7 @@ client.on('message', msg => {
 						dbids = []
 						stats = []
 							connection.query(`SELECT * FROM employees`, function (err, result) {
-								console.log("Curruser ID (profile): " + curruser.id)
+								//console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id, "fortitude")
 								dbployees = []
 								result.forEach(e => fdbPush(e))
