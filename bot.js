@@ -40,11 +40,7 @@ const Discord = require('discord.js');
  dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
  quotelog = []
  votingteam = ""
- voting = 0
- 
-	// just a thing
-	function err(err) {if (err) throw err}
-		
+ voting = 0		
  
 	// Function that updates the god damn information on employee stats/equipment/whatever
 	function upd() {
@@ -152,7 +148,7 @@ const Discord = require('discord.js');
 			vals[3] = vals[3]*1000
 			vals[4] = vals[4]*1000
 			for (i = 2; i < (vals.length - 2); i++) {
-				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", err(err))
+				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
 			console.log("Updated the database.")
 		})
