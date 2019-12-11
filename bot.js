@@ -62,8 +62,8 @@ const Discord = require('discord.js');
 				dbids = []
 				dbployees.forEach(e => dbids.push(e.id))
 				if (err) throw err
-				return dbployees[dbids.indexOf(id)]
 		})
+		return dbployees[dbids.indexOf(id)]
 	}
 	
 	function statLVL(stat) {
