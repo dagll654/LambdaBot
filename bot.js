@@ -108,7 +108,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {	
 
-
+	console.log(jn.test("ORA ORA ORA ORA ")) 
 
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
@@ -1193,7 +1193,7 @@ client.on('message', msg => {
 				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
-				.setFooter("EGO: " + abn.abn[n].ego)
+				.setFooter("EGO: " + gear[Number(abn.abn[n].ego)].name)
 			ch.send({embed})
 		.catch(console.error)
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
