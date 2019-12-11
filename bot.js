@@ -94,9 +94,9 @@ const Discord = require('discord.js');
 	
 	// Get employee by id
 	function employee(id) {
-		console.log("Getting by id " + id)
-		console.log(dbployees[dbids.indexOf(id)])
-		return dbployees[dbids.indexOf(id)]
+		console.log("Getting by id " + Number(id).toString())
+		console.log(dbployees[dbids.indexOf(Number(id).toString())])
+		return dbployees[dbids.indexOf(Number(id).toString())]
 	}
 	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
@@ -942,23 +942,15 @@ client.on('message', msg => {
 				break
 				case "p":
 				case "profile":
-				upd()
-				upd()
-				upd()
-				var curruser = {"id": 101}
 					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
 						cuid = ""
 						cmd[2].split("").forEach(c => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
-						upd()
 						curruser = employee(cuid)
-					} else {upd(); curruser = employee(msg.author.id)}
-						dbployees = []
-						dbids = []
-						stats = []
+					} else {curruser = employee(msg.author.id)}
 								//console.log("Curruser ID (profile): " + curruser.id)
-								let ssp = bumpSubpoint(curruser.id, "fortitude")
+								let ssp = bumpSubpoint(curruser.id)
 								eqct = [curruser.suit, curruser.weapon]
 								// [Suit, Weapon]
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
