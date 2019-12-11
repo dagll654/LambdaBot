@@ -1,3 +1,5 @@
+  const jn = require("./junk.json");
+
 //module.js
 exports.hello = function() {
   return "Hello";
