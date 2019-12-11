@@ -64,13 +64,14 @@ const Discord = require('discord.js');
 	
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
+		curruser = employee(id)
 		console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
-		let subStatArr = employee(id).subpoints.split("|")
+		let subStatArr = curruser.subpoints.split("|")
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16)) {
-			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16
-			if (employee(id).stats[statIndex] < employee(id).statlimit) {
+		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16)) {
+			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16
+			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
 						dbployees[dbids.indexOf(id)].fortitude = dbployees[dbids.indexOf(id)].fortitude + 1
