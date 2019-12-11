@@ -55,6 +55,7 @@ const Discord = require('discord.js');
 	
 	// Get employee by id
 	function employee(id) {
+		console.log("Getting by id " + id)
 		connection.query(`SELECT * FROM employees`, function (err, result) { 
 				dbployees = []
 				result.forEach(e => fdbPush(e))
