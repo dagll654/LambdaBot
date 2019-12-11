@@ -342,7 +342,7 @@ client.on('message', msg => {
 				
 				async function asyncEdit(mssage, arr) {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
-						afn.wait fn.wait((arr.length/2)*500)
+						await fn.wait((arr.length/2)*500)
 						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
@@ -840,7 +840,7 @@ client.on('message', msg => {
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
-								ch.afn.waitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
 								m.delete(1)
 								console.log("Response: " + m.array()[0].content)
@@ -855,7 +855,7 @@ client.on('message', msg => {
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
 									//fn.checkSymbols(str, arr)
-								ch.afn.waitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (fn.checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
@@ -886,7 +886,7 @@ client.on('message', msg => {
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
 									//fn.checkSymbols(str, arr)
-								ch.afn.waitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (fn.checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
