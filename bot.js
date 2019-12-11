@@ -938,7 +938,7 @@ client.on('message', msg => {
 				case "ex":
 				case "extraction":
 					curruser = employee(msg.author.id)
-					ch.send("bruh")
+					ch.send("bruh")//
 				break
 				case "p":
 				case "profile":
