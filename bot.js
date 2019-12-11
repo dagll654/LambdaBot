@@ -150,8 +150,8 @@ const Discord = require('discord.js');
 			for (i = 2; i < (vals.length - 2); i++) {
 				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
-			console.log("Updated the database.")
 		})
+		console.log("Updated the database.")
 	}, 15000) 
  
  
