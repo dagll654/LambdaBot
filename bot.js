@@ -161,7 +161,7 @@ const Discord = require('discord.js');
 			connection.query(pushsmall, function (err, result) {if (err) throw err})
 		})
 
-		console.log("Updated the database.")//
+		console.log("Updated the database.")
 	}, 15000) 
  
  
