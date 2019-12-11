@@ -8,7 +8,6 @@ const Discord = require('discord.js');
 	database: "sql7314688"
 	});
 	pool.getConnection(function (err, connection) {
-	connection.query("ALTER TABLE employees ADD substats VARCHAR(11) NOT NULL DEFAULT `0|0|0|0`", function (err,result) {if (err) throw err})
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
@@ -56,7 +55,7 @@ const Discord = require('discord.js');
 	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "substats": e.substats, "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -123,7 +122,7 @@ client.on('ready', () => {
 	})
 
 		connection.query(`SELECT * FROM employees`, function (err, result) {
-			console.log(result)
+			//console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
