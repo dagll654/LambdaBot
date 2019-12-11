@@ -65,7 +65,7 @@ const Discord = require('discord.js');
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
 		curruser = employee(id)
-		console.log("Curruser ID (bumpStat): " + id)
+		//console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = curruser.subpoints.split("|")
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
@@ -94,8 +94,8 @@ const Discord = require('discord.js');
 	
 	// Get employee by id
 	function employee(id) {
-		console.log("Getting by id " + Number(id).toString())
-		console.log(dbployees[dbids.indexOf(id)])
+		//console.log("Getting by id " + Number(id).toString())
+		//console.log(dbployees[dbids.indexOf(id)])
 		return dbployees[dbids.indexOf(id)]
 	}
 	
@@ -127,13 +127,12 @@ const Discord = require('discord.js');
 			if (dbvars[3] === 0) {
 					dbployees.forEach(e => {
 						if (e.working === 0) {
-						let hp = e.hp
-						if (hp < e.fortitude) {hp = hp + Math.ceil(e.fortitude/60)}
-						if (hp > e.fortitude) {hp = e.fortitude}
+						if (e.hp < e.fortitude) {e.hp = e.hp + Math.ceil(e.fortitude/60)}
+						if (e.hp > e.fortitude) {e.hp = e.fortitude}
 						let sp = e.sp
-						if (sp < e.prudence) {sp = sp + Math.ceil(e.prudence/60)}
-						if (sp > e.prudence) {sp = e.prudence}
-						if ((hp === e.fortitude) && (sp === e.prudence) && (Number(e.dead) === 1)) {
+						if (e.sp < e.prudence) {e.sp = e.sp + Math.ceil(e.prudence/60)}
+						if (e.sp > e.prudence) {e.sp = e.prudence}
+						if ((e.hp === e.fortitude) && (e.sp === e.prudence) && (Number(e.dead) === 1)) {
 							e.dead = 0
 						}
 						}
