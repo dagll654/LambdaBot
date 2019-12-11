@@ -144,7 +144,7 @@ const Discord = require('discord.js');
 
 	// Update the data in the database
 	client.setInterval(function(){
-		const pushbig = "UPDATE `employees` SET "
+
 		dbployees.forEach(e => {//
 			let pushsmall = pushbig
 			let keys = Object.keys(e)
@@ -152,13 +152,8 @@ const Discord = require('discord.js');
 			vals[2] = vals[2]*1000
 			vals[3] = vals[3]*1000
 			vals[4] = 17
-			for (i = 2; i < (vals.length - 3); i++) {
-				pushsmall += "`" + keys[i] + "` = '" + vals[i] + "'"
-				if (i < (vals.length - 3)) {pushsmall += ", "}
-				//connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
-			}
-			pushsmall += " WHERE `employees`.`userid` = '" + vals[0] + "'; "
-			connection.query(pushsmall, function (err, result) {if (err) throw err})
+			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "',  WHERE `employees`.`userid` = '" + val[0] + "';"
+			connection.query(bigpush, function (err, result) {if (err) throw err})
 		})
 
 		console.log("Updated the database.")
