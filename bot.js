@@ -147,7 +147,7 @@ const Discord = require('discord.js');
 		dbployees.forEach(e => {
 			let keys = Object.keys(e)
 			let vals = Object.values(e)
-			vals[3] = vals[3]*1000
+			vals[keys.indexOf()] = vals[3]*1000
 			vals[4] = vals[4]*1000
 			for (i = 2; i < (vals.length - 2); i++) {
 				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
@@ -918,8 +918,6 @@ client.on('message', msg => {
 					break
 				case "w":
 				case "work":
-					upd()
-					upd()
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
