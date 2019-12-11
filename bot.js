@@ -945,7 +945,7 @@ client.on('message', msg => {
 						cmd[2].split("").forEach(c => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
-						curruser = employee(cuid)
+						curruser = employee(cuid)//
 					} else {curruser = employee(msg.author.id)}
 								//console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id)
