@@ -8,6 +8,7 @@ const Discord = require('discord.js');
 	database: "sql7314688"
 	});
 	pool.getConnection(function (err, connection) {
+	connection.query("ALTER TABLE employees ADD substats VARCHAR(11) NOT NULL DEFAULT `0|0|0|0`", function (err,result) {if (err) throw err})
  const client = new Discord.Client();
   const { Client, RichEmbed } = require('discord.js');
   const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN);
@@ -55,7 +56,7 @@ const Discord = require('discord.js');
 	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "substats": e.substats, "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -122,6 +123,7 @@ client.on('ready', () => {
 	})
 
 		connection.query(`SELECT * FROM employees`, function (err, result) {
+			console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
 			result.forEach(e => dbids.push(e.userid).toString())
@@ -470,17 +472,17 @@ client.on('message', msg => {
 				
 				async function asyncEdit(mssage) {
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${wtime} seconds.`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 						await wait(wtime*500)
 						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, wrk[2], curruser.id)
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work incomplete... You have died. Lost (WIP)`)}
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)`)}
 						 
 							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
