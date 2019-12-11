@@ -795,7 +795,7 @@ client.on('message', msg => {
 					}
 					break
 				case "profile":
-				let uid = ""
+				let uid = "" //
 				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
 					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + uid + "';", function (err, result) {
 						if (err) throw err
