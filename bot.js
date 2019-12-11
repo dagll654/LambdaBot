@@ -946,6 +946,7 @@ client.on('message', msg => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
 						curruser = employee(cuid)
+						console.log(dbployees)
 					} else {curruser = employee(msg.author.id)}
 								//console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id)
