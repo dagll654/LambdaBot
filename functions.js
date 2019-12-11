@@ -1,4 +1,4 @@
 //module.js
-export function hello() {
+exports.hello = function {
   return "Hello";
 }
