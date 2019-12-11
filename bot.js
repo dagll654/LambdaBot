@@ -454,7 +454,7 @@ client.on('message', msg => {
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
 				if (roll(100) > successChance) {neboxes++; 
-					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
+					let dmg = ((roll((currentAbno.damage[1] - currentAbno.damage[0] + 1)*1000) - 1000) + currentAbno.damage[0]*1000)/1000
 					if (currentAbno.dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
