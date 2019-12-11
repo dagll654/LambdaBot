@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -144,7 +144,7 @@ const Discord = require('discord.js');z
 
 	// Update the data in the database
 	client.setInterval(function(){
-		let pushbig = ""
+		let pushbig = "UPDATE `employees` "
 		dbployees.forEach(e => {
 			let keys = Object.keys(e)
 			let vals = Object.values(e)
@@ -152,7 +152,7 @@ const Discord = require('discord.js');z
 			vals[3] = vals[3]*1000
 			vals[4] = 17
 			for (i = 2; i < (vals.length - 2); i++) {
-			pushbig += "UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "'; "
+			pushbig += "SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "'; "
 				//connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
 		})
