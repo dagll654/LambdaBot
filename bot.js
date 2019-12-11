@@ -813,7 +813,8 @@ client.on('message', msg => {
 					//			if (err) throw err
 					//
 					//	})
-					
+					upd()
+					upd()
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
@@ -938,7 +939,10 @@ client.on('message', msg => {
 				case "ex":
 				case "extraction":
 					curruser = employee(msg.author.id)
-					ch.send("bruh")//
+					ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```" + `\n	Please input the code of abnormality, EGO gear of which you wish to extract.\n	Otherwise, type 'exit' to close this menu.`)
+					.then(menu => {
+						
+					})
 				break
 				case "p":
 				case "profile":
