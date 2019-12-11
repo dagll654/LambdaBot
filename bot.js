@@ -510,7 +510,7 @@ client.on('message', msg => {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, wrk[2], curruser.id)
-						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*2^(jn.risk.indexOf(currentAbno.risk.toUpperCase()))))
+						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*(2^(jn.risk.indexOf(currentAbno.risk.toUpperCase()))-1)))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)`)}
 						 
