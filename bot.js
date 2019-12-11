@@ -157,7 +157,7 @@ const Discord = require('discord.js');
 				if (i < (vals.length - 3)) {pushsmall += ", "}
 				//connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
-			pushsmall += "' WHERE `employees`.`userid` = '" + vals[0] + "'; "
+			pushsmall += " WHERE `employees`.`userid` = '" + vals[0] + "'; "
 			connection.query(pushsmall, function (err, result) {if (err) throw err})
 		})
 
