@@ -90,7 +90,7 @@ const Discord = require('discord.js');
 						let sp = e.sp
 						if (sp < e.prudence) {sp = sp + Math.ceil(e.prudence/24)}
 						if (sp > e.prudence) {sp = e.prudence}
-						if ((hp > e.fortitude) && (sp > e.prudence) && (Number(e.dead) === 1)) {
+						if ((hp === e.fortitude) && (sp === e.prudence) && (Number(e.dead) === 1)) {
 							e.dead = 0
 							connection.query("UPDATE `employees` SET `dead` = '0' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						}
