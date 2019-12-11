@@ -145,10 +145,15 @@ const Discord = require('discord.js');
 	// Update the data in the database
 	client.setInterval(function(){
 		dbployees.forEach(e => {
+			let testarr = []
 			let keys = Object.keys(e)
 			let vals = Object.values(e)
-			vals[keys.indexOf()] = vals[3]*1000
-			vals[4] = vals[4]*1000
+			vals[keys.indexOf("hp")] = vals[keys.indexOf("hp")]*1000
+			vals[keys.indexOf("sp")] = vals[keys.indexOf("hp")]*1000
+			vals.forEach((v, i) => {
+				testarr.push([i, key[i], v])
+			})
+			console.log(testarr)
 			for (i = 2; i < (vals.length - 2); i++) {
 				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
