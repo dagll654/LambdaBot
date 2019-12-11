@@ -117,7 +117,7 @@ const Discord = require('discord.js');
 		return ret
 	}
 	
-	// Heal 1/24 of max HP and SP every 2.5 minutes ( = full heal in an hour)
+	// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
 	client.setInterval(function(){
 			if (dbvars[3] === 0) {
 
@@ -144,7 +144,7 @@ const Discord = require('discord.js');
 					console.log("Healed all.")
 
 			}
-	}, 150000)
+	}, 60000)
  
 client.on('ready', () => {	
 
@@ -792,23 +792,23 @@ client.on('message', msg => {
 					}
 					break
 				case "profile":
-
-					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + cmd[4] + "';", function (err, result) {
+				let uid = ""
+				if (cmd[4]) {} else {uid = "143261987575562240"}
+					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + uid + "';", function (err, result) {
 						if (err) throw err
 
 
 				})
-							connection.query(`SELECT * FROM employees`, function (err, result) { 
-								dbployees = []
-								result.forEach(e => fdbPush(e))
-								dbids = []
-								dbployees.forEach(e => dbids.push(e.id))
-								curruser = dbployees[dbids.indexOf(cmd[4])]
-								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
-								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]} for ${curruser.tag}`)
-								if (err) throw err
-
-						})
+					//		connection.query(`SELECT * FROM employees`, function (err, result) { 
+					//			dbployees = []
+					//			result.forEach(e => fdbPush(e))
+					//			dbployees.forEach(e => dbids.push(e.id))
+					//			curruser = dbployees[dbids.indexOf(cmd[4])]
+					//			stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
+					//			//console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]} for ${curruser.tag}`)
+					//			if (err) throw err
+					//
+					//	})
 					
 					break
 				default:
