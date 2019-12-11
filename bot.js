@@ -151,7 +151,7 @@ const Discord = require('discord.js');
 			vals[keys.indexOf("hp")] = vals[keys.indexOf("hp")]*1000
 			vals[keys.indexOf("sp")] = vals[keys.indexOf("hp")]*1000
 			vals.forEach((v, i) => {
-				testarr.push([i, key[i], v])
+				testarr.push([i, keys[i], v])
 			})
 			console.log(testarr)
 			for (i = 2; i < (vals.length - 2); i++) {
