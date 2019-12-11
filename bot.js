@@ -107,8 +107,6 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {	
 
-	console.log(fn.hello()) 
-
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
@@ -238,6 +236,136 @@ client.on('message', msg => {
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
+	// was (frick puriora)
+	function wait(msc) {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('resolved')
+			}, msc)
+		})
+	}	
+	
+	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
+	function bumpBoxes(val, abn, id) {
+
+		
+		upd()
+		let emp = dbployees[dbids.indexOf(id)]
+		let bAbnos = []
+		let bBals = []
+		let bGotten = emp.balancespecific.split(" ")
+		bGotten.forEach(bg => {
+			bAbnos.push(bg.split("|")[0])
+			bBals.push(bg.split("|")[1])
+		})
+		bBals[bAbnos.indexOf(abn)] = Number(bBals[bAbnos.indexOf(abn)]) + val
+		let bToSend = []
+		bAbnos.forEach(a => {
+			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
+		})
+		connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+			
+
+	}
+	
+	// Function for checking if all the elements of arr are included in arr2
+	function checkArray(arr, arr2) {
+		return arr.every(i => arr2.includes(i));
+	}
+	
+	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
+	function rDamage(rec, dea, res) {
+		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
+		let dMult = 1
+		//console.log(levelDifference)
+		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
+		switch (levelDifference) {
+			case 4: dMult = 0.4; break;
+			case 3: dMult = 0.6; break;
+			case 2: dMult = 0.7; break;
+			case 1: dMult = 0.8; break;
+			case 0:
+			case -1: dMult = 1; break;
+			case -2: dMult = 1.2; break;
+			case -3: dMult = 1.5; break;
+			case -4: dMult = 2; break;
+		}
+		return (dMult * res)
+	}
+
+	// Function for checking if all the symbols of a given string are included in an array
+	function checkSymbols(str, arr) {
+		return str.split("").every(i => arr.includes(i))
+	}
+	
+	// Function for checking if all the symbols of a given string are the same as compoint
+	function checkStringSame(str, compoint) {
+		return str.split("").every(i => i === compoint)
+	}
+	
+	// Function for checking if all the elements of arr are are the same as compoint
+	function checkSame(arr, compoint) {
+		if (arr.length === 0) {return false} else {return arr.every(i => i === compoint)}
+	}
+	
+	function statLVL(stat) {
+		if (stat < 30) {return "I"}
+		else if (stat < 45) {return "II"}
+		else if (stat < 65) {return "III"}
+		else if (stat < 85) {return "IV"}
+		else if (stat < 100) {return "V"}
+		else {return "EX"}
+	}
+	
+	// Function for checking if the given amount of arguments is valid
+	function argCheck(arr, argcount) {
+		return arr.length >= argcount
+	}
+	
+	// Just a function that times the message out in x seconds
+	function yeet(sec) {
+		setTimeout(function(){msg.delete().catch(console.error)}, sec * 1000)
+	}
+	
+	// Function for getting an emoji by name
+	function emoji(nme, srv = msg.guild, a = false, id = false) {
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
+		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
+			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
+		return emvar
+	}
+	
+	// Function for getting a box by array explaining its contents
+	function box(arr) {// 1 = 1, -1 = 3, 0 = 7
+		let a = 0
+		if (arr[0] === 1) {a = a + 1}
+		else if (arr[0] === -1) {a = a + 3}
+		else {a = a + 7}
+		//console.log("A1 " + a) 
+		if (arr[1] === 1) {a = a + 1}
+		else if (arr[0] === -1) {a = a + 3}
+		else {a = a + 7}
+		//console.log("A2 " + a) 
+		return jn.boxes[jn.boxcodes.indexOf(a)]
+	}
+	
+	// Roll an x-sided die, even if that makes absolutely no sence in practice
+	function roll(sides) {
+		return Math.ceil(Math.random() * sides)
+	}
+	
+	// Function for getting a role by name 
+	function getRole(nme) {
+		if (msg.guild.roles.map(r => r.name).includes(nme)) {
+			return msg.guild.roles.find(role => role.name === nme)
+		} else {return void(0)}
+	}
+	
+	// Function for checking whether an emoji (found by name) is animated
+	function emanim(name, srv = msg.guild) {
+		return srv.emojis.get("650293931791089684").animated
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -248,12 +376,12 @@ client.on('message', msg => {
 	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
 	}
 	//if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
-	//	fn.yeet(600)
+	//	yeet(600)
 	//}
 	
 	// If it's the bot's message about starting up fine then delete it in 6 seconds
 	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
-		fn.yeet(8)
+		yeet(8)
 	}
 	
 	// Work stuff
@@ -268,7 +396,7 @@ client.on('message', msg => {
 		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
-		userStatLevelText = fn.statLVL(userStat)
+		userStatLevelText = statLVL(userStat)
 		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
 		if (userStatLevel > 4) {userStatLevel = 4} 
 		successChance = 0
@@ -282,7 +410,7 @@ client.on('message', msg => {
 		progressArrayComplex = []
 		progressBarStorage = []
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
-			progressBar += fn.box([0, 0])
+			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
 		}
 			neboxes = 0
@@ -291,20 +419,20 @@ client.on('message', msg => {
 			i = 0
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
-				if (fn.roll(100) > successChance) {neboxes++; 
-					let dmg = (fn.roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
+				if (roll(100) > successChance) {neboxes++; 
+					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
 					if (currentAbno.dtype[0] === 1) {
-						dmg = dmg * fn.rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
-						dmg = dmg * fn.rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
-						dmg = dmg * fn.rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
@@ -312,7 +440,7 @@ client.on('message', msg => {
 					
 				}
 				else {
-					if (fn.roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
+					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
 					else {peboxes++}
 				}
 				progressBarOld = progressBar
@@ -328,22 +456,21 @@ client.on('message', msg => {
 					progressArray.push(-1)
 				}
 				//console.log("Progress array normal: " + progressArray)
-				//j = 0
-				//start_position: while(true) {
-				//	progressBar += fn.box([progressArray[j*2], progressArray[j*2+1]])
-				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-				//	//console.log("Progress array " + j + " " + progressArrayComplex)
-				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
-				//			break
-				//	}
-				//progressBarStorage.push(progressBar)
+				j = 0
+				start_position: while(true) {
+					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
+					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+					//console.log("Progress array " + j + " " + progressArrayComplex)
+					if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
+							break
+					}
+				progressBarStorage.push(progressBar)
 				} else {curruser.dead = 1}
 				}
 				
-				async function asyncEdit(mssage) {
-						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${wtime} seconds.`)
-						await fn.wait(wtime)
+				async function asyncEdit(mssage, arr) {
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
+						await wait((arr.length/2)*500)
 						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
@@ -356,7 +483,7 @@ client.on('message', msg => {
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `working` = '0' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-						fn.bumpBoxes(peboxes, wrk[2], curruser.id) 
+						bumpBoxes(peboxes, wrk[2], curruser.id) 
 							upd()
 							upd()
 							upd()
@@ -364,7 +491,7 @@ client.on('message', msg => {
 
 				}
 				
-				asyncEdit(msg)
+				asyncEdit(msg, progressBarStorage)
 			
 		
 	}
@@ -385,12 +512,12 @@ client.on('message', msg => {
 		vtd = [] 
 		yee = 0
 		boo = 0
-		if ((DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-			reqv = 5 + Math.floor(DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-		} else {reqv = DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length}
+		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 		msg.react('✅')
 		msg.react('🚫')
-		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
+		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
 			lru = rct.users.map(u => u.id).pop()
@@ -398,7 +525,7 @@ client.on('message', msg => {
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
-			if ((vtd.length >= DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(fn.getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
+			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
 			timeout = 0
 			collector.stop()
 			} 
@@ -410,8 +537,8 @@ client.on('message', msg => {
 		} else {
 			if (yee > boo) {
 				voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
-				voteeuser.removeRole(fn.getRole(votingteam))
-				voteeuser.addRole(fn.getRole(votingteam + " (C)"))
+				voteeuser.removeRole(getRole(votingteam))
+				voteeuser.addRole(getRole(votingteam + " (C)"))
 			}
 			
 			if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
@@ -443,7 +570,7 @@ client.on('message', msg => {
 		{
 			// If the command includes an argument, the standart randomization is overridden
 			if (cmd[1]) { 
-			if (fn.checkSymbols(cmd[1], nmbrs)) {
+			if (checkSymbols(cmd[1], nmbrs)) {
 				x1 = cmd[1]
 				// If the argument is beyond the amount of quotes currently avaliable, apologise and stop.
 				if (x1 > qte.length) {
@@ -474,30 +601,30 @@ client.on('message', msg => {
 		
 		// Emoji command
 		if (cmd[0] === '!em') {
-			if (fn.emoji(cmd1[1], DELTAS, false, true) != undefined) {
+			if (emoji(cmd1[1], DELTAS, false, true) != undefined) {
 			ia = 1
 			emtx = ""
 			if (cmd[2]) {
-			if (fn.checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
+			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
 			if (ia > 27) {ia = 27}
 			if (animojis.includes(cmd1[1])) {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += fn.emoji(cmd1[1], DELTAS, true)
+						emtx += emoji(cmd1[1], DELTAS, true)
 					}
 					ch.send(emtx)
 					.catch(console.error)
-					fn.yeet(0)
+					yeet(0)
 					return
 				} else {
 					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += fn.emoji(cmd1[1], DELTAS, false)
+						emtx += emoji(cmd1[1], DELTAS, false)
 					}
 					ch.send(emtx)
 					.catch(console.error)
-					fn.yeet(0)
+					yeet(0)
 					return 
 				}
-				fn.yeet(0)
+				yeet(0)
 			} else {msg.reply("Emoji not found.")}
 		}
 		
@@ -517,7 +644,7 @@ client.on('message', msg => {
 					console.log(DELTAS.roles)
 					break
 				case "sendem":
-					ch.send(fn.emoji(cmd1[2], DELTAS, true))
+					ch.send(emoji(cmd1[2], DELTAS, true))
 					.catch(console.error)
 					break
 				case "ids":
@@ -537,7 +664,7 @@ client.on('message', msg => {
 					break
 				case "roletest":
 					cdeproles.forEach(r => {
-						rtemp = fn.getRole(r)
+						rtemp = getRole(r)
 						console.log(rtemp.id)
 					})
 					break
@@ -550,7 +677,7 @@ client.on('message', msg => {
 						rtmp += cmd1[i]
 						if (i < (cmd1.length - 1)) {rtmp += " "}
 					}
-					console.log(fn.getRole(rtmp))
+					console.log(getRole(rtmp))
 					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
@@ -652,7 +779,7 @@ client.on('message', msg => {
 					break
 			} 	
 		} else {msg.reply("Sorry, but only the bot's author can use the debug commands.")}
-		fn.yeet(2)
+		yeet(2)
 		}
 	
 	// For making the bot say whatever, but only if the debug variable debugsay is 1
@@ -668,7 +795,7 @@ client.on('message', msg => {
 			} 
 			ch.send(tempmsg)
 			.catch(console.error)
-			fn.yeet(0)
+			yeet(0)
 		} else {msg.reply("The command !say is currently disabled.")}
 	}
 	
@@ -684,7 +811,7 @@ client.on('message', msg => {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
 				if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					// Find the role among the guild's roles and add it
-					msg.member.addRole(fn.getRole(rtmp))
+					msg.member.addRole(getRole(rtmp))
 					ch.send("Successfully given the specified role to <@" + msg.author.id + ">.")
 				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
 			} else {ch.send("Error: user <@" + msg.author.id + "> already has the specified role")}
@@ -701,7 +828,7 @@ client.on('message', msg => {
 		if (roles1.includes(rtmp)) {
 			if (msg.member.roles.map(r => r.name).includes(rtmp) === true) {
 				// Find the role among the guild's roles and remove it
-				msg.member.removeRole(fn.getRole(rtmp))
+				msg.member.removeRole(getRole(rtmp))
 				ch.send("Successfully taken the specified role from <@" + msg.author.id + ">.")
 			} else {ch.send("Error: user <@" + msg.author.id + "> does not have the specified role")}
 		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
@@ -714,8 +841,8 @@ client.on('message', msg => {
 				case "list":
 					if (cmd[2]) {
 					if (ncdeproles.includes(cmd1[2] + " " + cmd1[3])) {
-					currdep = fn.getRole(cmd1[2] + " " + cmd1[3])
-					currdepm = DELTAS.roles.get(fn.getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
+					currdep = getRole(cmd1[2] + " " + cmd1[3])
+					currdepm = DELTAS.roles.get(getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
 					depm = ""
 					cpt = "none."
 					if ((currdepm[0] === undefined) === false) {
@@ -724,8 +851,8 @@ client.on('message', msg => {
 						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
 					})
 					} else {depm = "The department is empty... *crickets*"}
-					if (fn.getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
-						cpt = fn.getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
+					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
+						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
 					}
 					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
 					
@@ -738,11 +865,11 @@ client.on('message', msg => {
 						empcount = 0
 						empcounts = ""
 						emps = "s"
-						empcount = empcount + DELTAS.roles.get(fn.getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(fn.getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
+						empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
 						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === "1") {emps = ""}
 						if (empcount === 0) {empcounts = "no"} else {empcounts = empcount.toString()}
-						if ((DELTAS.roles.get(fn.getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
-							cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n#		` + DELTAS.roles.get(fn.getRole(r).id).members.map(m=>m.user.tag)[0]
+						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
+							cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n#		` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
 						} else {cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n#		none`}
 						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n"} else {cpts += ".```"}
 					})
@@ -798,7 +925,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${fn.statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${fn.statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${fn.statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${fn.statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 
 						})
@@ -855,10 +982,10 @@ client.on('message', msg => {
 										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
-									//fn.checkSymbols(str, arr)
+									//checkSymbols(str, arr)
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
-										if (fn.checkSymbols(m.array()[0].content, nmbrs)) {
+										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
@@ -886,10 +1013,10 @@ client.on('message', msg => {
 										if (ainvw.indexOf(w) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
-									//fn.checkSymbols(str, arr)
+									//checkSymbols(str, arr)
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {
-										if (fn.checkSymbols(m.array()[0].content, nmbrs)) {
+										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = Number(m.array()[0].content) - 1
 												console.log("EQUPD: " + equpd)
@@ -935,7 +1062,7 @@ client.on('message', msg => {
 							if (i < (cmd1.length - 1)) {rtmp += " "}
 						}
 						if (ncdeproles.includes(rtmp)) {
-							msg.member.addRole(fn.getRole(rtmp))
+							msg.member.addRole(getRole(rtmp))
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
 						} else {msg.reply("error: incorrect team name. Example: !dep assign Extraction Team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
@@ -948,7 +1075,7 @@ client.on('message', msg => {
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {
 							msg.reply("you have left the " + drFind(msg.member) + ".") 
-							msg.member.removeRole(fn.getRole(drFind(msg.member)))
+							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}
 						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
@@ -973,13 +1100,13 @@ client.on('message', msg => {
 								})
 								if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
 								if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
-								if (DELTAS.roles.get(fn.getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 										dbvars[2] = 1
 										votingteam = drFind(msg.member)
 										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(fn.getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
 								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
 								break
 								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
@@ -1000,8 +1127,8 @@ client.on('message', msg => {
 									if (cmsg.content === "y") {
 										msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
 										var cptxt = drFind(msg.member)
-										msg.member.removeRole(fn.getRole(cptxt + " (C)"))
-										msg.member.addRole(fn.getRole(cptxt))
+										msg.member.removeRole(getRole(cptxt + " (C)"))
+										msg.member.addRole(getRole(cptxt))
 										collector.stop()
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
@@ -1034,7 +1161,7 @@ client.on('message', msg => {
 	if (cmd[0] === "!math")  {
 		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help math.")
 				    return}
-		if (fn.checkArray(cmd[1].split(""), nmbrs) && fn.checkArray(cmd[3].split(""), nmbrs)) {
+		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
 			switch (cmd[2]) {
 			case "+":
 				var c = Number(cmd[1]) + Number(cmd[3])
@@ -1052,7 +1179,7 @@ client.on('message', msg => {
 	}
 	
 	if (cmd[0] === "!abn") {
-		if (!fn.argCheck(cmd, 2)) {
+		if (!argCheck(cmd, 2)) {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
 		}
@@ -1060,20 +1187,20 @@ client.on('message', msg => {
 			let n = abn.lista.indexOf(cmd[1])
 			let embed = new Discord.RichEmbed()
 				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + fn.emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
+				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
 				.setFooter("EGO: " + gear[Number(abn.abn[n].ego)].name)
 			ch.send({embed})
 		.catch(console.error)
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
-		fn.yeet(5)
+		yeet(5)
 	}
 	
 	if (cmd[0] === "!menacing") {
-		men = fn.emoji("animenacing", DELTAS, true)
+		men = emoji("animenacing", DELTAS, true)
 		ch.send(men + men + men + men + men + men + men)
-		fn.yeet(0.01)
+		yeet(0.01)
 	}
 		
 		
@@ -1087,7 +1214,7 @@ client.on('message', msg => {
 	hm1.shift()
 	var hm2 = []
 	hm1.forEach(i => {if (i != " ") {hm2.push(i)}})
-	if (mesc.toLowerCase().startsWith("h") && fn.checkSame(hm2, "m")) {
+	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
 			msg.react("607330826052698114") 
 
 	}}
