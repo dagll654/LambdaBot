@@ -146,7 +146,6 @@ const Discord = require('discord.js');
 	client.setInterval(function(){
 
 		dbployees.forEach(e => {//
-			let pushsmall = pushbig
 			let keys = Object.keys(e)
 			let vals = Object.values(e)
 			vals[2] = vals[2]*1000
