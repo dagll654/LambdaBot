@@ -152,9 +152,9 @@ const Discord = require('discord.js');
 			vals[2] = vals[2]*1000
 			vals[3] = vals[3]*1000
 			vals[4] = 17
-			for (i = 2; i < (vals.length - 2); i++) {
+			for (i = 2; i < (vals.length - 3); i++) {
 				pushsmall += "`" + keys[i] + "` = '" + vals[i] + "'"
-			if (i < (vals.length - 3)) {pushsmall += ", "}
+				if (i < (vals.length - 3)) {pushsmall += ", "}
 				//connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", function (err, result) {if (err) throw err})
 			}
 			pushsmall += "' WHERE `employees`.`userid` = '" + vals[0] + "'; "
