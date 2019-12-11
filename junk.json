@@ -158,6 +158,5 @@
 				10,
 				14,
 				4
-				],
-	"test": function(string) {return (string + "MUDA MUDA MUDA MUDA"}
+				]
 }

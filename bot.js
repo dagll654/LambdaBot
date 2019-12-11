@@ -16,6 +16,8 @@ const Discord = require('discord.js');
   const abn = require("./abnb.json");
   const jn = require("./junk.json");
   const gear = require("./gear.json")
+  import {hello} from './functions.json' // or './module'
+	let val = hello(); // val is "Hello";
   const animojis = [
 			"restartsForDays",
 			"pepanger",
@@ -108,7 +110,7 @@ const Discord = require('discord.js');
  
 client.on('ready', () => {	
 
-	console.log(jn.test("ORA ORA ORA ORA ")) 
+	console.log(hello()) 
 
 	// Getting the Lambda's Deltas guild for easy use
 	const DELTAS = client.guilds.get("607318782624399361");
