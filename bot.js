@@ -282,7 +282,7 @@ client.on('message', msg => {
 		progressArrayComplex = []
 		progressBarStorage = []
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
-			progressBar += fn.fn.box([0, 0])
+			progressBar += fn.box([0, 0])
 			progressArrayComplex.push([0, 0])
 		}
 			neboxes = 0
@@ -328,19 +328,19 @@ client.on('message', msg => {
 					progressArray.push(-1)
 				}
 				//console.log("Progress array normal: " + progressArray)
-				j = 0
-				start_position: while(true) {
-					progressBar += fn.fn.box([progressArray[j*2], progressArray[j*2+1]])
-					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-					//console.log("Progress array " + j + " " + progressArrayComplex)
-					if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
-							break
-					}
-				progressBarStorage.push(progressBar)
+				//j = 0
+				//start_position: while(true) {
+				//	progressBar += fn.box([progressArray[j*2], progressArray[j*2+1]])
+				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+				//	//console.log("Progress array " + j + " " + progressArrayComplex)
+				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
+				//			break
+				//	}
+				//progressBarStorage.push(progressBar)
 				} else {curruser.dead = 1}
 				}
 				
-				async function asyncEdit(mssage, arr) {
+				async function asyncEdit(mssage) {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
 						await fn.wait((arr.length/2)*500)
 						//console.log("ARR length: " + arr.length)
@@ -363,7 +363,7 @@ client.on('message', msg => {
 
 				}
 				
-				asyncEdit(msg, progressBarStorage)
+				asyncEdit(msg)
 			
 		
 	}
