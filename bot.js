@@ -944,7 +944,7 @@ client.on('message', msg => {
 						dbids = []
 						stats = []
 							connection.query(`SELECT * FROM employees`, function (err, result) {
-								let ssp = bumpSubpoint(curruser.id, fortitude)
+								let ssp = bumpSubpoint(curruser.id, "fortitude")
 								dbployees = []
 								result.forEach(e => fdbPush(e))
 								dbids = []
