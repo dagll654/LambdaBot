@@ -76,6 +76,7 @@ const Discord = require('discord.js');
 	
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat, val = 0) {
+		console.log("Curruser ID (bumpStat): " + id)
 		upd()
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = employee(id).subpoints.split("|")
@@ -938,12 +939,13 @@ client.on('message', msg => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
 						upd()
-						curruser = dbployees[dbids.indexOf(cuid)]
-					} else {upd(); curruser = dbployees[dbids.indexOf(msg.author.id)]}
+						curruser = employee(cuid)
+					} else {upd(); curruser = employee(msg.author.id)}
 						dbployees = []
 						dbids = []
 						stats = []
 							connection.query(`SELECT * FROM employees`, function (err, result) {
+								console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id, "fortitude")
 								dbployees = []
 								result.forEach(e => fdbPush(e))
