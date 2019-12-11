@@ -14,7 +14,7 @@ const Discord = require('discord.js');
   const abn = require("./abnb.json");
   const jn = require("./junk.json");
   const gear = require("./gear.json")
-  const fn = require("./functions.json")
+  const fn = require("./functions.js")
 	let val = hello(); // val is "Hello";
   const animojis = [
 			"restartsForDays",
