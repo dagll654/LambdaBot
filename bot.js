@@ -53,12 +53,6 @@ const Discord = require('discord.js');
 		})
 	}
 	
-	// Get employee by id
-	function employee(id) {
-		//console.log("Getting by id " + id)
-		return dbployees[dbids.indexOf(id)]
-	}
-	
 	function statLVL(stat) {
 		if (stat < 30) {return "I"}
 		else if (stat < 45) {return "II"}
@@ -95,6 +89,12 @@ const Discord = require('discord.js');
 		}
 		dbployees[dbids.indexOf(id)].subpoints = subStatArr.join("|")
 		return subStatArr
+	}
+	
+	// Get employee by id
+	function employee(id) {
+		//console.log("Getting by id " + id)
+		return dbployees[dbids.indexOf(id)]
 	}
 	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
@@ -215,7 +215,7 @@ client.on('ready', () => {
 			if (err) throw err
 
 
-
+	
 	})
 	
 	
@@ -232,6 +232,7 @@ client.on('ready', () => {
             url: "https://tinyurl.com/rollntroll"
         }
     });
+	upd()
 
 });
 
