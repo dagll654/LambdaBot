@@ -206,7 +206,7 @@ client.on('message', msg => {
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
-	var fn.wait = ms => new Promise((r, j)=>setTimeout(r, ms))
+	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 	
 	// Handy vars
 	var ch = msg.channel
