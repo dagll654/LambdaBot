@@ -456,34 +456,36 @@ client.on('message', msg => {
 					progressArray.push(-1)
 				}
 				//console.log("Progress array normal: " + progressArray)
-				j = 0
-				start_position: while(true) {
-					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-					//console.log("Progress array " + j + " " + progressArrayComplex)
-					if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
-							break
-					}
-				progressBarStorage.push(progressBar)
+				//j = 0
+				//start_position: while(true) {
+				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
+				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+				//	//console.log("Progress array " + j + " " + progressArrayComplex)
+				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
+				//			break
+				//	}
+				//progressBarStorage.push(progressBar)
 				} else {curruser.dead = 1}
 				}
 				
-				async function asyncEdit(mssage, arr) {
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
-						await wait((arr.length/2)*500)
+				async function asyncEdit(mssage) {
+						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${wtime} seconds.`)
+						await wait(wtime*500)
 						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Work complete... But you have died. Lost (WIP)`)}
-
-							connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						else {
+						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						bumpBoxes(peboxes, wrk[2], curruser.id) 
+						}
 							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 							connection.query("UPDATE `employees` SET `working` = '0' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-						bumpBoxes(peboxes, wrk[2], curruser.id) 
 							upd()
 							upd()
 							upd()
