@@ -53,9 +53,46 @@ const Discord = require('discord.js');
 		})
 	}
 	
+	// Get employee by id
+	function employee(id) {
+		connection.query(`SELECT * FROM employees`, function (err, result) { 
+				dbployees = []
+				result.forEach(e => fdbPush(e))
+				dbids = []
+				dbployees.forEach(e => dbids.push(e.id))
+				if (err) throw err
+				return dbployees[dbids.indexOf(id)]
+		})
+	}
+	
+	function statLVL(stat) {
+		if (stat < 30) {return "I"}
+		else if (stat < 45) {return "II"}
+		else if (stat < 65) {return "III"}
+		else if (stat < 85) {return "IV"}
+		else if (stat < 100) {return "V"}
+		else {return "EX"}
+	}
+	
+	// Change an employee's subpoint (and award a stat-up if needed)
+	function bumpSubpoint(id, stat, val = 0) {
+		upd()
+		let statIndex = jn.stats.indexOf(stat.toLowerCase())
+		let subStatArr = employee(id).subpoints.split("|")
+		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
+		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16)) {
+			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16
+			if (employee(id).stats[statIndex] < employee(id).statlimit) {
+			connection.query("UPDATE `employees` SET `" + stat.toLowerCase() + "` = '" + (employee(id).stats[statIndex] + 1) + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+			}
+		}
+		connection.query("UPDATE `employees` SET `subpoints` = '" + subStatArr.join("|") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+		return subStatArr
+	}
+	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, get stats() {return [this.fortitude, this.prudence, this.temperance, this.justice]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp, "sp": e.sp, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
  
  	// Function for finding the dep role among a member's roles
@@ -309,15 +346,6 @@ client.on('message', msg => {
 		if (arr.length === 0) {return false} else {return arr.every(i => i === compoint)}
 	}
 	
-	function statLVL(stat) {
-		if (stat < 30) {return "I"}
-		else if (stat < 45) {return "II"}
-		else if (stat < 65) {return "III"}
-		else if (stat < 85) {return "IV"}
-		else if (stat < 100) {return "V"}
-		else {return "EX"}
-	}
-	
 	// Function for checking if the given amount of arguments is valid
 	function argCheck(arr, argcount) {
 		return arr.length >= argcount
@@ -403,8 +431,8 @@ client.on('message', msg => {
 		successChance = 0
 		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
-		msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
+		//msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
 		progressBar = ""
 		progressBarOld = ""
 		progressArray = []
@@ -480,6 +508,7 @@ client.on('message', msg => {
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, wrk[2], curruser.id)
+						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*2^(jn.risk.indexOf(currentAbno.risk.toUpperCase()))))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)`)}
 						 
@@ -915,6 +944,7 @@ client.on('message', msg => {
 						dbids = []
 						stats = []
 							connection.query(`SELECT * FROM employees`, function (err, result) {
+								let ssp = bumpSubpoint(curruser.id, fortitude)
 								dbployees = []
 								result.forEach(e => fdbPush(e))
 								dbids = []
@@ -928,7 +958,7 @@ client.on('message', msg => {
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${statLVL(stats[0])*16}		${jn.prudence} ${ssp[1]} / ${statLVL(stats[1])*16}\n		${jn.temperance} ${ssp[2]} / ${statLVL(stats[2])*16}		${jn.justice} ${ssp[3]} / ${statLVL(stats[3])*16}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 
 						})
