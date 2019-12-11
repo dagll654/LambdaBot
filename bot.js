@@ -42,6 +42,10 @@ const Discord = require('discord.js');
  votingteam = ""
  voting = 0
  
+	// just a thing
+	function err(err) {if (err) throw err}
+		
+ 
 	// Function that updates the god damn information on employee stats/equipment/whatever
 	function upd() {
 			connection.query(`SELECT * FROM employees`, function (err, result) { 
@@ -56,13 +60,6 @@ const Discord = require('discord.js');
 	// Get employee by id
 	function employee(id) {
 		//console.log("Getting by id " + id)
-		connection.query(`SELECT * FROM employees`, function (err, result) { 
-				dbployees = []
-				result.forEach(e => fdbPush(e))
-				dbids = []
-				dbployees.forEach(e => dbids.push(e.id))
-				if (err) throw err
-		})
 		return dbployees[dbids.indexOf(id)]
 	}
 	
@@ -78,19 +75,29 @@ const Discord = require('discord.js');
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
 		//console.log("Curruser ID (bumpStat): " + id)
-		upd()
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = employee(id).subpoints.split("|")
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
 		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16)) {
 			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(employee(id).stats[statIndex])) + 1) * 16
 			if (employee(id).stats[statIndex] < employee(id).statlimit) {
-			connection.query("UPDATE `employees` SET `" + stat.toLowerCase() + "` = '" + (employee(id).stats[statIndex] + 1) + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+				switch (statIndex) {
+					case 0:
+						dbployees[dbids.indexOf(id)].fortitude = dbployees[dbids.indexOf(id)].fortitude + 1
+						break
+					case 1:
+						dbployees[dbids.indexOf(id)].prudence = dbployees[dbids.indexOf(id)].prudence + 1
+						break
+					case 2:
+						dbployees[dbids.indexOf(id)].temperance = dbployees[dbids.indexOf(id)].temperance + 1
+						break
+					case 3:
+						dbployees[dbids.indexOf(id)].justice = dbployees[dbids.indexOf(id)].justice + 1
+						break
+				}
 			}
 		}
-		connection.query("UPDATE `employees` SET `subpoints` = '" + subStatArr.join("|") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
-		upd()
-		upd()
+		dbployees[dbids.indexOf(id)].subpoints = subStatArr.join("|")
 		return subStatArr
 	}
 	
@@ -120,8 +127,6 @@ const Discord = require('discord.js');
 	// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
 	client.setInterval(function(){
 			if (dbvars[3] === 0) {
-
-					upd()
 					dbployees.forEach(e => {
 						if (e.working === 0) {
 						let hp = e.hp
@@ -132,19 +137,27 @@ const Discord = require('discord.js');
 						if (sp > e.prudence) {sp = e.prudence}
 						if ((hp === e.fortitude) && (sp === e.prudence) && (Number(e.dead) === 1)) {
 							e.dead = 0
-							connection.query("UPDATE `employees` SET `dead` = '0' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
 						}
-						connection.query("UPDATE `employees` SET `hp` = '" + hp*1000 + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
-						connection.query("UPDATE `employees` SET `sp` = '" + sp*1000 + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})
-						upd()
-						upd()
 						}
 					})
-
 					console.log("Healed all.")
-
 			}
 	}, 60000)
+
+	// Update the data in the database
+	client.setInterval(function(){
+		dbployees.forEach(e => {
+			let keys = Object.keys(e)
+			let vals = Object.values(e)
+			vals[3] = vals[3]*1000
+			vals[4] = vals[4]*1000
+			for (i = 2; i < (vals.length - 2); i++) {
+				connection.query("UPDATE `employees` SET `" + keys[i] + "` = '" + vals[i] + "' WHERE `employees`.`userid` = '" + vals[0] + "';", err(err))
+			}
+			console.log("Updated the database.")
+		}
+	}, 15000) 
+ 
  
 client.on('ready', () => {	
 
@@ -289,9 +302,6 @@ client.on('message', msg => {
 	
 	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
 	function bumpBoxes(val, abn, id) {
-
-		
-		upd()
 		let emp = dbployees[dbids.indexOf(id)]
 		let bAbnos = []
 		let bBals = []
@@ -305,9 +315,7 @@ client.on('message', msg => {
 		bAbnos.forEach(a => {
 			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 		})
-		connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
-			
-
+		dbployees[dbids.indexOf(id)] = bToSend.join(" ")
 	}
 	
 	// Function for checking if all the elements of arr are included in arr2
@@ -424,8 +432,6 @@ client.on('message', msg => {
 		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
 		curruser = dbployees[dbids.indexOf(wrk[1])]
 		dbployees[dbids.indexOf(wrk[1])].working = 1
-		connection.query("UPDATE `employees` SET `working` = '1' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result){if (err) throw err})
-		upd()
 		statIndex = jn.workOrders.indexOf(wrk[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
 		userTemp = curruser.temperance
@@ -519,17 +525,8 @@ client.on('message', msg => {
 						bumpBoxes(peboxes, wrk[2], curruser.id)
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}
-						 
-							connection.query("UPDATE `employees` SET `hp` = '" + curruser.hp*1000 + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-							connection.query("UPDATE `employees` SET `sp` = '" + curruser.sp*1000 + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-							connection.query("UPDATE `employees` SET `dead` = '" + curruser.dead + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-							connection.query("UPDATE `employees` SET `working` = '0' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-							upd()
-							upd()
-							upd()
-							upd()
-
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						dbployees[dbids.indexOf(curruser.id)].working = 0
 				}
 				
 				asyncEdit(msg, progressBarStorage)
@@ -961,13 +958,8 @@ client.on('message', msg => {
 						dbployees = []
 						dbids = []
 						stats = []
-							connection.query(`SELECT * FROM employees`, function (err, result) {
 								//console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id, "fortitude")
-								dbployees = []
-								result.forEach(e => fdbPush(e))
-								dbids = []
-								dbployees.forEach(e => dbids.push(e.id))
 								eqct = [curruser.suit, curruser.weapon]
 								// [Suit, Weapon]
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
@@ -979,18 +971,11 @@ client.on('message', msg => {
 								}
 								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*16}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
-
-						})
 					break
 				case "i":
 				case "inv":
 				case "inventory":
 					msg.delete(1)
-						connection.query(`SELECT * FROM employees`, function (err, result) {
-							dbployees = []
-							result.forEach(e => fdbPush(e))
-							dbids = []
-							dbployees.forEach(e => dbids.push(e.id))
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
 							curruser.inventorys.split(" ")
 							invs = ""
@@ -1095,7 +1080,6 @@ client.on('message', msg => {
 								.catch(console.error)
 							} else if (c1msg === "exit") {DELTAS.members.get(client.user.id).lastMessage.delete()}
 							else msg.reply("error: incorrect response.")
-						})
 						})
 					
 					break
