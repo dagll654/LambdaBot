@@ -280,7 +280,7 @@ client.on('message', msg => {
 	function rDamage(rec, dea, res) {
 		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
 		let dMult = 1
-		console.log(levelDifference)
+		//console.log(levelDifference)
 		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
 		switch (levelDifference) {
 			case 4: dMult = 0.4; break;
@@ -326,8 +326,8 @@ client.on('message', msg => {
 	}
 	
 	// Just a function that times the message out in x seconds
-	function yeet(seckslul) {
-		setTimeout(function(){msg.delete().catch(console.error)}, seckslul * 1000)
+	function yeet(sec) {
+		setTimeout(function(){msg.delete().catch(console.error)}, sec * 1000)
 	}
 	
 	// Function for getting an emoji by name
@@ -443,7 +443,7 @@ client.on('message', msg => {
 					
 				}
 				else {
-					if (roll(11) === 11) {ppeboxes++; console.log("Rolled a PPE box!")}
+					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
 					else {peboxes++}
 				}
 				progressBarOld = progressBar
@@ -713,6 +713,12 @@ client.on('message', msg => {
 						emarr[emojiname.indexOf(x)] = emojiname[emojiname.indexOf(x)] + " " + emarr[emojiname.indexOf(x)]
 					})
 					console.log(emarr)
+					break
+				case "boxes":
+					upd()
+					dbployees.forEach(e => {
+						console.log(e.tag + " " + e.balancespecific)
+					})
 					break
 				case "emojisraw":
 					console.log(DELTAS.emojis)
@@ -1048,7 +1054,7 @@ client.on('message', msg => {
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
 						
-					} else {msg.reply("Awaliable arguments: list, captain, assign, leave, profile.")}
+					} else {msg.reply(`"!lc p/!lc profile" for profile. It displays your stats, current HP and SP and your equipped gear.\n`)}
 					
 					break
 				case "assign":
