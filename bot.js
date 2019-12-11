@@ -89,6 +89,8 @@ const Discord = require('discord.js');
 			}
 		}
 		connection.query("UPDATE `employees` SET `subpoints` = '" + subStatArr.join("|") + "' WHERE `employees`.`userid` = '" + id + "';", function (err, result) {if (err) throw err})
+		upd()
+		upd()
 		return subStatArr
 	}
 	
