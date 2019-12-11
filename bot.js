@@ -506,7 +506,7 @@ client.on('message', msg => {
 				}
 				
 				async function asyncEdit(mssage) {
-						if (damageArray.length === 0) {damageArray.push(none)}
+						if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 						await wait(wtime*500)
@@ -937,7 +937,8 @@ client.on('message', msg => {
 					break
 				case "ex":
 				case "extraction":
-				
+					let curruser = employee(msg.author.id)
+					ch.send()
 				break
 				case "p":
 				case "profile":
