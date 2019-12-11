@@ -95,8 +95,8 @@ const Discord = require('discord.js');
 	// Get employee by id
 	function employee(id) {
 		console.log("Getting by id " + Number(id).toString())
-		console.log(dbployees[dbids.indexOf(Number(id).toString())])
-		return dbployees[dbids.indexOf(Number(id).toString())]
+		console.log(dbployees[dbids.indexOf(id)])
+		return dbployees[dbids.indexOf(id)]
 	}
 	
  	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
@@ -946,7 +946,6 @@ client.on('message', msg => {
 							if (nmbrs.includes(c)) {cuid += c}
 						})
 						curruser = employee(cuid)
-						console.log(dbployees) //
 					} else {curruser = employee(msg.author.id)}
 								//console.log("Curruser ID (profile): " + curruser.id)
 								let ssp = bumpSubpoint(curruser.id)
