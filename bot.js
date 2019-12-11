@@ -145,7 +145,7 @@ const Discord = require('discord.js');
 	// Update the data in the database
 	client.setInterval(function(){
 		const pushbig = "UPDATE `employees` SET "
-		dbployees.forEach(e => {
+		dbployees.forEach(e => {//
 			let pushsmall = pushbig
 			let keys = Object.keys(e)
 			let vals = Object.values(e)
