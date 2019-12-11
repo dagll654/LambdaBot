@@ -4,19 +4,19 @@
 			"name": "Suit",
 			"resistance": [1, 1, 1.5, 2],
 			"level": "ZAYIN",
-			"cost": "0"
+			"cost": 0
 		},
 		{	"id": "1",
 			"name": "Depression",
 			"resistance": [3, 3, 3, 3],
 			"level": "ZAYIN",
-			"cost": "1"
+			"cost": 1
 		},
 		{	"id": "2",
 			"name": "Debug (god mode)",
 			"resistance": [0, 0, 0, 0],
 			"level": "ALEPH",
-			"cost": "999999"
+			"cost": 999999
 		},
 		{	"id": "3",
 			"name": "Penitence",
@@ -33,7 +33,7 @@
 			"speed": "medium",
 			"range": "medium",
 			"level": "ZAYIN",
-			"cost": "0"
+			"cost": 0
 		},
 		{	"id": "1",
 			"name": "Depression",
@@ -42,7 +42,7 @@
 			"speed": "very slow",
 			"range": "very short",
 			"level": "ZAYIN",
-			"cost": "1"
+			"cost": 1
 		},
 		{	"id": "2",
 			"name": "Debug (butcher)",
@@ -51,16 +51,16 @@
 			"speed": "very slow",
 			"range": "very long",
 			"level": "ALEPH",
-			"cost": "999999"
+			"cost": 999999
 		},
 		{	"id": "3",
-			"name": "Debug (butcher)",
-			"damage": [999, 999],
-			"dtype": [0, 0, 1, 0],
+			"name": "Penitence",
+			"damage": [0, 0],
+			"dtype": [0, 1, 0, 0],
 			"speed": "very slow",
 			"range": "very long",
-			"level": "ALEPH",
-			"cost": "999999"
+			"level": "ZAYIN",
+			"cost": 999999
 		}
 			]
 

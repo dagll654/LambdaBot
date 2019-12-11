@@ -76,7 +76,7 @@ const Discord = require('discord.js');
 	}
 	
 	// Change an employee's subpoint (and award a stat-up if needed)
-	function bumpSubpoint(id, stat, val = 0) {
+	function bumpSubpoint(id, stat = "fortitude", val = 0) {
 		//console.log("Curruser ID (bumpStat): " + id)
 		upd()
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
@@ -442,6 +442,7 @@ client.on('message', msg => {
 		progressArray = []
 		progressArrayComplex = []
 		progressBarStorage = []
+		damageArray = []
 		for (i = 0; i < (currentAbno.peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
@@ -457,15 +458,18 @@ client.on('message', msg => {
 					if (currentAbno.dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
+						damageArray.push(dmg + " " + jn.dtype[0])
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
+						damageArray.push(dmg + " " + jn.dtype[1])
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
+						damageArray.push(dmg + " " + jn.dtype[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
@@ -509,11 +513,10 @@ client.on('message', msg => {
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	NE boxes: ${neboxes}	${ppe}\n	Remaining HP:	${curruser.hp} ${jn.health}\n	Remaining SP:	${curruser.sp} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, wrk[2], curruser.id)
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
-						console.log("Power test: " + Math.pow(2, jn.risk.indexOf(currentAbno.risk)))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)`)}
 						 
@@ -1090,7 +1093,7 @@ client.on('message', msg => {
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
 						
-					} else {msg.reply(`"!lc p/!lc profile" for profile. It displays your stats, current HP and SP and your equipped gear.\n`)}
+					} else {msg.reply(`Type in "!lc p/!lc profile" to see your profile. It displays your stats, progress towards the next stat increase, current HP and SP and your equipped gear.\n!lc i/!lc inventory" to see your inventory. It displays your amount of pe and ppe boxes and all of your gear`)}
 					
 					break
 				case "assign":
@@ -1229,7 +1232,7 @@ client.on('message', msg => {
 				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
 				.setThumbnail(abn.abn[n].thumbnail)
 				.setDescription(abn.abn[n].description)
-				.setFooter("EGO: " + gear[Number(abn.abn[n].ego)].name)
+				.setFooter("EGO: " + "this doesn't work currently")
 			ch.send({embed})
 		.catch(console.error)
 		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
