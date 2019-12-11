@@ -64,7 +64,7 @@ const Discord = require('discord.js');
 	
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
-		//console.log("Curruser ID (bumpStat): " + id)
+		console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = employee(id).subpoints.split("|")
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
@@ -93,7 +93,8 @@ const Discord = require('discord.js');
 	
 	// Get employee by id
 	function employee(id) {
-		//console.log("Getting by id " + id)
+		console.log("Getting by id " + id)
+		console.log(dbployees[dbids.indexOf(id)])
 		return dbployees[dbids.indexOf(id)]
 	}
 	
