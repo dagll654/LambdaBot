@@ -341,8 +341,9 @@ client.on('message', msg => {
 				}
 				
 				async function asyncEdit(mssage) {
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${Math.ceil((arr.length/2))} seconds.`)
-						await fn.wait((arr.length/2)*500)
+						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	Currently working, this will take approximately ${wtime} seconds.`)
+						await fn.wait(wtime)
 						//console.log("ARR length: " + arr.length)
 						if (curruser.dead === 0) {
 						ppe = ""
