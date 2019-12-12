@@ -1151,7 +1151,7 @@ const Discord = require('discord.js');
 								console.log(prices)
 								if (prices[1] <= price/4) { 
 								let tmptxt = ""
-									if (prices[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
+									if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
 								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
 								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
 								} else {msg.reply("error: not enough boxes.")}
