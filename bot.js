@@ -230,7 +230,8 @@ function databaseThing() {
 	
 	})
 }
-	
+	databaseThing()
+	console.log(dbployees)
 
 	// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
