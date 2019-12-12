@@ -1127,7 +1127,7 @@ const Discord = require('discord.js');
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 				.then(menumsg => {
-					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 30000 })
+					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 2, time: 30000 })
 					exmenu.on('collect', m => {
 					//ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
 					//.then(m => {
@@ -1149,7 +1149,7 @@ const Discord = require('discord.js');
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
 							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase.'`)
-							ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 30000 })
+							ch.awaitMessages(msg2 => msg2.author.id === msg.author.id, { max: 5, time: 30000 })
 							.then(msg2 => {
 								//console.log(msg2)
 								let price = 0
@@ -1187,7 +1187,7 @@ const Discord = require('discord.js');
 								let tmptxt = ""
 									if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
 								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
-								ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 30000 })
+								ch.awaitMessages(msg2 => msg2.author.id === msg.author.id, { max: 5, time: 30000 })
 								.then(msg3 => {
 									if (msg3.array()[0].content.toLowerCase() === "y")
 										if (respinv.split("|").includes(currentShop.gear[0].id) === false) {
