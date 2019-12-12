@@ -1142,6 +1142,7 @@ const Discord = require('discord.js');
 								})
 								//console.log(typeof(Number(currentShop.boxes)) + " " + Number(currentShop.boxes) + " " + typeof(curruser.balance))
 								let totalBalance = Number(currentShop.boxes) + curruser.balance
+								console.log(price + " " + typeof(price))
 								//console.log(typeof(totalBalance) + " " + totalBalance)
 								if (totalBalance >= Number(price)) {
 								let prices = []
