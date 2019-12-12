@@ -26,9 +26,9 @@
 		},
 		{	"id": "4",
 			"name": "Fourth Match Flame",
-			"resistance": [1, 1, 1, 1],
+			"resistance": [0.6, 1, 1.2, 2],
 			"level": "TETH",
-			"cost": 9999
+			"cost": 500
 		}
 			],
 	"weapons": [
@@ -70,12 +70,12 @@
 		},
 		{	"id": "4",
 			"name": "Fourth Match Flame",
-			"damage": [0, 0],
-			"dtype": [0, 1, 0, 0],
-			"speed": "medium",
-			"range": "medium",
+			"damage": [20, 30],
+			"dtype": [1, 0, 0, 0],
+			"speed": "very slow",
+			"range": "very long",
 			"level": "TETH",
-			"cost": 9999
+			"cost": 700
 		}
 			]
 
