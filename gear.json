@@ -29,6 +29,12 @@
 			"resistance": [0.6, 1, 1.2, 2],
 			"level": "TETH",
 			"cost": 500
+		},
+		{	"id": "5",
+			"name": "Wingbeat",
+			"resistance": [0.8, 0.8, 1, 2],
+			"level": "ZAYIN",
+			"cost": 200
 		}
 			],
 	"weapons": [
@@ -76,6 +82,15 @@
 			"range": "very long",
 			"level": "TETH",
 			"cost": 700
+		},
+		{	"id": "5",
+			"name": "Wingbeat",
+			"damage": [5, 7],
+			"dtype": [1, 0, 0, 0],
+			"speed": "normal",
+			"range": "short",
+			"level": "ZAYIN",
+			"cost": 300
 		}
 			]
 
