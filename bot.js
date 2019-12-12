@@ -1006,7 +1006,7 @@ const Discord = require('discord.js');
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
-												dbployees[dbids.indexOf(curruser.id)].suit = Number(m.array()[0].content)
+												dbployees[dbids.indexOf(curruser.id)].suit = equpd
 												msg.delete(200) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
@@ -1038,7 +1038,7 @@ const Discord = require('discord.js');
 												for (i = 0; i < 4; i++) {
 													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
 												}
-												dbployees[dbids.indexOf(curruser.id)].weapon = Number(m.array()[0].content)
+												dbployees[dbids.indexOf(curruser.id)].weapon = equpd
 												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
