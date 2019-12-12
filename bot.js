@@ -1113,8 +1113,10 @@ const Discord = require('discord.js');
 								abnoCodes.push(m.split("|")[0])
 								abnoBoxes.push(m.split("|")[1])
 							})
-							console.log(abn.abn[abn.lista.indexOf(r.content.toLowerCase())])
-							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(r.content.toLowerCase())], "name": abn.abn[abn.lista.indexOf(r.content.toLowerCase())].name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(r.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(r.content.toLowerCase())].ego)]]}
+							//console.log(abn.abn[abn.lista.indexOf(r.content.toLowerCase())])
+							currentAbno = abn.abn[abn.lista.indexOf(r.content.toLowerCase())]
+							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(r.content.toLowerCase())], "name": curentAbno.name, "gear": [gear.suits[Number(currentAbno.ego)], gear.weapons[Number(currentAbno.ego)]]}
+							console.log(currentShop)
 							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
