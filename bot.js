@@ -209,7 +209,7 @@ const Discord = require('discord.js');
 				let bAbnos = []
 				let bBals = []
 				if (e.balancespecific != "") { 
-				let bGotten = e.balancespecific.split(" ")
+				let bGotten = e.balancespecific.split("/")
 				bGotten.forEach(bg => {
 					bAbnos.push(bg.split("|")[0])
 					bBals.push(bg.split("|")[1])
