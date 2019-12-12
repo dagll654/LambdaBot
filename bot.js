@@ -1103,6 +1103,7 @@ const Discord = require('discord.js');
 					//ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
 					//.then(m => {
 						if (jn.abnWorkable.includes(m.content.toLowerCase())) {
+							let currShopAbno = m.content.toLowerCase()
 							let abnoCodes = []
 							let abnoBoxes = []
 							dbployees[dbids.indexOf(msg.author.id)].balancespecific.split(" ").forEach(m => {
@@ -1125,13 +1126,17 @@ const Discord = require('discord.js');
 								let price = 0
 								let priceFin = 0
 								let choice = msg2.array()[0].content.toLowerCase()
+								let respinv
+								if((choice === "suit") || (choice === "weapon")) {
 								console.log(choice)
 								switch (choice) {
 									case "suit":
 										price = currentShop.gear[0].cost
+										respinv = curruser.inventorys
 										break
 									case "weapon":
 										price = currentShop.gear[1].cost
+										respinv = curruser.inventoryw
 										break
 								}
 								let bAbnos = []
@@ -1152,9 +1157,23 @@ const Discord = require('discord.js');
 								if (prices[1] <= price/4) { 
 								let tmptxt = ""
 									if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
-								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
+								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
+								ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 10000 })
+								.then(msg3 => {
+									if (msg3.array()[0].content === "y")
+										if (respinv.split("|").includes(currentShop.gear[0].id) === false) {
+										let tmptxt2 = ""
+										dbployees[dbids.indexOf(curruser.id)].balance = dbployees[dbids.indexOf(curruser.id)].balance - prices[1]
+										bumpBoxes(-(prices[0]), currShopAbno, curruser.id)
+										if (choice === "suit") {dbployees[dbids.indexOf(curruser.id)].inventorys = dbployees[dbids.indexOf(curruser.id)].inventorys.split("|").push(currentShop.gear[0].id).join("|"); tmptxt2 = `${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}`}
+										else {dbployees[dbids.indexOf(curruser.id)].inventoryw = dbployees[dbids.indexOf(curruser.id)].inventoryw.split("|").push(currentShop.gear[0].id).join("|"); tmptxt2 = `${currentShop.gear[1].name}  -  ${wepd}`
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	You have purchased ${tmptxt2}.`)
+										} else {msg.reply("error: you already have that item.")}
+									
+								})
 								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
 								} else {msg.reply("error: not enough boxes.")}
+								}
 							})
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
