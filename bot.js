@@ -1076,7 +1076,7 @@ const Discord = require('discord.js');
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
-						msg.reply("To get assigned to a team, type in !dep assign (Team name).")
+						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
 						
 					} else {msg.reply(`Type in "!lc p/!lc profile" to see your profile. It displays your stats, progress towards the next stat increase, current HP and SP and your equipped gear.\n!lc i/!lc inventory" to see your inventory. It displays your amount of pe and ppe boxes and all of your gear`)}
 					
@@ -1093,8 +1093,8 @@ const Discord = require('discord.js');
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
 							databaseThing()
 							//updData()
-						} else {msg.reply("error: incorrect team name. Example: !dep assign Extraction Team")}
-					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
+						} else {msg.reply("error: incorrect team name. Example: !lc assign Extraction Team")}
+					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
 				case "leave":
 					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
@@ -1110,7 +1110,7 @@ const Discord = require('discord.js');
 						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
-					} else {msg.reply("captains cannot simply leave their team! (!dep captain resign)")}
+					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
 					break
 				case "captain": {
 					
@@ -1138,7 +1138,7 @@ const Discord = require('discord.js');
 								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
 								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
 								break
-								} else {msg.reply("error: invalid or missing argument. Usage: !dep captain vote @person"); break}
+								} else {msg.reply("error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
 						} 
 
@@ -1146,7 +1146,7 @@ const Discord = require('discord.js');
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "vote":
-								msg.reply("you are your department's captain. If you want someone else to become the captain, type !dep resign first.")
+								msg.reply("you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
 								break
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
@@ -1172,12 +1172,14 @@ const Discord = require('discord.js');
 								break
 						}
 					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+				break
 				}
+
 				default:
-					msg.reply("error: unrecognized command. Type in !help dep to get info on the command.")
+					msg.reply("error: unrecognized command. Type in !help lc to get info on the command.")
 					break
 			}
-		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!dep info).")}
+		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc info).")}
 	}
 
 	if (cmd[0] === "!help") {
