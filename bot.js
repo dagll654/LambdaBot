@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -696,11 +696,11 @@ const Discord = require('discord.js');z
 
 							console.log(result)
 							if (err) throw err
-
+				break
 					})
 				case "boxbroke":
-					dbployees[dbids.indexOf('312299633474928642')].balancespecific = "|undefined 220|o-03-03 10|f-01-02"
-					updData()
+					connection.query("UPDATE `employees` SET `balancespecific` = '|undefined 220|o-03-03 10|f-01-02' WHERE `employees`.`userid` = '312299633474928642';", function (err, result) {if (err) throw err})
+					client.destroy()
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
