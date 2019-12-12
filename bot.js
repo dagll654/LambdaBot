@@ -32,7 +32,18 @@ const Discord = require('discord.js');
 	var employees = []
 	var dbployees = []
 	var dbids = []
-	// Getting the Lambda's Deltas guild for easy use
+	 var today = new Date()
+	 var employees = []
+	 var dbployees = []
+	 var dbids = []
+	 x = 0 
+	 x1 = 0
+	 dbg1 = 0
+	 dbvars = [0, 0, 0, 0]
+	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
+	 quotelog = []
+	 votingteam = ""
+	 voting = 0	
 
 	// Return the level of a stat
 	function statLVL(stat) {
@@ -146,6 +157,7 @@ const Discord = require('discord.js');
 			val[3] = val[3]*1000
 			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err})
+			console.log("UPDDATA: " + dbployees[0])
 		})
 	}
 	
@@ -199,7 +211,6 @@ const Discord = require('discord.js');
 				
 				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
 			})
-			console.log(dbployees)
 			if (err) throw err
 
 
@@ -413,110 +424,6 @@ const Discord = require('discord.js');
 	
 	// Work stuff
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-		var wrk = mesc.toLowerCase().split(" ")
-		currentAbno = abn.abn[abn.lista.indexOf(wrk[2])]
-		respectiveStat = jn.stats[jn.workOrders.indexOf(wrk[3])]
-		curruser = dbployees[dbids.indexOf(wrk[1])]
-		dbployees[dbids.indexOf(wrk[1])].working = 1
-		statIndex = jn.workOrders.indexOf(wrk[3])
-		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
-		userTemp = curruser.temperance
-		userStatLevelText = statLVL(userStat)
-		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
-		if (userStatLevel > 4) {userStatLevel = 4} 
-		successChance = 0
-		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
-		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
-		//msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
-		progressBar = ""
-		progressBarOld = ""
-		progressArray = []
-		progressArrayComplex = []
-		progressBarStorage = []
-		damageArray = []
-		for (i = 0; i < (currentAbno.peoutput/2); i++) {
-			progressBar += box([0, 0])
-			progressArrayComplex.push([0, 0])
-		}
-			neboxes = 0
-			peboxes = 0
-			ppeboxes = 0
-			i = 0
-			for (i = 0; i < currentAbno.peoutput; i++) {
-				if ((curruser.hp > 0) && (curruser.sp > 0)) {
-				if (roll(100) > successChance) {neboxes++; 
-					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
-					if (currentAbno.dtype[0] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
-						curruser.hp = curruser.hp - dmg
-						damageArray.push(dmg + " " + jn.dtype[0])
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (currentAbno.dtype[1] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
-						damageArray.push(dmg + " " + jn.dtype[1])
-						curruser.sp = curruser.sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (currentAbno.dtype[2] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
-						damageArray.push(dmg + " " + jn.dtype[2])
-						curruser.hp = curruser.hp - dmg
-						curruser.sp = curruser.sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					
-				}
-				else {
-					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
-					else {peboxes++}
-				}
-				progressBarOld = progressBar
-				progressBar = ""
-				progressArray = []
-				for (j = 0; j < (currentAbno.peoutput - (i+1)); j++) {
-					progressArray.push(0)
-				}
-				for (j = 0; j < peboxes; j++) {
-					progressArray.unshift(1)
-				}
-				for (j = 0; j < neboxes; j++) {
-					progressArray.push(-1)
-				}
-				//console.log("Progress array normal: " + progressArray)
-				//j = 0
-				//start_position: while(true) {
-				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-				//	//console.log("Progress array " + j + " " + progressArrayComplex)
-				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
-				//			break
-				//	}
-				//progressBarStorage.push(progressBar)
-				} else {curruser.dead = 1}
-				}
-				
-				async function asyncEdit(mssage) {
-						if (damageArray.length === 0) {damageArray.push("none")}
-						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
-						await wait(wtime*500)
-						//console.log("ARR length: " + arr.length)
-						if (curruser.dead === 0) {
-						ppe = ""
-						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
-						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-						bumpBoxes(peboxes, wrk[2], curruser.id)
-						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
-						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
-						dbployees[dbids.indexOf(curruser.id)].working = 0
-				}
-				
-				asyncEdit(msg, progressBarStorage)
-			
 		
 	}
 	
@@ -913,7 +820,113 @@ const Discord = require('discord.js');
 					if (jn.workOrders.includes(cmd[3])) {
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
-						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
+						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
+							
+		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
+		curruser = dbployees[dbids.indexOf(msg.author.id)]
+		dbployees[dbids.indexOf(msg.author.id)].working = 1
+		statIndex = jn.workOrders.indexOf(cmd[3])
+		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
+		userTemp = curruser.temperance
+		userStatLevelText = statLVL(userStat)
+		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
+		if (userStatLevel > 4) {userStatLevel = 4} 
+		successChance = 0
+		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
+		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
+		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
+		//msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		progressBar = ""
+		progressBarOld = ""
+		progressArray = []
+		progressArrayComplex = []
+		progressBarStorage = []
+		damageArray = []
+		for (i = 0; i < (currentAbno.peoutput/2); i++) {
+			progressBar += box([0, 0])
+			progressArrayComplex.push([0, 0])
+		}
+			neboxes = 0
+			peboxes = 0
+			ppeboxes = 0
+			i = 0
+			for (i = 0; i < currentAbno.peoutput; i++) {
+				if ((curruser.hp > 0) && (curruser.sp > 0)) {
+				if (roll(100) > successChance) {neboxes++; 
+					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
+					if (currentAbno.dtype[0] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
+						curruser.hp = curruser.hp - dmg
+						damageArray.push(dmg + " " + jn.dtype[0])
+						//console.log("DAMAGE:" + dmg)
+					}
+					if (currentAbno.dtype[1] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
+						damageArray.push(dmg + " " + jn.dtype[1])
+						curruser.sp = curruser.sp - dmg
+						//console.log("DAMAGE:" + dmg)
+					}
+					if (currentAbno.dtype[2] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
+						damageArray.push(dmg + " " + jn.dtype[2])
+						curruser.hp = curruser.hp - dmg
+						curruser.sp = curruser.sp - dmg
+						//console.log("DAMAGE:" + dmg)
+					}
+					
+				}
+				else {
+					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
+					else {peboxes++}
+				}
+				progressBarOld = progressBar
+				progressBar = ""
+				progressArray = []
+				for (j = 0; j < (currentAbno.peoutput - (i+1)); j++) {
+					progressArray.push(0)
+				}
+				for (j = 0; j < peboxes; j++) {
+					progressArray.unshift(1)
+				}
+				for (j = 0; j < neboxes; j++) {
+					progressArray.push(-1)
+				}
+				//console.log("Progress array normal: " + progressArray)
+				//j = 0
+				//start_position: while(true) {
+				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
+				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+				//	//console.log("Progress array " + j + " " + progressArrayComplex)
+				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
+				//			break
+				//	}
+				//progressBarStorage.push(progressBar)
+				} else {curruser.dead = 1}
+				}
+				
+				async function asyncEdit(mssage) {
+						if (damageArray.length === 0) {damageArray.push("none")}
+						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+						await wait(wtime*500)
+						//console.log("ARR length: " + arr.length)
+						if (curruser.dead === 0) {
+						ppe = ""
+						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						bumpBoxes(peboxes, cmd[2], curruser.id)
+						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
+						}
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + wrk[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						dbployees[dbids.indexOf(msg.author.id)].working = 0
+				}
+				
+				asyncEdit(msg, progressBarStorage)
+			
+		
+						})
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order.")
