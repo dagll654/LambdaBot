@@ -64,7 +64,6 @@ const Discord = require('discord.js');
 
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
-		console.log(dbployees)
 		curruser = dbployees[dbids.indexOf(id)]
 		//console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
@@ -136,21 +135,20 @@ const Discord = require('discord.js');
 	}, 60000)
 
 	// Update the data in the database
-	//client.setInterval(function(){
+	client.setInterval(function(){
 
-	//	dbployees.forEach(e => {//
-	//		let keys = Object.keys(e)
-	//		let val = Object.values(e)
-	//		val[2] = val[2]*1000
-	//		val[3] = val[3]*1000
-	//		let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
-	//		connection.query(bigpush, function (err, result) {if (err) throw err})
-	//	})
+		dbployees.forEach(e => {//
+			let keys = Object.keys(e)
+			let val = Object.values(e)
+			val[2] = val[2]*1000
+			val[3] = val[3]*1000
+			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
+			connection.query(bigpush, function (err, result) {if (err) throw err})
+		})
+		//console.log("Updated the database.")
+	}, 15000)
 
-	//	//console.log("Updated the database.")
-	//}, 15000)
-
-	function updData1 () {
+	function updData () {
 		dbployees.forEach(e => {//
 			let keys = Object.keys(e)
 			let val = Object.values(e)
@@ -647,7 +645,6 @@ const Discord = require('discord.js');
 					console.log(emarr)
 					break
 				case "boxes":
-					upd()
 					dbployees.forEach(e => {
 						console.log(e.tag + " " + e.balancespecific)
 					})
@@ -707,8 +704,6 @@ const Discord = require('discord.js');
 					//			if (err) throw err
 					//
 					//	})
-					upd()
-					upd()
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
@@ -822,7 +817,7 @@ const Discord = require('discord.js');
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
-							
+		console.log(dbployees)
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		curruser = dbployees[dbids.indexOf(msg.author.id)]
