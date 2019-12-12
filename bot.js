@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const Discord = require('discord.js');z
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -998,7 +998,7 @@ const Discord = require('discord.js');
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 10000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
@@ -1181,7 +1181,7 @@ const Discord = require('discord.js');
 								})
 								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
 								} else {msg.reply("error: not enough boxes.")}
-								}
+								} else if (choice === "exit") {menumsg.edit("Exited the menu.")}
 							})
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
