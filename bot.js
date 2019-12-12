@@ -1100,8 +1100,10 @@ const Discord = require('discord.js');
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 				.then(menumsg => {
-					ch.awaitMessages(r => r.author.id === curruser.id, { max: 3, time: 10000 })
-					.then(r => {
+					exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
+					exmenu.on('collect', r => {
+					//ch.awaitMessages(r => r.author.id === curruser.id, { max: 3, time: 10000 })
+					//.then(r => {
 						console.log("Got " + r.content)
 						if (jn.abnWorkable.includes(r.content.toLowerCase())) {
 							let abnoCodes = []
