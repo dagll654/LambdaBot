@@ -151,7 +151,7 @@ const Discord = require('discord.js');
 	}
 	
 	// Update the data in the database
-	client.setInterval(updData, 15000) 
+	client.setInterval(updData, 30000) 
 
 	
 	function databaseThing() {
@@ -691,7 +691,6 @@ const Discord = require('discord.js');
 					let val = Object.values(dbployees[dbids.indexOf(uid)])
 					dbployees[dbids.indexOf(uid)][cmd[2]] = cmd[3]
 					updData()
-					databaseThing()
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
