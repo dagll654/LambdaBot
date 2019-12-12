@@ -160,6 +160,7 @@ const Discord = require('discord.js');
 			for (const prop in e) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = Number(tempval).toFixed(1); dbployees2[i][prop] = dbployees2[i][prop].toFixed(1)}
+				if (e[prop].isNaN) {e[prop] = 0}
 				if (dbployees2[i][prop] != tempval) {
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
@@ -718,7 +719,7 @@ const Discord = require('discord.js');
 				let uid = "" //
 				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
 					let tempval = cmd[3]
-					if ((cmd[2] === "hp") || (cmd[2] === "sp")) {tempval = Number(cmd[2]).toFixed(1)}
+					if ((cmd[2] === "hp") || (cmd[2] === "sp")) {tempval = Number(cmd[3]).toFixed(1)}
 					
 					let keys = Object.keys(dbployees[dbids.indexOf(uid)])
 					let val = Object.values(dbployees[dbids.indexOf(uid)])
