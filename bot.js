@@ -1141,7 +1141,8 @@ const Discord = require('discord.js');
 									bAbnos.push(a[0])
 									bBals.push(a[1])
 								})
-								if ((Number(currentShop.boxes) + curruser.balance) >= price) {
+								console.log(currentShop.boxes + "  " + curruser.balance)
+								if ((Number(currentShop.boxes) + Number(curruser.balance)) >= price) {
 								let prices = []
 								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
 								else {prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]}
