@@ -805,7 +805,7 @@ const Discord = require('discord.js');
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
-		console.log(dbployees)
+		console.log(dbployees[0])
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		curruser = dbployees[dbids.indexOf(msg.author.id)]
@@ -835,6 +835,7 @@ const Discord = require('discord.js');
 			peboxes = 0
 			ppeboxes = 0
 			i = 0
+			console.log(dbployees[0])
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
 				if (roll(100) > successChance) {neboxes++; 
@@ -890,7 +891,8 @@ const Discord = require('discord.js');
 				}
 				
 				async function asyncEdit(mssage) {
-						if (damageArray.length === 0) {damageArray.push("none")}
+					console.log(dbployees[0])
+					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 						await wait(wtime*500)
@@ -900,7 +902,9 @@ const Discord = require('discord.js');
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						console.log(dbployees[0])
 						bumpBoxes(peboxes, cmd[2], curruser.id)
+						console.log(dbployees[0])
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
@@ -908,7 +912,7 @@ const Discord = require('discord.js');
 				}
 				
 				asyncEdit(m, progressBarStorage)
-				console.log(dbployees)
+				console.log(dbployees[0])
 		
 						})
 					} else msg.reply("error: you are dead.")
