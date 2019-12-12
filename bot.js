@@ -161,7 +161,9 @@ const Discord = require('discord.js');
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
 				if (dbployees2[i][prop] != e[prop]) {
+					if (prop != "stats") {
 					pushSmall.push("`" + prop + "` = '" + e[prop] + "'")
+					}
 				}
 			}
 			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
