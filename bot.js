@@ -46,8 +46,8 @@ const Discord = require('discord.js');
 	 voting = 0	
 
 
-effectApplication = {
-	"5": function(employee, result) {
+//effectApplication
+function fairy(employee, result) {
 		if (result > 0) {
 			let effectArray = employee.effects.split("|")
 			let deathEffect = []
@@ -65,7 +65,7 @@ effectApplication = {
 		}
 		
 	}
-}
+
 	// Return the level of a stat
 	function statLVL(stat) {
 		if (stat < 30) {return "I"}
@@ -984,7 +984,7 @@ effectApplication = {
 					else if (peboxes > currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (currentAbno.effect[0] === true) {
-						effectApplication[currentAbno.ego](dbployees[dbids.indexOf(msg.author.id)], moodResult)
+						fairy[currentAbno.ego](dbployees[dbids.indexOf(msg.author.id)], moodResult)
 					}
 					console.log(dbployees[dbids.indexOf(msg.author.id)].effects)
 					if (damageArray.length === 0) {damageArray.push("none")}
