@@ -96,7 +96,8 @@
 				"damage": [1, 2],
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
-				"mood": [3, 7, 10]
+				"mood": [3, 7, 10],
+				"effect": [false]
 				
 			},
 			{
@@ -115,7 +116,8 @@
 				"damage": [2, 4],
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
-				"mood": [2, 6, 10]
+				"mood": [2, 6, 10],
+				"effect": [false]
 			},
 			{
 				"name": "O-01-04: 'The Queen of Hatred'",
@@ -134,22 +136,23 @@
 				"ego": "Mimicry"
 			},
 			{
-				"name": "O-01-01: 'Test Dummy'",
-				"color": [0, 0, 0],
+				"name": "F-04-83: 'The Fairy Festival'",
+				"color": [100, 255, 100],
 				"risk": "ZAYIN",
 				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
-				"description": "For testing purposes only.",
-				"ego": "1",
+				"description": "No description available.",
+				"ego": "5",
 				"peoutput": 10,
-				"workPreferences": [[0.3, 0.3, 0.2, 0.2, 0.2],
-									[0.4, 0.4, 0.4, 0.4, 0.4],
-									[0.5, 0.6, 0.7, 0.7, 0.8],
-									[0.4, 0.3, 0.3, 0.2, 0.2]									
+				"workPreferences": [[0.7, 0.7, 0.7, 0.7, 0.7],
+									[0.5, 0.4, 0.3, 0.3, 0.3],
+									[0.7, 0.6, 0.5, 0.5, 0.5],
+									[0.5, 0.4, 0.3, 0.3, 0.3]									
 									],
 				"damage": [1, 2],
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
-				"mood": [2, 6, 10]
+				"mood": [2, 6, 10],
+				"effect": [true, ">1", "effect", "0"]
 			}
 				
 		]
