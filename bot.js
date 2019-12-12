@@ -977,12 +977,11 @@ const Discord = require('discord.js');
 								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}
 							})
-						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`)
+						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`).then(menu2 => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
 							cmsg.delete(1)
-							menumsg = DELTAS.members.get(client.user.id).lastMessage
-							console.log(DELTAS.members.get(client.user.id).lastMessageID)
+							menumsg = menu2
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
@@ -1008,9 +1007,7 @@ const Discord = require('discord.js');
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
-												connection.query("UPDATE `employees` SET `suit` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
-													if (err) throw err
-												})
+												dbployees[dbids.indexOf(curruser.id)].suit = Number(m.array()[0].content)
 												msg.delete(200) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
@@ -1042,9 +1039,7 @@ const Discord = require('discord.js');
 												for (i = 0; i < 4; i++) {
 													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
 												}
-												connection.query("UPDATE `employees` SET `weapon` = '" + (Number(m.array()[0].content - 1)).toString() + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {
-													if (err) throw err
-												})
+												dbployees[dbids.indexOf(curruser.id)].weapon = Number(m.array()[0].content)
 												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
@@ -1059,7 +1054,7 @@ const Discord = require('discord.js');
 								.catch(console.error)
 							} else if (c1msg === "exit") {DELTAS.members.get(client.user.id).lastMessage.delete()}
 							else msg.reply("error: incorrect response.")
-						})
+			})})
 					
 					break
 				case "info":
