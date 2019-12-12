@@ -1134,9 +1134,8 @@ const Discord = require('discord.js');
 				case "bruh":
 				ch.send("test").then(m => {
 					ch.send("test2")
-					break
 				})
-
+				break
 				case "captain": {
 					
 					// Non-captain commands
