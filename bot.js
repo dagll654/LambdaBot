@@ -205,22 +205,30 @@ function databaseThing() {
 			dbployees.forEach(e => {	
 				let bAbnos = []
 				let bBals = []
-				let bGotten = e.balancespecific.split(" ")
-				bGotten.forEach(bg => {
-					bAbnos.push(bg.split("|")[0])
-					bBals.push(bg.split("|")[1])
-				})
 				jn.abnWorkable.forEach(a => {
 					if (bAbnos.includes(a) === false) {
 						bAbnos.push(a)
 						bBals.push("0")
 					}
 				})
+				if (e.balancespecific != undefined) { 
+				let bGotten = e.balancespecific.split(" ")
+				bGotten.forEach(bg => {
+					bAbnos.push(bg.split("|")[0])
+					bBals.push(bg.split("|")[1])
+				})}
+				else {
+				jn.abnWorkable.forEach(a => {
+					bAbnos.push(a)
+					bBals.push("0")
+				})
+				}
 				let bToSend = []
 				bAbnos.forEach(a => {
 					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 				})
-				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
+				console.log("LOOK AT MY BALLS " + bToSend.join(" "))}
+				
 				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
 			})
 			console.log(dbployees)
