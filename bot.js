@@ -233,7 +233,7 @@ const Discord = require('discord.js');
 				})
 				//console.log("LOOK AT MY BALLS " + bToSend.join(" "))
 				
-				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
+				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join("/") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
 			})
 			if (err) throw err
 
@@ -326,7 +326,7 @@ const Discord = require('discord.js');
 		let emp = dbployees[dbids.indexOf(id)]
 		let bAbnos = []
 		let bBals = []
-		let bGotten = emp.balancespecific.split(" ")
+		let bGotten = emp.balancespecific.split("/")
 		bGotten.forEach(bg => {
 			bAbnos.push(bg.split("|")[0])
 			bBals.push(bg.split("|")[1])
@@ -338,7 +338,7 @@ const Discord = require('discord.js');
 			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 			bReturn.push([a, bBals[bAbnos.indexOf(a)]])
 		})
-		dbployees[dbids.indexOf(id)].balancespecific = bToSend.join(" ")
+		dbployees[dbids.indexOf(id)].balancespecific = bToSend.join("/")
 		return bReturn
 	}
 	
