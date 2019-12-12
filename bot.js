@@ -1134,7 +1134,7 @@ const Discord = require('discord.js');
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + msg.author.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`).then(m => {
 					console.log("Got anything.")
 					ch.awaitMessages(mesg => mesg.author.id === msg.author.id, { max: 1, time: 10000 })
-									.then(m => {console.log("Got: "m.content)
+									.then(m => {console.log("Got: " + m.content)
 					})	
 				})
 				break
