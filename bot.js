@@ -146,20 +146,25 @@ const Discord = require('discord.js');
 			val[11] = val[11].split(" ").join("|")
 			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err})
+			
 		})
+		console.log("Updated the database.")
 
 	}, 15000) 
 
 	function updData () {
-		dbployees.forEach(e => {
+		dbployees.forEach((e, i) => {//
 			let keys = Object.keys(e)
 			let val = Object.values(e)
 			val[2] = val[2]*1000
 			val[3] = val[3]*1000
+			val[10] = val[10].split(" ").join("|")
+			val[11] = val[11].split(" ").join("|")
 			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err})
-			console.log("UPDDATA: " + dbployees[0])
+			
 		})
+		console.log("Updated the database.")onsole.log("UPDDATA: " + dbployees[0])
 	}
 	
 	function databaseThing() {
@@ -605,7 +610,7 @@ const Discord = require('discord.js');
 					ch.send("@everyone") 
 					break
 				case "upd":
-					upd()
+					updData()
 					break
 				case "roleraw":
 					var rtmp = ""
@@ -1100,7 +1105,10 @@ const Discord = require('discord.js');
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 				.then(menumsg => {
-					exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
+					ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+									.then(m => {console.log(m.content)
+									})
+					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 					exmenu.on('collect', m => {
 					//ch.awaitMessages(r => r.author.id === curruser.id, { max: 3, time: 10000 })
 					//.then(r => {
