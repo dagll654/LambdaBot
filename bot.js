@@ -195,7 +195,7 @@ function databaseThing() {
 			console.log("To push:")
 			console.log(dbpush)
 			dbpush.forEach(e => {
-			var sql = "INSERT INTO employees (userid, usertag, balancespecific) VALUES ('" + e.id + "', '" + e.tag + "', '0|0|0|0')";
+			var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + "', '0|0|0|0', '17000', '17000')";
 			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${e.tag} inserted!`)
