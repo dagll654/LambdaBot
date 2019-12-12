@@ -698,8 +698,10 @@ const Discord = require('discord.js');
 							if (err) throw err
 					})
 				case "boxbroke":
-					connection.query("UPDATE `employees` SET `balancespecific` = '|undefined 220|o-03-03 10|f-01-02' WHERE `employees`.`userid` = '312299633474928642';", function (err, result) {if (err) throw err})
-					client.destroy()
+					dbployees[dbids.indexOf('312299633474928642')].balancespecific = dbployees[0].balancespecific
+					break
+				case "boxbump":
+					bumpBoxes(Number(cmd[2]), cmd[3], cmd[4])
 					break
 				case "crash":
 					client.destroy()
