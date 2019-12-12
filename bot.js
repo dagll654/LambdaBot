@@ -146,9 +146,9 @@ const Discord = require('discord.js');
 		let dbployees2 = []
 		let pushBig = []
 		connection.query("SELECT * FROM employees", function (err, result) {
-			fdbPush(result, dbployees2)
-			if (err) throw err
-			})
+		fdbPush(result, dbployees2)
+		if (err) throw err
+			
 		console.log(dbployees2)
 		
 		dbployees.forEach((e, i) => {//
@@ -170,6 +170,7 @@ const Discord = require('discord.js');
 		})
 		console.log("Updated the database.")
 		console.log(pushBig)
+		})
 	}
 	
 	// Update the data in the database
