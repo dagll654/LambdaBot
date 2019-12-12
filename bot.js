@@ -1113,7 +1113,7 @@ const Discord = require('discord.js');
 							})
 							//console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].name)
 							//var curentAbno2 = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
-							console.log(curentAbno2)
+							//console.log(curentAbno2)
 							let currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)]]}
 							console.log(currentShop)
 							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
