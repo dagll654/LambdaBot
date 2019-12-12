@@ -979,7 +979,6 @@ const Discord = require('discord.js');
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in "equip" to open the equip menu, "exit" to leave.`).then(menu2 => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
-							cmsg.delete(1)
 							menumsg = menu2
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
@@ -1051,7 +1050,7 @@ const Discord = require('discord.js');
 								msg.reply("error: incorrect response.")
 								})
 								.catch(console.error)
-							} else if (c1msg === "exit") {}
+							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
 							else msg.reply("error: incorrect response.")
 			})})
 					
