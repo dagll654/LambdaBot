@@ -951,7 +951,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*16}\n\n		HP: ${curruser.hp}${jn.health}		SP: ${curruser.sp}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*16}\n\n		HP: ${curruser.hp.toFixed(1)}${jn.health}		SP: ${curruser.sp.toFixed(1)}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 					break
 				case "i":
@@ -1052,7 +1052,7 @@ const Discord = require('discord.js');
 								msg.reply("error: incorrect response.")
 								})
 								.catch(console.error)
-							} else if (c1msg === "exit") {DELTAS.members.get(client.user.id).lastMessage.delete()}
+							} else if (c1msg === "exit") {}
 							else msg.reply("error: incorrect response.")
 			})})
 					
@@ -1095,6 +1095,32 @@ const Discord = require('discord.js');
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
 					break
+				case "ex":
+				case "extraction":
+				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
+				.then(menumsg => {
+					ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
+					.then(r => {
+						if (jn.abnWorkable.includes(r.content.toLowerCase())) {
+							let abnoCodes = []
+							let abnoBoxes = []
+							dbployees[dbids.indexOf(msg.author.id)].balancespecific.split(" ").forEach(m => {
+								abnoCodes.push(m.split("|")[0])
+								abnoBoxes.push(m.split("|")[1])
+							})
+							
+							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(r.content.toLowerCase())], "name": abn.abn[abn.lista.indexOf(r.content.toLowerCase())].name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(r.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(r.content.toLowerCase())].ego)]]}
+							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
+							for (i = 0; i < 4; i++) {
+								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
+							}
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${gear[0].name}  -  ${gear[0].resistance[0]} ${jn.dtype[0]} ${gear[0].resistance[1]} ${jn.dtype[1]} ${gear[0].resistance[2]} ${jn.dtype[2]} ${gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
+						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
+					})
+				})
+				break
+					
+					
 				case "captain": {
 					
 					// Non-captain commands
