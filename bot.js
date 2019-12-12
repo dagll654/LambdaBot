@@ -959,20 +959,19 @@ const Discord = require('discord.js');
 				case "inventory":
 					msg.delete(1)
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
-							curruser.inventorys.split(" ")
 							invs = ""
 							invw = ""
 							ainvs = []
 							ainvw = []
 							ainvsd = []
 							ainvwd = []
-							curruser.inventorys.split(" ").forEach(id => {
+							curruser.inventorys.split("|").forEach(id => {
 								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[id].name, "id": id})
 								ainvsd.push(Number(id))
 								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}
 							}) 
-							curruser.inventoryw.split(" ").forEach(id => {
+							curruser.inventoryw.split("|").forEach(id => {
 								invw += gear.weapons[id].name
 								ainvw.push({"name": gear.weapons[id].name, "id": id})
 								ainvwd.push(Number(id))
