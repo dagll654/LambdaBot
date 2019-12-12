@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -155,7 +155,7 @@ const Discord = require('discord.js');z
 			let val = Object.values(e)
 			val[2] = val[2]*1000
 			val[3] = val[3]*1000
-			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
+			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err})
 			console.log("UPDDATA: " + dbployees[0])
 		})
