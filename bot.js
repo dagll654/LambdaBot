@@ -150,8 +150,6 @@ const Discord = require('discord.js');
 			fdbPush(r, dbployees2)
 		})
 		if (err) throw err
-			
-		console.log(dbployees2)
 		
 		dbployees.forEach((e, i) => {//
 			let pushSmall = []
@@ -166,10 +164,9 @@ const Discord = require('discord.js');
 					}
 				}
 			}
-			if (pushSmall.length > 0) {
 			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 			pushBig.push(pushSmallStr)
-			}
+			if (pushSmallStr === ("UPDATE `employees` SET  WHERE `employees`.`userid` = '" + e.id + "';")) {pushBig.pop()}
 		})
 		pushBig.forEach(q => {
 			queryAndWait(q, connection)
