@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -691,21 +691,11 @@ const Discord = require('discord.js');z
 				case "profile":
 				let uid = "" //
 				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
-					connection.query("UPDATE `employees` SET `" + cmd[2] + "` = '" + cmd[3] + "' WHERE `employees`.`userid` = '" + uid + "';", function (err, result) {
-						if (err) throw err
-
-
-				})
-					//		connection.query(`SELECT * FROM employees`, function (err, result) { 
-					//			dbployees = []
-					//			result.forEach(e => fdbPush(e))
-					//			dbployees.forEach(e => dbids.push(e.id))
-					//			curruser = dbployees[dbids.indexOf(cmd[4])]
-					//			stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
-					//			//console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]} for ${curruser.tag}`)
-					//			if (err) throw err
-					//
-					//	})
+					let keys = Object.keys(dbployees[dbids.indexOf(uid)])
+					let val = Object.values(dbployees[dbids.indexOf(uid)])
+					dbployees[dbids.indexOf(uid)][cmd[2]] = cmd[3]
+					updData()
+					databaseThing()
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
