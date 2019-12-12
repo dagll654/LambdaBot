@@ -927,14 +927,6 @@ const Discord = require('discord.js');
 					} else msg.reply("error: work on the specified abnormality unavaliable.")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
 					break
-				case "ex":
-				case "extraction":
-					curruser = employee(msg.author.id)
-					ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```" + `\n	Please input the code of abnormality, EGO gear of which you wish to extract.\n	Otherwise, type 'exit' to close this menu.`)
-					.then(menu => {
-						
-					})
-				break
 				case "p":
 				case "profile":
 					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
@@ -1099,6 +1091,7 @@ const Discord = require('discord.js');
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
 					break
+				case "ex":
 				case "extraction":
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
@@ -1129,15 +1122,6 @@ const Discord = require('discord.js');
 							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${gear[0].name}  -  ${gear[0].resistance[0]} ${jn.dtype[0]} ${gear[0].resistance[1]} ${jn.dtype[1]} ${gear[0].resistance[2]} ${jn.dtype[2]} ${gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
-				break//
-				case "thing":
-				let tempmsg = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + msg.author.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`
-				ch.send(tempmsg).then(m => {
-					console.log("Got anything.")
-					ch.awaitMessages(mesg => mesg.author.id === msg.author.id, { max: 1, time: 10000 })
-									.then(m => {console.log("Got: " + m.content)
-					})	
-				})
 				break
 				case "captain": {
 					
