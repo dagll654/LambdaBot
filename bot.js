@@ -55,6 +55,8 @@ const Discord = require('discord.js');z
 		else {return "EX"}
 	}
 	
+	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
+	
 	// Get employee by id
 	function employee(id) {
 		//console.log("Getting by id " + Number(id).toString())
@@ -93,8 +95,8 @@ const Discord = require('discord.js');z
 	}
 
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
-	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+	function fdbPush(e, arr = dbployees) {
+		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -133,21 +135,40 @@ const Discord = require('discord.js');z
 					//console.log("Healed all.")
 			}
 	}, 60000)
-
-
+	
+	async function queryAndWait(q, connection) {
+		await wait(100).then(p => {
+		connection.query(q, function (err, result) {if (err) throw err})
+		})
+	}
+	
 	function updData () {
+		let dbployees2 = []
+		let pushBig = []
+		connection.query("SELECT * FROM employees", function (err, result) {
+			fdbPush(result, dbployees2)
+			if (err) throw err
+			}
+		
 		dbployees.forEach((e, i) => {//
-			let keys = Object.keys(e)
-			let val = Object.values(e)
-			val[2] = val[2]*1000
-			val[3] = val[3]*1000
-			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "', `" + keys[17] + "` = '" + val[17] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
-			connection.query(bigpush, function (err, result) {if (err) throw err})
-				//console.log(val[1])
-				//console.log(bigpush)
-			
+			let pushSmall = []
+			//let keys = Object.keys(e)
+			//let vals = Object.values(e)
+			//vals[2] = val[2]*1000
+			//vals[3] = val[3]*1000
+			for (const prop in e) {
+				if (dbployees2[i][prop] != e[prop]) {
+					pushSmall.push("`" + prop + "` = '" + e[prop] + "'")
+				}
+			}
+			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
+			pushBig.push(pushSmallStr)
+		})
+		pushBig.forEach(q => {
+			queryAndWait(q, connection)
 		})
 		console.log("Updated the database.")
+		console.log(pushBig)
 	}
 	
 	// Update the data in the database
@@ -250,7 +271,6 @@ const Discord = require('discord.js');z
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
 	const altemojiname = ESERV.emojis.map(e => e.name)
-	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 	
 	// Handy vars
 	var ch = msg.channel
