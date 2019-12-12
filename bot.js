@@ -28,31 +28,15 @@ const Discord = require('discord.js');
 	const qte = jn.qte
 	const qte2 = "Lambdadelta Quote #"
 	const cmds = jn.cmds
-	
 	var today = new Date()
- var employees = []
- var dbployees = []
- var dbids = []
- x = 0 
- x1 = 0
- dbg1 = 0
- dbvars = [0, 0, 0, 0]
- dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
- quotelog = []
- votingteam = ""
- voting = 0		
- 
-	// Function that updates the god damn information on employee stats/equipment/whatever
-	function upd() {
-			connection.query(`SELECT * FROM employees`, function (err, result) { 
-				dbployees = []
-				result.forEach(e => fdbPush(e))
-				dbids = []
-				dbployees.forEach(e => dbids.push(e.id))
-				if (err) throw err
-		})
-	}
-	
+	var employees = []
+	var dbployees = []
+	var dbids = []
+	// Getting the Lambda's Deltas guild for easy use
+	const DELTAS = client.guilds.get("607318782624399361");
+	const BCH = DELTAS.channels.get("607558082381217851");
+
+	// Return the level of a stat
 	function statLVL(stat) {
 		if (stat < 30) {return "I"}
 		else if (stat < 45) {return "II"}
@@ -62,6 +46,13 @@ const Discord = require('discord.js');
 		else {return "EX"}
 	}
 	
+	// Get employee by id
+	function employee(id) {
+		//console.log("Getting by id " + Number(id).toString())
+		//console.log(dbployees[dbids.indexOf(id)])
+		return dbployees[dbids.indexOf(id)]
+	}
+
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
 		curruser = employee(id)
@@ -91,20 +82,13 @@ const Discord = require('discord.js');
 		dbployees[dbids.indexOf(id)].subpoints = subStatArr.join("|")
 		return subStatArr
 	}
-	
-	// Get employee by id
-	function employee(id) {
-		//console.log("Getting by id " + Number(id).toString())
-		//console.log(dbployees[dbids.indexOf(id)])
-		return dbployees[dbids.indexOf(id)]
-	}
-	
- 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
+
+	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
 		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
- 
- 	// Function for finding the dep role among a member's roles
+	
+	// Function for finding the dep role among a member's roles
 	function drFind(mmbr) {
 		ret = ""
 		if (ncdeproles.every(t => mmbr.roles.map(r => r.name).includes(t) === false) === false) {
@@ -121,7 +105,7 @@ const Discord = require('discord.js');
 		}}
 		return ret
 	}
-	
+
 	// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
 	client.setInterval(function(){
 			if (dbvars[3] === 0) {
@@ -154,7 +138,8 @@ const Discord = require('discord.js');
 		})
 
 		//console.log("Updated the database.")
-	}, 15000) 
+	}, 15000)
+
 	function updData () {
 		dbployees.forEach(e => {//
 			let keys = Object.keys(e)
@@ -165,29 +150,13 @@ const Discord = require('discord.js');
 			connection.query(bigpush, function (err, result) {if (err) throw err})
 		})
 	}
- 
- 
-client.on('ready', () => {	
-
-	// Getting the Lambda's Deltas guild for easy use
-	const DELTAS = client.guilds.get("607318782624399361");
-	const BCH = DELTAS.channels.get("607558082381217851");
 	
-	// Debug line: logs all members
-	//DELTAS.members.forEach(member => console.log(member.user.username));
-	
-	// Getting all of the 'employees' - members with a department role
-	DELTAS.members.forEach(m => {
-		if(drFind(m)) {
-			employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
-		}
-	})
-function databaseThing() {
+	function databaseThing() {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			//console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
-			result.forEach(e => dbids.push(e.userid).toString())
+			result.forEach(e => dbids.push(e.userid))
 			employees.forEach(e => {
 				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
 				else {dbpush.push({"id": e.id, "tag": e.tag})}
@@ -202,21 +171,22 @@ function databaseThing() {
 			})
 			})
 			
-			dbployees.forEach(e => {	
+			dbployees.forEach(e => {
 				let bAbnos = []
 				let bBals = []
+				if (e.balancespecific != "") { 
+				let bGotten = e.balancespecific.split(" ")
+				bGotten.forEach(bg => {
+					bAbnos.push(bg.split("|")[0])
+					bBals.push(bg.split("|")[1])
+				})
 				jn.abnWorkable.forEach(a => {
 					if (bAbnos.includes(a) === false) {
 						bAbnos.push(a)
 						bBals.push("0")
 					}
 				})
-				if (e.balancespecific != "") { 
-				let bGotten = e.balancespecific.split(" ")
-				bGotten.forEach(bg => {
-					bAbnos.push(bg.split("|")[0])
-					bBals.push(bg.split("|")[1])
-				})}
+				}
 				else {
 				jn.abnWorkable.forEach(a => {
 					bAbnos.push(a)
@@ -240,35 +210,31 @@ function databaseThing() {
 }
 	databaseThing()
 
-
-	// Bot readiness announcement, both in the log and in my DMs
+	client.on('ready', () => {
+		// Getting all of the 'employees' - members with a department role
+		DELTAS.members.forEach(m => {
+			if(drFind(m)) {
+				employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+			}
+		})
+		
+			// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
 	client.users.get('143261987575562240').send('Bot started up succesfully.')
 	
-	// Setting the bot's current game to 'try !help'
-    client.user.setPresence({
-        game: {
-            name: 'try !help',
-            type: "Playing",
-            url: "https://tinyurl.com/rollntroll"
-        }
-    });
-	upd()
+		// Setting the bot's current game to 'try !help'
+		client.user.setPresence({
+			game: {
+				name: 'try !help',
+				type: "Playing",
+				url: "https://tinyurl.com/rollntroll"
+			}
+    })
+		
+	})
 
-});
-
-client.on('error', () => {
-	BCH.send("The bot has encountered an error. Check logs.")
-});
-
-client.on('disconnect', () => {
-	client.users.get('143261987575562240').send("Bot disconnected.")
-});
-
-// Message event
-//====================================================================
-client.on('message', msg => {
-	
+	client.on('message', msg => {
+			
 	const ESERV = client.guilds.get('513660754633949208')
 	const DELTAS = client.guilds.get('607318782624399361')
 	const bsch = ESERV.channels.get('653572131262693379')
@@ -1272,10 +1238,7 @@ client.on('message', msg => {
 		else {ch.send('UwU')}
 	}
 })
-
-
- 
-
+	
 // THIS  MUST  BE  THIS  WAY
 // NO TOUCHING
 //______________________________\\/
