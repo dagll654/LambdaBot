@@ -223,7 +223,7 @@ function databaseThing() {
 				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
 				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
 			})
-			
+			console.log(dbployees)
 			if (err) throw err
 
 
@@ -231,7 +231,7 @@ function databaseThing() {
 	})
 }
 	databaseThing()
-	console.log(dbployees)
+
 
 	// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
