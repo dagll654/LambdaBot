@@ -145,7 +145,7 @@ const Discord = require('discord.js');
 	function updData () {
 		let dbployees2 = []
 		let pushBig = []
-		connection.query("SELECT * FROM employees", function (err, result) {
+		connection.query("SELECT * FROM `employees`", function (err, result) {
 		fdbPush(result, dbployees2)
 		if (err) throw err
 			
