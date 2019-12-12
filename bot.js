@@ -1103,7 +1103,6 @@ const Discord = require('discord.js');
 					exmenu.on('collect', m => {
 					//ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
 					//.then(m => {
-						console.log("Got " + m.content)
 						if (jn.abnWorkable.includes(m.content.toLowerCase())) {
 							let abnoCodes = []
 							let abnoBoxes = []
@@ -1116,18 +1115,19 @@ const Discord = require('discord.js');
 							//console.log(curentAbno2)
 							let currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)]]}
 							console.log(currentShop)
-							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
+							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[1]} `
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit', 'weapon' or 'exit.'`)
-							ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
-							.then(m => {
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit', 'weapon' or 'exit.'`)
+							ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 10000 })
+							.then(msg2 => {
+								console.log(msg2)
 								let price = 0
 								let priceFin = 0
-								let choice = m.content.toLowerCase()
-								switch (m.content.toLowerCase()) {
-									case exit: break;
+								let choice = msg2.array()[0].content.toLowerCase()
+								switch (choice) {
+									case exit: menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".```\n" + `	You have exited the menu.`); break;
 									case suit:
 										price = Number(currentShop.gear[0].price)
 										break
@@ -1141,14 +1141,14 @@ const Discord = require('discord.js');
 									bAbnos.push(a[0])
 									bBals.push(a[1])
 								})
-								if ((bBals[bAbnos.indexOf(m.content.toLowerCase())] + curruser.balance) >= price) {
+								if ((bBals[bAbnos.indexOf(choice)] + curruser.balance) >= price) {
 								let prices = []
-								if (bBals[bAbnos.indexOf(m.content.toLowerCase())] >= price) {prices = [price, 0]}
-								else {prices = [bBals[bAbnos.indexOf(m.content.toLowerCase())], price - bBals[bAbnos.indexOf(m.content.toLowerCase())]]}
+								if (bBals[bAbnos.indexOf(choice)] >= price) {prices = [price, 0]}
+								else {prices = [bBals[bAbnos.indexOf(choice)], price - bBals[bAbnos.indexOf(choice)]]}
 								if (prices[2] <= price/4) { 
 								let tmptxt = ""
 									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
-								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
+								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
 								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
 								} else {msg.reply("error: not enough boxes.")}
 							})
