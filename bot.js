@@ -223,7 +223,7 @@ const Discord = require('discord.js');
 		
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
-	bch.send("Bot started.")
+	BCH.send("Bot started.")
 	
 		// Getting all of the 'employees' - members with a department role
 		DELTAS.members.forEach(m => {
