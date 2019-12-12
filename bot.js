@@ -1127,11 +1127,11 @@ const Discord = require('discord.js');
 								let priceFin = 0
 								let choice = msg2.array()[0].content.toLowerCase()
 								switch (choice) {
-									case exit: menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".```\n" + `	You have exited the menu.`); break;
-									case suit:
+									case "exit": menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".```\n" + `	You have exited the menu.`); break;
+									case "suit":
 										price = Number(currentShop.gear[0].price)
 										break
-									case weapon:
+									case "weapon":
 										price = Number(currentShop.gear[1].price)
 										break
 								}
