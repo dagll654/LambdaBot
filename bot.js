@@ -33,8 +33,6 @@ const Discord = require('discord.js');
 	var dbployees = []
 	var dbids = []
 	// Getting the Lambda's Deltas guild for easy use
-	const DELTAS = client.guilds.get("607318782624399361");
-	const BCH = DELTAS.channels.get("607558082381217851");
 
 	// Return the level of a stat
 	function statLVL(stat) {
@@ -211,6 +209,10 @@ const Discord = require('discord.js');
 	databaseThing()
 
 	client.on('ready', () => {
+		
+	const DELTAS = client.guilds.get("607318782624399361");
+	const BCH = DELTAS.channels.get("607558082381217851");
+	
 		// Getting all of the 'employees' - members with a department role
 		DELTAS.members.forEach(m => {
 			if(drFind(m)) {
@@ -1010,7 +1012,6 @@ const Discord = require('discord.js');
 												msg.delete(200) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
-												upd()
 												
 											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
 										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
@@ -1045,7 +1046,6 @@ const Discord = require('discord.js');
 												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
-												upd()
 												
 											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
