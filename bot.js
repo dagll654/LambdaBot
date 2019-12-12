@@ -815,7 +815,6 @@ const Discord = require('discord.js');
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
-		console.log(dbployees[0])
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		curruser = dbployees[dbids.indexOf(msg.author.id)]
@@ -1104,7 +1103,8 @@ const Discord = require('discord.js');
 				case "extraction":
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
-				.then(menumsg => {
+				.then(m => {
+					ch.send("This works, for some reason")
 					ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 									.then(m => {console.log(m.content)
 									})
