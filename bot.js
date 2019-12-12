@@ -1112,8 +1112,8 @@ const Discord = require('discord.js');
 								abnoCodes.push(m.split("|")[0])
 								abnoBoxes.push(m.split("|")[1])
 							})
-							//console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())])
-							currentAbno = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
+							console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].name)
+							var currentAbno = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
 							console.log(curentAbno)
 							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno.name, "gear": [gear.suits[Number(currentAbno.ego)], gear.weapons[Number(currentAbno.ego)]]}
 							console.log(currentShop)
