@@ -151,7 +151,7 @@ const Discord = require('discord.js');
 	}
 	
 	// Update the data in the database
-	client.setInterval(updData(), 15000) 
+	client.setInterval(updData, 15000) 
 
 	
 	function databaseThing() {
