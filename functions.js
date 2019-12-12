@@ -16,7 +16,7 @@ exports.effects = {
 			let effectArray = employee.effects.split("|")
 			let deathEffect = []
 			effectArray.forEach(e => {
-				if e.startsWith("0/") {
+				if (e.startsWith("0/")) {
 					deathEffect = e.split("/")
 				}
 			})
