@@ -1131,7 +1131,10 @@ const Discord = require('discord.js');
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
 				break
-					
+				case "bruh":
+				ch.send("test").then(m => {
+					ch.send("test2")
+				})
 					
 				case "captain": {
 					
