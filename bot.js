@@ -195,7 +195,7 @@ function databaseThing() {
 			console.log("To push:")
 			console.log(dbpush)
 			dbpush.forEach(e => {
-			var sql = "INSERT INTO employees (userid, usertag) VALUES ('" + e.id + "', '" + e.tag + "')";
+			var sql = "INSERT INTO employees (userid, usertag, balancespecific) VALUES ('" + e.id + "', '" + e.tag + "', '0|0|0|0')";
 			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${e.tag} inserted!`)
@@ -211,7 +211,7 @@ function databaseThing() {
 						bBals.push("0")
 					}
 				})
-				if (e.balancespecific != undefined) { 
+				if (e.balancespecific != "") { 
 				let bGotten = e.balancespecific.split(" ")
 				bGotten.forEach(bg => {
 					bAbnos.push(bg.split("|")[0])
