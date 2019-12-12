@@ -1102,20 +1102,20 @@ const Discord = require('discord.js');
 									})
 					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 					exmenu.on('collect', m => {
-					//ch.awaitMessages(r => r.author.id === curruser.id, { max: 3, time: 10000 })
-					//.then(r => {
-						r = m
-						console.log("Got " + r.content)
-						if (jn.abnWorkable.includes(r.content.toLowerCase())) {
+					//ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
+					//.then(m => {
+						console.log("Got " + m.content)
+						if (jn.abnWorkable.includes(m.content.toLowerCase())) {
 							let abnoCodes = []
 							let abnoBoxes = []
 							dbployees[dbids.indexOf(msg.author.id)].balancespecific.split(" ").forEach(m => {
 								abnoCodes.push(m.split("|")[0])
 								abnoBoxes.push(m.split("|")[1])
 							})
-							//console.log(abn.abn[abn.lista.indexOf(r.content.toLowerCase())])
-							currentAbno = abn.abn[abn.lista.indexOf(r.content.toLowerCase())]
-							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(r.content.toLowerCase())], "name": curentAbno.name, "gear": [gear.suits[Number(currentAbno.ego)], gear.weapons[Number(currentAbno.ego)]]}
+							//console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())])
+							currentAbno = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
+							console.log(curentAbno)
+							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno.name, "gear": [gear.suits[Number(currentAbno.ego)], gear.weapons[Number(currentAbno.ego)]]}
 							console.log(currentShop)
 							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
 							for (i = 0; i < 4; i++) {
