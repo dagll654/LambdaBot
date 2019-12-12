@@ -146,8 +146,9 @@ const Discord = require('discord.js');
 		let dbployees2 = []
 		let pushBig = []
 		connection.query("SELECT * FROM `employees`", function (err, result) {
-		result.forEach(r => {
+		result.forEach((r, i) => {
 			fdbPush(r, dbployees2)
+			dbployees2[i][hp] = dbployees2[i][hp]
 		})
 		if (err) throw err
 		
@@ -158,9 +159,11 @@ const Discord = require('discord.js');
 			//vals[2] = val[2]*1000
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
-				if (dbployees2[i][prop] != e[prop]) {
-					if (prop != "stats") {
-					pushSmall.push("`" + prop + "` = '" + e[prop] + "'")
+				let tempval = e[prop]
+				if ((prop === "hp") || (prop === "sp")) {tempval = tempval*1000}
+				if (dbployees2[i][prop] != tempval) {
+					if (prop != "stats") {						
+					pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
 					}
 				}
 			}
