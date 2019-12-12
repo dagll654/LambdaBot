@@ -1119,7 +1119,7 @@ const Discord = require('discord.js');
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${gear[0].name}  -  ${gear[0].resistance[0]} ${jn.dtype[0]} ${gear[0].resistance[1]} ${jn.dtype[1]} ${gear[0].resistance[2]} ${jn.dtype[2]} ${gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
+							exmenu.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${gear[0].name}  -  ${gear[0].resistance[0]} ${jn.dtype[0]} ${gear[0].resistance[1]} ${jn.dtype[1]} ${gear[0].resistance[2]} ${jn.dtype[2]} ${gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
 				break
