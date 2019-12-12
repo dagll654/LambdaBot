@@ -1117,7 +1117,7 @@ const Discord = require('discord.js');
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit', 'weapon' or 'exit.'`)
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase.'`)
 							ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 10000 })
 							.then(msg2 => {
 								//console.log(msg2)
