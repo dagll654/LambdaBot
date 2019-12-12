@@ -148,7 +148,7 @@ const Discord = require('discord.js');
 			}
 		})
 
-	}, 15000) 
+	}, 15000) //
 
 	function updData () {
 		dbployees.forEach(e => {
