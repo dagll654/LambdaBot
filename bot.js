@@ -1149,7 +1149,7 @@ const Discord = require('discord.js');
 								let tmptxt = ""
 									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
 								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
-								} else {msg.reply("error: can only use PPE to pay a quarter of the price. " + `(${(bBals[bAbnos.indexOf(m.content.toLowerCase())]} PE + ${curruser.balance)} PPE / ${price})`)}
+								} else {msg.reply("error: can only use PPE to pay a quarter of the price. " + `(${bBals[bAbnos.indexOf(m.content.toLowerCase())]} PE + ${curruser.balance)} PPE / ${price})`)}
 								} else {msg.reply("error: not enough boxes. " + `(${(bBals[bAbnos.indexOf(m.content.toLowerCase())]} PE + ${curruser.balance)} PPE / ${price})`)}
 							})
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
