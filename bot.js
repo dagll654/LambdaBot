@@ -148,7 +148,7 @@ const Discord = require('discord.js');
 		connection.query("SELECT * FROM employees", function (err, result) {
 			fdbPush(result, dbployees2)
 			if (err) throw err
-			}
+			})
 		
 		dbployees.forEach((e, i) => {//
 			let pushSmall = []
