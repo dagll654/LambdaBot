@@ -1141,12 +1141,10 @@ const Discord = require('discord.js');
 									bAbnos.push(a[0])
 									bBals.push(a[1])
 								})
-								console.log(Number(bBals[bAbnos.indexOf(choice)]) + Number(curruser.balance))
-								console.log(bBals[bAbnos.indexOf(choice)] + " " + curruser.balance)
-								if ((Number(bBals[bAbnos.indexOf(choice)]) + curruser.balance) >= price) {
+								if ((Number(currentShop.boxes) + curruser.balance) >= price) {
 								let prices = []
-								if (bBals[bAbnos.indexOf(choice)] >= price) {prices = [price, 0]}
-								else {prices = [bBals[bAbnos.indexOf(choice)], price - bBals[bAbnos.indexOf(choice)]]}
+								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
+								else {prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]}
 								if (prices[2] <= price/4) { 
 								let tmptxt = ""
 									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
