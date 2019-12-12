@@ -178,7 +178,7 @@ const Discord = require('discord.js');
 
 	
 	function databaseThing() {
-		connection.query(`SELECT * FROM employees`, function (err, result) {
+		connection.query("SELECT * FROM `employees`", function (err, result) {
 			//console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
