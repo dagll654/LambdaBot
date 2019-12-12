@@ -164,7 +164,7 @@ const Discord = require('discord.js');
 			connection.query(bigpush, function (err, result) {if (err) throw err})
 			
 		})
-		console.log("Updated the database.")onsole.log("UPDDATA: " + dbployees[0])
+		console.log("Updated the database.")
 	}
 	
 	function databaseThing() {
