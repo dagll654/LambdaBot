@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -94,7 +94,7 @@ const Discord = require('discord.js');z
 
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e) {
-		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+		dbployees.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -158,9 +158,7 @@ const Discord = require('discord.js');z
 			let val = Object.values(e)
 			val[2] = val[2]*1000
 			val[3] = val[3]*1000
-			val[10] = val[10].split(" ").join("|")
-			val[11] = val[11].split(" ").join("|")
-			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
+			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "', `" + keys[16] + "` = '" + val[16] + "', `" + keys[17] + "` = '" + val[17] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err})
 			
 		})
@@ -213,7 +211,7 @@ const Discord = require('discord.js');z
 				bAbnos.forEach(a => {
 					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 				})
-				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
+				//console.log("LOOK AT MY BALLS " + bToSend.join(" "))
 				
 				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
 			})
