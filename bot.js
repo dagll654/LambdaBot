@@ -70,9 +70,12 @@ const Discord = require('discord.js');
 		//console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = curruser.subpoints.split("|")
+		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16)) {
-			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16
+		if (statIndex = 3) {mult = 3}
+
+		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult)) {
+			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
@@ -131,6 +134,7 @@ const Discord = require('discord.js');
 							e.dead = 0
 						}
 						} else {e.working = 0}
+						
 					})
 					//console.log("Healed all.")
 			}
@@ -142,6 +146,19 @@ const Discord = require('discord.js');
 		})
 	}
 	
+	// Tick down any acting effects
+	client.setInterval(function(){
+	let effects = e.effects.split("|")
+	effects.forEach(eff => {
+		let effArr = eff.split("/")
+		if (Number(effArr[1]) > 0) {
+		effArr[1] = Number(effArr[1]) - 1
+		eff = effArr.join("/")
+		} else {eff = ""}
+	})
+	}, 5000)
+	
+	// Update the data in the database
 	function updData () {
 		let dbployees2 = []
 		let pushBig = []
@@ -704,6 +721,7 @@ const Discord = require('discord.js');
 					bumpBoxes(Number(cmd[2]), cmd[3], cmd[4])
 					break
 				case "crash":
+					updData()
 					client.destroy(process.env.BOT_TOKEN)
 					break
 				case "var":
@@ -836,12 +854,26 @@ const Discord = require('discord.js');
 					}
 					break
 				case "w":
-				case "work":
+				case "work": 
+				
+				
+				{
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
+						let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
+						let effectDead = false
+						let effectDeathCause = ""
+						effects.forEach(e => {
+							if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
+								effectDead = true
+								effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
+							}
+						})
+					if (effectDead === false) {
+						
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
@@ -928,30 +960,44 @@ const Discord = require('discord.js');
 				}
 				
 				async function asyncEdit(mssage) {
-					
+					let mood = ""
+					let moodResult = 0
+					if (peboxes > currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
+					else if (peboxes > currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
+					else {mood = jn.badresult; moodResult = 0}
+					if (currentAbno.effect[0] === true) {
+						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(msg.author.id)], moodResult)
+					}
+					console.log(dbployees[dbids.indexOf(msg.author.id)].effects)
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 						await wait(wtime*500)
 						//console.log("ARR length: " + arr.length)
-						if ((Number(curruser.hp).toFixed(1) === "0.0") || (Number(curruser.sp).toFixed(1) === "0.0"))
+						if ((Number(curruser.hp) <= 0) || (Number(curruser.sp) <= 0))
 						{curruser.dead = 1; dbployees[dbids.indexOf(msg.author.id)].dead = 1}
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, cmd[2], curruser.id)
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
 						dbployees[dbids.indexOf(msg.author.id)].balance = dbployees[dbids.indexOf(msg.author.id)].balance + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + ` ${jn.badresult}	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
 						dbployees[dbids.indexOf(msg.author.id)].working = 0
 				}
 				
 				asyncEdit(m, progressBarStorage)
 		
 						})
+					} else {
+						dbployees[dbids.indexOf(msg.author.id)].dead = 1
+						dbployees[dbids.indexOf(msg.author.id)].hp = 0
+						dbployees[dbids.indexOf(msg.author.id)].sp = 0
+						msg.reply("you have died. Cause of death: " + effectDeathCause)
+					}
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order.")
@@ -979,9 +1025,10 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*16}\n\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*48}\n\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
-					break
+				}
+				break 
 				case "i":
 				case "inv":
 				case "inventory":
