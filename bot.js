@@ -698,7 +698,9 @@ const Discord = require('discord.js');
 							if (err) throw err
 
 					})
-					
+				case "boxbroke":
+					dbployees[dbids.indexOf('312299633474928642')].balancespecific = "|undefined 220|o-03-03 10|f-01-02"
+					updData()
 					break
 				case "var":
 					console.log("Debug command !debug var noticed.")
