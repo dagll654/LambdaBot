@@ -1115,7 +1115,7 @@ const Discord = require('discord.js');
 							console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].name)
 							let curentAbno2 = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
 							console.log(curentAbno2)
-							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno.name, "gear": [gear.suits[Number(currentAbno.ego)], gear.weapons[Number(currentAbno.ego)]]}
+							currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(currentAbno2.ego)], gear.weapons[Number(currentAbno2.ego)]]}
 							console.log(currentShop)
 							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
 							for (i = 0; i < 4; i++) {
