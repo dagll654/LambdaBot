@@ -165,7 +165,7 @@ const Discord = require('discord.js');
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
 					pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
-					console.log(prop + " " + typeof(dbployees2[i][prop]) + " " + typeof(tempval))
+					console.log(prop + " " + dbployees2[i][prop] + " " + tempval)
 					}
 					}
 				}
