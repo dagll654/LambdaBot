@@ -1130,8 +1130,9 @@ const Discord = require('discord.js');
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
 				break//
-				case "ex":
-				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + msg.author.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`).then(m => {
+				case "thing":
+				let tempmsg = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + msg.author.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`
+				ch.send(tempmsg).then(m => {
 					console.log("Got anything.")
 					ch.awaitMessages(mesg => mesg.author.id === msg.author.id, { max: 1, time: 10000 })
 									.then(m => {console.log("Got: " + m.content)
