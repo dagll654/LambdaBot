@@ -1144,7 +1144,7 @@ const Discord = require('discord.js');
 								if ((bBals[bAbnos.indexOf(m.content.toLowerCase())] + curruser.balance) >= price) {
 								let prices = []
 								if (bBals[bAbnos.indexOf(m.content.toLowerCase())] >= price) {prices = [price, 0]}
-								else {prices = [bBals[bAbnos.indexOf(m.content.toLowerCase())]], price - bBals[bAbnos.indexOf(m.content.toLowerCase())]]}
+								else {prices = [bBals[bAbnos.indexOf(m.content.toLowerCase())], price - bBals[bAbnos.indexOf(m.content.toLowerCase())]]}
 								if (prices[2] <= price/4) { 
 								let tmptxt = ""
 									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
