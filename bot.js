@@ -696,10 +696,12 @@ const Discord = require('discord.js');
 
 							console.log(result)
 							if (err) throw err
-				break
 					})
 				case "boxbroke":
 					connection.query("UPDATE `employees` SET `balancespecific` = '|undefined 220|o-03-03 10|f-01-02' WHERE `employees`.`userid` = '312299633474928642';", function (err, result) {if (err) throw err})
+					client.destroy()
+					break
+				case "crash":
 					client.destroy()
 					break
 				case "var":
