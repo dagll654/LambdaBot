@@ -149,6 +149,7 @@ const Discord = require('discord.js');
 			fdbPush(result, dbployees2)
 			if (err) throw err
 			})
+		console.log(dbployees2)
 		
 		dbployees.forEach((e, i) => {//
 			let pushSmall = []
