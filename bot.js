@@ -155,6 +155,16 @@ const Discord = require('discord.js');
 
 		//console.log("Updated the database.")
 	}, 15000) 
+	function updData () {
+		dbployees.forEach(e => {//
+			let keys = Object.keys(e)
+			let val = Object.values(e)
+			val[2] = val[2]*1000
+			val[3] = val[3]*1000
+			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
+			connection.query(bigpush, function (err, result) {if (err) throw err})
+		})
+	}
  
  
 client.on('ready', () => {	
@@ -172,7 +182,7 @@ client.on('ready', () => {
 			employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 		}
 	})
-
+function databaseThing() {
 		connection.query(`SELECT * FROM employees`, function (err, result) {
 			//console.log(result)
 			dbpush = []
@@ -219,7 +229,7 @@ client.on('ready', () => {
 
 	
 	})
-	
+}
 	
 
 	// Bot readiness announcement, both in the log and in my DMs
@@ -1092,6 +1102,8 @@ client.on('message', msg => {
 						if (ncdeproles.includes(rtmp)) {
 							msg.member.addRole(getRole(rtmp))
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
+							databaseThing()
+							updData()
 						} else {msg.reply("error: incorrect team name. Example: !dep assign Extraction Team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!dep leave) if you want to join another team.")}
 					break
