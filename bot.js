@@ -64,6 +64,7 @@ const Discord = require('discord.js');
 
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
+		console.log(dbployees)
 		curruser = dbployees[dbids.indexOf(id)]
 		//console.log("Curruser ID (bumpStat): " + id)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
