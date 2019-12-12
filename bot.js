@@ -137,13 +137,14 @@ const Discord = require('discord.js');
 	// Update the data in the database
 	client.setInterval(function(){
 
-		dbployees.forEach(e => {//
+		dbployees.forEach((e, i) => {//
 			let keys = Object.keys(e)
 			let val = Object.values(e)
 			val[2] = val[2]*1000
 			val[3] = val[3]*1000
 			let bigpush = "UPDATE `employees` SET `" + keys[2] + "` = '" + val[2] + "', `" + keys[3] + "` = '" + val[3] + "', `" + keys[4] + "` = '" + val[4] + "', `" + keys[5] + "` = '" + val[5] + "', `" + keys[6] + "` = '" + val[6] + "', `" + keys[7] + "` = '" + val[7] + "', `" + keys[8] + "` = '" + val[8] + "', `" + keys[9] + "` = '" + val[9] + "', `" + keys[10] + "` = '" + val[10] + "', `" + keys[11] + "` = '" + val[11] + "', `" + keys[12] + "` = '" + val[12] + "', `" + keys[13] + "` = '" + val[13] + "', `" + keys[14] + "` = '" + val[14] + "', `" + keys[15] + "` = '" + val[15] + "'  WHERE `employees`.`userid` = '" + val[0] + "';"
 			connection.query(bigpush, function (err, result) {if (err) throw err; console.log(bigpush)})
+			if (i === 1) {console.log(e); console.log(bigpush)}
 		})
 
 	}, 15000) 
@@ -222,6 +223,7 @@ const Discord = require('discord.js');
 		
 	const DELTAS = client.guilds.get("607318782624399361");
 	const BCH = DELTAS.channels.get("607558082381217851");
+	bch.send("Bot started.")
 	
 		// Getting all of the 'employees' - members with a department role
 		DELTAS.members.forEach(m => {
@@ -903,7 +905,6 @@ const Discord = require('discord.js');
 				}
 				
 				async function asyncEdit(mssage) {
-					console.log(dbployees[0])
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
@@ -914,9 +915,7 @@ const Discord = require('discord.js');
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-						console.log(dbployees[0])
 						bumpBoxes(peboxes, cmd[2], curruser.id)
-						console.log(dbployees[0])
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
@@ -924,7 +923,6 @@ const Discord = require('discord.js');
 				}
 				
 				asyncEdit(m, progressBarStorage)
-				console.log(dbployees[0])
 		
 						})
 					} else msg.reply("error: you are dead.")
