@@ -55,12 +55,12 @@
 		},
 		{	"id": "3",
 			"name": "Penitence",
-			"damage": [0, 0],
+			"damage": [5, 7],
 			"dtype": [0, 1, 0, 0],
-			"speed": "very slow",
-			"range": "very long",
+			"speed": "medium",
+			"range": "medium",
 			"level": "ZAYIN",
-			"cost": 999999
+			"cost": 300
 		}
 			]
 

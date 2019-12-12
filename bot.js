@@ -305,7 +305,7 @@ const Discord = require('discord.js');
 	}	
 	
 	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
-	function bumpBoxes(val, abn, id) {
+	function bumpBoxes(val = 0, abn = "O-03-03", id) {
 		let emp = dbployees[dbids.indexOf(id)]
 		let bAbnos = []
 		let bBals = []
@@ -316,10 +316,13 @@ const Discord = require('discord.js');
 		})
 		bBals[bAbnos.indexOf(abn)] = Number(bBals[bAbnos.indexOf(abn)]) + val
 		let bToSend = []
+		let bReturn = []
 		bAbnos.forEach(a => {
 			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
+			bReturn.push([a, bBals[bAbnos.indexOf(a)]])
 		})
 		dbployees[dbids.indexOf(id)].balancespecific = bToSend.join(" ")
+		return bReturn
 	}
 	
 	// Function for checking if all the elements of arr are included in arr2
@@ -1109,15 +1112,46 @@ const Discord = require('discord.js');
 								abnoBoxes.push(m.split("|")[1])
 							})
 							//console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].name)
-							var curentAbno2 = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
+							//var curentAbno2 = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
 							console.log(curentAbno2)
-							var currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)]]}
+							let currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)]]}
 							console.log(currentShop)
 							wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[0]} `
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit', 'weapon' or 'exit.'`)
+							ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
+							.then(m => {
+								let price = 0
+								let priceFin = 0
+								let choice = m.content.toLowerCase()
+								switch (m.content.toLowerCase()) {
+									case exit: break;
+									case suit:
+										price = Number(currentShop.gear[0].price)
+										break
+									case weapon:
+										price = Number(currentShop.gear[1].price)
+										break
+								}
+								let bAbnos = []
+								let bBals = []
+								bumpBoxes(0, "O-03-03", curruser.id).forEach(a => {
+									bAbnos.push(a[0])
+									bBals.push(a[1])
+								})
+								if ((bBals[bAbnos.indexOf(m.content.toLowerCase())] + curruser.balance) >= price) {
+								let prices = []
+								if (bBals[bAbnos.indexOf(m.content.toLowerCase())] >= price) {prices = [price, 0]}
+								else {prices = [bBals[bAbnos.indexOf(m.content.toLowerCase())]], price - bBals[bAbnos.indexOf(m.content.toLowerCase())]]}
+								if (prices[2] <= price/4) { 
+								let tmptxt = ""
+									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
+								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
+								} else {msg.reply("error: can only use PPE to pay a quarter of the price. " + `(${(bBals[bAbnos.indexOf(m.content.toLowerCase())]} PE + ${curruser.balance)} PPE / ${price})`)}
+								} else {msg.reply("error: not enough boxes. " + `(${(bBals[bAbnos.indexOf(m.content.toLowerCase())]} PE + ${curruser.balance)} PPE / ${price})`)}
+							})
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
 					})

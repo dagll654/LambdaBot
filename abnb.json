@@ -10,7 +10,8 @@
 			"o-03-03",
 			"f-01-02",
 			"o-01-04",
-			"o-06-20"
+			"o-06-20",
+			"f-04-83"
 			],
 	"abn": [
 			{
@@ -69,14 +70,15 @@
 				"description": "For testing purposes only.",
 				"ego": "1",
 				"peoutput": 10,
-				"workPreferences": [[0.3, 0.3, 0.2, 0.2, 0.2],
-									[0.4, 0.4, 0.4, 0.4, 0.4],
-									[0.5, 0.6, 0.7, 0.7, 0.8],
-									[0.4, 0.3, 0.3, 0.2, 0.2]									
+				"workPreferences": [[-1, -1, -1, -1, -1],
+									[-1, -1, -1, -1, -1],
+									[-1, -1, -1, -1, -1],
+									[-1, -1, -1, -1, -1]									
 									],
 				"damage": [0, 0],
 				"dtype": [1, 0, 0, 0],
-				"tips": ["bruh", "bruh2"]
+				"tips": ["bruh", "bruh2"],
+				"mood": [8, 9, 10]
 			},
             {
 				"name": "O-03-03: 'One Sin and Hundreds of Good Deeds'",
@@ -93,7 +95,8 @@
 									],
 				"damage": [1, 2],
 				"dtype": [0, 1, 0, 0],
-				"tips": ["bruh", "bruh2"]
+				"tips": ["bruh", "bruh2"],
+				"mood": [3, 7, 10]
 				
 			},
 			{
@@ -111,7 +114,8 @@
 									],
 				"damage": [2, 4],
 				"dtype": [1, 0, 0, 0],
-				"tips": ["bruh", "bruh2"]
+				"tips": ["bruh", "bruh2"],
+				"mood": [2, 6, 10]
 			},
 			{
 				"name": "O-01-04: 'The Queen of Hatred'",
@@ -128,6 +132,24 @@
 				"thumbnail": "https://cubeupload.com/im/dagll/NothingTherePortrait.png",
 				"description": "O-06-20 consists of body parts and organs that resemble a creature. It has two mouths and a tongue, but can't properly communicate. The creature has one arm that comes out of it's head and five legs. It is physically strong and could easily kill an average employee. However it has far more dangerous abilities. O-06-20 is able to use it's victim's body as a shell to mimic that employee. It may pretend to be an employee for a while. If it's not suppressed quick enough, it turns into a cocoon and eventually takes a much stronger form. At that point it is extremely hard to suppress the abnormality.\n\nExcerpt from [REDACTED] Employee's diary\nThat thing is one of the most dangerous creatures that are contained here. Many employees are terrified of it and I understand why. An abnormality that can kill an employee is a common thing in this place, but this abnormality uses the corpse to mimic it's victim. The process itself is the most disgusting thing I've ever witnessed. Right now it is not that hard to distinguish it from an employee. However, it evolves very fast. Each new shell is more intricate than the previous ones. One day, when we will not be able to distinguish it from an actual person, it will destroy the facility from inside.\n\nIt's talking inside the body of an employee, but it is not the employee who speaks. The sound of calling is nothing but an empty shell mimicking a dead person. How many employees would have suffered to this sound? It keeps getting closer to human, it keeps trying. However, as always, at the end...\nNothing there.",
 				"ego": "Mimicry"
+			},
+			{
+				"name": "O-01-01: 'Test Dummy'",
+				"color": [0, 0, 0],
+				"risk": "ZAYIN",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "For testing purposes only.",
+				"ego": "1",
+				"peoutput": 10,
+				"workPreferences": [[0.3, 0.3, 0.2, 0.2, 0.2],
+									[0.4, 0.4, 0.4, 0.4, 0.4],
+									[0.5, 0.6, 0.7, 0.7, 0.8],
+									[0.4, 0.3, 0.3, 0.2, 0.2]									
+									],
+				"damage": [1, 2],
+				"dtype": [1, 0, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [2, 6, 10]
 			}
 				
 		]
