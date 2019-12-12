@@ -122,12 +122,12 @@ const Discord = require('discord.js');
 			if (dbvars[3] === 0) {
 					dbployees.forEach(e => {
 						if (e.working === 0) {
-						if (e.hp < e.fortitude) {e.hp = e.hp + Math.ceil(e.fortitude/60)}
-						if (e.hp > e.fortitude) {e.hp = e.fortitude}
+						if (e.hp < e.fortitude) {e.hp = Number(e.hp) + Math.ceil(e.fortitude/60)}
+						if (e.hp > e.fortitude) {e.hp = Number(e.fortitude)}
 						let sp = e.sp
-						if (e.sp < e.prudence) {e.sp = e.sp + Math.ceil(e.prudence/60)}
-						if (e.sp > e.prudence) {e.sp = e.prudence}
-						if ((e.hp === e.fortitude) && (e.sp === e.prudence) && (Number(e.dead) === 1)) {
+						if (e.sp < e.prudence) {e.sp = Number(e.sp) + Math.ceil(e.prudence/60)}
+						if (e.sp > e.prudence) {e.sp = Number(e.prudence)}
+						if ((e.hp === Number(e.fortitude)) && (e.sp === Number(e.prudence)) && (Number(e.dead) === 1)) {
 							e.dead = 0
 						}
 						} else {e.working = 0}
