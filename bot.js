@@ -137,7 +137,7 @@ const Discord = require('discord.js');
 						}
 						}
 					})
-					console.log("Healed all.")
+					//console.log("Healed all.")
 			}
 	}, 60000)
 
@@ -153,7 +153,7 @@ const Discord = require('discord.js');
 			connection.query(bigpush, function (err, result) {if (err) throw err})
 		})
 
-		console.log("Updated the database.")
+		//console.log("Updated the database.")
 	}, 15000) 
  
  
