@@ -1148,7 +1148,7 @@ const Discord = require('discord.js');
 								let prices = []
 								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
 								else {prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]}
-								if (prices[2] <= price/4) { 
+								if (prices[1] <= price/4) { 
 								let tmptxt = ""
 									if (price[1] > 0) {tmptxt = " and ${prices[1]} PPE boxes"}
 								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}.`)
