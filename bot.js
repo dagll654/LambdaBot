@@ -931,13 +931,13 @@ const Discord = require('discord.js');
 						if (curruser.dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, cmd[2], curruser.id)
 						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
 						dbployees[dbids.indexOf(msg.author.id)].balance = dbployees[dbids.indexOf(msg.author.id)].balance + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(curruser.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(curruser.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
 						dbployees[dbids.indexOf(msg.author.id)].working = 0
 				}
 				
