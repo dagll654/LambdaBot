@@ -128,7 +128,7 @@ const Discord = require('discord.js');
 						if ((e.hp === e.fortitude) && (e.sp === e.prudence) && (Number(e.dead) === 1)) {
 							e.dead = 0
 						}
-						}
+						} else {e.working = 0}
 					})
 					//console.log("Healed all.")
 			}
