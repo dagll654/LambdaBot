@@ -1099,7 +1099,7 @@ const Discord = require('discord.js');
 				case "extraction":
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 				.then(menumsg => {
-					ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
+					ch.awaitMessages(m => m.author.id === msg.author.id, { max: 3, time: 10000 })
 					.then(r => {
 						if (jn.abnWorkable.includes(r.content.toLowerCase())) {
 							let abnoCodes = []
