@@ -161,8 +161,10 @@ const Discord = require('discord.js');
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = tempval*1000}
 				if (dbployees2[i][prop] != tempval) {
-					if (prop != "stats") {						
+					if (prop != "stats") {					
+					if (Number(dbployees2[i][prop]) != tempval) {
 					pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
+					}
 					}
 				}
 			}
