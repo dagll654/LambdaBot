@@ -1121,7 +1121,7 @@ const Discord = require('discord.js');
 							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit', 'weapon' or 'exit.'`)
 							ch.awaitMessages(msg2 => msg2.author.id === curruser.id, { max: 1, time: 10000 })
 							.then(msg2 => {
-								console.log(msg2)
+								//console.log(msg2)
 								let price = 0
 								let priceFin = 0
 								let choice = msg2.array()[0].content.toLowerCase()
@@ -1140,7 +1140,7 @@ const Discord = require('discord.js');
 									bAbnos.push(a[0])
 									bBals.push(a[1])
 								})
-								console.log(currentShop.boxes + "  " + curruser.balance)
+								console.log(typeof(currentShop.boxes) + " " + typeof(curruser.balance))
 								if ((Number(currentShop.boxes) + Number(curruser.balance)) >= price) {
 								let prices = []
 								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
