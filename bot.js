@@ -862,15 +862,15 @@ const Discord = require('discord.js');
 					if (jn.workOrders.includes(cmd[3])) {
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
-						let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
+						//let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
 						let effectDead = false
-						let effectDeathCause = ""
-						effects.forEach(e => {
-							if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
-								effectDead = true
-								effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
-							}
-						})
+						//let effectDeathCause = ""
+						//effects.forEach(e => {
+						//	if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
+						//		effectDead = true
+						//		effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
+						//	}
+						//})
 					if (effectDead === false) {
 						
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
