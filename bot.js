@@ -1128,10 +1128,10 @@ const Discord = require('discord.js');
 								console.log(choice)
 								switch (choice) {
 									case "suit":
-										price = currentShop.gear[0].price
+										price = currentShop.gear[0].cost
 										break
 									case "weapon":
-										price = currentShop.gear[1].price
+										price = currentShop.gear[1].cost
 										break
 								}
 								let bAbnos = []
