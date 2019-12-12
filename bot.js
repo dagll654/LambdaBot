@@ -159,8 +159,7 @@ const Discord = require('discord.js');
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
 				let tempval = e[prop]
-				if ((prop === "hp") || (prop === "sp")) {tempval = Number(tempval).toFixed(1); dbployees2[i][prop] = dbployees2[i][prop].toFixed(1)}
-				if (e[prop].isNaN) {e[prop] = 0}
+				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*1000).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*1000).toFixed(1)}
 				if (dbployees2[i][prop] != tempval) {
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
