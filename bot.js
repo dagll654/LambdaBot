@@ -1095,7 +1095,7 @@ const Discord = require('discord.js');
 				case "extraction":
 				curruser = dbployees[dbids.indexOf(msg.author.id)]
 				ch.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
-				.then(m => {
+				.then(menumsg => {
 					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 					exmenu.on('collect', m => {
 					//ch.awaitMessages(m => m.author.id === curruser.id, { max: 3, time: 10000 })
@@ -1117,7 +1117,7 @@ const Discord = require('discord.js');
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							m.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: ${currentShop.name}```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost}`)
 						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
 					})
 					})
