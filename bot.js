@@ -166,8 +166,10 @@ const Discord = require('discord.js');
 					}
 				}
 			}
+			if (pushSmall.length > 0) {
 			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 			pushBig.push(pushSmallStr)
+			}
 		})
 		pushBig.forEach(q => {
 			queryAndWait(q, connection)
