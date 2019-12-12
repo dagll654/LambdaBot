@@ -148,7 +148,6 @@ const Discord = require('discord.js');
 		connection.query("SELECT * FROM `employees`", function (err, result) {
 		result.forEach((r, i) => {
 			fdbPush(r, dbployees2)
-			dbployees2[i][hp] = dbployees2[i][hp]
 		})
 		if (err) throw err
 		
