@@ -1166,7 +1166,7 @@ const Discord = require('discord.js');
 										dbployees[dbids.indexOf(curruser.id)].balance = dbployees[dbids.indexOf(curruser.id)].balance - prices[1]
 										bumpBoxes(-(prices[0]), currShopAbno, curruser.id)
 										if (choice === "suit") {dbployees[dbids.indexOf(curruser.id)].inventorys = dbployees[dbids.indexOf(curruser.id)].inventorys.split("|").push(currentShop.gear[0].id).join("|"); tmptxt2 = `${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}`}
-										else {dbployees[dbids.indexOf(curruser.id)].inventoryw = dbployees[dbids.indexOf(curruser.id)].inventoryw.split("|").push(currentShop.gear[0].id).join("|"); tmptxt2 = `${currentShop.gear[1].name}  -  ${wepd}`
+										else {dbployees[dbids.indexOf(curruser.id)].inventoryw = dbployees[dbids.indexOf(curruser.id)].inventoryw.split("|").push(currentShop.gear[0].id).join("|"); tmptxt2 = `${currentShop.gear[1].name}  -  ${wepd}`}
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	You have purchased ${tmptxt2}.`)
 										} else {msg.reply("error: you already have that item.")}
 									
