@@ -92,7 +92,7 @@ exports.effectApplication = {
 			})) {effects.push("3/5/fatigue"); if (effect.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
 				fatigue = effects[effects.findIndex(checkFatigue)].split("/")
 				fatigue[1] = Math.round(Number(fatigue[1])*1.5)
-				effects[effects.findIndex(checkFatigue)] = fatigue.join("/")
+				effects[effects.findIndex(function(eff){if (eff.startsWith("3/")) {return true}	else {return false}})] = fatigue.join("/")
 			}
 			return true
 
