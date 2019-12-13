@@ -1042,9 +1042,9 @@ const Discord = require('discord.js');
 					} else msg.reply("you are still on a cooldown. " + `(~${cdVal*5 + 5} seconds)`)
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
-					} else msg.reply("error: incorrect work order.")
-					} else msg.reply("error: work on the specified abnormality unavailable.")
-					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable.")
+					} else msg.reply("error: incorrect work order. Orders: instinct, insight, attachment, repression.")
+					} else msg.reply("error: work on the specified abnormality unavailable. (!lc w list)")
+					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 					} else msg.reply("currently available abnormalities: " + jn.abnWorkableUpperCase.join(", ") + ".")
 					break
 				case "p":
@@ -1095,13 +1095,13 @@ const Discord = require('discord.js');
 							ainvwd = [0]
 							curruser.inventorys.split("|").forEach(id => {
 								invs += gear.suits[id].name
-								ainvs.push({"name": gear.suits[id].name, "id": id})
+								ainvs.push({"name": gear.suits[Number(id)].name, "id": Number(id)})
 								ainvsd.push(Number(id))
 								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}
 							}) 
 							curruser.inventoryw.split("|").forEach(id => {
-								invw += gear.weapons[id].name
-								ainvw.push({"name": gear.weapons[id].name, "id": id})
+								invw += gear.weapons[Number(id)].name
+								ainvw.push({"name": gear.weapons[id].name, "id": Number(id)})
 								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}
 							})
