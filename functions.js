@@ -84,19 +84,16 @@ exports.effectApplication = {
 			employee.sp = employee.sp + 3
 		}
 	},
-	"fatigue": function(employee) {
-		if (employee.effects.length > 0) {
-			let effects = employee.effects.split("|")
+	"fatigue": function(employee, result) {
+			effects = employee.effects.split("|")
+			
 			if (effects.every(eff => {
-				return (eff.startsWith("3/") === false)
-			})) {effects.push("3/6/fatigue/0"); if (effects.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
-				fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-				fatigue[1] = 6
-				fatigue[3] = Number(fatigue[3]) + 1
-				effects[effects.findIndex(function(eff){if (eff.startsWith("3/")) {return true}	else {return false}})] = fatigue.join("/")
-			}
-			return true
+				return (eff.startsWith("0/") === false)
+			})) {effects.push("3/6/fatigue/0"); employee.effects = effects.join("|")}
+			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
+			console.log("FATIGUE: " + fatigue)
+			effects[effects.findIndex(checkFatigue)] = "3/6/fatigue" + (Number(fatigue[3]) + 1)
+			employee.effects = effects.join("|")}
 
-		}
-	}
+	},
 }
