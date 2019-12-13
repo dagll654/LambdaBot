@@ -45,6 +45,10 @@ exports.effects = {
 		return ret
 	}
 }
+		function checkFatigue(eff) {
+				if (eff.startsWith("3/")) {return true}
+				else {return false}
+			}
 exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
@@ -81,10 +85,6 @@ exports.effectApplication = {
 		}
 	},
 	"fatigue": function(employee) {
-		function checkFatigue(eff) {
-				if (eff.startsWith("3/")) {return true}
-				else {return false}
-			}
 		if (employee.effects.length > 0) {
 			let effects = employee.effects.split("|")
 			if (effects.every(eff => {
