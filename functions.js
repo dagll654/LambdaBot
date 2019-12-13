@@ -74,7 +74,7 @@ exports.effectApplication = {
 		if (effects.every(eff => {return (eff.startsWith("3/") === false)})) {fatiguemod = 0}
 		else {
 			fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			fatiguemod = Math.ceil(Number(fatigue[1])/3)			
+			fatiguemod = Math.floor(Number(fatigue[3])/2)			
 		}
 		effects.push("2/" + (Math.round(Number(boxes)/5) + fatiguemod) + "/work cooldown")
 		employee.effects = effects.join("|")
@@ -89,9 +89,10 @@ exports.effectApplication = {
 			let effects = employee.effects.split("|")
 			if (effects.every(eff => {
 				return (eff.startsWith("3/") === false)
-			})) {effects.push("3/5/fatigue"); if (effects.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
+			})) {effects.push("3/6/fatigue/0"); if (effects.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
 				fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-				fatigue[1] = Math.round(Number(fatigue[1])*1.5)
+				fatigue[1] = 6
+				fatigue[3] = Number(fatigue[3]) + 1
 				effects[effects.findIndex(function(eff){if (eff.startsWith("3/")) {return true}	else {return false}})] = fatigue.join("/")
 			}
 			return true
