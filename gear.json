@@ -37,6 +37,7 @@
 			"cost": 200
 		}
 			],
+			
 	"weapons": [
 		{	"id": "0",
 			"name": "Riot Stick",
@@ -92,6 +93,28 @@
 			"level": "ZAYIN",
 			"cost": 300
 		}
+			],
+	
+	"gifts": [
+		{	"id": "0",
+		},
+		{	"id": "1",
+		},
+		{	"id": "2",
+		},
+		{	"id": "3",
+			"name": "Penitence",
+			
+		},
+		{	"id": "4",
+			"name": "Fourth Match Flame",
+			
+		},
+		{	"id": "5",
+			"name": "Wingbeat",
+			
+		}
 			]
+		
 
 }

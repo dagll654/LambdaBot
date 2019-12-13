@@ -530,18 +530,18 @@ const Discord = require('discord.js');
 					if (currentAbno.dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
-						damageArray.push(dmg + " " + jn.dtype[0])
+						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[0])
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
-						damageArray.push(dmg + " " + jn.dtype[1])
+						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[1])
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
-						damageArray.push(dmg + " " + jn.dtype[2])
+						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
@@ -840,8 +840,8 @@ const Discord = require('discord.js');
 						let weapons = e.inventoryw.split("|")
 						console.log(e.tag + " " + e.inventorys + " " + e.inventoryw)
 						console.log(e.tag + " " + suits + " " + suits[0] + " " + weapons)
-						if (suits[0] === "0") {suits.shift}
-						if (weapons[0] === "0") {weapons.shift}
+						if (suits[0] === "0") {suits.shift()}
+						if (weapons[0] === "0") {weapons.shift()}
 						e.inventorys = suits.join("|")
 						e.inventoryw = weapons.join("|")
 					})
@@ -1038,7 +1038,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
 						msg.reply("you have died. Cause of death: " + effectDeathCause)
 					}
-					} else msg.reply("you are still on a cooldown." + `(~${cdVal*5 + 5} seconds)`)
+					} else msg.reply("you are still on a cooldown. " + `(~${cdVal*5 + 5} seconds)`)
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order.")
