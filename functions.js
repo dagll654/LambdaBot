@@ -55,8 +55,8 @@ exports.effectApplication = {
 			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("0/") === false)
-			})) {effects.push("0/5/F-04-83"); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect)] = "0/5/F-04-83"; employee.effects = effects.join("|")}
+			})) {effects.push("0/6/F-04-83"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect)] = "0/6/F-04-83"; employee.effects = effects.join("|")}
 		}
 	},
 	"egoChange": function(employee, index) {
@@ -66,7 +66,7 @@ exports.effectApplication = {
 	},
 	"workCD": function(employee, boxes) {
 		effects = employee.effects.split("|")
-		effects.push("2/" + Math.ceil(Number(boxes)/5) + "/work cooldown")
+		effects.push("2/" + Math.round(Number(boxes)/5) + "/work cooldown")
 		employee.effects = effects.join("|")
 	}
 }
