@@ -1053,7 +1053,7 @@ const Discord = require('discord.js');
 									if (Number(eff.split("/")[1])*5 > 60) {
 										waittime = ((Number(eff.split("/")[1])*5)/60).toFixed(1) + " minutes"
 									} else {waittime = Number(eff.split("/")[1])*5 + " seconds"}
-									effectArr.push(eff.split("/")[2]) + ` (${waittime})`)
+									effectArr.push(eff.split("/")[2] + ` (${waittime})`)
 								})
 								}
 								//console.log("Curruser ID (profile): " + curruser.id)
