@@ -1199,7 +1199,7 @@ const Discord = require('discord.js');
 										inv2 = ""
 										ainvs.forEach(s => {
 											inv2 += s.name + ` (${Number(s.id) + 1})`
-											if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+											if (ainvs.indexOf(s) < (ainvs.length - 1)) {inv2 += ", "} else {inv2 += "."}
 										})
 										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the suit to discard: " + inv2)
 										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
@@ -1218,7 +1218,7 @@ const Discord = require('discord.js');
 										inv2 = ""
 										ainvw.forEach(s => {
 											inv2 += s.name + ` (${Number(s.id) + 1})`
-											if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+											if (ainvw.indexOf(s) < (ainvw.length - 1)) {inv2 += ", "} else {inv2 += "."}
 										})
 										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the weapon to discard: " + inv2)
 										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
