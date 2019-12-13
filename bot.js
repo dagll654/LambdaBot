@@ -1197,6 +1197,8 @@ const Discord = require('discord.js');
 									switch (m.array()[0].content) {
 										case "suit":
 										inv2 = ""
+										ainvs.shift()
+										ainvsd.shift()
 										ainvs.forEach(s => {
 											inv2 += s.name + ` (${Number(s.id) + 1})`
 											if (ainvs.indexOf(s) < (ainvs.length - 1)) {inv2 += ", "} else {inv2 += "."}
@@ -1208,6 +1210,7 @@ const Discord = require('discord.js');
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												ainvsd.splice(ainvsd.indexOf(Number(m.array()[0].content) - 1), 1)
+												ainvsd.shift()
 												dbployees[dbids.indexOf(curruser.id)].inventorys = ainvsd.join("|")
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 											} else msg.reply("error: you do not have that suit.")
@@ -1216,6 +1219,8 @@ const Discord = require('discord.js');
 										break
 										case "weapon":
 										inv2 = ""
+										ainvw.shift()
+										ainvwd.shift()
 										ainvw.forEach(s => {
 											inv2 += s.name + ` (${Number(s.id) + 1})`
 											if (ainvw.indexOf(s) < (ainvw.length - 1)) {inv2 += ", "} else {inv2 += "."}
@@ -1227,6 +1232,7 @@ const Discord = require('discord.js');
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												ainvwd.splice(ainvwd.indexOf(Number(m.array()[0].content) - 1), 1)
+												ainvwd.shift()
 												dbployees[dbids.indexOf(curruser.id)].inventoryw = ainvwd.join("|")
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
 												for (i = 0; i < 4; i++) {
