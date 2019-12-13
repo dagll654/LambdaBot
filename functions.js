@@ -45,7 +45,7 @@ exports.effectApplication = {
 	},
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
-		effects.push("1/" + ((index * 12) * 12) + "/EGO adaptation")
+		effects.push("1/" + (((index + 1) * 12) * 12) + "/EGO adaptation")
 		employee.effects = effects.join("|")
 	}
 }
