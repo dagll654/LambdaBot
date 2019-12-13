@@ -1218,6 +1218,7 @@ const Discord = require('discord.js');
 											if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1)
+												if (Number(curruser.suit) === equpd) {dbployees[dbids.indexOf(curruser.id)].suit = 0}
 												let newinv = ainvsd.map(function(i){if (Number(i) != equpd) return i})
 												console.log(equpd + " " + typeof(equpd) + " " + ainvsd.join("|") + " " + newinv.join("|"))
 												let newinvtext = ""
@@ -1242,6 +1243,7 @@ const Discord = require('discord.js');
 											if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
+												if (Number(curruser.weapon) === equpd) {dbployees[dbids.indexOf(curruser.id)].weapon = 0}
 												let newinv = ainvwd.map(function(i){if (Number(i) != equpd) return i})
 												console.log(equpd + " " + typeof(equpd) + " " + ainvwd.join("|") + " " + newinv.join("|"))
 												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
