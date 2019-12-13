@@ -149,7 +149,8 @@ const Discord = require('discord.js');
 	}
 	
 	// Tick down any acting effects
-	client.setInterval(function(){
+	/*client.setInterval(function(){
+		dbployees.forEach(e => {
 	let effects = e.effects.split("|")
 	effects.forEach(eff => {
 		let effArr = eff.split("/")
@@ -158,7 +159,8 @@ const Discord = require('discord.js');
 		eff = effArr.join("/")
 		} else {eff = ""}
 	})
-	}, 5000)
+	})
+	}, 5000)*/
 	
 	// Update the data in the database
 	function updData () {
