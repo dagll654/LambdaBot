@@ -1028,7 +1028,7 @@ const Discord = require('discord.js');
 							}
 							if (fn.effects.workCD(dbployees[dbids.indexOf(msg.author.id)]) === true) {
 								onCooldown = true
-								if (e.startsWith("2/") {
+								if (e.startsWith("2/")) {
 								cdVal = Number(e.split("/")[1])
 								}
 							}
