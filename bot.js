@@ -1095,7 +1095,7 @@ const Discord = require('discord.js');
 							ainvsd = [0]
 							ainvwd = [0]
 							console.log(curruser.inventorys)
-							if (curruser.inventorys.split("|")[0] != undefined) {
+							if (curruser.inventorys.split("|")[0] != "") {
 							invs += ", "
 							curruser.inventorys.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
@@ -1105,7 +1105,7 @@ const Discord = require('discord.js');
 								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}}
 							}) 
 							} else invs += "."
-							if (curruser.inventoryw.split("|")[0] != undefined) {
+							if (curruser.inventoryw.split("|")[0] != "") {
 							invw += ", " 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
