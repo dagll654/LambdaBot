@@ -1095,7 +1095,7 @@ const Discord = require('discord.js');
 							ainvsd = [0]
 							ainvwd = [0]
 							console.log(curruser.inventorys)
-							if (curruser.inventorys != undefined) {
+							if (curruser.inventorys.split("|") != undefined) {
 							invs += ", "
 							curruser.inventorys.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
@@ -1105,7 +1105,7 @@ const Discord = require('discord.js');
 								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}}
 							}) 
 							} else invs += "."
-							if (curruser.inventoryw != undefined) {
+							if (curruser.inventoryw.split("|") != undefined) {
 							invw += ", " 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
@@ -1248,7 +1248,7 @@ const Discord = require('discord.js');
 												console.log(equpd + " " + typeof(equpd) + " " + ainvwd.join("|") + " " + newinv.join("|"))
 												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
 												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinvtext
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`)
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}.`)
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
 										})
