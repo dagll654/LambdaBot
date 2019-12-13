@@ -74,7 +74,7 @@ const Discord = require('discord.js');
 		let subStatArr = curruser.subpoints.split("|")
 		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (statIndex = 3) {mult = 3}
+		if (statIndex === 3) {mult = 3}
 
 		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult)) {
 			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult
