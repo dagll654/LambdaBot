@@ -1052,7 +1052,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
 						msg.reply("you have died. Cause of death: " + effectDeathCause)
 					}
-					} else msg.reply("you are still on a cooldown. " + `(~${cdVal + 1} seconds)`)
+					} else msg.reply("you are still on a cooldown. " + `(~${cdVal + 1} second(s))`)
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order. Orders: instinct, insight, attachment, repression.")
@@ -1075,10 +1075,10 @@ const Discord = require('discord.js');
 								curruser.effects.split("|").forEach(eff => {
 									let waittime = ""
 									let effspecial = ""
-									if (Number(eff.split("/")[1])*5 > 60) {
-										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minutes"
-									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second"; if ((Number(eff.split("/")[1]) + 1) > 1) {waittime += "s"}}
-									if (eff.split("/")[2] === "fatigue") {effspecial = " (+" + Math.floor(Number(eff.split("/")[3])/3) +" seconds to work cd)"}
+									if (Number(eff.split("/")[1]) > 60) {
+										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minute(s)"
+									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second(s)"}
+									if (eff.split("/")[2] === "fatigue") {effspecial = " [+" + Math.floor(Number(eff.split("/")[3])/3) +" seconds to work CD]"}
 									effectArr.push(eff.split("/")[2] + `${effspecial} (${waittime})`)
 								})
 								}

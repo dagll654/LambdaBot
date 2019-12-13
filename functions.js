@@ -76,7 +76,7 @@ exports.effectApplication = {
 			fatigue = effects[effects.findIndex(checkFatigue)].split("/")
 			fatiguemod = Math.floor(Number(fatigue[3])/3)			
 		}
-		effects.push("2/" + (Number(boxes) + fatiguemod - 1) + "/work cooldown")
+		effects.push("2/" + (Math.round(Number(boxes)/1.4) + fatiguemod - 1) + "/work cooldown")
 		employee.effects = effects.join("|")
 	},
 	"3": function(employee, result) {
