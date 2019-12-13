@@ -25,7 +25,7 @@ exports.effects = {
 					ret = [true, deathEffect[2], "eaten by fairies."]
 			}
 		}
-		return ret
+		return false
 	}
 }
 exports.effectApplication = {
