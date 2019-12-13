@@ -837,6 +837,8 @@ const Discord = require('discord.js');
 					dbployees.forEach(e => {
 						let suits = e.inventorys.split("|")
 						let weapons = e.inventoryw.split("|")
+						console.log(e.tag + " " + e.inventorys + " " + e.inventoryw)
+						console.log(e.tag + " " + suits + " " + suits[0] + " " + weapons)
 						if (suits[0] === "0") {suits.shift}
 						if (weapons[0] === "0") {weapons.shift}
 						e.inventorys = suits.join("|")
