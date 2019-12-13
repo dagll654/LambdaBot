@@ -500,8 +500,8 @@ const Discord = require('discord.js');
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		const curruser = dbployees[dbids.indexOf(cmd[1])]
-		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
 		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])])
+		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
 		dbployees[dbids.indexOf(cmd[1])].working = 1
 		statIndex = jn.workOrders.indexOf(cmd[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
