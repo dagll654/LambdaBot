@@ -44,6 +44,7 @@ const Discord = require('discord.js');
 	 quotelog = []
 	 votingteam = ""
 	 voting = 0	
+	 efflog = 0
 
 
 
@@ -153,10 +154,8 @@ const Discord = require('discord.js');
 	
 	// Tick down any acting effects
 	client.setInterval(function(){
+		++efflog
 		dbployees.forEach(e => {
-			if (e.effects != "null"){
-			console.log(e.tag + " " + e.effects)
-			}
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
 			let effects = e.effects.split("|")
@@ -175,14 +174,17 @@ const Discord = require('discord.js');
 			effectsSplit.shift()
 			e.effects = effectsSplit.join("|")
 			}
+			if (efflog === 4) {
 			if (e.effects != "null"){
 			console.log(e.tag + " " + e.effects)
 			console.log(e.tag + " " + effectsNew)
 			}
+			efflog = 0
+			}
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
 			if (fn.effects['deathOnWork'](e, "o-03-03") === true) {e.hp = e.hp + 0.3}
 		})
-	}, 5000)
+	}, 1000)
 	
 	// Update the data in the database
 	function updData () {
@@ -1074,8 +1076,8 @@ const Discord = require('discord.js');
 									let waittime = ""
 									let effspecial = ""
 									if (Number(eff.split("/")[1])*5 > 60) {
-										waittime = ((Number(eff.split("/")[1])*5)/60).toFixed(1) + " minutes"
-									} else {waittime = "~" + (Number(eff.split("/")[1])*5 + 5) + " seconds"}
+										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minutes"
+									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second"; if ((Number(eff.split("/")[1]) + 1) > 1) {waittime += "s"}}
 									if (eff.split("/")[2] === "fatigue") {effspecial = " " + Number(eff.split("/")[3])}
 									effectArr.push(eff.split("/")[2] + `${effspecial} (${waittime})`)
 								})

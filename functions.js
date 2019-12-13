@@ -60,13 +60,13 @@ exports.effectApplication = {
 			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("0/") === false)
-			})) {effects.push("0/6/F-04-83"); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect)] = "0/6/F-04-83"; employee.effects = effects.join("|")}
+			})) {effects.push("0/30/F-04-83"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect)] = "0/30/F-04-83"; employee.effects = effects.join("|")}
 		}
 	},
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
-		effects.push("1/" + (((index + 1) * 12) * 12) + "/EGO adaptation")
+		effects.push("1/" + (index + 1) * 60) * 12) + "/EGO adaptation")
 		employee.effects = effects.join("|")
 	},
 	"workCD": function(employee, boxes) {
@@ -74,9 +74,9 @@ exports.effectApplication = {
 		if (effects.every(eff => {return (eff.startsWith("3/") === false)})) {fatiguemod = 0}
 		else {
 			fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			fatiguemod = Math.floor(Number(fatigue[3])/5)			
+			fatiguemod = Math.floor(Number(fatigue[3])/3)			
 		}
-		effects.push("2/" + (Math.round(Number(boxes)/5) + fatiguemod - 1) + "/work cooldown")
+		effects.push("2/" + (Number(boxes) + fatiguemod - 1) + "/work cooldown")
 		employee.effects = effects.join("|")
 	},
 	"3": function(employee, result) {
@@ -89,9 +89,9 @@ exports.effectApplication = {
 			
 			if (effects.every(eff => {
 				return (eff.startsWith("3/") === false)
-			})) {effects.push("3/6/fatigue/0"); employee.effects = effects.join("|")}
+			})) {effects.push("3/35/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (6 + Math.floor((Number(fatigue[3]) + 1)/5)) + "/fatigue/" + (Number(fatigue[3]) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3]))/3)) + "/fatigue/" + (Number(fatigue[3]) + 1)
 			employee.effects = effects.join("|")}
 
 	},
