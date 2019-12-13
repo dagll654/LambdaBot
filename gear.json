@@ -96,22 +96,22 @@
 			],
 	
 	"gifts": [
-		{	"id": "0",
+		{	"id": "0"
 		},
-		{	"id": "1",
+		{	"id": "1"
 		},
-		{	"id": "2",
+		{	"id": "2"
 		},
 		{	"id": "3",
-			"name": "Penitence",
+			"name": "Penitence"
 			
 		},
 		{	"id": "4",
-			"name": "Fourth Match Flame",
+			"name": "Fourth Match Flame"
 			
 		},
 		{	"id": "5",
-			"name": "Wingbeat",
+			"name": "Wingbeat"
 			
 		}
 			]
