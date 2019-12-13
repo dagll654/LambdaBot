@@ -81,12 +81,12 @@ exports.effectApplication = {
 		}
 	},
 	"fatigue": function(employee) {
-		if (employee.effects.length > 0) {
-			let effect = employee.effects.split("|")
-			function checkFatigue(eff) {
+		function checkFatigue(eff) {
 				if (eff.startsWith("3/")) {return true}
 				else {return false}
 			}
+		if (employee.effects.length > 0) {
+			let effect = employee.effects.split("|")
 			if (effects.every(eff => {
 				return (eff.startsWith("3/") === false)
 			})) {effects.push("3/5/fatigue"); if (effect.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
