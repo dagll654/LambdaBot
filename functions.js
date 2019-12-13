@@ -92,7 +92,7 @@ exports.effectApplication = {
 			})) {effects.push("3/6/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
 			console.log("FATIGUE: " + fatigue)
-			effects[effects.findIndex(checkFatigue)] = "3/6/fatigue" + (Number(fatigue[3]) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/6/fatigue/" + (Number(fatigue[3]) + 1)
 			employee.effects = effects.join("|")}
 
 	},
