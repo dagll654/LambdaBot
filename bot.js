@@ -882,7 +882,7 @@ const Discord = require('discord.js');
 				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
 					let tempval = cmd[3]
 					if ((cmd[2] === "hp") || (cmd[2] === "sp")) {tempval = Number(cmd[3]).toFixed(1)}
-					
+					if ((cmd[2] === "dead") || (cmd[2] === "working")) {tempval = Number(cmd[3])}
 					let keys = Object.keys(dbployees[dbids.indexOf(uid)])
 					let val = Object.values(dbployees[dbids.indexOf(uid)])
 					dbployees[dbids.indexOf(uid)][cmd[2]] = tempval
