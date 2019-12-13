@@ -66,7 +66,7 @@ exports.effectApplication = {
 	},
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
-		effects.push("1/" + (index + 1) * 60) * 12) + "/EGO adaptation")
+		effects.push("1/" + (index + 1) * 60 * 12 + "/EGO adaptation")
 		employee.effects = effects.join("|")
 	},
 	"workCD": function(employee, boxes) {
