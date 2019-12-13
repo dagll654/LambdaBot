@@ -1035,7 +1035,7 @@ const Discord = require('discord.js');
 						curruser = dbployees[dbids.indexOf(cuid)]//
 					} else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 								let effectArr = ["none"]
-								if (curruser.effects != "null") {
+								if ((curruser.effects != "null") && (curruser.effects != "") && (curruser.effects != undefined)) {
 									effectArr = []
 								curruser.effects.split("|").forEach(eff => {
 									effectArr.push(eff.split("/")[2].toUpperCase())
