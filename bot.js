@@ -1052,7 +1052,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
 						msg.reply("you have died. Cause of death: " + effectDeathCause)
 					}
-					} else msg.reply("you are still on a cooldown. " + `(~${cdVal*5 + 5} seconds)`)
+					} else msg.reply("you are still on a cooldown. " + `(~${cdVal + 1} seconds)`)
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order. Orders: instinct, insight, attachment, repression.")
