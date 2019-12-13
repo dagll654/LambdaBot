@@ -149,7 +149,7 @@ const Discord = require('discord.js');
 	}
 	
 	// Tick down any acting effects
-	/*client.setInterval(function(){
+	client.setInterval(function(){
 		dbployees.forEach(e => {
 	let effects = e.effects.split("|")
 	effects.forEach(eff => {
@@ -160,7 +160,7 @@ const Discord = require('discord.js');
 		} else {eff = ""}
 	})
 	})
-	}, 5000)*/
+	}, 5000)
 	
 	// Update the data in the database
 	function updData () {
@@ -864,21 +864,21 @@ const Discord = require('discord.js');
 					if (jn.workOrders.includes(cmd[3])) {
 					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
 					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
-						//let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
+						let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
 						let effectDead = false
-						//let effectDeathCause = ""
-						//effects.forEach(e => {
-						//	if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
-						//		effectDead = true
-						//		effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
-						//	}
-						//})
+						let effectDeathCause = ""
+						effects.forEach(e => {
+							if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
+								effectDead = true
+								effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
+							}
+						})
 					if (effectDead === false) {
 						
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3]).then(m => {
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
-		curruser = dbployees[dbids.indexOf(msg.author.id)]
+		const curruser = dbployees[dbids.indexOf(msg.author.id)]
 		dbployees[dbids.indexOf(msg.author.id)].working = 1
 		statIndex = jn.workOrders.indexOf(cmd[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
@@ -905,7 +905,6 @@ const Discord = require('discord.js');
 			peboxes = 0
 			ppeboxes = 0
 			i = 0
-			console.log(dbployees[0])
 			for (i = 0; i < currentAbno.peoutput; i++) {
 				if ((curruser.hp > 0) && (curruser.sp > 0)) {
 				if (roll(100) > successChance) {neboxes++; 

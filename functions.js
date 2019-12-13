@@ -32,6 +32,7 @@ exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
 			let effectArray = employee.effects.split("|")
+			if ((effectArray.length > 0) === false) {
 			let deathEffect = []
 			effectArray.forEach(e => {
 				if (e.startsWith("0/")) {
@@ -40,9 +41,9 @@ exports.effectApplication = {
 					e = "0/5/f-04-83"
 				}
 			})
-			if (deathEffect = []) {
-				effectArray.push("0/5/f-04-83")
-			}
+
+			} else effectArray.push("0/5/f-04-83")
+			
 			employee.effects = effectArray.join("|")
 		}
 		
