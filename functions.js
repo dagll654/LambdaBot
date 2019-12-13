@@ -26,6 +26,22 @@ exports.effects = {
 			}
 		}
 		return ret
+	},
+	"workCD": function(employee) {
+		let ret = false
+		if (employee.effects.length > 0) {
+			let effectArray = employee.effects.split("|")
+			let cdEffect = []
+			effectArray.forEach(e => {
+				if (e.startsWith("2/")) {
+					cdEffect = e.split("/")
+				}
+			})
+			if (cdEffect.length > 0) {
+				ret true
+			}
+		}
+		return ret
 	}
 }
 exports.effectApplication = {
@@ -46,6 +62,11 @@ exports.effectApplication = {
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
 		effects.push("1/" + (((index + 1) * 12) * 12) + "/EGO adaptation")
+		employee.effects = effects.join("|")
+	},
+	"workCD": function(employee, boxes) {
+		effects = employee.effects.split("|")
+		effects.push("2/" + Math.ceil(Number(boxes)/5) + "/work cooldown")
 		employee.effects = effects.join("|")
 	}
 }

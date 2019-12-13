@@ -833,7 +833,7 @@ const Discord = require('discord.js');
 						console.log(e.tag + " " + e.balancespecific)
 					})
 					break
-				case "clearBase":
+				case "clearbase":
 					dbployees.forEach(e => {
 						let suits = e.inventorys.split("|")
 						let weapons = e.inventoryw.split("|")
@@ -1015,12 +1015,19 @@ const Discord = require('discord.js');
 						let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
 						let effectDead = false
 						let effectDeathCause = ""
+						let onCooldown = false
+						let cdVal = 0
 						effects.forEach(e => {
 							if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
 								effectDead = true
 								effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
 							}
+							if (fn.effects.workCD(dbployees[dbids.indexOf(msg.author.id)]) === true) {
+								onCooldown = true
+								cdVal = Number(e.split("/")[1])
+							}
 						})
+					if (onCooldown === false) {
 					if (effectDead === false) {
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
 					} else {
@@ -1030,6 +1037,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
 						msg.reply("you have died. Cause of death: " + effectDeathCause)
 					}
+					} else msg.reply("you are still on a cooldown." + `(~${cdVal*5 + 5} seconds)`)
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order.")
@@ -1052,7 +1060,7 @@ const Discord = require('discord.js');
 									let waittime = ""
 									if (Number(eff.split("/")[1])*5 > 60) {
 										waittime = ((Number(eff.split("/")[1])*5)/60).toFixed(1) + " minutes"
-									} else {waittime = Number(eff.split("/")[1])*5 + " seconds"}
+									} else {waittime = "~" + (Number(eff.split("/")[1])*5 + 5) + " seconds"}
 									effectArr.push(eff.split("/")[2] + ` (${waittime})`)
 								})
 								}
