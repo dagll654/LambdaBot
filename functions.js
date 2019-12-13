@@ -35,7 +35,7 @@ exports.effectApplication = {
 			console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("0/") === false)
-			})) {effects.push("0/5/o-04-83"); employee.effects = effects.join("|")}
+			})) {effects.push("0/5/f-04-83"); employee.effects = effects.join("|")}
 		}
 	}
 }
