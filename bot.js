@@ -177,7 +177,7 @@ const Discord = require('discord.js');
 			console.log(e.tag + " " + effectsNew)
 			}
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
-			if (fn.deathOnWork(e, "o-03-03") === true) {e.hp = e.hp + 0.3}
+			if (fn.effects['deathOnWork'](e, "o-03-03") === true) {e.hp = e.hp + 0.3}
 		})
 	}, 5000)
 	
