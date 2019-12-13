@@ -1246,7 +1246,7 @@ const Discord = require('discord.js');
 									}
 									
 								}
-								})
+								})//
 							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
 							else msg.reply("error: incorrect response.")
 			})})
