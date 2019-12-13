@@ -153,7 +153,8 @@ const Discord = require('discord.js');
 		dbployees.forEach(e => {
 			console.log(e.tag + " " + e.effects)
 			let effectsNew = []
-			let effects = e.effects.split("|")
+			if ((e.effects != "null") && (e.effecs != undefined)){ 
+			let effects = e.effects.split("|")}
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (Number(effArr[1]) > 0) {
