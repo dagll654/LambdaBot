@@ -604,7 +604,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(cmd[1])].working = 0
 				}
 				
-				asyncEdit(m, progressBarStorage)
+				asyncEdit(msg, progressBarStorage)
 		
 						
 	}
