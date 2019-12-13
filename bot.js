@@ -160,6 +160,8 @@ const Discord = require('discord.js');
 		} else {eff = ""}
 		if (eff === undefined) {eff = "null"}
 	})
+	e.effects = eff
+	console.log(e.tag + " " + eff)
 	if (e.effects === undefined) {e.effects = "null"}
 	})
 	}, 5000)
