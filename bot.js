@@ -158,9 +158,9 @@ const Discord = require('discord.js');
 		effArr[1] = Number(effArr[1]) - 1
 		eff = effArr.join("/")
 		} else {eff = ""}
-		console.log(e.tag + eff + effArr)
+		if (eff === undefined) {eff = "null"}
 	})
-	if (e.effects === undefined) {e.effects = "NULL"}
+	if (e.effects === undefined) {e.effects = "null"}
 	})
 	}, 5000)
 	
