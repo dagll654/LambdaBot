@@ -101,7 +101,7 @@ const Discord = require('discord.js');
 
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e, arr = dbployees) {
-		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -816,7 +816,7 @@ const Discord = require('discord.js');
 					.catch(console.error)
 					break
 				case "altertable":
-					connection.query("ALTER TABLE `employees` ADD `gifts` VARCHAR(256) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
+					connection.query("ALTER TABLE `employees` ADD `gifts` VARCHAR(256) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0/0' AFTER `buffs`;", function(err, result){if (err) throw err})
 					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
@@ -1103,7 +1103,7 @@ const Discord = require('discord.js');
 							ainvsd = [0]
 							ainvwd = [0]
 							console.log(`inventorys ${curruser.inventorys}`)
-							if (curruser.inventorys.split("|")[0] != "") {
+							if (curruser.inventorys != undefined && curruser.inventorys != 'undefined') {
 							invs += ", "
 							curruser.inventorys.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
@@ -1114,14 +1114,14 @@ const Discord = require('discord.js');
 							}) 
 							invs += invsarr.join(", ") + "."
 							} else invs += "."
-							if (curruser.inventoryw.split("|")[0] != "") {
+							if (curruser.inventoryw != undefined && curruser.inventorys != 'undefined') {
 							invw += ", " 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
-								if (gear.suits[id] != undefined) {
+								if (gear.weapons[id] != undefined) {
 								ainvw.push({"name": gear.weapons[Number(id)].name, "id": Number(id)})
 								ainvwd.push(Number(id))
-								invwarr.push(gear.suits[id].name)
+								invwarr.push(gear.weapons[id].name)
 								}
 							})
 							invw += invwarr.join(", ") + "."
