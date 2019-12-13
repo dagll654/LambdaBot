@@ -494,6 +494,7 @@ const Discord = require('discord.js');
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
 		cmd = msg.content.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+		fn.effectApplication['workCD'](dbployees[dbids.indexOf(msg.author.id)], currentAbno.peoutput)
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		const curruser = dbployees[dbids.indexOf(cmd[1])]
 		dbployees[dbids.indexOf(cmd[1])].working = 1
@@ -579,8 +580,8 @@ const Discord = require('discord.js');
 				async function asyncEdit(mssage) {
 					let mood = ""
 					let moodResult = 0
-					if (peboxes >= currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
-					else if (peboxes >= currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
+					if ((peboxes + ppeboxes) >= currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
+					else if ((peboxes + ppeboxes) >= currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (currentAbno.effect[0] === true) {
 						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(cmd[1])], moodResult)
