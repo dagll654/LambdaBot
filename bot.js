@@ -1096,17 +1096,19 @@ const Discord = require('discord.js');
 							ainvwd = [0]
 							console.log(curruser.inventorys)
 							curruser.inventorys.split("|").forEach(id => {
+								if (gear.suits[id] != undefined) {
 								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[Number(id)].name, "id": Number(id)})
 								ainvsd.push(Number(id))
-								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}
+								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}}
 							}) 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
+								if (gear.suits[id] != undefined) {
 								invw += gear.weapons[Number(id)].name
 								ainvw.push({"name": gear.weapons[Number(id)].name, "id": Number(id)})
 								ainvwd.push(Number(id))
-								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}
+								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}}
 							})
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`).then(menu2 => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
