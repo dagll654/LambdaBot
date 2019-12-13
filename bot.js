@@ -1120,10 +1120,8 @@ const Discord = require('discord.js');
 									return (eff.startsWith("1/") === false)
 								})) {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
 								.then(m => {
-								m.delete(1)
-								console.log("Response: " + m.array()[0].content)
 								if (m.array()[0].content === "suit") {
 									invs2 = ""
 									suitchoice = []
@@ -1135,7 +1133,7 @@ const Discord = require('discord.js');
 									})
 									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
 									//checkSymbols(str, arr)
-								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 10000 })
+								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 15000 })
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
@@ -1149,7 +1147,7 @@ const Discord = require('discord.js');
 												menumsg.delete(8000)
 												
 											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
-										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
+										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
 								} else
@@ -1182,7 +1180,7 @@ const Discord = require('discord.js');
 												menumsg.delete(8000)
 												
 											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
-										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
+										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
 								} else
@@ -1190,6 +1188,59 @@ const Discord = require('discord.js');
 								})
 								.catch(console.error)
 							} else msg.reply("error: cannot change EGO equipment again yet. Try again later.")
+							} else if (c1msg === "discard") {
+								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discard suit or weapon?")
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
+								.then(m => {
+								if (m.array()[0].content === "suit" || m.array()[0].content === "weapon") {
+
+									switch (m.array()[0].content) {
+										case "suit":
+										inv2 = ""
+										ainvs.forEach(s => {
+											inv2 += s.name + ` (${Number(s.id) + 1})`
+											if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+										})
+										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the suit to discard: " + inv2)
+										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
+										.then(m => {
+											if (checkSymbols(m.array()[0].content, nmbrs)) {
+											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
+												equpd = (Number(m.array()[0].content) - 1).toString()
+												ainvsd.splice(ainvsd.indexOf(Number(m.array()[0].content) - 1), 1)
+												dbployees[dbids.indexOf(curruser.id)].inventorys = ainvsd.join("|")
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
+											} else msg.reply("error: you do not have that suit.")
+											} else msg.reply("error: invalid choice.")
+										})
+										break
+										case "weapon":
+										inv2 = ""
+										ainvw.forEach(s => {
+											inv2 += s.name + ` (${Number(s.id) + 1})`
+											if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
+										})
+										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the weapon to discard: " + inv2)
+										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
+										.then(m => {
+											if (checkSymbols(m.array()[0].content, nmbrs)) {
+											if (ainvsw.includes(Number(m.array()[0].content) - 1)) {
+												equpd = (Number(m.array()[0].content) - 1).toString()
+												ainvsw.splice(ainvsw.indexOf(Number(m.array()[0].content) - 1), 1)
+												dbployees[dbids.indexOf(curruser.id)].inventoryw = ainvsw.join("|")
+												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
+												for (i = 0; i < 4; i++) {
+													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
+												}
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`)
+											} else msg.reply("error: you do not have that suit.")
+											} else msg.reply("error: invalid choice.")
+										})
+										break
+									}
+									
+								}
+								})
 							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
 							else msg.reply("error: incorrect response.")
 			})})
@@ -1268,6 +1319,7 @@ const Discord = require('discord.js');
 								let choice = msg2.array()[0].content.toLowerCase()
 								let respinv
 								if((choice === "suit") || (choice === "weapon")) {
+								if ((curruser.inventorys.split("|").length + curruser.inventoryw.split("|").length) < 3) {
 								console.log(choice)
 								switch (choice) {
 									case "suit":
@@ -1321,6 +1373,7 @@ const Discord = require('discord.js');
 								})
 								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
 								} else {msg.reply("error: not enough boxes.")}
+								} else msg.reply("error: your inventory is full. You can only have three items (suits and weapons) in your inventory. Discard one in the inventory menu.")
 								} else if (choice === "exit") {menumsg.edit("Exited the menu.")}
 							})
 						} else msg.reply("error: incorrect abnormality code or abnormality unavailable.").then(reply => reply.delete(2000))
