@@ -1072,10 +1072,12 @@ const Discord = require('discord.js');
 									effectArr = []
 								curruser.effects.split("|").forEach(eff => {
 									let waittime = ""
+									let effspecial = ""
 									if (Number(eff.split("/")[1])*5 > 60) {
 										waittime = ((Number(eff.split("/")[1])*5)/60).toFixed(1) + " minutes"
 									} else {waittime = "~" + (Number(eff.split("/")[1])*5 + 5) + " seconds"}
-									effectArr.push(eff.split("/")[2] + ` (${waittime})`)
+									if (eff.split("/")[2] === "fatigue") {effspecial = " " + Number(eff.split("/")[3])}
+									effectArr.push(eff.split("/")[2] + `${effspecial} (${waittime})`)
 								})
 								}
 								//console.log("Curruser ID (profile): " + curruser.id)
