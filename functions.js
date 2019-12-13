@@ -33,7 +33,6 @@ exports.effectApplication = {
 		if (result > 0) {
 			effects = e.effects.split("|")
 			console.log(effects)
-			
-		
+		}
 	}
 }
