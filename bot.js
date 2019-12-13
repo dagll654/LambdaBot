@@ -494,9 +494,9 @@ const Discord = require('discord.js');
 	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
 		cmd = msg.content.toLowerCase().split(" ")
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-		fn.effectApplication['workCD'](dbployees[dbids.indexOf(msg.author.id)], currentAbno.peoutput)
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		const curruser = dbployees[dbids.indexOf(cmd[1])]
+		fn.effectApplication['workCD'](curruser, currentAbno.peoutput)
 		dbployees[dbids.indexOf(cmd[1])].working = 1
 		statIndex = jn.workOrders.indexOf(cmd[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
