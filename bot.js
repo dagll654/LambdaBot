@@ -585,7 +585,6 @@ const Discord = require('discord.js');
 					if (currentAbno.effect[0] === true) {
 						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(cmd[1])], moodResult)
 					}
-					console.log(dbployees[dbids.indexOf(cmd[1])].effects)
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
 						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
@@ -1011,12 +1010,12 @@ const Discord = require('discord.js');
 							}
 						})
 					if (effectDead === false) {
-						
 						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
 					} else {
 						dbployees[dbids.indexOf(msg.author.id)].dead = 1
 						dbployees[dbids.indexOf(msg.author.id)].hp = 0
 						dbployees[dbids.indexOf(msg.author.id)].sp = 0
+						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
 						msg.reply("you have died. Cause of death: " + effectDeathCause)
 					}
 					} else msg.reply("error: you are dead.")
