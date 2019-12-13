@@ -10,6 +10,7 @@
 exports.effects = {
 	// If {employee} is working on an abnormality with the code "abn" while under an effect that instakills on particular work orders, check whether to kill them or not
 	// 0/30/o-01-01
+	// 0: death on work, 1: ego change CD, 2: work CD, 3: fatigue
 	"deathOnWork": function(employee, abn) {
 		let ret = false
 		if (employee.effects.length > 0) {
@@ -42,6 +43,25 @@ exports.effects = {
 			}
 		}
 		return ret
+	},
+	"fatigue": function(employee) {
+		if (employee.effects.length > 0) {
+			let effect = employee.effects.split("|")
+			function checkFatigue(eff) {
+				if (eff.startsWith("3/")) {return true}
+				else {return false}
+			}
+			if (effects.every(eff => {
+				return (eff.startsWith("3/") === false)
+			})) {effects.push("3/5/fatigue"); if (effect.length > 1) {employee.effects = effects.join("|")} else {employee.effects = effects[0]}} else {
+				fatigue = effects[effects.findIndex(checkFatigue)].split("/")
+				fatigue[1] = Math.round(Number(fatigue[1])*1.5)
+				effects[effects.findIndex(checkFatigue)] = fatigue.join("/")
+			}
+			
+		
+		
+		}
 	}
 }
 exports.effectApplication = {
@@ -66,7 +86,12 @@ exports.effectApplication = {
 	},
 	"workCD": function(employee, boxes) {
 		effects = employee.effects.split("|")
-		effects.push("2/" + Math.round(Number(boxes)/5) + "/work cooldown")
+		if (effects.every(eff => {return (eff.startsWith("3/") === false)})) {fatiguemod = 0}
+		else {
+			fatigue = effects[effects.findIndex(checkFatigue)].split("/")
+			fatiguemod = Math.ceil(Number(fatigue[1])/3)			
+		}
+		effects.push("2/" + (Math.round(Number(boxes)/5) + fatiguemod) + "/work cooldown")
 		employee.effects = effects.join("|")
 	},
 	"3": function(employee, result) {

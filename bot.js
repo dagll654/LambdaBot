@@ -98,7 +98,10 @@ const Discord = require('discord.js');
 		dbployees[dbids.indexOf(id)].subpoints = subStatArr.join("|")
 		return subStatArr
 	}
-
+	
+	// Gifts:
+	// 0/brooch1 | 1/brooch2 | 3/head1 | 4/head2 | 5/mouth1 | 6/mouth2 | 7/hand1 | 8/hand2 | 9/eye | 10/face | 11/cheek | 12/back1 | 13/back2
+	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e, arr = dbployees) {
 		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
@@ -498,6 +501,7 @@ const Discord = require('discord.js');
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		const curruser = dbployees[dbids.indexOf(cmd[1])]
 		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
+		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])])
 		dbployees[dbids.indexOf(cmd[1])].working = 1
 		statIndex = jn.workOrders.indexOf(cmd[3])
 		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
