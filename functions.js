@@ -31,8 +31,11 @@ exports.effects = {
 exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
-			effects = e.effects.split("|")
+			effects = employee.effects.split("|")
 			console.log(effects)
+			effects.every(eff => {
+				
+			})
 		}
 	}
 }
