@@ -21,7 +21,7 @@ exports.effects = {
 				}
 			})
 			if (deathEffect.length > 0) {
-				if (abn.toLowerCase() != deathEffect[2])
+				if (abn.toUpperCase() != deathEffect[2])
 					ret = [true, deathEffect[2], "eaten by fairies."]
 			}
 		}
@@ -39,8 +39,13 @@ exports.effectApplication = {
 			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("0/") === false)
-			})) {effects.push("0/5/f-04-83"); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect)] = "0/5/f-04-83"; employee.effects = effects.join("|")}
+			})) {effects.push("0/5/F-04-83"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect)] = "0/5/F-04-83"; employee.effects = effects.join("|")}
 		}
+	},
+	"egoChange": function(employee, index) {
+		effects = employee.effects.split("|")
+		effects.push("1/" + ((index * 12) * 12) + "/EGO adaptation")
+		employee.effects = effects.join("|")
 	}
 }

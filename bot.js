@@ -833,6 +833,16 @@ const Discord = require('discord.js');
 						console.log(e.tag + " " + e.balancespecific)
 					})
 					break
+				case "clearBase":
+					dbployees.forEach(e => {
+						let suits = e.inventorys.split("|")
+						let weapons = e.inventoryw.split("|")
+						suits.splice(suits.indexOf("0"), 1)
+						weapons.splice(weapons.indexOf("0"), 1)
+						e.inventorys = suits.join("|")
+						e.inventoryw = weapons.join("|")
+					})
+					break
 				case "emojisraw":
 					console.log(DELTAS.emojis)
 					break
@@ -1060,12 +1070,12 @@ const Discord = require('discord.js');
 				case "inventory":
 					msg.delete(1)
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
-							invs = ""
-							invw = ""
-							ainvs = []
-							ainvw = []
-							ainvsd = []
-							ainvwd = []
+							invs = "Suit, "
+							invw = "Riot Stick, "
+							ainvs = [{"name": gear.suits[0].name, "id": 0}]
+							ainvw = [{"name": gear.weapons[0].name, "id": 0}]
+							ainvsd = [0]
+							ainvwd = [0]
 							curruser.inventorys.split("|").forEach(id => {
 								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[id].name, "id": id})
