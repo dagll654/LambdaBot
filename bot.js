@@ -159,6 +159,7 @@ const Discord = require('discord.js');
 		eff = effArr.join("/")
 		} else {eff = ""}
 	})
+	if (e.effects === undefined) {e.effects = "NULL"}
 	})
 	}, 5000)
 	
