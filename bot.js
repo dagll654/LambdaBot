@@ -1224,10 +1224,10 @@ const Discord = require('discord.js');
 										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
 										.then(m => {
 											if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvsw.includes(Number(m.array()[0].content) - 1)) {
+											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
-												ainvsw.splice(ainvsw.indexOf(Number(m.array()[0].content) - 1), 1)
-												dbployees[dbids.indexOf(curruser.id)].inventoryw = ainvsw.join("|")
+												ainvwd.splice(ainvwd.indexOf(Number(m.array()[0].content) - 1), 1)
+												dbployees[dbids.indexOf(curruser.id)].inventoryw = ainvwd.join("|")
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
 												for (i = 0; i < 4; i++) {
 													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
