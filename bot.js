@@ -1049,7 +1049,7 @@ const Discord = require('discord.js');
 								if ((curruser.effects != "null") && (curruser.effects != "") && (curruser.effects != undefined)) {
 									effectArr = []
 								curruser.effects.split("|").forEach(eff => {
-									effectArr.push(eff.split("/")[2])
+									effectArr.push(eff.split("/")[2] + ` (${effectArr.push(eff.split("/")[1]*5} seconds)`)
 								})
 								}
 								//console.log("Curruser ID (profile): " + curruser.id)
