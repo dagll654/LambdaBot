@@ -154,7 +154,7 @@ const Discord = require('discord.js');
 	
 	// Tick down any acting effects
 	client.setInterval(function(){
-		++efflog
+		efflog++
 		dbployees.forEach(e => {
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
@@ -1078,7 +1078,7 @@ const Discord = require('discord.js');
 									if (Number(eff.split("/")[1])*5 > 60) {
 										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minutes"
 									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second"; if ((Number(eff.split("/")[1]) + 1) > 1) {waittime += "s"}}
-									if (eff.split("/")[2] === "fatigue") {effspecial = " " + Number(eff.split("/")[3])}
+									if (eff.split("/")[2] === "fatigue") {effspecial = " (+" + Math.floor(Number(eff.split("/")[3])/3) +" seconds to work cd)"}
 									effectArr.push(eff.split("/")[2] + `${effspecial} (${waittime})`)
 								})
 								}
