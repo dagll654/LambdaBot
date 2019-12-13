@@ -1096,6 +1096,13 @@ const Discord = require('discord.js');
 							menumsg = menu2
 							c1msg = cmsg.content.toLowerCase()
 							if (c1msg === "equip") {
+								function checkEffect(eff) {
+									if (eff.startsWith("1/")) {return true}
+									else {return false}
+								}
+								if (effects.every(eff => {
+									return (eff.startsWith("1/") === false)
+								})) {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
 								.then(m => {
@@ -1117,6 +1124,7 @@ const Discord = require('discord.js');
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
+												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.suits[equpd].level))
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
 												dbployees[dbids.indexOf(curruser.id)].suit = equpd
@@ -1145,6 +1153,7 @@ const Discord = require('discord.js');
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = Number(m.array()[0].content) - 1
+												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.weapons[equpd].level))
 												console.log("EQUPD: " + equpd)
 												m.delete(200)
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
@@ -1164,6 +1173,7 @@ const Discord = require('discord.js');
 								msg.reply("error: incorrect response.")
 								})
 								.catch(console.error)
+							} else msg.reply("error: cannot change EGO equipment again yet. Try again later.")
 							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
 							else msg.reply("error: incorrect response.")
 			})})
