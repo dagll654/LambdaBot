@@ -1103,7 +1103,7 @@ const Discord = require('discord.js');
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
 								invw += gear.weapons[Number(id)].name
-								ainvw.push({"name": gear.weapons[id].name, "id": Number(id)})
+								ainvw.push({"name": gear.weapons[Number(id)].name, "id": Number(id)})
 								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}
 							})
