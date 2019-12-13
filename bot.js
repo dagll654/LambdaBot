@@ -963,8 +963,8 @@ const Discord = require('discord.js');
 				async function asyncEdit(mssage) {
 					let mood = ""
 					let moodResult = 0
-					if (peboxes > currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
-					else if (peboxes > currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
+					if (peboxes >= currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
+					else if (peboxes >= currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (currentAbno.effect[0] === true) {
 						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(msg.author.id)], moodResult)
