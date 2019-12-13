@@ -32,10 +32,10 @@ exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
 			effects = employee.effects.split("|")
-			console.log(effects)
-			effects.every(eff => {
-				
-			})
+			console.log(employee.tag + " " + effects)
+			if (effects.every(eff => {
+				return (eff.startsWith("0/") === false)
+			})) {effects.push("0/5/o-04-83"); employee.effects = effects.join("|")}
 		}
 	}
 }
