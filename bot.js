@@ -151,9 +151,11 @@ const Discord = require('discord.js');
 	// Tick down any acting effects
 	client.setInterval(function(){
 		dbployees.forEach(e => {
+			if (e.effects != "null"){
 			console.log(e.tag + " " + e.effects)
+			}
 			let effectsNew = []
-			if ((e.effects != "null") && (e.effecs != undefined)){ 
+			if ((e.effects != "null") && (e.effects != undefined)){
 			let effects = e.effects.split("|")
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
@@ -170,8 +172,10 @@ const Discord = require('discord.js');
 			effectsSplit.shift()
 			e.effects = effectsSplit.join("|")
 			}
+			if (e.effects != "null"){
 			console.log(e.tag + " " + e.effects)
 			console.log(e.tag + " " + effectsNew)
+			}
 			if (e.effects === undefined) {e.effects = "null"}
 		})
 	}, 5000)
