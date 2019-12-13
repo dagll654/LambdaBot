@@ -91,7 +91,7 @@ exports.effectApplication = {
 				return (eff.startsWith("3/") === false)
 			})) {effects.push("3/35/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3]))/3)) + "/fatigue/" + (Number(fatigue[3]) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3])))) + "/fatigue/" + (Number(fatigue[3]) + 1)
 			employee.effects = effects.join("|")}
 
 	},
