@@ -176,7 +176,7 @@ const Discord = require('discord.js');
 			console.log(e.tag + " " + e.effects)
 			console.log(e.tag + " " + effectsNew)
 			}
-			if (e.effects === undefined || "") {e.effects = "null"}
+			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
 		})
 	}, 5000)
 	

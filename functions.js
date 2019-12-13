@@ -32,10 +32,15 @@ exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
 			effects = employee.effects.split("|")
-			console.log(employee.tag + " " + effects)
+			function checkEffect(eff) {
+				if (eff.startsWith("0/")) {return true}
+				else {return false}
+			}
+			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("0/") === false)
 			})) {effects.push("0/5/f-04-83"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect)] = "0/5/f-04-83"; employee.effects = effects.join("|")}
 		}
 	}
 }
