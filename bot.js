@@ -963,7 +963,7 @@ const Discord = require('discord.js');
 	}
 	
 	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
-	if () {
+	if ((ch = DELTAS.channels.get('653538398681825300')) || (ch = DELTAS.channels.get('654361755857846303'))) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "list":
@@ -1451,7 +1451,7 @@ const Discord = require('discord.js');
 					break
 			}
 		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc info).")}
-	}
+	} else msg.reply("the appropriate channels for the use of !lc commands are <#653538398681825300> and <#654361755857846303>.")
 	}
 
 	if (cmd[0] === "!help") {
