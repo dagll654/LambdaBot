@@ -1212,7 +1212,9 @@ const Discord = require('discord.js');
 												equpd = (Number(m.array()[0].content) - 1)
 												let newinv = ainvsd.map(function(i){if (Number(i) != equpd) return i})
 												console.log(equpd + " " + typeof(equpd) + " " + ainvsd.join("|") + " " + newinv.join("|"))
-												dbployees[dbids.indexOf(curruser.id)].inventorys = newinv.join("|")
+												let newinvtext = ""
+												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
+												dbployees[dbids.indexOf(curruser.id)].inventorys = newinvtext
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}.`) 
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
@@ -1234,7 +1236,8 @@ const Discord = require('discord.js');
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												let newinv = ainvwd.map(function(i){if (Number(i) != equpd) return i})
 												console.log(equpd + " " + typeof(equpd) + " " + ainvwd.join("|") + " " + newinv.join("|"))
-												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinv.join("|")
+												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
+												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinvtext
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`)
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
