@@ -1088,13 +1088,15 @@ const Discord = require('discord.js');
 				case "inventory":
 					msg.delete(1)
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
-							invs = "Suit, "
-							invw = "Riot Stick, "
+							invs = "Suit"
+							invw = "Riot Stick"
 							ainvs = [{"name": gear.suits[0].name, "id": 0}]
 							ainvw = [{"name": gear.weapons[0].name, "id": 0}]
 							ainvsd = [0]
 							ainvwd = [0]
 							console.log(curruser.inventorys)
+							if (curruser.inventorys != undefined) {
+							invs += ", "
 							curruser.inventorys.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
 								invs += gear.suits[id].name
@@ -1102,6 +1104,9 @@ const Discord = require('discord.js');
 								ainvsd.push(Number(id))
 								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}}
 							}) 
+							} else invs += "."
+							if (curruser.inventoryw != undefined) {
+							invw += ", " 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
@@ -1110,6 +1115,7 @@ const Discord = require('discord.js');
 								ainvwd.push(Number(id))
 								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}}
 							})
+							} else invw += "."
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`).then(menu2 => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
 						invmenu.on('collect', cmsg => {
