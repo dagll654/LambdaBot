@@ -165,6 +165,12 @@ const Discord = require('discord.js');
 			})
 			e.effects = effectsNew.join("|")
 			}
+			let effectsSplit = e.effects.split("|")
+			if ((effectsSplit.length > 1) && ((effectsSplit[0] === undefined)||(effectsSplit[0] === 'undefined')||(effectsSplit[0] === 'null')||(effectsSplit[0] === null))) {
+			effectsSplit.unshift()
+			e.effects = effectsSplit.join("|")
+			}
+			console.log(e.tag + " " + e.effects)
 			console.log(e.tag + " " + effectsNew)
 			if (e.effects === undefined) {e.effects = "null"}
 		})
