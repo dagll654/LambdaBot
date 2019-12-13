@@ -31,20 +31,9 @@ exports.effects = {
 exports.effectApplication = {
 	"5": function(employee, result) {
 		if (result > 0) {
-			let effectArray = employee.effects.split("|")
-			let effectIDs = []
-			if ((effectArray.length > 0) === false) {
-			let deathEffect = []
-			effectArray.forEach(e => {
-				if (e.startsWith("0/")) {
-					e = "0/5/f-04-83"
-				}
-				effectIDs.push(e.split("/"))[0]
-			})
-
-		} else if (effectIDs.includes("0") === false) {effectArray.push("0/5/f-04-83")}
-			employee.effects = effectArray.join("|")
-		}
+			effects = e.effects.split("|")
+			console.log(effects)
+			
 		
 	}
 }
