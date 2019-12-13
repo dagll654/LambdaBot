@@ -151,19 +151,21 @@ const Discord = require('discord.js');
 	// Tick down any acting effects
 	client.setInterval(function(){
 		dbployees.forEach(e => {
-	let effects = e.effects.split("|")
-	effects.forEach(eff => {
-		let effArr = eff.split("/")
-		if (Number(effArr[1]) > 0) {
-		effArr[1] = Number(effArr[1]) - 1
-		eff = effArr.join("/")
-		} else {eff = ""}
-		if (eff === undefined) {eff = "null"}
-	})
-	e.effects = eff
-	console.log(e.tag + " " + eff)
-	if (e.effects === undefined) {e.effects = "null"}
-	})
+			console.log(e.tag + " " + e.effects)
+			let effectsNew = []
+			let effects = e.effects.split("|")
+			effects.forEach(eff => {
+				let effArr = eff.split("/")
+				if (Number(effArr[1]) > 0) {
+				effArr[1] = Number(effArr[1]) - 1
+				effectsNew.push(effArr.join("/"))
+				} else {eff = ""}
+				if ((eff === undefined) || (eff === "")) {eff = "null"}
+			})
+			e.effects = effectsNew
+			console.log(e.tag + " " + effectsNew)
+			if (e.effects === undefined) {e.effects = "null"}
+		})
 	}, 5000)
 	
 	// Update the data in the database
