@@ -1095,6 +1095,7 @@ const Discord = require('discord.js');
 						invmenu.on('collect', cmsg => {
 							menumsg = menu2
 							c1msg = cmsg.content.toLowerCase()
+							let effects = curruser.effects
 							if (c1msg === "equip") {
 								function checkEffect(eff) {
 									if (eff.startsWith("1/")) {return true}
