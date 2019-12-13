@@ -158,6 +158,7 @@ const Discord = require('discord.js');
 		effArr[1] = Number(effArr[1]) - 1
 		eff = effArr.join("/")
 		} else {eff = ""}
+		console.log(e.tag + eff + effArr)
 	})
 	if (e.effects === undefined) {e.effects = "NULL"}
 	})
@@ -860,6 +861,7 @@ const Discord = require('discord.js');
 					break
 				case "w":
 				case "work": 
+				console.log(dbployees[dbids.indexOf(msg.author.id)].tag)
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
