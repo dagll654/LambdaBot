@@ -676,7 +676,7 @@ const Discord = require('discord.js');
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
-			msg.reply("Unrecognized command. Type in !help to get the list of all avaliable commands.")
+			msg.reply("Unrecognized command. Type in !help to get the list of all available commands.")
 			
 		}
 		
@@ -687,9 +687,9 @@ const Discord = require('discord.js');
 			if (cmd[1]) { 
 			if (checkSymbols(cmd[1], nmbrs)) {
 				x1 = cmd[1]
-				// If the argument is beyond the amount of quotes currently avaliable, apologise and stop.
+				// If the argument is beyond the amount of quotes currently available, apologise and stop.
 				if (x1 > qte.length) {
-					msg.reply("Sorry, only " + qte.length + " quotes are currently avaliable.")
+					msg.reply("Sorry, only " + qte.length + " quotes are currently available.")
 					return
 				} 
 				var txt = qte[x1-1]
@@ -835,15 +835,15 @@ const Discord = require('discord.js');
 					})
 					break
 				case "clearbase":
-					dbployees.forEach(e => {
+					dbployees.forEach((e, i) => {
 						let suits = e.inventorys.split("|")
 						let weapons = e.inventoryw.split("|")
 						console.log(e.tag + " " + e.inventorys + " " + e.inventoryw)
 						console.log(e.tag + " " + suits + " " + suits[0] + " " + weapons)
 						if (suits[0] === "0") {suits.shift()}
 						if (weapons[0] === "0") {weapons.shift()}
-						e.inventorys = suits.join("|")
-						e.inventoryw = weapons.join("|")
+						dbployees[i].inventorys = suits.join("|")
+						dbployees[i].inventoryw = weapons.join("|")
 					})
 					break
 				case "emojisraw":
@@ -1007,6 +1007,7 @@ const Discord = require('discord.js');
 					break
 				case "w":
 				case "work": 
+				if (cmd[2] != "list") {
 				console.log(dbployees[dbids.indexOf(msg.author.id)].tag)
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
@@ -1042,8 +1043,9 @@ const Discord = require('discord.js');
 					} else msg.reply("error: you are dead.")
 					} else msg.reply("error: you are already currently working on an abnormality.")
 					} else msg.reply("error: incorrect work order.")
-					} else msg.reply("error: work on the specified abnormality unavaliable.")
-					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavaliable.")
+					} else msg.reply("error: work on the specified abnormality unavailable.")
+					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable.")
+					} else msg.reply("currently available abnormalities: " + jn.abnWorkableUpperCase.join(", ") + ".")
 					break
 				case "p":
 				case "profile":
@@ -1077,7 +1079,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*48}\n\n	Current effects: ${effectArr.join(", ")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*48}\n\n	Current effects: ${effectArr.join(", ")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${gearc[0].name} ${emoji(gearc[0].level.toLowerCase(), ESERV)}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${gearc[1].name} ${emoji(gearc[1].level.toLowerCase(), ESERV)}   -   ${wepd}`)
 								if (err) throw err
 				break 
 				case "i":
@@ -1143,10 +1145,10 @@ const Discord = require('discord.js');
 												m.delete(1)
 												dbployees[dbids.indexOf(curruser.id)].suit = equpd
 												msg.delete(200) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.suits[equpd].name} ${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
 												
-											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
+											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
 										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
@@ -1176,10 +1178,10 @@ const Discord = require('discord.js');
 												}
 												dbployees[dbids.indexOf(curruser.id)].weapon = equpd
 												msg.delete(1) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name}   -   ${wepd}`) 
+												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${gear.weapons[equpd].name} ${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)}   -   ${wepd}`) 
 												menumsg.delete(8000)
 												
-											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavaliable."); menumsg.delete(2000)}
+											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: incorrect response."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
@@ -1257,7 +1259,7 @@ const Discord = require('discord.js');
 							for (i = 0; i < 4; i++) {
 								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase.'`)
+							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + curruser.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${currentShop.gear[0].name} ${emoji(currentShop.gear[0].level.toLowerCase(), ESERV)}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${currentShop.gear[1].name} ${emoji(currentShop.gear[0].level.toLowerCase(), ESERV)}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${curruser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase.'`)
 							ch.awaitMessages(msg2 => msg2.author.id === msg.author.id, { max: 1, time: 30000 })
 							.then(msg2 => {
 								//console.log(msg2)
@@ -1321,7 +1323,7 @@ const Discord = require('discord.js');
 								} else {msg.reply("error: not enough boxes.")}
 								} else if (choice === "exit") {menumsg.edit("Exited the menu.")}
 							})
-						} else msg.reply("error: incorrect abnormality code or abnormality unavaliable.").then(reply => reply.delete(2000))
+						} else msg.reply("error: incorrect abnormality code or abnormality unavailable.").then(reply => reply.delete(2000))
 					})
 					})
 				break
@@ -1437,7 +1439,7 @@ const Discord = require('discord.js');
 				.setFooter("EGO: " + "this doesn't work currently")
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavaliable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
+		} else {msg.reply("Sorry, info on the specified abnormality is unavailable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
 		yeet(5)
 	}
 	

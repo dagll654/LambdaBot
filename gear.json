@@ -35,6 +35,12 @@
 			"resistance": [0.8, 0.8, 1, 2],
 			"level": "ZAYIN",
 			"cost": 200
+		},
+		{	"id": "6",
+			"name": "Somewhere Spear",
+			"resistance": [1, 1.2, 0.6, 2],
+			"level": "TETH",
+			"cost": 500
 		}
 			],
 			
@@ -88,10 +94,19 @@
 			"name": "Wingbeat",
 			"damage": [5, 7],
 			"dtype": [1, 0, 0, 0],
-			"speed": "normal",
+			"speed": "medium",
 			"range": "short",
 			"level": "ZAYIN",
 			"cost": 300
+		},
+		{	"id": "6",
+			"name": "Somewhere Spear",
+			"damage": [5, 9],
+			"dtype": [0, 0, 1, 0],
+			"speed": "fast",
+			"range": "medium",
+			"level": "TETH",
+			"cost": 400
 		}
 			],
 	
@@ -112,6 +127,10 @@
 		},
 		{	"id": "5",
 			"name": "Wingbeat"
+			
+		},
+		{	"id": "6",
+			"name": "Somewhere Spear"
 			
 		}
 			]

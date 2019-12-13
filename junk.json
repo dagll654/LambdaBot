@@ -122,7 +122,14 @@
 	"abnWorkable":  [
 					"o-03-03",
 					"f-01-02",
-					"f-04-83"
+					"f-04-83",
+					"o-03-60"
+					],
+	"abnWorkableUpperCase":  [
+					"O-03-03",
+					"F-01-02",
+					"F-04-83",
+					"O-03-60"
 					],
 	"workOrders":   [
 					"instinct",
