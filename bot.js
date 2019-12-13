@@ -177,6 +177,7 @@ const Discord = require('discord.js');
 			console.log(e.tag + " " + effectsNew)
 			}
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
+			if (fn.deathOnWork(e, "o-03-03") === true) {e.hp = e.hp + 0.3}
 		})
 	}, 5000)
 	
@@ -1027,7 +1028,9 @@ const Discord = require('discord.js');
 							}
 							if (fn.effects.workCD(dbployees[dbids.indexOf(msg.author.id)]) === true) {
 								onCooldown = true
+								if (e.startsWith("2/") {
 								cdVal = Number(e.split("/")[1])
+								}
 							}
 						})
 					if (onCooldown === false) {
@@ -1090,31 +1093,35 @@ const Discord = require('discord.js');
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
 							invs = "Suit"
 							invw = "Riot Stick"
+							invsarr = []
+							invwarr = []
 							ainvs = [{"name": gear.suits[0].name, "id": 0}]
 							ainvw = [{"name": gear.weapons[0].name, "id": 0}]
 							ainvsd = [0]
 							ainvwd = [0]
-							console.log(curruser.inventorys)
+							console.log(`inventorys ${curruser.inventorys}`)
 							if (curruser.inventorys.split("|")[0] != "") {
 							invs += ", "
 							curruser.inventorys.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
-								invs += gear.suits[id].name
 								ainvs.push({"name": gear.suits[Number(id)].name, "id": Number(id)})
 								ainvsd.push(Number(id))
-								if (curruser.inventorys.split("|").indexOf(id) < (curruser.inventorys.split("|").length - 1)) {invs += ", "} else {invs += "."}}
+								invsarr.push(gear.suits[id].name)
+								}
 							}) 
+							invs += invsarr.join(", ") + "."
 							} else invs += "."
 							if (curruser.inventoryw.split("|")[0] != "") {
 							invw += ", " 
 							console.log(curruser.inventoryw)
 							curruser.inventoryw.split("|").forEach(id => {
 								if (gear.suits[id] != undefined) {
-								invw += gear.weapons[Number(id)].name
 								ainvw.push({"name": gear.weapons[Number(id)].name, "id": Number(id)})
 								ainvwd.push(Number(id))
-								if (curruser.inventoryw.split("|").indexOf(id) < (curruser.inventoryw.split("|").length - 1)) {invw += ", "} else {invw += "."}}
+								invwarr.push(gear.suits[id].name)
+								}
 							})
+							invw += invwarr.join(", ") + "."
 							} else invw += "."
 						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`).then(menu2 => {
 						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
@@ -1134,6 +1141,7 @@ const Discord = require('discord.js');
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
 								.then(m => {
 								if (m.array()[0].content === "suit") {
+									if (ainvs.length > 1) {
 									invs2 = ""
 									suitchoice = []
 									console.log("AINVS: ")
@@ -1160,8 +1168,10 @@ const Discord = require('discord.js');
 										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
+								} else msg.reply("you only have the default suit.")
 								} else
 								if (m.array()[0].content === "weapon") {
+									if (ainvw.length > 1) { 
 									invw2 = ""
 									weaponchoice = []
 									console.log("AINVW: ")
@@ -1188,10 +1198,11 @@ const Discord = require('discord.js');
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
 												
-											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
+											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified weapon unavailable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})
 									.catch(console.error)
+								} else msg.reply("you only have the default weapon.")
 								} else
 								msg.reply("error: incorrect response.")
 								})
@@ -1205,6 +1216,7 @@ const Discord = require('discord.js');
 
 									switch (m.array()[0].content) {
 										case "suit":
+										if (ainvs.length > 1) {
 										inv2 = ""
 										ainvs.shift()
 										ainvsd.shift()
@@ -1228,8 +1240,10 @@ const Discord = require('discord.js');
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
 										})
+										} else msg.reply("you only have the default suit.")
 										break
 										case "weapon":
+										if (ainvw.length > 1) {
 										inv2 = ""
 										ainvw.shift()
 										ainvwd.shift()
@@ -1252,6 +1266,7 @@ const Discord = require('discord.js');
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
 										})
+										} else msg.reply("you only have the default weapon.")
 										break
 									}
 									

@@ -98,7 +98,7 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
-				"effect": [false]
+				"effect": [true]
 				
 			},
 			{

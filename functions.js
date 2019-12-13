@@ -68,5 +68,10 @@ exports.effectApplication = {
 		effects = employee.effects.split("|")
 		effects.push("2/" + Math.round(Number(boxes)/5) + "/work cooldown")
 		employee.effects = effects.join("|")
+	},
+	"3": function(employee, result) {
+		if (result > 1) {
+			employee.sp = employee.sp + 3
+		}
 	}
 }
