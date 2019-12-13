@@ -88,7 +88,7 @@ exports.effectApplication = {
 			effects = employee.effects.split("|")
 			
 			if (effects.every(eff => {
-				return (eff.startsWith("0/") === false)
+				return (eff.startsWith("3/") === false)
 			})) {effects.push("3/6/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
 			console.log("FATIGUE: " + fatigue)
