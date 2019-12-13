@@ -34,7 +34,7 @@ exports.effects = {
 			let cdEffect = []
 			effectArray.forEach(e => {
 				if (e.startsWith("2/")) {
-					cdEffect = e.split("/")
+					cdEffect.push(e.split("/"))
 				}
 			})
 			if (cdEffect.length > 0) {
