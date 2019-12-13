@@ -38,7 +38,7 @@ exports.effects = {
 				}
 			})
 			if (cdEffect.length > 0) {
-				ret true
+				ret = true
 			}
 		}
 		return ret
