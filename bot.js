@@ -154,7 +154,7 @@ const Discord = require('discord.js');
 			console.log(e.tag + " " + e.effects)
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effecs != undefined)){ 
-			let effects = e.effects.split("|")}
+			let effects = e.effects.split("|")
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (Number(effArr[1]) > 0) {
@@ -163,7 +163,8 @@ const Discord = require('discord.js');
 				} else {eff = ""}
 				if ((eff === undefined) || (eff === "")) {eff = "null"}
 			})
-			e.effects = effectsNew
+			e.effects = effectsNew.join("|")
+			}
 			console.log(e.tag + " " + effectsNew)
 			if (e.effects === undefined) {e.effects = "null"}
 		})
