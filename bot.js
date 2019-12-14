@@ -880,8 +880,7 @@ const Discord = require('discord.js');
 					break
 				case "bigbroke":
 					dbployees.forEach(e => {
-						e.buffs = "0|0|0|0"
-						e.bufflist = 'undefined'
+						e.armorbuffs = "1|1|1|1"
 					})
 					break
 				case "clearbase":
