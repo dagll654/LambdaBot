@@ -1654,7 +1654,7 @@ const Discord = require('discord.js');
 				}
 				
 				asyncEdit(menumsg, progressBarStorage)
-		}
+		})
 						
 	}
 	
