@@ -829,6 +829,11 @@ const Discord = require('discord.js');
 					.addField("The Dapper Duck")
 					ch.send({embed})
 					break
+				case "employee":
+					let uid = "" //
+					if (cmd[2] != undefined) {uid = cmd[2]} else {uid = "143261987575562240"}
+					console.log(dbployees[dbids.indexOf(uid)])
+					break
 				case "msg":
 					let tempch = DELTAS.channels.get(cmd[2])
 					var tempmsg = ""
