@@ -681,6 +681,13 @@ const Discord = require('discord.js');
 				voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
 				voteeuser.removeRole(getRole(votingteam))
 				voteeuser.addRole(getRole(votingteam + " (C)"))
+				let bufflist = []
+				if (dbployees[dbids.indexOf(voteeuser.id)].bufflist != undefined) {
+				bufflist = dbployees[dbids.indexOf(voteeuser.id)].bufflist.split("|")
+				}
+				if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
+				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)	
+				}
 			}
 			
 			if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
@@ -1532,6 +1539,13 @@ const Discord = require('discord.js');
 										msg.member.removeRole(getRole(cptxt + " (C)"))
 										msg.member.addRole(getRole(cptxt))
 										collector.stop()
+										let bufflist = []
+										if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
+										bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
+										}
+										if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
+										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.user.id)], drFind(msg.member), "take", 1)	
+										}
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
