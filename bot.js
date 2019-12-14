@@ -1326,6 +1326,7 @@ const Discord = require('discord.js');
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {
 							msg.reply("you have left the " + drFind(msg.member) + ".") 
+							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take")
 							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}

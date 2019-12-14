@@ -18,20 +18,19 @@ buffs = {
 			switch (b) {
 			case "stat":
 				if (action === "give") {
-					let statbuffs = employee.buffs.split("|")
 					console.log("base buffs " + statbuffs)
 					let buffing = buff[b].split("|")
-					console.log("added buffs " + buffing)
 					for (i = 0; i < 4; i++) {
 						statbuffs[i] = Number(statbuffs[i]) + Number(buffing[i]) 
 					}
-					console.log("combined buffs " + statbuffs)
 					employee.buffs = statbuffs.join("|")
 				} 
 				else if (action === "take") {
 					let statbuffs = employee.buffs.split("|")
-					let debuffing = buff[b].split("|")
-					statbuffs.forEach((s, i) => {s = Number(s) - Number(buffing[i])})
+					let buffing = buff[b].split("|")
+					for (i = 0; i < 4; i++) {
+						statbuffs[i] = Number(statbuffs[i]) - Number(buffing[i]) 
+					}
 					employee.buffs = statbuffs.join("|")
 				}	
 				
