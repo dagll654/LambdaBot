@@ -52,13 +52,17 @@ buffs = {
 				if (action === "give") {
 					let abuffs = employee.defensebuffs.split("|")
 					let newabuffs = buff[b].split("|")
-					abuffs.forEach(a => {a = Number(a) * Number(newabuffs[abuffs.indexOf(a)])})
+					for (i = 0; i < 4; i++) {
+						abuffs[i] = Number(abuffs[i]) * Number(newabuffs[i]) 
+					}
 					employee.defensebuffs = abuffs.join("|")
 				} 
 				else if (action === "take") {
 					let abuffs = employee.defensebuffs.split("|")
 					let newabuffs = buff[b].split("|")
-					abuffs.forEach(a => {a = Number(a) / Number(newabuffs[abuffs.indexOf(a)])})
+					for (i = 0; i < 4; i++) {
+						abuffs[i] = Number(abuffs[i]) / Number(newabuffs[i]) 
+					}
 					employee.defensebuffs = abuffs.join("|")
 				}
 				break				
