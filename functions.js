@@ -17,12 +17,13 @@ buffs = {
 		for (const b in buff) {
 			switch (b) {
 			case "stat":
-				console.log("B: " + b + " " + buff[b])
 				if (action === "give") {
-					console.log("this works")
 					let statbuffs = employee.buffs.split("|")
+					console.log("base buffs " + statbuffs)
 					let buffing = buff[b].split("|")
+					console.log("added buffs " + buffing)
 					statbuffs.forEach((s, i) => {s = Number(s) + Number(buffing[i])})
+					console.log("combined buffs " + statbuffs)
 					employee.buffs = statbuffs.join("|")
 				} 
 				else if (action === "take") {
