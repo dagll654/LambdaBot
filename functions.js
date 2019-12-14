@@ -7,6 +7,37 @@
 	const qte = jn.qte
 	const cmds = jn.cmds
 //module.js
+bufflist = {
+	"department": {"Control Team": {"stat": "10|0|0|0"}, "Information Team": {"stat": "11|0|0|0"}, "Security Team": {"stat": "12|0|0|0"}, "Training Team": {"stat": "13|0|0|0"}, "Central Team": {"stat": "14|0|0|0"}, "Welfare Team": {"stat": "15|0|0|0"}, "Disciplinary Team": {"stat": "16|0|0|0"}, "Record Team": {"stat": "17|0|0|0"}, "Extraction Team": {"stat": "18|0|0|0"}, "Architecture Team": {"stat": "19|0|0|0"}}
+}
+
+buffs = {
+	"buff": function(employee, buff, action) {
+		for (const b in buff) {
+			switch (b) {
+			case "stat":
+				if (action === "give") {
+					let statbuffs = employee.buffs.split("|")
+					let buffing = buff[b].split("|")
+					statbuffs.forEach((s, i) => {s = Number(s) + Number(buffing[i])})
+					employee.buffs = statbuffs.join("|")
+				} 
+				else if (action === "take") {
+					let statbuffs = employee.buffs.split("|")
+					let debuffing = buff[b].split("|")
+					statbuffs.forEach((s, i) => {s = Number(s) - Number(buffing[i])})
+					employee.buffs = statbuffs.join("|")
+				}	
+				
+				break
+			}
+		}
+	}
+}
+
+
+
+
 exports.effects = {
 	// If {employee} is working on an abnormality with the code "abn" while under an effect that instakills on particular work orders, check whether to kill them or not
 	// 0/30/o-01-01
@@ -91,8 +122,11 @@ exports.effectApplication = {
 				return (eff.startsWith("3/") === false)
 			})) {effects.push("3/35/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3])))) + "/fatigue/" + (Number(fatigue[3]) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3]))*1.3)) + "/fatigue/" + (Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)
 			employee.effects = effects.join("|")}
 
 	},
+	"department": function(employee, action, dep, level = 0) {
+		buffs['buff'](employee, bufflist.department[dep], action)
+	}
 }
