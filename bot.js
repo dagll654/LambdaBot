@@ -316,7 +316,7 @@ const Discord = require('discord.js');
 						}
 						} else {e.working = 0}
 						if (drFind(DELTAS.members.get(e.id))) {
-							let bufflist = []
+							bufflist = []
 							if (e.bufflist != undefined) {
 							bufflist = e.bufflist.split("|")
 							}
@@ -1355,7 +1355,13 @@ const Discord = require('discord.js');
 						collector.on('collect', cmsg => {
 						if (cmsg.content === "y") {
 							msg.reply("you have left the " + drFind(msg.member) + ".") 
-							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take")
+							let bufflist = []
+							if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
+							bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
+							}
+							if (bufflies.every(eff => {return (eff.startsWith("team") === false)}) === false) {
+							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take")	
+							}
 							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}
