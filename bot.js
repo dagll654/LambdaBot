@@ -856,7 +856,7 @@ const Discord = require('discord.js');
 					.catch(console.error)
 					break
 				case "altertable":
-					connection.query("ALTER TABLE `employees` ADD `gifts` VARCHAR(256) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0/0' AFTER `buffs`;", function(err, result){if (err) throw err})
+					connection.query("ALTER TABLE `employees` ADD `armorbuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
 					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
