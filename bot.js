@@ -519,11 +519,12 @@ const Discord = require('discord.js');
 	
 	// Work stuff
 	function work(arrg, channel) {
+		
 		let respectiveStat = jn.stats[jn.workOrders.indexOf(arrg[2])]
-		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])], (jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk) + 1))
-		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], abn.abn[abn.lista.indexOf(arrg[1])].peoutput)
-		dbployees[dbids.indexOf(cmd[1])].working = 1
-		let statIndex = jn.workOrders.indexOf(cmd[3])
+		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(arrg[0])], (jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk) + 1))
+		fn.effectApplication['workCD'](dbployees[dbids.indexOf(arrg[0])], abn.abn[abn.lista.indexOf(arrg[1])].peoutput)
+		dbployees[dbids.indexOf(arrg[0])].working = 1
+		let statIndex = jn.workOrders.indexOf(arrg[2])
 		let userStat = dbployees[dbids.indexOf(arrg[0])].stats[jn.stats.indexOf(respectiveStat)]
 		let userTemp = dbployees[dbids.indexOf(arrg[0])].temperance
 		let userStatLevelText = statLVL(userStat)
@@ -533,7 +534,7 @@ const Discord = require('discord.js');
 		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
-		//msg.edit("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + cmd[3] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `\n	${succtext}`)
+		//msg.edit("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `\n	${succtext}`)
 		let progressBar = ""
 		let progressBarOld = ""
 		let progressArray = []
@@ -598,7 +599,7 @@ const Discord = require('discord.js');
 				//			break
 				//	}
 				//progressBarStorage.push(progressBar)
-				} else {dbployees[dbids.indexOf(cmd[1])].dead = 1}
+				} else {dbployees[dbids.indexOf(arrg[0])].dead = 1}
 				}
 				
 				async function asyncEdit(mssage) {
@@ -608,29 +609,29 @@ const Discord = require('discord.js');
 					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(cmd[1])], moodResult)
+						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult)
 					}
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + cmd[3] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 						await wait(wtime*500)
 						//console.log("ARR length: " + arr.length)
 						if ((Number(dbployees[dbids.indexOf(arrg[0])].hp) <= 0) || (Number(dbployees[dbids.indexOf(arrg[0])].sp) <= 0))
-						{dbployees[dbids.indexOf(arrg[0])].dead = 1; dbployees[dbids.indexOf(cmd[1])].dead = 1}
+						{dbployees[dbids.indexOf(arrg[0])].dead = 1; dbployees[dbids.indexOf(arrg[0])].dead = 1}
 						if (dbployees[dbids.indexOf(arrg[0])].dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + cmd[3] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp.toFixed(1)} ${jn.health}\n	Remaining SP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp.toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp.toFixed(1)} ${jn.health}\n	Remaining SP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp.toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + dbployees[dbids.indexOf(arrg[0])].id + "';", function (err, result) {if (err) throw err})
-						bumpBoxes(peboxes, cmd[2], dbployees[dbids.indexOf(arrg[0])].id)
+						bumpBoxes(peboxes, arrg[1], dbployees[dbids.indexOf(arrg[0])].id)
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
-						dbployees[dbids.indexOf(cmd[1])].balance = dbployees[dbids.indexOf(cmd[1])].balance + ppeboxes
+						dbployees[dbids.indexOf(arrg[0])].balance = dbployees[dbids.indexOf(arrg[0])].balance + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + cmd[3] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
-						dbployees[dbids.indexOf(cmd[1])].working = 0
+						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						dbployees[dbids.indexOf(arrg[0])].working = 0
 				}
-				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + cmd[3] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
-				asyncEdit(mesg, progressBarStorage)})	
+				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
+				asyncEdit(mesg, progressBarStorage)})
 		
 						
 	}
