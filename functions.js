@@ -18,7 +18,7 @@ buffs = {
 			switch (b) {
 			case "stat":
 				if (action === "give") {
-					console.log("base buffs " + statbuffs)
+					let statbuffs = employee.buffs.split("|")
 					let buffing = buff[b].split("|")
 					for (i = 0; i < 4; i++) {
 						statbuffs[i] = Number(statbuffs[i]) + Number(buffing[i]) 
