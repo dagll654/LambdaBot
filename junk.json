@@ -168,5 +168,28 @@
 				10,
 				14,
 				4
-				]
+				],
+	"bufflist": {
+	"department": {
+		"Control Team": [{"list": "teamct/0"}, {"list": "teamct/1"}], 
+		
+		"Information Team": [{"stat": "0|0|7|0", "list": "teamin/0"}, {"stat": "0|0|10|0", "list": "teamin/1"}], 
+		
+		"Security Team": [{"stat": "7|7|0|0", "list": "teamsc/0"}, {"stat": "10|10|0|0", "list": "teamsc/1"}], 
+		
+		"Training Team": [{"list": "teamtr/0"}, {"list": "teamtr/1"}], 
+		
+		"Central Team": [{"stat": "3|3|3|3", "list": "teamctr/0"}, {"stat": "5|5|5|5", "list": "teamctr/1"}], 
+		
+		"Welfare Team": [{"defboost": "1.1|1.1|1.1|1.1", "list": "teamwf/0"}, {"defboost": "1.2|1.2|1.2|1.2", "list": "teamwf/1"}], 
+		
+		"Disciplinary Team": [{"dmgboost": "1.1|1.1|1.1|1.1", "list": "teamds/0"}, {"dmgboost": "1.2|1.2|1.2|1.2", "list": "teamds/1"}], 
+		
+		"Record Team": [{"stat": "4|4|4|4", "list": "teamrc/1"}, {"stat": "6|6|6|6", "list": "teamrc/1"}], 
+		
+		"Extraction Team": [{"defboost": "1.1|1.1|1.1|1.1", "dmgboost": "1.1|1.1|1.1|1.1", "list": "teamex/0"}, {"defboost": "1.2|1.2|1.2|1.2", "dmgboost": "1.2|1.2|1.2|1.2", "list": "teamex/1"}], 
+		
+		"Architecture Team": [{"stat": "5|5|5|5", "list": "teamar/0"}, {"stat": "7|7|7|7", "list": "teamar/1"}]
+		}
+}
 }
