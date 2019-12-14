@@ -915,7 +915,7 @@ const Discord = require('discord.js');
 					break
 				case "localstats":
 					uid = "143261987575562240"
-					console.log(dbployees[dbids.indexOf(uid)]['fortL'] + " " + dbployees[dbids.indexOf(uid)]['prudL'] + " " + dbployees[dbids.indexOf(uid)]['tempL'] + " " + dbployees[dbids.indexOf(uid)]['justL'] + " " + )
+					console.log(dbployees[dbids.indexOf(uid)]['fortL'] + " " + dbployees[dbids.indexOf(uid)]['prudL'] + " " + dbployees[dbids.indexOf(uid)]['tempL'] + " " + dbployees[dbids.indexOf(uid)]['justL'])
 					break
 				default:
 					console.log("Unrecognized debug command noticed.")
