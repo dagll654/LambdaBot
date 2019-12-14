@@ -913,6 +913,10 @@ const Discord = require('discord.js');
 					dbployees[dbids.indexOf(uid)][cmd[2]] = tempval
 					updData()
 					break
+				case "localstats":
+					uid = "143261987575562240"
+					console.log(dbployees[dbids.indexOf(uid)]['fortL'] + " " + dbployees[dbids.indexOf(uid)]['prudL'] + " " + dbployees[dbids.indexOf(uid)]['tempL'] + " " + dbployees[dbids.indexOf(uid)]['justL'] + " " + )
+					break
 				default:
 					console.log("Unrecognized debug command noticed.")
 					break
@@ -1090,13 +1094,15 @@ const Discord = require('discord.js');
 								eqct = [curruser.suit, curruser.weapon]
 								// [Suit, Weapon]
 								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
-								stats = [curruser.fortitude, curruser.prudence, curruser.temperance, curruser.justice]
+								stats = [Number(curruser.fortitude), Number(curruser.prudence), Number(curruser.temperance), Number(curruser.justice)]
+								statsL = [curruser.fortL, curruser.prudL, curruser.tempL, curruser.justL]
+								statB = [statsL[0]-stats[0], statsL[1]-stats[1], statsL[2]-stats[2], statsL[3]-stats[3]]
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								wepd = `${gearc[1].damage[0]}-${gearc[1].damage[1]} `
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(stats[0])} ${jn.fortitude} ${stats[0]}			LV ${statLVL(stats[1])} ${jn.prudence} ${stats[1]}\n		LV ${statLVL(stats[2])} ${jn.temperance} ${stats[2]}			LV ${statLVL(stats[3])} ${jn.justice} ${stats[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*48}\n\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}+${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}+${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}+${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}+${statB[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*16}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*16}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*16}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*48}\n\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 				break 
 				case "i":
