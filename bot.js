@@ -1365,15 +1365,19 @@ const Discord = require('discord.js');
 									let invwlength = 0
 									
 									if (curruser.inventorys != undefined) {
+									if (curruser.inventorys.length != undefined) {
 									if (curruser.inventorys.length > 0) 
 									{if (curruser.inventorys.length > 1) {invslength = curruser.inventorys.split("|").length} else invslength = 1}
 									if (curruser.inventorys === '') {invslength = 0}
 									}
+									}
 									
 									if (curruser.inventoryw != undefined) {
+									if (curruser.inventoryw.length != undefined) {	
 									if (curruser.inventoryw.length > 0) 
 									{if (curruser.inventoryw.length > 1) {invwlength = curruser.inventoryw.split("|").length} else invwlength = 1}
 									if (curruser.inventoryw === '') {invwlength = 0}
+									}
 									}
 									
 									console.log(curruser.tag + " " + invslength + " " + invwlength)
