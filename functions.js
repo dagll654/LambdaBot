@@ -48,7 +48,20 @@ buffs = {
 					}
 				}	
 				break
-			
+			case "defboost":
+				if (action === "give") {
+					let abuffs = employee.armorbuffs.split("|")
+					let newabuffs = buff[b].split("|")
+					abuffs.forEach(a => {a = Number(a) * Number(newabuffs[abuffs.indexOf(a)])})
+					employee.armorbuffs = abuffs.join("|")
+				} 
+				else if (action === "take") {
+					let abuffs = employee.armorbuffs.split("|")
+					let newabuffs = buff[b].split("|")
+					abuffs.forEach(a => {a = Number(a) / Number(newabuffs[abuffs.indexOf(a)])})
+					employee.armorbuffs = abuffs.join("|")
+				}
+				break				
 			}
 		}
 	}

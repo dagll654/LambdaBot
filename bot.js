@@ -556,19 +556,19 @@ const Discord = require('discord.js');
 				if (roll(100) > successChance) {neboxes++; 
 					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
 					if (currentAbno.dtype[0] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0]*curruser.armorbuffs.split("|")[0])
 						curruser.hp = curruser.hp - dmg
 						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[0])
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1]*curruser.armorbuffs.split("|")[1])
 						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[1])
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2]*curruser.armorbuffs.split("|")[2])
 						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
@@ -1150,7 +1150,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}+${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}+${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}+${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}+${statB[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(16-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(16-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(16-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(16-expmod)*3}\n\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${gearc[0].resistance[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for user " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}+${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}+${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}+${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}+${statB[3]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(16-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(16-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(16-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(16-expmod)*3}\n\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${gearc[0].resistance[0]*curruser.armorbuffs.split("|")[0]} ${jn.dtype[0]}	${gearc[0].resistance[1]*curruser.armorbuffs.split("|")[1]} ${jn.dtype[1]}	${gearc[0].resistance[2]*curruser.armorbuffs.split("|")[2]} ${jn.dtype[2]}	${gearc[0].resistance[3]*curruser.armorbuffs.split("|")[3]} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 				break 
 				case "i":

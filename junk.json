@@ -181,13 +181,13 @@
 		
 		"Central Team": [{"stat": "3|3|3|3", "list": "teamctr/0"}, {"stat": "5|5|5|5", "list": "teamctr/1"}], 
 		
-		"Welfare Team": [{"defboost": "1.1|1.1|1.1|1.1", "list": "teamwf/0"}, {"defboost": "1.2|1.2|1.2|1.2", "list": "teamwf/1"}], 
+		"Welfare Team": [{"defboost": "0.9|0.9|0.9|0.9", "list": "teamwf/0"}, {"defboost": "0.8|0.8|0.8|0.8", "list": "teamwf/1"}], 
 		
 		"Disciplinary Team": [{"dmgboost": "1.1|1.1|1.1|1.1", "list": "teamds/0"}, {"dmgboost": "1.2|1.2|1.2|1.2", "list": "teamds/1"}], 
 		
 		"Record Team": [{"stat": "4|4|4|4", "list": "teamrc/1"}, {"stat": "6|6|6|6", "list": "teamrc/1"}], 
 		
-		"Extraction Team": [{"defboost": "1.1|1.1|1.1|1.1", "dmgboost": "1.1|1.1|1.1|1.1", "list": "teamex/0"}, {"defboost": "1.2|1.2|1.2|1.2", "dmgboost": "1.2|1.2|1.2|1.2", "list": "teamex/1"}], 
+		"Extraction Team": [{"defboost": "0.9|0.9|0.9|0.9", "dmgboost": "1.1|1.1|1.1|1.1", "list": "teamex/0"}, {"defboost": "0.8|0.8|0.8|0.8", "dmgboost": "1.2|1.2|1.2|1.2", "list": "teamex/1"}], 
 		
 		"Architecture Team": [{"stat": "5|5|5|5", "list": "teamar/0"}, {"stat": "7|7|7|7", "list": "teamar/1"}]
 		}
