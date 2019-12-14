@@ -73,7 +73,7 @@ const Discord = require('discord.js');
 		if (curruser.bufflist != undefined) {
 		if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
 		if (curruser.bufflist.split("|").some(b => b.startsWith("teamtr"))) {
-			let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("depTrain")).split("/")
+			let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("teamtr")).split("/")
 			if (trainBuff[1] === '0') {expmod = 2}
 			else {expmod = 4}
 		}}}
@@ -1118,7 +1118,7 @@ const Discord = require('discord.js');
 								if (curruser.bufflist != undefined) {
 								if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
 								if (curruser.bufflist.split("|").some(b => b.startsWith("teamtr"))) {
-									let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("depTrain")).split("/")
+									let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("teamtr")).split("/")
 									if (trainBuff[1] === '0') {expmod = 2}
 									else {expmod = 4}
 								}}}
