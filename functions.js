@@ -22,7 +22,9 @@ buffs = {
 					console.log("base buffs " + statbuffs)
 					let buffing = buff[b].split("|")
 					console.log("added buffs " + buffing)
-					statbuffs.forEach((s, i) => {s = Number(s) + Number(buffing[i])})
+					for (i = 0; i < 4; i++) {
+						statbuffs[i] = Number(statbuffs[i]) + Number(buffing[i]) 
+					}
 					console.log("combined buffs " + statbuffs)
 					employee.buffs = statbuffs.join("|")
 				} 
