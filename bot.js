@@ -105,7 +105,7 @@ const Discord = require('discord.js');
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e, arr = dbployees) {
-		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, "prudence": e.prudence, "temperance": e.temperance, "justice": e.justice, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, get fortL() {return (Number(e.fortitude)+Number(e.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(e.prudence)+Number(e.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(e.temperance)+Number(e.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(e.justice)+Number(e.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -131,12 +131,12 @@ const Discord = require('discord.js');
 			if (dbvars[3] === 0) {
 					dbployees.forEach(e => {
 						if (e.working === 0) {
-						if (e.hp < e.fortitude) {e.hp = Number(e.hp) + Math.ceil(e.fortitude/60)}
-						if (e.hp > e.fortitude) {e.hp = Number(e.fortitude)}
+						if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60)}
+						if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
 						let sp = e.sp
-						if (e.sp < e.prudence) {e.sp = Number(e.sp) + Math.ceil(e.prudence/60)}
-						if (e.sp > e.prudence) {e.sp = Number(e.prudence)}
-						if ((e.hp === Number(e.fortitude)) && (e.sp === Number(e.prudence)) && (Number(e.dead) === 1)) {
+						if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60)}
+						if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
+						if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
 							e.dead = 0
 						}
 						} else {e.working = 0}
@@ -203,6 +203,7 @@ const Discord = require('discord.js');
 			//vals[2] = val[2]*1000
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
+				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL")) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*1000).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*1000).toFixed(1)}
 				if (dbployees2[i][prop] != tempval) {
@@ -212,6 +213,7 @@ const Discord = require('discord.js');
 					//console.log(prop + " " + dbployees2[i][prop] + " " + tempval)
 					}
 					}
+				}
 				}
 			}
 			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"

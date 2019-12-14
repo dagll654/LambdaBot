@@ -116,7 +116,7 @@
 		},
 		{	"id": "7",
 			"name": "Regret",
-			"damage": [10, 15],
+			"damage": [12, 18],
 			"dtype": [1, 0, 0, 0],
 			"speed": "slow",
 			"range": "medium",
@@ -146,6 +146,10 @@
 		},
 		{	"id": "6",
 			"name": "Somewhere Spear"
+			
+		},
+		{	"id": "7",
+			"name": "Regret"
 			
 		}
 			]
