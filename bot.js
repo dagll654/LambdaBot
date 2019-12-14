@@ -301,6 +301,37 @@ const Discord = require('discord.js');
 			}
     })
 		
+		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
+	client.setInterval(function(){
+			if (dbvars[3] === 0) {
+					dbployees.forEach(e => {
+						if (e.working === 0) {
+						if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60)}
+						if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
+						let sp = e.sp
+						if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60)}
+						if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
+						if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
+							e.dead = 0
+						}
+						} else {e.working = 0}
+						if (drFind(DELTAS.members.get(e.id))) {
+							let bufflist = []
+							if (e.bufflist != undefined) {
+							bufflist = e.bufflist.split("|")
+							}
+							if ((bufflist.some(b => {b.startsWith("team")})) === false) {
+								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
+								} 
+							}
+						}
+					})
+					//console.log("Healed all.")
+					
+			}
+	}, 60000)	
+		
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
@@ -1579,38 +1610,9 @@ const Discord = require('discord.js');
 	}
 })
 	
-	// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
-	client.setInterval(function(){
-			if (dbvars[3] === 0) {
-					dbployees.forEach(e => {
-						if (e.working === 0) {
-						if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60)}
-						if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
-						let sp = e.sp
-						if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60)}
-						if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
-						if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
-							e.dead = 0
-						}
-						} else {e.working = 0}
-						if (drFind(DELTAS.members.get(e.id))) {
-							let bufflist = []
-							if (e.bufflist != undefined) {
-							bufflist = e.bufflist.split("|")
-							}
-							if ((bufflist.some(b => {b.startsWith("team")})) === false) {
-								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
-								} 
-							}
-						}
-					})
-					//console.log("Healed all.")
-					
-			}
-	}, 60000)	
 	
 	
+
 // THIS  MUST  BE  THIS  WAY
 // NO TOUCHING
 //______________________________\\/
