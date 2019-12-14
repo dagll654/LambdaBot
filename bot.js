@@ -320,7 +320,7 @@ const Discord = require('discord.js');
 							if (e.bufflist != undefined) {
 							bufflist = e.bufflist.split("|")
 							}
-							if (bufflies.every(eff => {return (eff.startsWith("team") === false)})) {
+							if (bufflist.every(eff => {return (eff.startsWith("team") === false)})) {
 								if (e.tjtime != undefined) {
 								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
 									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
@@ -1359,7 +1359,7 @@ const Discord = require('discord.js');
 							if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
 							bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
 							}
-							if (bufflies.every(eff => {return (eff.startsWith("team") === false)}) === false) {
+							if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
 							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take")	
 							}
 							msg.member.removeRole(getRole(drFind(msg.member)))
