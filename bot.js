@@ -830,8 +830,8 @@ const Discord = require('discord.js');
 					ch.send({embed})
 					break
 				case "employee":
-					uid = ""
-					if (cmd[2] != undefined) {uid = cmd[2]} else {uid = "143261987575562240"}
+					let uid2 = ""
+					if (cmd[2] != undefined) {uid2 = cmd[2]} else {uid = "143261987575562240"}
 					console.log(dbployees[dbids.indexOf(uid)])
 					break
 				case "msg":
