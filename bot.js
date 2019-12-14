@@ -1402,13 +1402,11 @@ const Discord = require('discord.js');
 								})
 								//console.log(typeof(Number(currentShop.boxes)) + " " + Number(currentShop.boxes) + " " + typeof(curruser.balance))
 								let totalBalance = Number(currentShop.boxes) + curruser.balance
-								console.log(price + " " + typeof(price))
 								//console.log(typeof(totalBalance) + " " + totalBalance)
 								if (totalBalance >= Number(price)) {
 								let prices = []
 								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
 								else {prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]}
-								console.log(prices)
 								if (prices[1] <= price/4) { 
 								let tmptxt = ""
 									if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}

@@ -41,6 +41,12 @@
 			"resistance": [1, 1.2, 0.6, 2],
 			"level": "TETH",
 			"cost": 500
+		},
+		{	"id": "7",
+			"name": "Regret",
+			"resistance": [0.7, 1.2, 0.8, 2],
+			"level": "TETH",
+			"cost": 500
 		}
 			],
 			
@@ -107,6 +113,15 @@
 			"range": "medium",
 			"level": "TETH",
 			"cost": 400
+		},
+		{	"id": "7",
+			"name": "Regret",
+			"damage": [10, 15],
+			"dtype": [1, 0, 0, 0],
+			"speed": "slow",
+			"range": "medium",
+			"level": "TETH",
+			"cost": 500
 		}
 			],
 	

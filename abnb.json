@@ -12,7 +12,8 @@
 			"o-01-04",
 			"o-06-20",
 			"f-04-83",
-			"o-03-60"
+			"o-03-60",
+			"t-01-54"
 			],
 	"abn": [
 			{
@@ -172,7 +173,26 @@
 				"dtype": [0, 0, 1, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
-				"effect": [false, ">1", "effect", "0"]
+				"effect": [false]
+			},
+			{
+				"name": "T-01-54: 'Forsaken Murderer'",
+				"color": [133, 133, 133],
+				"risk": "TETH",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "7",
+				"peoutput": 14,
+				"workPreferences": [[0.6, 0.6, 0.5, 0.5, 0.5],
+									[0.4, 0.4, 0.3, 0.3, 0.3],
+									[0.5, 0.5, 0.4, 0.4, 0.4],
+									[0.3, 0.2, 0, -0.8, -0.8]									
+									],
+				"damage": [2, 3],
+				"dtype": [1, 0, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 7, 11],
+				"effect": [false]
 			}
 				
 		]
