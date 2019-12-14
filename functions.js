@@ -168,8 +168,7 @@ exports.effectApplication = {
 
 	},
 	"department": function(employee, dep, action, level = 0) {
-		console.log("|" + dep + "|")
-		console.log(bufflist['department']['Control Team'])
+		console.log("|" + employee.tag + "|" + dep + "|")
 		buffs['buff'](employee, bufflist['department'][dep][level], action)
 	}
 }
