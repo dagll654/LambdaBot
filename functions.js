@@ -17,8 +17,9 @@ buffs = {
 		for (const b in buff) {
 			switch (b) {
 			case "stat":
-				console.log("B: " + b)
+				console.log("B: " + b + " " + buff[b])
 				if (action === "give") {
+					console.log("this works")
 					let statbuffs = employee.buffs.split("|")
 					let buffing = buff[b].split("|")
 					statbuffs.forEach((s, i) => {s = Number(s) + Number(buffing[i])})
@@ -130,7 +131,7 @@ exports.effectApplication = {
 	},
 	"department": function(employee, dep, action, level = 0) {
 		console.log("|" + dep + "|")
-		console.log("Test1: " + bufflist['department']['Control Team'])
+		console.log(bufflist['department']['Control Team'])
 		buffs['buff'](employee, bufflist['department'][dep], action)
 	}
 }
