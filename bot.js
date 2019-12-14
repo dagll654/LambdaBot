@@ -84,7 +84,7 @@ const Discord = require('discord.js');
 		if (statIndex === 3) {mult = 3}
 
 		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * (16 - expmod) * mult)) {
-			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult
+			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * (16-expmod) * mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
