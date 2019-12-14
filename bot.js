@@ -686,8 +686,9 @@ const Discord = require('discord.js');
 				bufflist = dbployees[dbids.indexOf(voteeuser.id)].bufflist.split("|")
 				}
 				if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
-				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)	
+				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "take")
 				}
+				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)
 			}
 			
 			if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
@@ -1543,9 +1544,7 @@ const Discord = require('discord.js');
 										if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
 										bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
 										}
-										if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
 										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.user.id)], drFind(msg.member), "take", 1)	
-										}
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
