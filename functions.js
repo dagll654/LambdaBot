@@ -128,7 +128,7 @@ exports.effectApplication = {
 			employee.effects = effects.join("|")}
 
 	},
-	"department": function(employee, action, dep, level = 0) {
+	"department": function(employee, dep, action, level = 0) {
 		console.log("|" + dep + "|")
 		console.log("Test1: " + bufflist[0][0] + " " + bufflist[0]['Control Team'])
 		buffs['buff'](employee, bufflist['department'][dep], action)
