@@ -1379,7 +1379,8 @@ const Discord = require('discord.js');
 									if (curruser.inventoryw === '') {invwlength = 0}
 									}
 									}
-									
+									invwlength = invwlength - 1
+									invslength = invslength - 1
 									console.log(curruser.tag + " " + invslength + " " + invwlength)
 								if ((invslength + invwlength) < 3) {
 								console.log(choice)
