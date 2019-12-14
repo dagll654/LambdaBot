@@ -181,7 +181,7 @@ const Discord = require('discord.js');
 			}
 			}
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
-			if (fn.effects['deathOnWork'](e, "o-03-03") === true) {e.hp = e.hp + 0.3}
+			if (fn.effects.deathOnWork(e, "bleh")[0] === true) {e.hp = e.hp + 0.1}
 		})
 		if (efflog === 4) {efflog = 0}
 	}, 1000)
@@ -1363,12 +1363,19 @@ const Discord = require('discord.js');
 								if((choice === "suit") || (choice === "weapon")) {
 									let invslength = 0
 									let invwlength = 0
+									
+									if (curruser.inventorys != undefined) {
 									if (curruser.inventorys.length > 0) 
 									{if (curruser.inventorys.length > 1) {invslength = curruser.inventorys.split("|").length} else invslength = 1}
 									if (curruser.inventorys === '') {invslength = 0}
+									}
+									
+									if (curruser.inventoryw != undefined) {
 									if (curruser.inventoryw.length > 0) 
 									{if (curruser.inventoryw.length > 1) {invwlength = curruser.inventoryw.split("|").length} else invwlength = 1}
 									if (curruser.inventoryw === '') {invwlength = 0}
+									}
+									
 									console.log(curruser.tag + " " + invslength + " " + invwlength)
 								if ((invslength + invwlength) < 3) {
 								console.log(choice)
