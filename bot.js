@@ -1537,6 +1537,7 @@ const Discord = require('discord.js');
 	
 	client.setInterval(function(){
 		if (workarr.length > 1) {
+		console.log(workarr)
 		cmd = workarr[0].toLowerCase().split(" ")
 		DELTAS.channels.get(cmd[4]).send(workarr[0]).then(menumsg => {
 		workarr.shift()
