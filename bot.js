@@ -21,6 +21,7 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
+	workarr = []
 	const deproles = jn.deproles
 	const ncdeproles = jn.ncdeproles
 	const cdeproles = jn.cdeproles
