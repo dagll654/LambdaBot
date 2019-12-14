@@ -522,7 +522,7 @@ const Discord = require('discord.js');
 		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
 		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
 		const curruser = dbployees[dbids.indexOf(cmd[1])]
-		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])])
+		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])], (jn.risk.indexOf(currentAbno.risk) + 1))
 		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
 		dbployees[dbids.indexOf(cmd[1])].working = 1
 		statIndex = jn.workOrders.indexOf(cmd[3])
@@ -1008,7 +1008,7 @@ const Discord = require('discord.js');
 	}
 	
 	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
-	if ((ch = DELTAS.channels.get('653538398681825300')) || (ch = DELTAS.channels.get('654361755857846303'))) {
+	if ((ch === DELTAS.channels.get('653538398681825300')) || (ch === DELTAS.channels.get('654361755857846303'))) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "list":
@@ -1113,8 +1113,8 @@ const Discord = require('discord.js');
 									if (Number(eff.split("/")[1]) > 60) {
 										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minute(s)"
 									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second(s)"}
-									if (eff.split("/")[2] === "fatigue") {effspecial = " [+" + Math.floor(Number(eff.split("/")[3])/3) +" seconds to work CD]"}
-									effectArr.push(eff.split("/")[2] + `${effspecial} (${waittime})`)
+									if (eff.split("/")[2] === "fatigue") {effspecial = " [+" + Math.floor(Number(eff.split("/")[3])/3) +" second(s) to work CD]"}
+									effectArr.push(eff.split("/")[2] + `${effspecial} <${waittime}>`)
 								})
 								}
 								//console.log("Curruser ID (profile): " + curruser.id)

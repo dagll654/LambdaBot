@@ -156,14 +156,14 @@ exports.effectApplication = {
 			employee.sp = employee.sp + 3
 		}
 	},
-	"fatigue": function(employee, result) {
+	"fatigue": function(employee, risk) {
 			effects = employee.effects.split("|")
 			
 			if (effects.every(eff => {
 				return (eff.startsWith("3/") === false)
 			})) {effects.push("3/40/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (40 + Math.floor((Number(fatigue[3]))*2)) + "/fatigue/" + (Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/" + (40 + Math.floor((Number(fatigue[3]))*2/risk)) + "/fatigue/" + Math.round((Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)/risk)
 			employee.effects = effects.join("|")}
 
 	},
