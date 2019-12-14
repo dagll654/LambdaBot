@@ -1363,8 +1363,10 @@ const Discord = require('discord.js');
 								if((choice === "suit") || (choice === "weapon")) {
 									let invslength = 0
 									let invwlength = 0
-									if (curruser.inventorys.length > 0) {invslength = curruser.inventorys.split("|").length}
-									if (curruser.inventoryw.length > 0) {invwlength = curruser.inventoryw.split("|").length}
+									if (curruser.inventorys.length > 0) 
+									{if (curruser.inventorys.length > 1) {invslength = curruser.inventorys.split("|").length} else invslength = 1}
+									if (curruser.inventoryw.length > 0) 
+									{if (curruser.inventoryw.length > 1) {invwlength = curruser.inventoryw.split("|").length} else invwlength = 1}
 								if ((invslength + invwlength) < 3) {
 								console.log(choice)
 								switch (choice) {
