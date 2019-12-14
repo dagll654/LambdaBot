@@ -13,9 +13,11 @@ bufflist = {
 
 buffs = {
 	"buff": function(employee, buff, action) {
+		console.log(employee.tag + " " + buff + " " + action)
 		for (const b in buff) {
 			switch (b) {
 			case "stat":
+				console.log("B: " + b)
 				if (action === "give") {
 					let statbuffs = employee.buffs.split("|")
 					let buffing = buff[b].split("|")

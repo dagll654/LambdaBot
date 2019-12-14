@@ -1314,7 +1314,6 @@ const Discord = require('discord.js');
 							msg.member.addRole(getRole(rtmp))
 							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], rtmp, "give")
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
-							databaseThing()
 							//updData()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign Extraction Team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
