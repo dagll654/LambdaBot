@@ -57,7 +57,7 @@ buffs = {
 				if (action === "give") {
 					if (employee.bufflist != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
 						let bufflist = employee.bufflist.split("|")
-						let bufflist.push(buff[b])
+						bufflist.push(buff[b])
 						if (bufflist.length > 1) {employee.bufflist = bufflist.join("|")} else {employee.bufflist = bufflist[0]}
 					} else {employee.bufflist = buff[b]}
 				} 
