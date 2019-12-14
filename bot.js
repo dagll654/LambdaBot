@@ -1361,7 +1361,11 @@ const Discord = require('discord.js');
 								let choice = msg2.array()[0].content.toLowerCase()
 								let respinv
 								if((choice === "suit") || (choice === "weapon")) {
-								if ((curruser.inventorys.split("|").length + curruser.inventoryw.split("|").length) < 3) {
+									let invslength = 0
+									let invwlength = 0
+									if (curruser.inventorys.length > 0) {invslength = curruser.inventorys.split("|").length}
+									if (curruser.inventoryw.length > 0) {invwlength = curruser.inventoryw.split("|").length}
+								if ((invslength + invwlength) < 3) {
 								console.log(choice)
 								switch (choice) {
 									case "suit":
