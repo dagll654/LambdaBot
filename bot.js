@@ -45,7 +45,9 @@ const Discord = require('discord.js');
 	 votingteam = ""
 	 voting = 0	
 	 efflog = 0
-
+		
+	const DELTAS = client.guilds.get("607318782624399361");
+	const BCH = DELTAS.channels.get("607558082381217851");
 
 
 	// Return the level of a stat
@@ -309,9 +311,7 @@ const Discord = require('discord.js');
 	databaseThing()
 
 	client.on('ready', () => {
-		
-	const DELTAS = client.guilds.get("607318782624399361");
-	const BCH = DELTAS.channels.get("607558082381217851");
+
 	BCH.send("Bot started.")
 	
 		// Getting all of the 'employees' - members with a department role
@@ -341,9 +341,9 @@ const Discord = require('discord.js');
 	const msg = tempbigmessagevaluesoIneveruseitagain
 	
 	const ESERV = client.guilds.get('513660754633949208')
-	const DELTAS = client.guilds.get('607318782624399361')
+
 	const bsch = ESERV.channels.get('653572131262693379')
-	const bch = DELTAS.channels.get('607558082381217851')
+
 	var emojiid = DELTAS.emojis.map(e => e.id)
 	var emojiname = DELTAS.emojis.map(e => e.name)
 	const altemojiid = ESERV.emojis.map(e => e.id)
