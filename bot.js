@@ -70,14 +70,21 @@ const Discord = require('discord.js');
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
 		curruser = dbployees[dbids.indexOf(id)]
+		let expmod = 0
 		//console.log("Curruser ID (bumpStat): " + id)
+		if (curruser.bufflist != undefined && false) {
+		if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
+		if (curruser.bufflist.some(b => b.startsWith("depTrain"))) {
+			let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("depTrain")).split("/")
+			expmod = trainBuff[1]
+		}}}
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let subStatArr = curruser.subpoints.split("|")
 		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
 		if (statIndex === 3) {mult = 3}
 
-		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult)) {
+		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * (16 - expmod) * mult)) {
 			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser.stats[statIndex])) + 1) * 16 * mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
@@ -105,7 +112,7 @@ const Discord = require('discord.js');
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e, arr = dbployees) {
-		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/1000, "sp": e.sp/1000, "fortitude": e.fortitude, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "armorbuffs": e.armorbuffs, "bufflist": e.bufflist, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/100, "sp": e.sp/100, "fortitude": e.fortitude, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "armorbuffs": e.armorbuffs, "bufflist": e.bufflist, "tjtime": e.tjtime, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -140,9 +147,20 @@ const Discord = require('discord.js');
 							e.dead = 0
 						}
 						} else {e.working = 0}
-						
+						if (drFind(DELTAS.members.get(e.id))) {
+							let bufflist = []
+							if (e.bufflist != undefined) {
+							bufflist = e.bufflist.split("|")
+							}
+							if ((bufflist.some(b => {b.startsWith("team")})) === false) {
+								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
+								} 
+							}
+						}
 					})
 					//console.log("Healed all.")
+					
 			}
 	}, 60000)
 	
@@ -205,7 +223,7 @@ const Discord = require('discord.js');
 			for (const prop in e) {
 				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL")) {
 				let tempval = e[prop]
-				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*1000).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*1000).toFixed(1)}
+				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
 				if (dbployees2[i][prop] != tempval) {
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
@@ -539,18 +557,18 @@ const Discord = require('discord.js');
 					if (currentAbno.dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0])
 						curruser.hp = curruser.hp - dmg
-						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[0])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[0])
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[1] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1])
-						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[1])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[1])
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (currentAbno.dtype[2] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2])
-						damageArray.push(dmg.toFixed(1) + " " + jn.dtype[2])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
 						curruser.hp = curruser.hp - dmg
 						curruser.sp = curruser.sp - dmg
 						//console.log("DAMAGE:" + dmg)
@@ -1312,7 +1330,7 @@ const Discord = require('discord.js');
 						}
 						if (ncdeproles.includes(rtmp)) {
 							msg.member.addRole(getRole(rtmp))
-							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], rtmp, "give")
+							dbployees[dbids.indexOf(msg.author.id)].tjtime = Date.now()
 							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
 							//updData()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign Extraction Team")}

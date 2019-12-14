@@ -8,12 +8,31 @@
 	const cmds = jn.cmds
 //module.js
 bufflist = {
-	"department": {"Control Team": {"stat": "10|0|0|0"}, "Information Team": {"stat": "11|0|0|0"}, "Security Team": {"stat": "12|0|0|0"}, "Training Team": {"stat": "13|0|0|0"}, "Central Team": {"stat": "14|0|0|0"}, "Welfare Team": {"stat": "15|0|0|0"}, "Disciplinary Team": {"stat": "16|0|0|0"}, "Record Team": {"stat": "17|0|0|0"}, "Extraction Team": {"stat": "18|0|0|0"}, "Architecture Team": {"stat": "19|0|0|0"}}
+	"department": {
+		"Control Team": [{"list": "teamct/0"}, {"list": "teamct/1"}], 
+		
+		"Information Team": [{"stat": "0|0|7|0", "list": "teamin/0"}, {"stat": "0|0|10|0", "list": "teamin/1"}], 
+		
+		"Security Team": [{"stat": "7|7|0|0", "list": "teamsc/0"}, {"stat": "10|10|0|0", "list": "teamsc/1"}], 
+		
+		"Training Team": [{"list": "teamtr/0"}, {"list": "teamtr/1"}], 
+		
+		"Central Team": [{"stat": "3|3|3|3", "list": "teamctr/0"}, {"stat": "5|5|5|5", "list": "teamctr/1"}], 
+		
+		"Welfare Team": [{"defboost": "1.1|1.1|1.1|1.1", "list": "teamwf/0"}, {"defboost": "1.2|1.2|1.2|1.2", "list": "teamwf/1"}], 
+		
+		"Disciplinary Team": [{"dmgboost": "1.1|1.1|1.1|1.1", "list": "teamds/0"}, {"dmgboost": "1.2|1.2|1.2|1.2", "list": "teamds/1"}], 
+		
+		"Record Team": [{"stat": "4|4|4|4", "list": "teamrc/1"}, {"stat": "6|6|6|6", "list": "teamrc/1"}], 
+		
+		"Extraction Team": [{"defboost": "1.1|1.1|1.1|1.1", "dmgboost": "1.1|1.1|1.1|1.1", "list": "teamex/0"}, {"defboost": "1.2|1.2|1.2|1.2", "dmgboost": "1.2|1.2|1.2|1.2", "list": "teamex/1"}], 
+		
+		"Architecture Team": [{"stat": "5|5|5|5", "list": "teamar/0"}, {"stat": "7|7|7|7", "list": "teamar/1"}]
+		}
 }
 
 buffs = {
 	"buff": function(employee, buff, action) {
-		console.log(employee.tag + " " + buff + " " + action)
 		for (const b in buff) {
 			switch (b) {
 			case "stat":
@@ -33,8 +52,25 @@ buffs = {
 					}
 					employee.buffs = statbuffs.join("|")
 				}	
-				
 				break
+			case "list":
+				if (action === "give") {
+					if (employee.bufflist != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
+						let bufflist = employee.bufflist.split("|")
+						let bufflist.push(buff[b])
+						if (bufflist.length > 1) {employee.bufflist = bufflist.join("|")} else {employee.bufflist = bufflist[0]}
+					} else {employee.bufflist = buff[b]}
+				} 
+				else if (action === "take") {
+					if (employee.bufflist != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
+						let bufflist = employee.bufflist.split("|")
+						let bufflistNew = []
+						bufflist.forEach(bf => {if (bf != buff[b]) {bufflistNew.push(bf)}})
+						if (bufflistNew.length > 0) {if (bufflistNew.length > 1){employee.bufflist = bufflistNew.join("|")} else {employee.bufflist = bufflistNew[0]}} else {employee.bufflist = 'undefined'}
+					}
+				}	
+				break
+			
 			}
 		}
 	}
@@ -125,15 +161,15 @@ exports.effectApplication = {
 			
 			if (effects.every(eff => {
 				return (eff.startsWith("3/") === false)
-			})) {effects.push("3/35/fatigue/0"); employee.effects = effects.join("|")}
+			})) {effects.push("3/40/fatigue/0"); employee.effects = effects.join("|")}
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (35 + Math.floor((Number(fatigue[3]))*1.3)) + "/fatigue/" + (Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)
+			effects[effects.findIndex(checkFatigue)] = "3/" + (40 + Math.floor((Number(fatigue[3]))*2)) + "/fatigue/" + (Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)
 			employee.effects = effects.join("|")}
 
 	},
 	"department": function(employee, dep, action, level = 0) {
 		console.log("|" + dep + "|")
 		console.log(bufflist['department']['Control Team'])
-		buffs['buff'](employee, bufflist['department'][dep], action)
+		buffs['buff'](employee, bufflist['department'][dep][level], action)
 	}
 }
