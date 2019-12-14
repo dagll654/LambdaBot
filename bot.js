@@ -517,127 +517,8 @@ const Discord = require('discord.js');
 		yeet(8)
 	}
 	
-	// Work stuff
-	if ((msg.author.id === client.user.id) && (mesc.startsWith("abnworkrequest"))) {
-		cmd = msg.content.toLowerCase().split(" ")
-		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
-		const curruser = dbployees[dbids.indexOf(cmd[1])]
-		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])], (jn.risk.indexOf(currentAbno.risk) + 1))
-		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
-		dbployees[dbids.indexOf(cmd[1])].working = 1
-		statIndex = jn.workOrders.indexOf(cmd[3])
-		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
-		userTemp = curruser.temperance
-		userStatLevelText = statLVL(userStat)
-		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
-		if (userStatLevel > 4) {userStatLevel = 4} 
-		successChance = 0
-		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
-		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
-		//msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
-		progressBar = ""
-		progressBarOld = ""
-		progressArray = []
-		progressArrayComplex = []
-		progressBarStorage = []
-		damageArray = []
-		for (i = 0; i < (currentAbno.peoutput/2); i++) {
-			progressBar += box([0, 0])
-			progressArrayComplex.push([0, 0])
-		}
-			neboxes = 0
-			peboxes = 0
-			ppeboxes = 0
-			i = 0
-			for (i = 0; i < currentAbno.peoutput; i++) {
-				if ((curruser.hp > 0) && (curruser.sp > 0)) {
-				if (roll(100) > successChance) {neboxes++; 
-					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
-					if (currentAbno.dtype[0] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0]*curruser.defensebuffs.split("|")[0])
-						curruser.hp = curruser.hp - dmg
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[0])
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (currentAbno.dtype[1] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1]*curruser.defensebuffs.split("|")[1])
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[1])
-						curruser.sp = curruser.sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (currentAbno.dtype[2] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2]*curruser.defensebuffs.split("|")[2])
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
-						curruser.hp = curruser.hp - dmg
-						curruser.sp = curruser.sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					
-				}
-				else {
-					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
-					else {peboxes++}
-				}
-				progressBarOld = progressBar
-				progressBar = ""
-				progressArray = []
-				for (j = 0; j < (currentAbno.peoutput - (i+1)); j++) {
-					progressArray.push(0)
-				}
-				for (j = 0; j < peboxes; j++) {
-					progressArray.unshift(1)
-				}
-				for (j = 0; j < neboxes; j++) {
-					progressArray.push(-1)
-				}
-				//console.log("Progress array normal: " + progressArray)
-				//j = 0
-				//start_position: while(true) {
-				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-				//	//console.log("Progress array " + j + " " + progressArrayComplex)
-				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
-				//			break
-				//	}
-				//progressBarStorage.push(progressBar)
-				} else {dbployees[dbids.indexOf(cmd[1])].dead = 1}
-				}
-				
-				async function asyncEdit(mssage) {
-					let mood = ""
-					let moodResult = 0
-					if ((peboxes + ppeboxes) >= currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
-					else if ((peboxes + ppeboxes) >= currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
-					else {mood = jn.badresult; moodResult = 0}
-					if (currentAbno.effect[0] === true) {
-						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(cmd[1])], moodResult)
-					}
-					if (damageArray.length === 0) {damageArray.push("none")}
-						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
-						await wait(wtime*500)
-						//console.log("ARR length: " + arr.length)
-						if ((Number(curruser.hp) <= 0) || (Number(curruser.sp) <= 0))
-						{curruser.dead = 1; dbployees[dbids.indexOf(cmd[1])].dead = 1}
-						if (curruser.dead === 0) {
-						ppe = ""
-						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${dbployees[dbids.indexOf(curruser.id)].hp.toFixed(1)} ${jn.health}\n	Remaining SP:	${dbployees[dbids.indexOf(curruser.id)].sp.toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
-						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
-						bumpBoxes(peboxes, cmd[2], curruser.id)
-						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
-						dbployees[dbids.indexOf(cmd[1])].balance = dbployees[dbids.indexOf(cmd[1])].balance + ppeboxes
-						}
-						else {mssage.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
-						dbployees[dbids.indexOf(cmd[1])].working = 0
-				}
-				
-				asyncEdit(msg, progressBarStorage)
-		
-						
-	}
+
+	
 	
 	
 	// Vote stuff
@@ -1087,7 +968,8 @@ const Discord = require('discord.js');
 						})
 					if (onCooldown === false) {
 					if (effectDead === false) {
-						ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
+						//ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
+						workarr.push("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3] + " " + msg.channel.id)
 					} else {
 						dbployees[dbids.indexOf(msg.author.id)].dead = 1
 						dbployees[dbids.indexOf(msg.author.id)].hp = 0
@@ -1652,7 +1534,131 @@ const Discord = require('discord.js');
 	}
 })
 	
+	client.setInterval(function(){
+		if (workarr.length > 1) {
+		cmd = workarr[0].toLowerCase().split(" ")
+		DELTAS.channels.get(cmd[4]).send(workarr[0]).then(menumsg => {
+		workarr.shift()
+		currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+		respectiveStat = jn.stats[jn.workOrders.indexOf(cmd[3])]
+		const curruser = dbployees[dbids.indexOf(cmd[1])]
+		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(cmd[1])], (jn.risk.indexOf(currentAbno.risk) + 1))
+		fn.effectApplication['workCD'](dbployees[dbids.indexOf(cmd[1])], currentAbno.peoutput)
+		dbployees[dbids.indexOf(cmd[1])].working = 1
+		statIndex = jn.workOrders.indexOf(cmd[3])
+		userStat = curruser.stats[jn.stats.indexOf(respectiveStat)]
+		userTemp = curruser.temperance
+		userStatLevelText = statLVL(userStat)
+		userStatLevel = jn.statLevels.indexOf(userStatLevelText)
+		if (userStatLevel > 4) {userStatLevel = 4} 
+		successChance = 0
+		successChancet = (userTemp * 0.002 + currentAbno.workPreferences[statIndex][userStatLevel])*100
+		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
+		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
+		//msg.edit("\n```mb\n ⚙️ | User " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `\n	${succtext}`)
+		progressBar = ""
+		progressBarOld = ""
+		progressArray = []
+		progressArrayComplex = []
+		progressBarStorage = []
+		damageArray = []
+		for (i = 0; i < (currentAbno.peoutput/2); i++) {
+			progressBar += box([0, 0])
+			progressArrayComplex.push([0, 0])
+		}
+			neboxes = 0
+			peboxes = 0
+			ppeboxes = 0
+			i = 0
+			for (i = 0; i < currentAbno.peoutput; i++) {
+				if ((curruser.hp > 0) && (curruser.sp > 0)) {
+				if (roll(100) > successChance) {neboxes++; 
+					let dmg = (roll(currentAbno.damage[1] - currentAbno.damage[0] + 1) - 1) + currentAbno.damage[0]
+					if (currentAbno.dtype[0] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[0]*curruser.defensebuffs.split("|")[0])
+						curruser.hp = curruser.hp - dmg
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[0])
+						//console.log("DAMAGE:" + dmg)
+					}
+					if (currentAbno.dtype[1] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[1]*curruser.defensebuffs.split("|")[1])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[1])
+						curruser.sp = curruser.sp - dmg
+						//console.log("DAMAGE:" + dmg)
+					}
+					if (currentAbno.dtype[2] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(curruser.suit)].level, currentAbno.risk, gear.suits[Number(curruser.suit)].resistance[2]*curruser.defensebuffs.split("|")[2])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
+						curruser.hp = curruser.hp - dmg
+						curruser.sp = curruser.sp - dmg
+						//console.log("DAMAGE:" + dmg)
+					}
+					
+				}
+				else {
+					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
+					else {peboxes++}
+				}
+				progressBarOld = progressBar
+				progressBar = ""
+				progressArray = []
+				for (j = 0; j < (currentAbno.peoutput - (i+1)); j++) {
+					progressArray.push(0)
+				}
+				for (j = 0; j < peboxes; j++) {
+					progressArray.unshift(1)
+				}
+				for (j = 0; j < neboxes; j++) {
+					progressArray.push(-1)
+				}
+				//console.log("Progress array normal: " + progressArray)
+				//j = 0
+				//start_position: while(true) {
+				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
+				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+				//	//console.log("Progress array " + j + " " + progressArrayComplex)
+				//	if (j < (currentAbno.peoutput/2 - 1)) {j++; continue start_position}
+				//			break
+				//	}
+				//progressBarStorage.push(progressBar)
+				} else {dbployees[dbids.indexOf(cmd[1])].dead = 1}
+				}
+				
+				async function asyncEdit(mssage) {
+					let mood = ""
+					let moodResult = 0
+					if ((peboxes + ppeboxes) >= currentAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
+					else if ((peboxes + ppeboxes) >= currentAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
+					else {mood = jn.badresult; moodResult = 0}
+					if (currentAbno.effect[0] === true) {
+						fn.effectApplication[currentAbno.ego](dbployees[dbids.indexOf(cmd[1])], moodResult)
+					}
+					if (damageArray.length === 0) {damageArray.push("none")}
+						let wtime = Math.floor((currentAbno.peoutput/2)*10)/10
+						mssage.edit("\n```mb\n ⚙️ | Employee " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+						await wait(wtime*500)
+						//console.log("ARR length: " + arr.length)
+						if ((Number(curruser.hp) <= 0) || (Number(curruser.sp) <= 0))
+						{curruser.dead = 1; dbployees[dbids.indexOf(cmd[1])].dead = 1}
+						if (curruser.dead === 0) {
+						ppe = ""
+						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
+						mssage.edit("\n```mb\n ⚙️ | Employee " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${dbployees[dbids.indexOf(curruser.id)].hp.toFixed(1)} ${jn.health}\n	Remaining SP:	${dbployees[dbids.indexOf(curruser.id)].sp.toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						connection.query("UPDATE `employees` SET `balance` = '" + (Number(curruser.balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + curruser.id + "';", function (err, result) {if (err) throw err})
+						bumpBoxes(peboxes, cmd[2], curruser.id)
+						bumpSubpoint(curruser.id, respectiveStat, (Math.ceil(peboxes/10)*Math.pow(2, jn.risk.indexOf(currentAbno.risk))))
+						dbployees[dbids.indexOf(cmd[1])].balance = dbployees[dbids.indexOf(cmd[1])].balance + ppeboxes
+						}
+						else {mssage.edit("\n```mb\n ⚙️ | Employee " + curruser.tag + " is working " + cmd[3] + " on " + currentAbno.name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(curruser.id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						dbployees[dbids.indexOf(cmd[1])].working = 0
+				}
+				
+				asyncEdit(menumsg, progressBarStorage)
+		}
+						
+	}
 	
+	}, 200)
 	
 
 // THIS  MUST  BE  THIS  WAY
