@@ -831,8 +831,8 @@ const Discord = require('discord.js');
 					break
 				case "employee":
 					let uid2 = ""
-					if (cmd[2] != undefined) {uid2 = cmd[2]} else {uid = "143261987575562240"}
-					console.log(dbployees[dbids.indexOf(uid)])
+					if (cmd[2] != undefined) {uid2 = cmd[2]} else {uid2 = "143261987575562240"}
+					console.log(dbployees[dbids.indexOf(uid2)])
 					break
 				case "msg":
 					let tempch = DELTAS.channels.get(cmd[2])
