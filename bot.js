@@ -47,7 +47,7 @@ const Discord = require('discord.js');
 	 efflog = 0
 		
 	const DELTAS = client.guilds.get("607318782624399361");
-	const BCH = DELTAS.channels.get("607558082381217851");
+	const bch = DELTAS.channels.get("607558082381217851");
 
 
 	// Return the level of a stat
@@ -312,7 +312,7 @@ const Discord = require('discord.js');
 
 	client.on('ready', () => {
 
-	BCH.send("Bot started.")
+	bch.send("Bot started.")
 	
 		// Getting all of the 'employees' - members with a department role
 		DELTAS.members.forEach(m => {
