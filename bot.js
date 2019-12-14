@@ -320,7 +320,7 @@ const Discord = require('discord.js');
 							if (e.bufflist != undefined) {
 							bufflist = e.bufflist.split("|")
 							}
-							if ((bufflist.some(b => {b.startsWith("team")})) === false) {
+							if (bufflies.every(eff => {return (eff.startsWith("team") === false)})) {
 								if (e.tjtime != undefined) {
 								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
 									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
