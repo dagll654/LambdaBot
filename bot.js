@@ -1544,7 +1544,7 @@ const Discord = require('discord.js');
 										if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
 										bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
 										}
-										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.user.id)], drFind(msg.member), "take", 1)	
+										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
 									}
 									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
