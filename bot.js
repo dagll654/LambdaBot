@@ -1,4 +1,4 @@
-const Discord = require('discord.js');z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -321,9 +321,11 @@ const Discord = require('discord.js');z
 							bufflist = e.bufflist.split("|")
 							}
 							if ((bufflist.some(b => {b.startsWith("team")})) === false) {
+								if (e.tjtime != undefined) {
 								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
 									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
 								} 
+								}
 							}
 						}
 					})
@@ -865,6 +867,11 @@ const Discord = require('discord.js');z
 				case "boxes":
 					dbployees.forEach(e => {
 						console.log(e.tag + " " + e.balancespecific)
+					})
+					break
+				case "bigbroke":
+					dbployees.forEach(e => {
+						e.bufflist = ""
 					})
 					break
 				case "clearbase":
