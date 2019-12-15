@@ -1164,7 +1164,7 @@ const Discord = require('discord.js');
 				case "inv":
 				case "inventory":
 					msg.delete(1)
-							let curruser = dbployees[dbids.indexOf(msg.author.id)]
+							curruser = dbployees[dbids.indexOf(msg.author.id)]
 							invs = "Suit"
 							invw = "Riot Stick"
 							invsarr = []
