@@ -638,7 +638,7 @@ const Discord = require('discord.js');
 						if (dbployees[dbids.indexOf(arrg[0])].dead === 0) {
 						ppe = ""
 						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp.toFixed(1)} ${jn.health}\n	Remaining SP:	${dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp.toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp).toFixed(1)} ${jn.health}\n	Remaining SP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp).toFixed(1)} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + dbployees[dbids.indexOf(arrg[0])].id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, arrg[1], dbployees[dbids.indexOf(arrg[0])].id)
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
