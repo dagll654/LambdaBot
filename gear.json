@@ -4,67 +4,85 @@
 			"name": "Suit",
 			"resistance": [1, 1, 1.5, 2],
 			"level": "ZAYIN",
-			"cost": 0
+			"cost": 0,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "1",
 			"name": "Depression",
 			"resistance": [3, 3, 3, 3],
 			"level": "ZAYIN",
-			"cost": 1
+			"cost": 1,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "2",
 			"name": "Debug (god mode)",
 			"resistance": [0, 0, 0, 0],
 			"level": "ALEPH",
-			"cost": 999999
+			"cost": 999999,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "3",
 			"name": "Penitence",
 			"resistance": [0.9, 0.8, 0.9, 2],
 			"level": "ZAYIN",
-			"cost": 200
+			"cost": 200,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "4",
 			"name": "Fourth Match Flame",
 			"resistance": [0.6, 1, 1.2, 2],
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "5",
 			"name": "Wingbeat",
 			"resistance": [0.8, 0.8, 1, 2],
 			"level": "ZAYIN",
-			"cost": 200
+			"cost": 200,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "6",
 			"name": "Somewhere Spear",
 			"resistance": [1, 1.2, 0.6, 2],
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "7",
 			"name": "Regret",
 			"resistance": [0.7, 1.2, 0.8, 2],
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "8",
 			"name": "Soda",
 			"resistance": [0.8, 1.0, 1.0, 2],
 			"level": "ZAYIN",
-			"cost": 300
+			"cost": 300,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "9",
 			"name": "Rapturous Dream",
 			"resistance": [1.2, 0.8, 0.7, 2],
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0]
 		},
 		{	"id": "10",
 			"name": "Red Eyes",
 			"resistance": [0.8, 0.8, 0.8, 2],
 			"level": "TETH",
-			"cost": 600
+			"cost": 600,
+			"requirements": [30, 0, 0, 0]
+		},
+		{	"id": "11",
+			"name": "Noise",
+			"resistance": [1.2, 0.7, 0.6, 2],
+			"level": "TETH",
+			"cost": 600,
+			"requirements": [0, 30, 0, 0]
 		}
 			],
 			
@@ -167,6 +185,15 @@
 			"range": "short",
 			"level": "TETH",
 			"cost": 400
+		},
+		{	"id": "11",
+			"name": "No weapon available.",
+			"damage": [0, 0],
+			"dtype": [0, 0, 0, 0],
+			"speed": "null",
+			"range": "null",
+			"level": "ZAYIN",
+			"cost": "-"
 		}
 			],
 	

@@ -1164,7 +1164,7 @@ const Discord = require('discord.js');
 				case "inv":
 				case "inventory":
 					msg.delete(1)
-							curruser = dbployees[dbids.indexOf(msg.author.id)]
+							let curruser = dbployees[dbids.indexOf(msg.author.id)]
 							invs = "Suit"
 							invw = "Riot Stick"
 							invsarr = []
@@ -1230,6 +1230,7 @@ const Discord = require('discord.js');
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
+												if (curruser.stats.every((s, i) => {return (s > gear.suits[equpd].requirements[i])})) {
 												equpd = (Number(m.array()[0].content) - 1).toString()
 												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.suits[equpd].level))
 												console.log("EQUPD: " + equpd)
@@ -1237,7 +1238,7 @@ const Discord = require('discord.js');
 												dbployees[dbids.indexOf(curruser.id)].suit = equpd
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
 												menumsg.delete(8000)
-												
+												} else msg.reply("you do not meet the requirements for wearing that suit.")
 											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
 										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})

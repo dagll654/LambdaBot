@@ -102,7 +102,8 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
-				"effect": [true]
+				"effect": [true],
+				"affstat": [false]
 				
 			},
 			{
@@ -122,7 +123,8 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 5, 8],
-				"effect": [false]
+				"effect": [false],
+				"affstat": [false]
 			},
 			{
 				"name": "O-01-04: 'The Queen of Hatred'",
@@ -157,7 +159,8 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 3, 6],
-				"effect": [true, ">1", "effect", "0"]
+				"effect": [true, ">1", "effect", "0"],
+				"affstat": [false]
 			},
 			{
 				"name": "O-03-60: 'Fragment of the Universe'",
@@ -176,7 +179,8 @@
 				"dtype": [0, 0, 1, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
-				"effect": [false]
+				"effect": [false],
+				"affstat": [false]
 			},
 			{
 				"name": "T-01-54: 'Forsaken Murderer'",
@@ -195,7 +199,8 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 11],
-				"effect": [false]
+				"effect": [false],
+				"affstat": [false]
 			},
 			{
 				"name": "F-05-52: 'Opened can of Wellcheers'",
@@ -214,7 +219,8 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 5, 8],
-				"effect": [true]
+				"effect": [true],
+				"affstat": [false]
 			},
 			{
 				"name": "T-02-99: 'Void Dream'",
@@ -233,7 +239,8 @@
 				"dtype": [0, 0, 1, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 9],
-				"effect": [true]
+				"effect": [true],
+				"affstat": [false]
 			},
 			{
 				"name": "T-02-43: 'Spider Bud'",
@@ -252,7 +259,28 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 999],
-				"effect": [true]
+				"effect": [true],
+				"affstat": [false]
+			},
+			{
+				"name": "T-06-27: '1.76 MHz'",
+				"color": [22, 22, 22],
+				"risk": "TETH",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "11",
+				"peoutput": 12,
+				"workPreferences": [[0.4, 0.4, 0.4, 0.4, 0.4],
+									[0.4, 0.3, 0.2, 0.2, 0.2],
+									[0.2, 0.1, 0, 0, 0],
+									[0.55, 0.55, 0.6, 0.6, 0.6]									
+									],
+				"damage": [2, 4],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 6, 10],
+				"effect": [true],
+				"affstat": [false]
 			}
 				
 		]
