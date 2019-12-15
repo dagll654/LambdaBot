@@ -264,9 +264,8 @@ const Discord = require('discord.js');
 				bAbnos.forEach(a => {
 					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 				})
-				//console.log("LOOK AT MY BALLS " + bToSend.join(" "))
-				
-				connection.query("UPDATE `employees` SET `balancespecific` = '" + bToSend.join(" ") + "' WHERE `employees`.`userid` = '" + e.id + "';", function (err, result) {if (err) throw err})	
+				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
+				e.balancespecific = bToSend.join(" ")
 			})
 			if (err) throw err
 
