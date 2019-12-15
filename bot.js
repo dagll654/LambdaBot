@@ -56,6 +56,14 @@ const Discord = require('discord.js');
 		else {return "EX"}
 	}
 	
+	function statLVN(stat) {
+		if (stat < 30) {return 1}
+		else if (stat < 45) {return 2}
+		else if (stat < 65) {return 3}
+		else if (stat < 85) {return 4}
+		else {return 5}
+	}
+	
 	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 	
 	// Get employee by id
@@ -111,7 +119,7 @@ const Discord = require('discord.js');
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	function fdbPush(e, arr = dbployees) {
-		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/100, "sp": e.sp/100, "fortitude": e.fortitude, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "defensebuffs": e.defensebuffs, "bufflist": e.bufflist, "tjtime": e.tjtime, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}})
+		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/100, "sp": e.sp/100, "fortitude": e.fortitude, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "gifts": e.gifts, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "defensebuffs": e.defensebuffs, "bufflist": e.bufflist, "tjtime": e.tjtime, "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice), statLVN(this.fortitude)+statLVN(this.prudence)+statLVN(this.temperance)+statLVN(this.justice)]}})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -569,6 +577,12 @@ const Discord = require('discord.js');
 						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
 						dbployees[dbids.indexOf(arrg[0])].hp = dbployees[dbids.indexOf(arrg[0])].hp - dmg
 						dbployees[dbids.indexOf(arrg[0])].sp = dbployees[dbids.indexOf(arrg[0])].sp - dmg
+						//console.log("DAMAGE:" + dmg)
+					}
+					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[3] === 1) {
+						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[2]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[2])
+						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[3])
+						dbployees[dbids.indexOf(arrg[0])].hp -= (dbployees[dbids.indexOf(arrg[0])].hp/100)*dmg
 						//console.log("DAMAGE:" + dmg)
 					}
 					
