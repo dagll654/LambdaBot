@@ -152,7 +152,7 @@ exports.effectApplication = {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
-			return [true, "\nYou have been taken away to a fishing boat."]
+			return [true, "\n	You have been taken away to a fishing boat."]
 		}
 	},
 	"9": function(employee, result, workorder) {
@@ -160,7 +160,7 @@ exports.effectApplication = {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
-			return [true, "\nYou have fallen asleep. Good night, sweet prince."]
+			return [true, "\n	You have fallen asleep. Good night, sweet prince."]
 		}
 	},
 	"10": function(employee, result, workorder) {
@@ -168,7 +168,7 @@ exports.effectApplication = {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
-			return [true, "\nYou have fallen asleep. Good night, sweet prince."]
+			return [true, "\n	You have been cocooned. I hope you like getting digested."]
 		}
 	},
 	"egoChange": function(employee, index) {
