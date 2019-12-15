@@ -321,7 +321,9 @@
 				"damage": [5, 7],
 				"dtype": [0, 0, 0, 1],
 				"tips": ["bruh", "bruh2"],
-				"mood": [0, 7, 13]
+				"mood": [0, 7, 13],
+				"effect": [false],
+				"affstat": [false]
 			}
 				
 		]
