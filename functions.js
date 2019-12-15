@@ -175,6 +175,7 @@ exports.effectApplication = {
 		effects = employee.effects.split("|")
 		effects.push("1/" + (index + 1) * 60 * 12 + "/EGO adaptation")
 		employee.effects = effects.join("|")
+		return [false]
 	},
 	"workCD": function(employee, boxes) {
 		effects = employee.effects.split("|")
@@ -185,11 +186,13 @@ exports.effectApplication = {
 		}
 		effects.push("2/" + (Math.round(Number(boxes)/1.4) + fatiguemod - 1) + "/work cooldown")
 		employee.effects = effects.join("|")
+		return [false]
 	},
 	"3": function(employee, result, workorder) {
 		if (result > 1) {
 			employee.sp = employee.sp + 3
 		}
+		return [false]
 	},
 	"fatigue": function(employee, risk) {
 			effects = employee.effects.split("|")
@@ -200,10 +203,11 @@ exports.effectApplication = {
 			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
 			effects[effects.findIndex(checkFatigue)] = "3/" + (40 + Math.floor((Number(fatigue[3])/risk)*2)) + "/fatigue/" + Math.round((Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)/risk)
 			employee.effects = effects.join("|")}
-
+		return [false]
 	},
 	"department": function(employee, dep, action, level = 0) {
 		console.log("|" + employee.tag + "|" + dep + "|")
 		buffs['buff'](employee, jn.bufflist['department'][dep][level], action)
+		return [false]
 	}
 }
