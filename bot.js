@@ -1230,8 +1230,8 @@ const Discord = require('discord.js');
 									.then(m => {
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
+												let equpd = (Number(m.array()[0].content) - 1).toString()
 												if (curruser.stats.every((s, i) => {return (s > gear.suits[equpd].requirements[i])})) {
-												equpd = (Number(m.array()[0].content) - 1).toString()
 												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.suits[equpd].level))
 												console.log("EQUPD: " + equpd)
 												m.delete(1)
