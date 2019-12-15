@@ -1285,8 +1285,9 @@ const Discord = require('discord.js');
 							} else msg.reply("error: cannot change EGO equipment again yet. Try again later.")
 							} else if (c1msg === "discard") {
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discard suit or weapon?")
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
+								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 20000 })
 								.then(m => {
+								if (m.array()[0] != undefined) {
 								if (m.array()[0].content === "suit" || m.array()[0].content === "weapon") {
 
 									switch (m.array()[0].content) {
@@ -1345,6 +1346,7 @@ const Discord = require('discord.js');
 										break
 									}
 									
+								}
 								}
 								})//
 							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
