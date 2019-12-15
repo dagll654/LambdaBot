@@ -170,7 +170,7 @@ exports.effectApplication = {
 			employee.dead = 1
 			return [true, "\nYou have fallen asleep. Good night, sweet prince."]
 		}
-	}
+	},
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
 		effects.push("1/" + (index + 1) * 60 * 12 + "/EGO adaptation")
