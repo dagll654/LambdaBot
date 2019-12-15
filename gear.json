@@ -95,6 +95,14 @@
 			"cost": 600,
 			"requirements": [0, 30, 0, 0],
 			"reqString": "Prudence II"
+		},
+		{	"id": "12",
+			"name": "Grinder Mk4",
+			"resistance": [0.6, 1.3, 0.9, 1.5],
+			"level": "HE",
+			"cost": 700,
+			"requirements": [0, 30, 0, 0],
+			"reqString": "Prudence II"
 		}
 			],
 			
@@ -106,7 +114,9 @@
 			"speed": "medium",
 			"range": "medium",
 			"level": "ZAYIN",
-			"cost": 0
+			"cost": 0,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "1",
 			"name": "Depression",
@@ -115,7 +125,9 @@
 			"speed": "very slow",
 			"range": "very short",
 			"level": "ZAYIN",
-			"cost": 1
+			"cost": 1,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "2",
 			"name": "Debug (butcher)",
@@ -124,7 +136,9 @@
 			"speed": "very slow",
 			"range": "very long",
 			"level": "ALEPH",
-			"cost": 999999
+			"cost": 999999,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "3",
 			"name": "Penitence",
@@ -133,7 +147,9 @@
 			"speed": "medium",
 			"range": "medium",
 			"level": "ZAYIN",
-			"cost": 300
+			"cost": 300,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "4",
 			"name": "Fourth Match Flame",
@@ -142,7 +158,9 @@
 			"speed": "very slow",
 			"range": "very long",
 			"level": "TETH",
-			"cost": 700
+			"cost": 700,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "5",
 			"name": "Wingbeat",
@@ -151,7 +169,9 @@
 			"speed": "medium",
 			"range": "short",
 			"level": "ZAYIN",
-			"cost": 300
+			"cost": 300,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "6",
 			"name": "Somewhere Spear",
@@ -160,7 +180,9 @@
 			"speed": "fast",
 			"range": "medium",
 			"level": "TETH",
-			"cost": 400
+			"cost": 400,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "7",
 			"name": "Regret",
@@ -169,7 +191,9 @@
 			"speed": "slow",
 			"range": "medium",
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "8",
 			"name": "Soda",
@@ -178,7 +202,9 @@
 			"speed": "very fast",
 			"range": "long",
 			"level": "ZAYIN",
-			"cost": 400
+			"cost": 400,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "9",
 			"name": "Rapturous Dream",
@@ -187,7 +213,9 @@
 			"speed": "very fast",
 			"range": "medium",
 			"level": "TETH",
-			"cost": 500
+			"cost": 500,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "10",
 			"name": "Red Eyes",
@@ -196,7 +224,9 @@
 			"speed": "normal",
 			"range": "short",
 			"level": "TETH",
-			"cost": 400
+			"cost": 400,
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "11",
 			"name": "No weapon available.",
@@ -205,7 +235,20 @@
 			"speed": "null",
 			"range": "null",
 			"level": "ZAYIN",
-			"cost": "-"
+			"cost": "-",
+			"requirements": [0, 0, 0, 0],
+			"reqString": "none"
+		},
+		{	"id": "12",
+			"name": "Grinder Mk4",
+			"damage": [1, 3],
+			"dtype": [1, 0, 0, 0],
+			"speed": "fast",
+			"range": "medium",
+			"level": "HE",
+			"cost": "1000",
+			"requirements": [30, 0, 0, 0],
+			"reqString": "Prudence II"
 		}
 			],
 	

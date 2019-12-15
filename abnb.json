@@ -282,6 +282,26 @@
 				"mood": [0, 6, 10],
 				"effect": [false],
 				"affstat": [false]
+			},
+			{
+				"name": "T-05-41: 'Little Helper'",
+				"color": [244, 244, 244],
+				"risk": "HE",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "12",
+				"peoutput": 16,
+				"workPreferences": [[0.5, 0.55, 0.55, 0.5, 0.45],
+									[0, 0, -0.3, -0.6, -0.9],
+									[0.35, 0.4, 0.4, 0.35, 0.3],
+									[0.5, 0.55, 0.55, 0.5, 0.45]									
+									],
+				"damage": [3, 5],
+				"dtype": [1, 0, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 6, 10],
+				"effect": [false],
+				"affstat": [false]
 			}
 				
 		]

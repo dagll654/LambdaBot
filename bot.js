@@ -1262,6 +1262,7 @@ const Discord = require('discord.js');
 										if (checkSymbols(m.array()[0].content, nmbrs)) {
 											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
 												equpd = Number(m.array()[0].content) - 1
+												if (curruser.stats.every((s, i) => {return (s > gear.weapons[equpd].requirements[i])})) {
 												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.weapons[equpd].level))
 												console.log("EQUPD: " + equpd)
 												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
@@ -1272,7 +1273,7 @@ const Discord = require('discord.js');
 												msg.delete(1) 
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`) 
 												menumsg.delete(8000)
-												
+											 } else msg.reply("you do not meet the requirements for using that weapon. " + `(${gear.weapons[equpd].reqString})`)
 											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified weapon unavailable."); menumsg.delete(2000)}
 										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
 									})
