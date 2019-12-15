@@ -161,7 +161,7 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			return [true, "\n	You have fallen asleep. Good night, sweet prince."]
-		}
+		} else return [false]
 	},
 	"10": function(employee, result, workorder) {
 		if (employee.prudL < 30 || workorder === "insight") {
@@ -169,7 +169,7 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			return [true, "\n	You have been cocooned. I hope you like getting digested."]
-		}
+		} else return [false]
 	},
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
