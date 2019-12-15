@@ -117,7 +117,7 @@ exports.effects = {
 				else {return false}
 			}
 exports.effectApplication = {
-	"5": function(employee, result) {
+	"5": function(employee, result, workorder) {
 		if (result > 0) {
 			effects = employee.effects.split("|")
 			function checkEffect(eff) {
@@ -130,7 +130,47 @@ exports.effectApplication = {
 			})) {effects.push("0/30/F-04-83"); employee.effects = effects.join("|")}
 			else {effects[effects.findIndex(checkEffect)] = "0/30/F-04-83"; employee.effects = effects.join("|")}
 		}
+		return [false]
 	},
+	"8": function(employee, result, workorder) {
+		if (result > 0) {
+			switch (workorder) {
+				case "instinct":
+				employee.hp = employee.hp + 1.5
+				break
+				case "insight":
+				employee.sp = employee.sp + 1.5
+				break
+				case "attachment":
+				case "repression":
+				employee.hp = employee.hp + 1
+				employee.sp = employee.sp + 1
+				break
+			}
+			return [false]
+		} else {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\nYou have been taken away to a fishing boat."]
+		}
+	},
+	"9": function(employee, result, workorder) {
+		if (employee.tempL < 30) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\nYou have fallen asleep. Good night, sweet prince."]
+		}
+	},
+	"10": function(employee, result, workorder) {
+		if (employee.prudL < 30 || workorder === "insight") {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\nYou have fallen asleep. Good night, sweet prince."]
+		}
+	}
 	"egoChange": function(employee, index) {
 		effects = employee.effects.split("|")
 		effects.push("1/" + (index + 1) * 60 * 12 + "/EGO adaptation")
@@ -146,7 +186,7 @@ exports.effectApplication = {
 		effects.push("2/" + (Math.round(Number(boxes)/1.4) + fatiguemod - 1) + "/work cooldown")
 		employee.effects = effects.join("|")
 	},
-	"3": function(employee, result) {
+	"3": function(employee, result, workorder) {
 		if (result > 1) {
 			employee.sp = employee.sp + 3
 		}

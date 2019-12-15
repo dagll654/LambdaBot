@@ -605,11 +605,15 @@ const Discord = require('discord.js');
 				async function asyncEdit(mssage) {
 					let mood = ""
 					let moodResult = 0
+					let moodEffectResult = ""
 					if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[2]) {mood = jn.goodresult; moodResult = 2}
 					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult)
+						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])
+						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[0] === true) {
+							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[1]
+						}
 					}
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2)*10)/10
@@ -627,7 +631,7 @@ const Discord = require('discord.js');
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
 						dbployees[dbids.indexOf(arrg[0])].balance = dbployees[dbids.indexOf(arrg[0])].balance + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
 						dbployees[dbids.indexOf(arrg[0])].working = 0
 				}
 				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
@@ -1350,17 +1354,13 @@ const Discord = require('discord.js');
 					break
 				case "assign":
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-						var rtmp = ""
-						for (i = 2; i < cmd1.length; i++) {
-							rtmp += cmd1[i]
-							if (i < (cmd1.length - 1)) {rtmp += " "}
-						}
-						if (ncdeproles.includes(rtmp)) {
-							msg.member.addRole(getRole(rtmp))
+						var rtmp = cmd[2]
+						if (jn.nccideproles.includes(rtmp)) {
+							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 							dbployees[dbids.indexOf(msg.author.id)].tjtime = Date.now()
-							msg.reply("you have been successfully assigned to work in the " + rtmp + "!")
+							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 							//updData()
-						} else {msg.reply("error: incorrect team name. Example: !lc assign Extraction Team")}
+						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
 				case "leave":

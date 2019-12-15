@@ -47,6 +47,24 @@
 			"resistance": [0.7, 1.2, 0.8, 2],
 			"level": "TETH",
 			"cost": 500
+		},
+		{	"id": "8",
+			"name": "Soda",
+			"resistance": [0.8, 1.0, 1.0, 2],
+			"level": "ZAYIN",
+			"cost": 300
+		},
+		{	"id": "9",
+			"name": "Rapturous Dream",
+			"resistance": [1.2, 0.8, 0.7, 2],
+			"level": "TETH",
+			"cost": 500
+		},
+		{	"id": "10",
+			"name": "Red Eyes",
+			"resistance": [0.8, 0.8, 0.8, 2],
+			"level": "TETH",
+			"cost": 600
 		}
 			],
 			
@@ -122,6 +140,33 @@
 			"range": "medium",
 			"level": "TETH",
 			"cost": 500
+		},
+		{	"id": "8",
+			"name": "Soda",
+			"damage": [1, 2],
+			"dtype": [1, 0, 0, 0],
+			"speed": "very fast",
+			"range": "long",
+			"level": "ZAYIN",
+			"cost": 400
+		},
+		{	"id": "9",
+			"name": "Rapturous Dream",
+			"damage": [1, 2],
+			"dtype": [0, 1, 0, 0],
+			"speed": "very fast",
+			"range": "medium",
+			"level": "TETH",
+			"cost": 500
+		},
+		{	"id": "10",
+			"name": "Red Eyes",
+			"damage": [7, 9],
+			"dtype": [1, 0, 0, 0],
+			"speed": "normal",
+			"range": "short",
+			"level": "TETH",
+			"cost": 400
 		}
 			],
 	
@@ -150,6 +195,10 @@
 		},
 		{	"id": "7",
 			"name": "Regret"
+			
+		},
+		{	"id": "8",
+			"name": "Soda"
 			
 		}
 			]

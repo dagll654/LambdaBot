@@ -33,6 +33,18 @@
 			"Extraction Team",
 			"Architecture Team"
 			],
+	"nccideproles": [
+			"control",
+			"information",
+			"security",
+			"training",
+			"central",
+			"welfare",
+			"disciplinary",
+			"record",
+			"extraction",
+			"architecture"
+			],
 	"cdeproles": [
 			"Control Team (C)",
 			"Information Team (C)",
@@ -124,14 +136,16 @@
 					"f-01-02",
 					"f-04-83",
 					"o-03-60",
-					"t-01-54"
+					"t-01-54",
+					"f-05-52",
 					],
 	"abnWorkableUpperCase":  [
 					"O-03-03",
 					"F-01-02",
 					"F-04-83",
 					"O-03-60",
-					"T-01-54"
+					"T-01-54",
+					"F-05-52"
 					],
 	"workOrders":   [
 					"instinct",
