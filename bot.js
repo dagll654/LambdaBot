@@ -634,8 +634,8 @@ const Discord = require('discord.js');
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
 						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)
-						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[0] === true) {
-							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[1]
+						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)[0] === true) {
+							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)[1]
 						}
 					}
 					if (damageArray.length === 0) {damageArray.push("none")}
