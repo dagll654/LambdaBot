@@ -83,12 +83,14 @@ exports.effects = {
 		if (employee.effects.length > 0) {
 			let effectArray = employee.effects.split("|")
 			let deathEffect = []
+			let deathCause = ""
 			effectArray.forEach(e => {
 				if (e.startsWith("0/")) {
 					deathEffect = e.split("/")
+					deathCause = "fairies"
 				}
 			})
-			if (deathEffect.length > 0) {
+			if (deathEffect.length > 0 && deathCause === "fairies") {
 				if (abn.toUpperCase() != deathEffect[2])
 					ret = [true, deathEffect[2], "eaten by fairies."]
 			}
@@ -131,6 +133,34 @@ exports.effectApplication = {
 			else {effects[effects.findIndex(checkEffect)] = "0/30/F-04-83"; employee.effects = effects.join("|")}
 		}
 		return [false]
+	},
+	"14": function(employee, result, workorder, abnoID) {
+			effects = employee.effects.split("|")
+			function checkEffect14(eff) {
+				if (eff.startsWith("14/")) {return true}
+				else {return false}
+			}
+			//console.log(employee.tag + " " + effects)
+			if (effects.every(eff => {
+				return (eff.startsWith("14/") === false)
+			})) {effects.push("14/inf/T-04-06"); employee.effects = effects.join("|"); return [false]}
+			else if (abnoID != "14") {
+				let new14effects = []
+				for (i = 0; i < effects.length; i++) {
+					if (effects[i] != "14/inf/T-04-06") {new14effects.push(effects[i])}
+				}
+				if (new14effects.length > 0) {
+				employee.effects = new14effects.join("|")
+				} else {employee.effects = "null"}
+				}
+			else {
+				employee.effects = "null"
+				employee.dead = 1
+				employee.hp = 0
+				employee.sp = 0
+				return [true, "\n	You were given a warm hug."]
+			}
+
 	},
 	"8": function(employee, result, workorder) {
 		if (result > 0) {

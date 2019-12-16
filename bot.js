@@ -155,10 +155,12 @@ const Discord = require('discord.js');
 			let effects = e.effects.split("|")
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
+				if (effArr[1] != "inf") {
 				if (Number(effArr[1]) > 0) {
 				effArr[1] = Number(effArr[1]) - 1
 				effectsNew.push(effArr.join("/"))
 				} else {eff = "null"}
+				}
 				if ((eff === undefined) || (eff === "")) {eff = "null"}
 			})
 			e.effects = effectsNew.join("|")
@@ -623,7 +625,7 @@ const Discord = require('discord.js');
 					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])
+						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)
 						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[0] === true) {
 							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[1]
 						}
@@ -1083,7 +1085,6 @@ const Discord = require('discord.js');
 				case "w":
 				case "work": 
 				if (cmd[2] != "list") {
-				console.log(dbployees[dbids.indexOf(msg.author.id)].tag)
 					if (abn.lista.includes(cmd[2])) {
 					if (jn.abnWorkable.includes(cmd[2])) {
 					if (jn.workOrders.includes(cmd[3])) {
@@ -1150,10 +1151,12 @@ const Discord = require('discord.js');
 								curruser.effects.split("|").forEach(eff => {
 									let waittime = ""
 									let effspecial = ""
+									if (eff.split("/")[1] != "inf") {
 									if (Number(eff.split("/")[1]) > 60) {
 										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minute(s)"
 									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second(s)"}
 									if (eff.split("/")[2] === "fatigue") {effspecial = " [+" + Math.floor(Number(eff.split("/")[3])/3) +" second(s) to work CD]"}
+									} else waittime = "???"
 									effectArr.push(eff.split("/")[2] + `${effspecial} <${waittime}>`)
 								})
 								}
