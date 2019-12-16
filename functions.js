@@ -104,7 +104,7 @@ exports.effects = {
 				else {
 					let newEffects = []
 					effectArray.forEach(ef => {
-						if (ef != "14/inf/T-04-06") newEffects.push(ef)
+						if (ef.startsWith("14") === false) newEffects.push(ef)
 					})
 					employee.effects = newEffects.join("|")
 				}
@@ -152,7 +152,7 @@ exports.effectApplication = {
 	"14": function(employee, result, workorder) {
 			effects = employee.effects.split("|")
 			console.log(effects)
-			effects.push("14/inf/T-04-06")
+			effects.push("14/3600/T-04-06")
 			employee.effects = effects.join("|") 
 			console.log(effects)
 			return [false]
