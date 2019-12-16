@@ -633,10 +633,10 @@ const Discord = require('discord.js');
 					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)
 						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)[0] === true) {
 							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)[1]
 						}
+						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2], abn.abn[abn.lista.indexOf(arrg[1])].ego)
 					}
 					if (damageArray.length === 0) {damageArray.push("none")}
 						let wtime = Math.floor((abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2)*10)/10
