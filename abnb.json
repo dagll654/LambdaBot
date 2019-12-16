@@ -342,7 +342,7 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 11],
-				"effect": [true]
+				"effect": [true],
 				"affstat": [false]
 			}
 				
