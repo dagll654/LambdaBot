@@ -102,11 +102,14 @@ exports.effects = {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]}
 				else {
-					let newEffects = []
+					/*let newEffects = []
 					effectArray.forEach(ef => {
 						if (ef.startsWith("14") === false) newEffects.push(ef)
 					})
-					employee.effects = newEffects.join("|")
+					employee.effects = newEffects.join("|")*/
+					console.log("SOMETHING'S NOT WORKING")
+					console.log(deathEffect)
+					
 				}
 			}
 		}
