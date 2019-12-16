@@ -102,6 +102,8 @@ exports.effects = {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]}
 				else {
+					console.log(abn.toUpperCase())
+					console.log("FUCK")
 					let newEffects = []
 					effectArray.forEach(ef => {
 						if (ef.startsWith("14") === false) newEffects.push(ef)

@@ -183,7 +183,7 @@ const Discord = require('discord.js');
 			}
 			}
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
-			if (fn.effects.deathOnWork(e, "bleh")[0] === true) {e.hp = e.hp + 0.1}
+			if (effects.some(fef => fef.startsWith("0/"))) {e.hp = e.hp + 0.1}
 		})
 		if (efflog === 4) {efflog = 0}
 	}, 1000)
