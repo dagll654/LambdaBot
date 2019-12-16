@@ -151,8 +151,10 @@ exports.effectApplication = {
 	},
 	"14": function(employee, result, workorder) {
 			effects = employee.effects.split("|")
+			console.log(effects)
 			effects.push("14/inf/T-04-06")
 			employee.effects = effects.join("|") 
+			console.log(effects)
 			return [false]
 
 	},
