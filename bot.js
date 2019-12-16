@@ -164,7 +164,9 @@ const Discord = require('discord.js');
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (Number(effArr[1]) > 0) {
+				if (effArr[1] != "inf") {
 				effArr[1] = Number(effArr[1]) - 1
+				}
 				effectsNew.push(effArr.join("/"))
 				} else {eff = "null"}
 				if ((eff === undefined) || (eff === "")) {eff = "null"}

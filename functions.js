@@ -102,8 +102,6 @@ exports.effects = {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]}
 				else {
-					console.log(abn.toUpperCase())
-					console.log("FUCK")
 					let newEffects = []
 					effectArray.forEach(ef => {
 						if (ef.startsWith("14") === false) newEffects.push(ef)
@@ -154,16 +152,9 @@ exports.effectApplication = {
 	},
 	"14": function(employee, result, workorder) {
 			effects = employee.effects.split("|")
-			function checkEffect14(eff) {
-				if (eff.startsWith("14/")) {return true}
-				else {return false}
-			}
-			//console.log(employee.tag + " " + effects)
-			if (effects.every(eff => {
-				return (eff.startsWith("14/") === false)
-			})) {effects.push("14/3600/T-04-06"); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect14)] = "14/3600/T-04-06"; employee.effects = effects.join("|")}
-		return [false]
+			effects.push("14/inf/T-04-06")
+			employee.effects = effects.join("|")}
+
 	},
 	"8": function(employee, result, workorder) {
 		if (result > 0) {
