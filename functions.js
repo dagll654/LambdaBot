@@ -154,6 +154,7 @@ exports.effectApplication = {
 			effects = employee.effects.split("|")
 			effects.push("14/inf/T-04-06")
 			employee.effects = effects.join("|")
+			return [false]
 	},
 	"8": function(employee, result, workorder) {
 		if (result > 0) {
