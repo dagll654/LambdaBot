@@ -151,15 +151,10 @@ exports.effectApplication = {
 	},
 	"14": function(employee, result, workorder) {
 			effects = employee.effects.split("|")
-			function checkEffect14(eff) {
-				if (eff.startsWith("14/")) {return true}
-				else {return false}
-			}
-			//console.log(employee.tag + " " + effects)
-			if (effects.every(eff => {
-				return (eff.startsWith("14/") === false)
-			})) {effects.push("14/inf/T-04-06"); employee.effects = effects.join("|"); return [false]}
+			effects.push("14/inf/T-04-06")
+			employee.effects = effects.join("|") 
 			return [false]
+
 	},
 	"8": function(employee, result, workorder) {
 		if (result > 0) {
