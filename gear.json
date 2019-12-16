@@ -109,8 +109,16 @@
 			"resistance": [0.5, 0.5, 0.5, 0.5],
 			"level": "ALEPH",
 			"cost": 2400,
-			"requirements": [0, 0, 0, 85, 5],
-			"reqString": "Prudence II"
+			"requirements": [0, 0, 0, 85, 16],
+			"reqString": "Justice V, Employee Level V"
+		},
+		{	"id": "14",
+			"name": "Bear Paw",
+			"resistance": [0.5, 1.0, 1.0, 1.5],
+			"level": "HE",
+			"cost": 600,
+			"requirements": [0, 0, 0, 0, 6],
+			"reqString": "Employee Level 2"
 		}
 			],
 			
@@ -268,6 +276,17 @@
 			"cost": "3000",
 			"requirements": [0, 0, 0, 85, 5],
 			"reqString": "Justice V, Employee Level V" 
+		},
+		{	"id": "14",
+			"name": "Bear Paw",
+			"damage": [6, 7],
+			"dtype": [1, 0, 0, 0],
+			"speed": "normal",
+			"range": "very short",
+			"level": "HE",
+			"cost": "800",
+			"requirements": [30, 0, 0, 0, 0],
+			"reqString": "Fortitude II" 
 		}
 			],
 	
