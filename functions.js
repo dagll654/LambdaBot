@@ -99,7 +99,7 @@ exports.effects = {
 				ret = [true, deathEffect[2], "eaten by fairies."]}
 			}
 			if (deathEffect.length > 0 && deathCause === "bear") {
-				if (abn.toUpperCase() === deathEffect[2]){
+				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]}
 				else {
 					let newEffects = []
