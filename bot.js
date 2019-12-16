@@ -1158,9 +1158,9 @@ const Discord = require('discord.js');
 								})
 								}
 								//console.log("Curruser ID (profile): " + curruser.id)
-								tTime = 0
+								tTime = "0"
 								if (curruser.tjtime != undefined) {
-								tTime = (Date.now() - (curruser.tjtime - 0))/(1000*60*60*24)
+								tTime = ((Date.now() - (curruser.tjtime - 0))/(1000*60*60*24)).toFixed(1)
 								}
 								let deathArr = ["alive", "dead"] 
 								let ssp = bumpSubpoint(curruser.id)
