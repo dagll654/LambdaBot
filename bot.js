@@ -1325,6 +1325,24 @@ const Discord = require('discord.js');
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discard suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 20000 })
 								.then(m => {
+								dbployees.forEach(e => {
+									let bxd = e.inventorys.split("|")
+									let bxdNew = []
+									for (i = 0; i < bxd.length; i++) {
+										if (bxd[i] != "undefined" && bxd[i] != "") {
+											bxdNew.push(bxd[i])
+										}
+									}
+									e.inventorys = bxdNew.join("|")
+									let bxdw = e.inventoryw.split("|")
+									let bxdwNew = []
+									for (i = 0; i < bxdw.length; i++) {
+										if (bxdw[i] != "undefined" && bxdw[i] != "") {
+											bxdwNew.push(bxdw[i])
+										}
+									}
+									e.inventoryw = bxdwNew.join("|")
+								})
 								if (m.array()[0] != undefined) {
 								if (m.array()[0].content === "suit" || m.array()[0].content === "weapon") {
 
