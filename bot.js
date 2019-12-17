@@ -911,7 +911,7 @@ const Discord = require('discord.js');
 								bxdNew.push(bxd[i])
 							}
 						}
-						e.balancespecific = bxdNew.join("|")
+						e.inventorys = bxdNew.join("|")
 						let bxdw = e.inventoryw.split("|")
 						let bxdwNew = []
 						for (i = 0; i < bxdw.length; i++) {
@@ -919,7 +919,7 @@ const Discord = require('discord.js');
 								bxdwNew.push(bxdw[i])
 							}
 						}
-						e.balancespecific = bxdwNew.join("|")
+						e.inventoryw = bxdwNew.join("|")
 					})
 					break
 				case "clearbase":
