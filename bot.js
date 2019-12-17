@@ -907,7 +907,7 @@ const Discord = require('discord.js');
 						let bxd = e.inventorys.split("|")
 						let bxdNew = []
 						for (i = 0; i < bxd.length; i++) {
-							if (bxd[i] != "undefined") {
+							if (bxd[i] != "undefined" && bxd[i] != "") {
 								bxdNew.push(bxd[i])
 							}
 						}
@@ -915,7 +915,7 @@ const Discord = require('discord.js');
 						let bxdw = e.inventoryw.split("|")
 						let bxdwNew = []
 						for (i = 0; i < bxdw.length; i++) {
-							if (bxdw[i] != "undefined") {
+							if (bxdw[i] != "undefined" && bxdw[i] != "") {
 								bxdwNew.push(bxdw[i])
 							}
 						}
