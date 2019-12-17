@@ -904,14 +904,22 @@ const Discord = require('discord.js');
 					break
 				case "bigbroke":
 					dbployees.forEach(e => {
-						let bxd = e.balancespecific.split(" ")
+						let bxd = e.inventorys.split("|")
 						let bxdNew = []
 						for (i = 0; i < bxd.length; i++) {
-							if (bxd[i] != "|undefined") {
+							if (bxd[i] != "undefined") {
 								bxdNew.push(bxd[i])
 							}
 						}
-						e.balancespecific = bxdNew.join(" ")
+						e.balancespecific = bxdNew.join("|")
+						let bxdw = e.inventoryw.split("|")
+						let bxdwNew = []
+						for (i = 0; i < bxdw.length; i++) {
+							if (bxdw[i] != "undefined") {
+								bxdwNew.push(bxdw[i])
+							}
+						}
+						e.balancespecific = bxdwNew.join("|")
 					})
 					break
 				case "clearbase":
@@ -1465,23 +1473,17 @@ const Discord = require('discord.js');
 									let invslength = 0
 									let invwlength = 0
 									
-									if (empex.inventorys != undefined) {
-									if (empex.inventorys.length != undefined) {
-									if (empex.inventorys.length > 0) 
-									{if (empex.inventorys.length > 1) {invslength = empex.inventorys.split("|").length} else invslength = 1}
-									if (empex.inventorys === '') {invslength = 0}
-									}
+									if (empex.inventorys != undefined && empex.inventorys != 'undefined') {
+									empex.inventorys.split("|").forEach(s => {
+										if (s != "undefined") invslength++
+									})
 									}
 									
-									if (empex.inventoryw != undefined) {
-									if (empex.inventoryw.length != undefined) {	
-									if (empex.inventoryw.length > 0) 
-									{if (empex.inventoryw.length > 1) {invwlength = empex.inventoryw.split("|").length} else invwlength = 1}
-									if (empex.inventoryw === '') {invwlength = 0}
+									if (empex.inventoryw != undefined && empex.inventoryw != 'undefined') {
+									empex.inventoryw.split("|").forEach(w => {
+										if (w != "undefined") invwlength++
+									})
 									}
-									}
-									invwlength = invwlength - 1
-									invslength = invslength - 1
 									console.log(empex.tag + " " + invslength + " " + invwlength)
 								if ((invslength + invwlength) < 3) {
 								console.log(choice)
