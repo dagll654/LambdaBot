@@ -282,7 +282,7 @@ const Discord = require('discord.js');
 				bAbnos.forEach(a => {
 					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 				})
-				console.log("LOOK AT MY BALLS " + bToSend.join(" "))
+				console.log("LOOK AT MY BALLS " + e.tag + " " + bToSend.join(" "))
 				e.balancespecific = bToSend.join(" ")
 			})
 			if (err) throw err
