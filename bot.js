@@ -1251,7 +1251,7 @@ const Discord = require('discord.js');
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
 								.then(m => {
-								if (m.array()[0].content === "suit") {
+								if (m.array()[0].content.toLowerCase() === "suit") {
 									if (ainvs.length > 1) {
 									invs2 = ""
 									suitchoice = []
@@ -1282,7 +1282,7 @@ const Discord = require('discord.js');
 									.catch(console.error)
 								} else msg.reply("you only have the default suit.")
 								} else
-								if (m.array()[0].content === "weapon") {
+								if (m.array()[0].content.toLowerCase() === "weapon") {
 									if (ainvw.length > 1) { 
 									invw2 = ""
 									weaponchoice = []
@@ -1434,7 +1434,7 @@ const Discord = require('discord.js');
 						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
-						if (cmsg.content === "y") {
+						if (cmsg.content.toLowerCase() === "y") {
 							msg.reply("you have left the " + drFind(msg.member) + ".") 
 							let bufflist = []
 							if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
@@ -1446,7 +1446,7 @@ const Discord = require('discord.js');
 							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}
-						if (cmsg.content === "n") {msg.reply("team leave cancelled."); collector.stop()}
+						if (cmsg.content.toLowerCase() === "n") {msg.reply("team leave cancelled."); collector.stop()}
 						})
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
@@ -1606,7 +1606,7 @@ const Discord = require('discord.js');
 									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
 									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 									collector.on('collect', cmsg => {
-									if (cmsg.content === "y") {
+									if (cmsg.content.toLowerCase() === "y") {
 										msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
 										var cptxt = drFind(msg.member)
 										msg.member.removeRole(getRole(cptxt + " (C)"))
@@ -1618,7 +1618,7 @@ const Discord = require('discord.js');
 										}
 										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
 									}
-									if (cmsg.content === "n") {msg.reply("resign cancelled."); collector.stop()}
+									if (cmsg.content.toLowerCase() === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
 								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
 								break
