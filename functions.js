@@ -213,7 +213,7 @@ exports.effectApplication = {
 		}
 	},
 	"15": function(employee, result, workorder) {
-		if (result < 2 || employee.fortitude < 65) {
+		if (result === 0 || employee.fortitude < 65) {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
