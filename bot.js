@@ -1344,7 +1344,7 @@ const Discord = require('discord.js');
 									e.inventoryw = bxdwNew.join("|")
 								})
 								if (m.array()[0] != undefined) {
-								if (m.array()[0].content === "suit" || m.array()[0].content === "weapon") {
+								if (m.array()[0].content.toLowerCase() === "suit" || m.array()[0].content.toLowerCase() === "weapon") {
 
 									switch (m.array()[0].content) {
 										case "suit":
@@ -1395,7 +1395,7 @@ const Discord = require('discord.js');
 												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
 												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinvtext
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}.`)
-											} else msg.reply("error: you do not have that suit.")
+											} else msg.reply("error: you do not have that weapon.")
 											} else msg.reply("error: invalid choice.")
 										})
 										} else msg.reply("you only have the default weapon.")
