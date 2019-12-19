@@ -119,6 +119,14 @@
 			"cost": 600,
 			"requirements": [0, 0, 0, 0, 6],
 			"reqString": "Employee Level 2"
+		},
+		{	"id": "15",
+			"name": "Mimicry",
+			"resistance": [0.2, 0.5, 0.5, 1.0],
+			"level": "ALEPH",
+			"cost": 2400,
+			"requirements": [85, 0, 0, 0, 5],
+			"reqString": "Fortitude V, Employee Level V" 
 		}
 			],
 			
@@ -287,6 +295,17 @@
 			"cost": "800",
 			"requirements": [30, 0, 0, 0, 0],
 			"reqString": "Fortitude II" 
+		},
+		{	"id": "15",
+			"name": "Mimicry",
+			"damage": [10, 14],
+			"dtype": [1, 0, 0, 0],
+			"speed": "fast",
+			"range": "medium",
+			"level": "ALEPH",
+			"cost": "4444",
+			"requirements": [85, 0, 0, 0, 5],
+			"reqString": "Fortitude V, Employee Level V" 
 		}
 			],
 	

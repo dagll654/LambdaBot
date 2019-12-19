@@ -65,13 +65,6 @@ const Discord = require('discord.js');
 	}
 	
 	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
-	
-	// Get employee by id
-	function employee(id) {
-		//console.log("Getting by id " + Number(id).toString())
-		//console.log(dbployees[dbids.indexOf(id)])
-		return dbployees[dbids.indexOf(id)]
-	}
 
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
@@ -550,18 +543,23 @@ const Discord = require('discord.js');
 		let successChance = 0
 		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		//succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
+		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
+			console.log("TEST2 " + successChance)
+			successChance = successChance - fn.affstat
+			console.log("TEST3 " + successChance)
+		}
+		/*succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
 		//msg.edit("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `\n	${succtext}`)
 		let progressBar = ""
 		let progressBarOld = ""
 		let progressArray = []
 		let progressArrayComplex = []
-		let progressBarStorage = []
+		let progressBarStorage = []*/
 		let damageArray = []
-		for (i = 0; i < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2); i++) {
+		/*for (i = 0; i < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2); i++) {
 			progressBar += box([0, 0])
 			progressArrayComplex.push([0, 0])
-		}
+		}*/
 			let neboxes = 0
 			let peboxes = 0
 			let ppeboxes = 0
@@ -602,7 +600,7 @@ const Discord = require('discord.js');
 					else {peboxes++}
 				}
 
-				progressArray = []
+				/*progressArray = []
 				for (j = 0; j < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput - (i+1)); j++) {
 					progressArray.push(0)
 				}
@@ -612,16 +610,16 @@ const Discord = require('discord.js');
 				for (j = 0; j < neboxes; j++) {
 					progressArray.push(-1)
 				}
-				//console.log("Progress array normal: " + progressArray)
-				//j = 0
-				//start_position: while(true) {
-				//	progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-				//	progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-				//	//console.log("Progress array " + j + " " + progressArrayComplex)
-				//	if (j < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2 - 1)) {j++; continue start_position}
-				//			break
-				//	}
-				//progressBarStorage.push(progressBar)
+				console.log("Progress array normal: " + progressArray)
+				j = 0
+				start_position: while(true) {
+					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
+					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
+					//console.log("Progress array " + j + " " + progressArrayComplex)
+					if (j < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2 - 1)) {j++; continue start_position}
+							break
+					}
+				progressBarStorage.push(progressBar)*/
 				} else {dbployees[dbids.indexOf(arrg[0])].dead = 1}
 				}
 				
@@ -658,7 +656,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(arrg[0])].working = 0
 				}
 				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
-				asyncEdit(mesg, progressBarStorage)})
+				asyncEdit(mesg)})
 		
 						
 	}

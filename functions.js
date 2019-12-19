@@ -8,6 +8,13 @@
 	const cmds = jn.cmds
 //module.js
 
+	function statLVN(stat) {
+		if (stat < 30) {return 1}
+		else if (stat < 45) {return 2}
+		else if (stat < 65) {return 3}
+		else if (stat < 85) {return 4}
+		else {return 5}
+	}
 
 buffs = {
 	"buff": function(employee, buff, action) {
@@ -72,6 +79,25 @@ buffs = {
 }
 
 
+
+exports.affstat = function(abn, stat, employee) {
+	if (abn.toLowerCase() === "o-06-20") {
+		switch (stat) {
+			case "fortitude":
+			console.log("TEST " + stat + " " + (8*(5-statLVN(employee.fortitude))))
+			return (8*(5-statLVN(employee.fortitude)))
+			break
+			case "temperance":
+			console.log("TEST " + stat + " " + (10*(5-statLVN(employee.fortitude))))
+			return (10*(5-statLVN(employee.temperance)))
+			default:
+			console.log("nothing")
+			return 0
+		}
+	}
+	
+	return 0
+}
 
 
 exports.effects = {
@@ -184,6 +210,16 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			return [true, "\n	You have been taken away to a fishing boat."]
+		}
+	},
+	"15": function(employee, result, workorder) {
+		if (result < 2 || employee.fortitude < 65) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have been found to be much more *loving* than usual. And then disposed of with an execution bullet."]
+		} else {
+			return[false]
 		}
 	},
 	"9": function(employee, result, workorder) {

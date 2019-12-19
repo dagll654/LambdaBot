@@ -144,7 +144,19 @@
 				"risk": "ALEPH",
 				"thumbnail": "https://cubeupload.com/im/dagll/NothingTherePortrait.png",
 				"description": "O-06-20 consists of body parts and organs that resemble a creature. It has two mouths and a tongue, but can't properly communicate. The creature has one arm that comes out of it's head and five legs. It is physically strong and could easily kill an average employee. However it has far more dangerous abilities. O-06-20 is able to use it's victim's body as a shell to mimic that employee. It may pretend to be an employee for a while. If it's not suppressed quick enough, it turns into a cocoon and eventually takes a much stronger form. At that point it is extremely hard to suppress the abnormality.\n\nExcerpt from [REDACTED] Employee's diary\nThat thing is one of the most dangerous creatures that are contained here. Many employees are terrified of it and I understand why. An abnormality that can kill an employee is a common thing in this place, but this abnormality uses the corpse to mimic it's victim. The process itself is the most disgusting thing I've ever witnessed. Right now it is not that hard to distinguish it from an employee. However, it evolves very fast. Each new shell is more intricate than the previous ones. One day, when we will not be able to distinguish it from an actual person, it will destroy the facility from inside.\n\nIt's talking inside the body of an employee, but it is not the employee who speaks. The sound of calling is nothing but an empty shell mimicking a dead person. How many employees would have suffered to this sound? It keeps getting closer to human, it keeps trying. However, as always, at the end...\nNothing there.",
-				"ego": "Mimicry"
+				"ego": "15",
+				"peoutput": 33,
+				"workPreferences": [[0, 0, 0.35, 0.4, 0.45],
+									[0, 0, 0, 0, 0],
+									[0.5, 0.5, 0.5, 0.5, 0.5],
+									[0, 0, 0, 0, 0]									
+									],
+				"damage": [6, 9],
+				"dtype": [1, 0, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 17, 27],
+				"effect": [true],
+				"affstat": [true, "fortitude", "down", 5, 10]
 			},
 			{
 				"name": "F-04-83: 'The Fairy Festival'",
