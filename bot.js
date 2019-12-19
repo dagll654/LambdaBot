@@ -988,12 +988,15 @@ const Discord = require('discord.js');
 					updData()
 					break
 				case "revive":
-				let uid = "" //
-				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
-					dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
-					dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
-					dbployees[dbids.indexOf(uid)].dead = 0
-					updData()
+					function revive() {
+					let uid = "" //
+					if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
+						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
+						dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
+						dbployees[dbids.indexOf(uid)].dead = 0
+						updData()
+					}
+					revive()
 					break
 				case "localstats":
 					uid = "143261987575562240"
