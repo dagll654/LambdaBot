@@ -545,7 +545,7 @@ const Discord = require('discord.js');
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
 			console.log("TEST2 " + successChance)
-			successChance = successChance - fn.affstat
+			successChance = successChance - fn.affstat(arrg[1], respectiveStat, dbployees[dbids.indexOf(arrg[0])])
 			console.log("TEST3 " + successChance)
 		}
 		/*succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
