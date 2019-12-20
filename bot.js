@@ -1542,7 +1542,7 @@ const Discord = require('discord.js');
 								break
 								} else {msg.reply("error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
-						} else (msg.reply("error: no employee specified."); break}
+						} else {msg.reply("error: no employee specified."); break}
 						}
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
