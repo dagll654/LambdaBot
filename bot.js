@@ -60,6 +60,20 @@ const Discord = require('discord.js');
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
 	}
 	
+	function suit(id) {
+		let suit = gear.suits[id]
+		return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]} ${jn.dtype[0]} ${suit.resistance[1]} ${jn.dtype[1]} ${suit.resistance[2]} ${jn.dtype[2]} ${suit.resistance[3]} ${jn.dtype[3]}`)
+	}
+	
+	function weapon(id) {
+		let weapon = gear.weapons[id]
+		let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
+		for (i = 0; i < 4; i++) {
+			if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
+		}
+		return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
+	}
+	
 	function getBox(emp, abn) {
 		let balances = emp.balancespecific.split(" ")
 		let bal = balances.find(b => {return b.startsWith(abn)})
@@ -1528,7 +1542,7 @@ const Discord = require('discord.js');
 				/*[shop]----------*/case "shop":
 										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										invFullness(cUser)
-										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	${currentShop}`)
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}\n		${weapon(currentAbno.ego)}`)
 										console.log(currentShop[0])
 										menuIndex = "test"
 										k = 1
