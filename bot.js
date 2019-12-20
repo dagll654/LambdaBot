@@ -65,6 +65,10 @@ const Discord = require('discord.js');
 	}
 	
 	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
+	
+	function employee(empID) {
+		return dbployees[dbids.indexOf(empID)]
+	}
 
 	// Change an employee's subpoint (and award a stat-up if needed)
 	function bumpSubpoint(id, stat = "fortitude", val = 0) {
@@ -988,7 +992,7 @@ const Discord = require('discord.js');
 					updData()
 					break
 				case "revive":
-					function revive() {
+					function revive(cmd) {
 					let uid = "" //
 					if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
 						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
@@ -996,7 +1000,7 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(uid)].dead = 0
 						updData()
 					}
-					revive()
+					revive(cmd)
 					break
 				case "localstats":
 					uid = "143261987575562240"
@@ -1463,113 +1467,46 @@ const Discord = require('discord.js');
 				case "ex":
 				case "extraction":
 				
-				//curruser = dbployees[dbids.indexOf(msg.author.id)]
-				function ext(empex, chnal) {
-				DELTAS.channels.get(chnal).send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
-				.then(menumsg => {
-					const exmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 30000 })
-					exmenu.on('collect', m => {
-					//ch.awaitMessages(m => m.author.id === empex.id, { max: 3, time: 10000 })
-					//.then(m => {
-						if (jn.abnWorkable.includes(m.content.toLowerCase())) {
-							let currShopAbno = m.content.toLowerCase()
-							let abnoCodes = []
-							let abnoBoxes = []
-							dbployees[dbids.indexOf(msg.author.id)].balancespecific.split(" ").forEach(m => {
-								abnoCodes.push(m.split("|")[0])
-								abnoBoxes.push(m.split("|")[1])
-							})
-							//console.log(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].name)
-							let curentAbno2 = abn.abn[abn.lista.indexOf(m.content.toLowerCase())]
-							//console.log(curentAbno2)
-							let currentShop = {"boxes": abnoBoxes[abnoCodes.indexOf(m.content.toLowerCase())], "name": curentAbno2.name, "gear": [gear.suits[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)], gear.weapons[Number(abn.abn[abn.lista.indexOf(m.content.toLowerCase())].ego)]]}
-							console.log(currentShop)
-							let wepd = `${currentShop.gear[1].damage[0]} - ${currentShop.gear[1].damage[1]} `
-							for (i = 0; i < 4; i++) {
-								if (currentShop.gear[1].dtype[i] > 0) {wepd += jn.dtype[i]}
-							}
-							menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO: " + `${currentShop.name}` + "```\n" + `	Suit:	${emoji(currentShop.gear[0].level.toLowerCase(), ESERV)} ${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}   -   ${currentShop.gear[0].cost} ${jn.pebox}\n	Weapon:	${emoji(currentShop.gear[0].level.toLowerCase(), ESERV)} ${currentShop.gear[1].name}  -  ${wepd}   -   ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${empex.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase.`)
-							ch.awaitMessages(msg2 => msg2.author.id === msg.author.id, { max: 1, time: 30000 })
-							.then(msg2 => {
-								//console.log(msg2)
-								let price = 0
-								let priceFin = 0
-								let choice = msg2.array()[0].content.toLowerCase()
-								let respinv
-								if((choice === "suit") || (choice === "weapon")) {
-									let invslength = 0
-									let invwlength = 0
+				function ext(empID, channel) {
+					let cUser = employee(empID)
+					let cCh = DELTAS.channels.get(channel)
+					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
+					.then(menumsg => {
+				/*func*/async function menuNavigationExtraction() {
+						let menuIndex = "main"
+							while (menuIndex != "exit" && menuIndex != "timeout") {
+							await cCh.awaitMessages(r => r.author.id === cUser.author.id, { max: 1, time: 10000 }).then(r => {
+								
+				/*========*/if (r.first != undefined) {
+								let rp = r.first()
+								switch (menuIndex) {
 									
-									if (empex.inventorys != undefined && empex.inventorys != 'undefined') {
-									empex.inventorys.split("|").forEach(s => {
-										if (s != "undefined") invslength++
-									})
-									}
-									
-									if (empex.inventoryw != undefined && empex.inventoryw != 'undefined') {
-									empex.inventoryw.split("|").forEach(w => {
-										if (w != "undefined") invwlength++
-									})
-									}
-									console.log(empex.tag + " " + invslength + " " + invwlength)
-								if ((invslength + invwlength) < 3) {
-								console.log(choice)
-								switch (choice) {
-									case "suit":
-										price = currentShop.gear[0].cost
-										respinv = empex.inventorys
+									// Main menu of extraction
+				/*[main]----------*/case "main": 
+									switch (rp.content) {
+										case "exit":
+										menuIndex = "exit"
 										break
-									case "weapon":
-										price = currentShop.gear[1].cost
-										respinv = empex.inventoryw
-										break
-								}
-								let bAbnos = []
-								let bBals = []
-								bumpBoxes(0, "O-03-03", empex.id).forEach(a => {
-									bAbnos.push(a[0])
-									bBals.push(a[1])
-								})
-								//console.log(typeof(Number(currentShop.boxes)) + " " + Number(currentShop.boxes) + " " + typeof(empex.balance))
-								let totalBalance = Number(currentShop.boxes) + empex.balance
-								//console.log(typeof(totalBalance) + " " + totalBalance)
-								if (totalBalance >= Number(price)) {
-								let prices = []
-								if (Number(currentShop.boxes) >= price) {prices = [price, 0]}
-								else {prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]}
-								if (prices[1] <= price/4) { 
-								let tmptxt = ""
-									if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
-								menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
-								ch.awaitMessages(msg2 => msg2.author.id === msg.author.id, { max: 1, time: 30000 })
-								.then(msg3 => {
-									if (msg3.array()[0].content.toLowerCase() === "y")
-										if (respinv.split("|").includes(currentShop.gear[0].id) === false) {
-										let tmptxt2 = ""
-										dbployees[dbids.indexOf(empex.id)].balance = dbployees[dbids.indexOf(empex.id)].balance - prices[1]
-										bumpBoxes(-(prices[0]), currShopAbno, empex.id)
-										if (choice === "suit") {
-											let spl = dbployees[dbids.indexOf(empex.id)].inventorys.split("|")
-											spl.push(currentShop.gear[0].id)
-											dbployees[dbids.indexOf(empex.id)].inventorys = spl.join("|"); 
-											tmptxt2 = `${emoji(currentShop.gear[0].level.toLowerCase(), ESERV)} ${currentShop.gear[0].name}  -  ${currentShop.gear[0].resistance[0]} ${jn.dtype[0]} ${currentShop.gear[0].resistance[1]} ${jn.dtype[1]} ${currentShop.gear[0].resistance[2]} ${jn.dtype[2]} ${currentShop.gear[0].resistance[3]} ${jn.dtype[3]}`}
-										else {
-											let spl = dbployees[dbids.indexOf(empex.id)].inventoryw.split("|")
-											spl.push(currentShop.gear[0].id)
-											dbployees[dbids.indexOf(empex.id)].inventoryw = spl.join("|"); 
-											tmptxt2 = `${emoji(currentShop.gear[1].level.toLowerCase(), ESERV)} ${currentShop.gear[1].name}  -  ${wepd}`}
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	You have purchased ${tmptxt2}.`)
-										} else {msg.reply("error: you already have that item.")}
-									
-								})
-								} else {msg.reply("error: can only use PPE to pay a quarter of the price.")}
-								} else {msg.reply("error: not enough boxes.")}
-								} else msg.reply("error: your inventory is full. You can only have three items (suits and weapons) in your inventory. Discard one in the inventory menu.")
-								} else if (choice === "exit") {menumsg.edit("Exited the menu.")}
-							})
-						} else msg.reply("error: incorrect abnormality code or abnormality unavailable.").then(reply => reply.delete(2000))
-					})
-					})
+									}
+				/*[/main]---------*/break
+
+									// Exit functionality
+				/*[exit]----------*/case "exit":
+				/*[/exit]---------*/break
+
+								}// [/switch]
+							
+				/*========*/} else menuIndex = "timeout"
+
+							}).catch(console.error)
+						}
+						if (menuIndex === "exit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	You have exited the menu.`)
+						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
+						
+				/*func*/}
+					}
+					
+					menuNavigationExtraction()
 				}
 				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
 				break
