@@ -1481,7 +1481,7 @@ const Discord = require('discord.js');
 							
 							
 							let rp = r.first()
-				/*========*/if (rp != undefined) 
+				/*========*/if (rp != undefined) {
 							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(100)
 							if (rp.content != "exit") {
