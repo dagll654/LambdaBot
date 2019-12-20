@@ -1480,15 +1480,14 @@ const Discord = require('discord.js');
 							let rp = r.first()
 				/*========*/if (rp != undefined) {
 							rp.delete(100)
+							if (rp.content != "exit") {
 							
 								switch (menuIndex) {
 									
 									// Main menu of extraction
 				/*[main]----------*/case "main": 
 									switch (rp.content) {
-										case "exit":
-										menuIndex = "exit"
-										break
+										
 									}
 				/*[/main]---------*/break
 
@@ -1501,6 +1500,7 @@ const Discord = require('discord.js');
 									break
 								}// [/switch]
 							
+							} else menuIndex = "exit"
 				/*========*/} else menuIndex = "timeout"
 
 							}).catch(console.error)
