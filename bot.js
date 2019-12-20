@@ -1468,6 +1468,7 @@ const Discord = require('discord.js');
 				case "extraction":
 				
 				function ext(emp, channel) {
+					let currentAbno
 					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(1000))}
 					const cUser = emp
 					let cCh = DELTAS.channels.get(channel)
@@ -1475,7 +1476,7 @@ const Discord = require('discord.js');
 					.then(menumsg => {
 				/*func*/async function menuNavigationExtraction() {
 						let menuIndex = "main"
-							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail")) {
+							while (menuIndex != ("exit" && "timeout" && "fail" && "test")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 								
 							let rp = r.first()
@@ -1488,13 +1489,14 @@ const Discord = require('discord.js');
 									// Main menu of extraction
 				/*[main]----------*/case "main": 
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
-										const currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
+										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										menuIndex = "shop"
 									} else invResponse(rp)
 				/*[/main]---------*/break
 
 				/*[shop]----------*/case "shop":
-										
+										console.log(currentAbno.name)
+										menuIndex = "test"
 				/*[/shop]---------*/break
 									
 									default:
@@ -1510,6 +1512,7 @@ const Discord = require('discord.js');
 						if (menuIndex === "exit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	You have exited the menu.`)
 						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
 						else if (menuIndex === "fail") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
 						
 				/*func*/}
 						menuNavigationExtraction()
