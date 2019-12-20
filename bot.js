@@ -1546,13 +1546,13 @@ const Discord = require('discord.js');
 						
 				/*func*/async function menuNavigationExtraction() {
 							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit")) {
-							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
+							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 							
 							
 							let rp = r.first()
 				/*========*/if (rp != undefined) {
 							console.log(cUser.tag + ": " + menuIndex)
-							rp.delete(100)
+							rp.delete(1000)
 							
 							if (rp.content.toLowerCase() != "exit") {
 							if (rp.content.toLowerCase() != "return") {
