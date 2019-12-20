@@ -1485,14 +1485,14 @@ const Discord = require('discord.js');
 					} else {msg.reply(`Type in "!lc p/!lc profile" to see your profile. It displays your stats, progress towards the next stat increase, current HP and SP and your equipped gear.\n!lc i/!lc inventory" to see your inventory. It displays your amount of pe and ppe boxes and all of your gear`)}
 					
 					break
-				case "assign"://
+				case "assign":
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						var rtmp = cmd[2]
 						if (jn.nccideproles.includes(rtmp)) {
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
-							databaseThing()
-							async function setJoinTime() {
-							await wait(10000).then(dbployees[dbids.indexOf(msg.author.id)].tjtime = Date.now())
+							if (dbids.includes(msg.author.id) === false) {
+								dbids.push(msg.author.id)
+								dbployees.push({"id": msg.author.id, "tag": msg.author.tag, "hp": 17, "sp": 17, "fortitude": 17, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": 17, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": 17, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": 17, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": 0, "weapon": 0, "inventorys": undefined, "inventoryw": undefined, "gifts": undefined, "working": 0, "dead": 0, "balance": 0, "balancespecific": '', "subpoints": "0|0|0|0", "effects": 'null', "buffs": "0|0|0|0", "defensebuffs": "1|1|1|1", "bufflist": undefined, "tjtime": Date.now(), "statlimit": 100, get stats() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice), statLVN(this.fortitude)+statLVN(this.prudence)+statLVN(this.temperance)+statLVN(this.justice)]}})
 							}
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
