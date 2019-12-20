@@ -1523,7 +1523,7 @@ const Discord = require('discord.js');
 				case "extraction":
 				invClean()
 				function ext(emp, channel) {
-					const cUser = emp
+					cUser = emp
 					const cCh = DELTAS.channels.get(channel)
 					
 					let currentAbno
@@ -1619,11 +1619,10 @@ const Discord = require('discord.js');
 											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
+											menuIndex = "shop"
+											break
 										}
 										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; k = 1; break}
-										menuIndex = "shop"
-										k = 1
-										break
 									default:
 									k = 1
 									menuIndex = "fail"
