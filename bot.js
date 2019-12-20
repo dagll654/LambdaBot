@@ -1485,7 +1485,8 @@ const Discord = require('discord.js');
 							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(100)
 							if (rp.content != "exit") {
-							
+								k = 0
+								while (k === 0) {
 								switch (menuIndex) {
 									
 									// Main menu of extraction
@@ -1500,12 +1501,14 @@ const Discord = require('discord.js');
 				/*[shop]----------*/case "shop":
 										console.log(currentAbno.name)
 										menuIndex = "test"
+										k = 1
 				/*[/shop]---------*/break
 									
 									default:
 									menuIndex = "fail"
 									break
 								}// [/switch]
+								}
 							
 							} else menuIndex = "exit"
 				/*========*/} else menuIndex = "timeout"
