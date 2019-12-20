@@ -1545,7 +1545,7 @@ const Discord = require('discord.js');
 					.then(menumsg => {
 						
 				/*func*/async function menuNavigationExtraction() {
-							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit")) {
+							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 							
 							
@@ -1554,6 +1554,7 @@ const Discord = require('discord.js');
 							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(1000)
 							
+							if (rp.content.toLowerCase().startsWith("!lc")) {
 							if (rp.content.toLowerCase() != "exit") {
 							if (rp.content.toLowerCase() != "return") {
 								let k = 0
@@ -1632,6 +1633,7 @@ const Discord = require('discord.js');
 								}
 							} else menuIndex = "main"
 							} else menuIndex = "exit"
+							} else menuIndex = "interExit"
 				/*========*/} else menuIndex = "timeout"
 
 							}).catch(console.error)
@@ -1640,6 +1642,7 @@ const Discord = require('discord.js');
 						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
 						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
+						else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
 						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 						
 				/*func*/}
