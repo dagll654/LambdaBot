@@ -1579,7 +1579,7 @@ const Discord = require('discord.js');
 										}
 										
 										price = item.price
-										totalBalance = Number(currentShop.boxes) + empex.balance
+										totalBalance = Number(currentShop.boxes) + cUser.balance
 										if (totalBalance < Number(price)) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
 										prices = []
 										if (Number(currentShop.boxes) >= price) prices = [price, 0]
@@ -1620,8 +1620,8 @@ const Discord = require('discord.js');
 							}).catch(console.error)
 						}
 						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
-						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
-						else if (menuIndex === "fail") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
+						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
 						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 						
