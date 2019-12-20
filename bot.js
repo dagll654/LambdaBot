@@ -1487,7 +1487,7 @@ const Discord = require('discord.js');
 									
 									// Main menu of extraction
 				/*[main]----------*/case "main": 
-									if jn.abnWorkable.includes(rp.content.toLowerCase()) {
+									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 										const currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										menuIndex = "shop"
 									} else invResponse(rp)
