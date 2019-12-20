@@ -62,7 +62,7 @@ const Discord = require('discord.js');
 	
 	function getBox(emp, abn) {
 		let balances = emp.balancespecific.split(" ")
-		console.log("returning: " + abn + " " + balances.find(b => b.startsWith(abn.toLowerCase)))
+		console.log("returning: " + abn + " " + balances.find(b => return b.startsWith(abn)))
 		let bal = balances.find(b => b.startsWith(abn.toLowerCase))
 		let bal2 = bal.split("|")
 		return bal2[1]
