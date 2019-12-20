@@ -28,7 +28,8 @@ const Discord = require('discord.js');
 	const qte = jn.qte
 	const qte2 = "Lambdadelta Quote #"
 	const cmds = jn.cmds
-	const ESERV = client.guilds.get('513660754633949208')
+	const ESERV = client.guilds.get('513660754633949208')		
+	const DELTAS = client.guilds.get('607318782624399361');
 	var today = new Date()
 	var employees = []
 	var dbployees = []
@@ -48,7 +49,7 @@ const Discord = require('discord.js');
 	 efflog = 0
 	 
 	 // Function for getting an emoji by name
-	function emoji(nme, srv = msg.guild, a = false, id = false) {
+	function emoji(nme, srv = DELTAS, a = false, id = false) {
 		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
 		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
 			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
