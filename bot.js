@@ -1485,7 +1485,7 @@ const Discord = require('discord.js');
 					} else {msg.reply(`Type in "!lc p/!lc profile" to see your profile. It displays your stats, progress towards the next stat increase, current HP and SP and your equipped gear.\n!lc i/!lc inventory" to see your inventory. It displays your amount of pe and ppe boxes and all of your gear`)}
 					
 					break
-				case "assign":
+				case "assign"://
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 						var rtmp = cmd[2]
 						if (jn.nccideproles.includes(rtmp)) {
