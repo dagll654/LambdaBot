@@ -1516,7 +1516,7 @@ const Discord = require('discord.js');
 				/*[shop]----------*/case "shop":
 										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	${currentShop}`)
-										console.log(currentShop)
+										console.log(currentShop[0])
 										menuIndex = "test"
 										k = 1
 				/*[/shop]---------*/break
