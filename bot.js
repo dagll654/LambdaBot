@@ -192,7 +192,7 @@ const Discord = require('discord.js');
 			})
 			e.effects = effectsNew.join("|")
 			}
-			if (e.effects != 'null') {
+			if (e.effects != null) {
 			let effectsSplit = e.effects.split("|")
 			if ((effectsSplit.length > 1) && ((effectsSplit[0] === undefined)||(effectsSplit[0] === 'undefined')||(effectsSplit[0] === 'null')||(effectsSplit[0] === null))) {
 			effectsSplit.shift()
