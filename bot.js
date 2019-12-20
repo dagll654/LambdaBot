@@ -1551,10 +1551,9 @@ const Discord = require('discord.js');
 							
 							let rp = r.first()
 				/*========*/if (rp != undefined) {
-							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(1000)
 							
-							if (rp.content.toLowerCase().startsWith("!lc")) {
+							if (rp.content.toLowerCase().startsWith("!lc") === true) {
 							if (rp.content.toLowerCase() != "exit") {
 							if (rp.content.toLowerCase() != "return") {
 								let k = 0
