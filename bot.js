@@ -1523,6 +1523,7 @@ const Discord = require('discord.js');
 								// At the end (non-restricted)
 								break
 							case "vote":
+							if (cmd[3]) {
 							if (voting != 1) {
 								voteeid = ""
 								cmd[3].split("").forEach(c => {
@@ -1541,8 +1542,8 @@ const Discord = require('discord.js');
 								break
 								} else {msg.reply("error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 						} else {msg.reply("an election is in process currently!"); break}
-						} 
-
+						} else (msg.reply("error: no employee specified."); break}
+						}
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
