@@ -1504,9 +1504,8 @@ const Discord = require('discord.js');
 						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
 						
 				/*func*/}
+						menuNavigationExtraction()
 					})
-					
-					menuNavigationExtraction()
 				}
 				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
 				break
