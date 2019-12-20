@@ -28,8 +28,6 @@ const Discord = require('discord.js');
 	const qte = jn.qte
 	const qte2 = "Lambdadelta Quote #"
 	const cmds = jn.cmds
-	const ESERV = client.guilds.get('513660754633949208')		
-	const DELTAS = client.guilds.get('607318782624399361');
 	var today = new Date()
 	var employees = []
 	var dbployees = []
@@ -47,14 +45,6 @@ const Discord = require('discord.js');
 	 votingteam = ""
 	 voting = 0	
 	 efflog = 0
-	 
-	 // Function for getting an emoji by name
-	function emoji(nme, srv = DELTAS, a = false, id = false) {
-		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
-		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
-			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
-		return emvar
-	}
 
 	// Return the level of a stat
 	function statLVL(stat) {
@@ -68,20 +58,6 @@ const Discord = require('discord.js');
 	
 	function abno(code) {
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
-	}
-	
-	function suit(id) {
-		let suit = gear.suits[id]
-		return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]} ${jn.dtype[0]} ${suit.resistance[1]} ${jn.dtype[1]} ${suit.resistance[2]} ${jn.dtype[2]} ${suit.resistance[3]} ${jn.dtype[3]}`)
-	}
-	
-	function weapon(id) {
-		let weapon = gear.weapons[id]
-		let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
-		for (i = 0; i < 4; i++) {
-			if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
-		}
-		return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
 	}
 	
 	function getBox(emp, abn) {
@@ -475,6 +451,28 @@ const Discord = require('discord.js');
 	// Function for checking if all the elements of arr are included in arr2
 	function checkArray(arr, arr2) {
 		return arr.every(i => arr2.includes(i));
+	}
+	
+		 // Function for getting an emoji by name
+	function emoji(nme, srv = DELTAS, a = false, id = false) {
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
+		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
+			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
+		return emvar
+	}
+	
+	function suit(id) {
+		let suit = gear.suits[id]
+		return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]} ${jn.dtype[0]} ${suit.resistance[1]} ${jn.dtype[1]} ${suit.resistance[2]} ${jn.dtype[2]} ${suit.resistance[3]} ${jn.dtype[3]}`)
+	}
+	
+	function weapon(id) {
+		let weapon = gear.weapons[id]
+		let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
+		for (i = 0; i < 4; i++) {
+			if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
+		}
+		return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
 	}
 	
 	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
