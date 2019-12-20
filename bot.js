@@ -62,10 +62,22 @@ const Discord = require('discord.js');
 	
 	function getBox(emp, abn) {
 		let balances = emp.balancespecific.split(" ")
-		console.log("returning: " + abn + " " + balances.find(b => {return b.startsWith(abn)}))
 		let bal = balances.find(b => {return b.startsWith(abn)})
 		let bal2 = bal.split("|")
+		console.log("returning: " + abn + " " + bal2[1])
 		return bal2[1]
+	}
+	
+	function invFullness(emp) {
+		let iN = 0
+		if ((emp.inventorys != undefined) && (emp.inventorys != 'undefined')) {
+			emp.inventorys.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
+		}
+		if ((emp.inventoryw != undefined) && (emp.inventoryw != 'undefined')) {
+			emp.inventoryw.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
+		}
+		console.log("Fullness: " + emp.tag + " " + iN)
+		return iN	
 	}
 	
 	function statLVN(stat) {
