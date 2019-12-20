@@ -1497,7 +1497,8 @@ const Discord = require('discord.js');
 				/*[/exit]---------*/break
 									
 									default:
-									
+									msg.reply("error: unrecognized response.").then(tmp => tmp.delete(1000))
+									break
 								}// [/switch]
 							
 				/*========*/} else menuIndex = "timeout"
