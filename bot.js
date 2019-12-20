@@ -1604,8 +1604,8 @@ const Discord = require('discord.js');
 											addItemID(cUser, cInv, currentAbno.ego)
 										}
 										else if (rp.content.toLowerCase() === "n") forceReturn(rp, "purchase cancelled.")
-										k = 1
 										menuIndex = "shop"
+										k = 1
 									default:
 									k = 1
 									menuIndex = "fail"
