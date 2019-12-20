@@ -1479,7 +1479,8 @@ const Discord = require('discord.js');
 								
 							let rp = r.first()
 				/*========*/if (rp.content != undefined) {
-					
+							rp.delete(100)
+							
 								switch (menuIndex) {
 									
 									// Main menu of extraction
@@ -1494,7 +1495,9 @@ const Discord = require('discord.js');
 									// Exit functionality
 				/*[exit]----------*/case "exit":
 				/*[/exit]---------*/break
-
+									
+									default:
+									
 								}// [/switch]
 							
 				/*========*/} else menuIndex = "timeout"
@@ -1520,7 +1523,6 @@ const Discord = require('discord.js');
 								// At the end (non-restricted)
 								break
 							case "vote":
-							console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 1)))
 							if (voting != 1) {
 								voteeid = ""
 								cmd[3].split("").forEach(c => {
