@@ -56,6 +56,10 @@ const Discord = require('discord.js');
 		else {return "EX"}
 	}
 	
+	function abno(code) {
+		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
+	}
+	
 	function statLVN(stat) {
 		if (stat < 30) {return 1}
 		else if (stat < 45) {return 2}
@@ -1469,6 +1473,8 @@ const Discord = require('discord.js');
 				
 				function ext(emp, channel) {
 					let currentAbno
+					let currentAbnoCode
+					let currentShop
 					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(1000))}
 					const cUser = emp
 					let cCh = DELTAS.channels.get(channel)
@@ -1476,7 +1482,7 @@ const Discord = require('discord.js');
 					.then(menumsg => {
 				/*func*/async function menuNavigationExtraction() {
 						let menuIndex = "main"
-							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test")) {
+							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 							
 							
@@ -1485,7 +1491,7 @@ const Discord = require('discord.js');
 							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(100)
 							if (rp.content != "exit") {
-								k = 0
+								let k = 0
 								while (k === 0) {
 								switch (menuIndex) {
 									
@@ -1493,13 +1499,14 @@ const Discord = require('discord.js');
 				/*[main]----------*/case "main": 
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
+										currentACode = rp.content.toLowerCase()
 										menuIndex = "shop"
-										console.log("this? " + menuIndex)
 									} else invResponse(rp)
 				/*[/main]---------*/break
 
 				/*[shop]----------*/case "shop":
-										console.log(currentAbno.name)
+										currentShop = {"boxes": Number(cUser.balancespecific.split(" ").find(b => b.startsWith(currentAbnoCode))), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	${currentShop}`)
 										menuIndex = "test"
 										k = 1
 				/*[/shop]---------*/break
@@ -1519,6 +1526,7 @@ const Discord = require('discord.js');
 						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
 						else if (menuIndex === "fail") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
+						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 						
 				/*func*/}
 						menuNavigationExtraction()
