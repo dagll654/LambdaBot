@@ -28,6 +28,7 @@ const Discord = require('discord.js');
 	const qte = jn.qte
 	const qte2 = "Lambdadelta Quote #"
 	const cmds = jn.cmds
+	const ESERV = client.guilds.get('513660754633949208')
 	var today = new Date()
 	var employees = []
 	var dbployees = []
