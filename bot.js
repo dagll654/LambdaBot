@@ -1530,7 +1530,7 @@ const Discord = require('discord.js');
 					let price
 					let k
 					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(3000))}
-					function forceReturn(msg, code) {msg.reply(code).then(tmp => tmp.delete(4000)); menuIndex = "shop"; k = 1}
+					function forceReturn(msg, code) {msg.reply(code).then(tmp => tmp.delete(4000))}
 					
 					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 					.then(menumsg => {
@@ -1581,23 +1581,23 @@ const Discord = require('discord.js');
 										
 										price = item.price
 										totalBalance = Number(currentShop.boxes) + cUser.balance
-										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); break}
+										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
 										prices = []
 										if (Number(currentShop.boxes) >= price) prices = [price, 0]
 										else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
-										if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); break}
+										if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); menuIndex = "shop"; k = 1; break}
 										let tmptxt = ""
 											if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
 										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
 										
-										if (invFullness(cUser) > 2) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); break}
+										if (invFullness(cUser) > 2) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); menuIndex = "shop"; k = 1; break}
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
 										menuIndex = "purChoice"
 										k = 1
 									break
 									
 									case "purChoice":
-										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); break}
+										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
 										if (rp.content.toLowerCase() === "y") {
 											rp.reply("Successfully purchased " + item)
 											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
