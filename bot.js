@@ -1477,8 +1477,9 @@ const Discord = require('discord.js');
 							while (menuIndex != "exit" && menuIndex != "timeout") {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 								
-				/*========*/if (r.first != undefined) {
-								let rp = r.first()
+							let rp = r.first()
+				/*========*/if (rp.content != undefined) {
+					
 								switch (menuIndex) {
 									
 									// Main menu of extraction
