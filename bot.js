@@ -994,7 +994,7 @@ const Discord = require('discord.js');
 				case "revive":
 					function revive(cmd) {
 					let uid = "" //
-					if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
+					if (cmd[2] != undefined) {uid = cmd[2]} else {uid = "143261987575562240"}
 						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
 						dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
 						dbployees[dbids.indexOf(uid)].dead = 0
