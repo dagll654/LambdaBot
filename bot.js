@@ -233,6 +233,7 @@ const Discord = require('discord.js');
 				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL")) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
+				if (dbployees2[i][prop]) {
 				if (dbployees2[i][prop] != tempval) {
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
@@ -241,6 +242,7 @@ const Discord = require('discord.js');
 					}
 					}
 				}
+				} else pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
 				}
 			}
 			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
