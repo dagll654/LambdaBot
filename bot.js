@@ -1513,6 +1513,7 @@ const Discord = require('discord.js');
 									
 									default:
 									menuIndex = "fail"
+									k = 1
 									break
 								}// [/switch]
 								}
