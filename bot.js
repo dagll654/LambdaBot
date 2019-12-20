@@ -1630,7 +1630,7 @@ const Discord = require('discord.js');
 								}// [/switch]
 								ki++
 								}
-							} else menuIndex = "main"
+							} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)}
 							} else menuIndex = "exit"
 							} else menuIndex = "interExit"
 				/*========*/} else menuIndex = "timeout"
