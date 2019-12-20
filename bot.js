@@ -1587,7 +1587,7 @@ const Discord = require('discord.js');
 												break
 										}
 										
-										price = item.price
+										price = item.cost
 										totalBalance = Number(currentShop.boxes) + cUser.balance
 										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
 										prices = []
@@ -1615,6 +1615,7 @@ const Discord = require('discord.js');
 										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); break}
 										menuIndex = "shop"
 										k = 1
+										break
 									default:
 									k = 1
 									menuIndex = "fail"
