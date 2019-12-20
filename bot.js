@@ -1561,7 +1561,7 @@ const Discord = require('discord.js');
 								while (k === 0 && ki < 25) {
 								switch (menuIndex) {
 									
-									// Main menu of extraction
+									// Main menu of extraction 
 									case "main": 
 									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
@@ -1573,7 +1573,7 @@ const Discord = require('discord.js');
 									break
 
 									case "shop":
-										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+										currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										invFullness(cUser)
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
 										if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
