@@ -1474,11 +1474,11 @@ const Discord = require('discord.js');
 					.then(menumsg => {
 				/*func*/async function menuNavigationExtraction() {
 						let menuIndex = "main"
-							while (menuIndex != "exit" && menuIndex != "timeout") {
+							while ((menuIndex != "exit") && (menuIndex != "timeout")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 								
 							let rp = r.first()
-				/*========*/if (rp.content != undefined) {
+				/*========*/if (rp != undefined) {
 							rp.delete(100)
 							
 								switch (menuIndex) {
@@ -1512,6 +1512,8 @@ const Discord = require('discord.js');
 					})
 				}
 				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
+				
+				//==[/extraction]==
 				break
 				
 				case "captain": {
