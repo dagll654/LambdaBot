@@ -1514,8 +1514,8 @@ const Discord = require('discord.js');
 				/*[/shop]---------*/break
 									
 									default:
-									menuIndex = "fail"
 									k = 1
+									menuIndex = "fail"
 									break
 								}// [/switch]
 								ki++
