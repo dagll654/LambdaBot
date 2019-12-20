@@ -1510,7 +1510,7 @@ const Discord = require('discord.js');
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentACode = rp.content.toLowerCase()
 										menuIndex = "shop"
-									} else invResponse(rp)
+									} else {invResponse(rp); k = 1}
 				/*[/main]---------*/break
 
 				/*[shop]----------*/case "shop":
