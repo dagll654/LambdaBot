@@ -1543,16 +1543,19 @@ const Discord = require('discord.js');
 										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										invFullness(cUser)
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
-										console.log(currentShop[0])
-										menuIndex = "purchase"
-										k = 1
+										if ((rp.content === "suit") || (rp.content === "weapon")) menuIndex = "purchase"
+										else k = 1
 									break
 									
 									case "purchase":
-										if (invFullness(cUser) > 3) {msg.reply("your inventory is full. Discard an item in the inventory menu.").then(tmp => tmp.delete(2500)); k = 1; break}
+										switch (rp.content) {
+											
+										}
+										if (invFullness(cUser) > 2) {msg.reply("your inventory is full. Discard an item in the inventory menu.").then(tmp => tmp.delete(2500)); k = 1; break}
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Are you sure you want to purchase (wip)`)
 										menuIndex = "silentexit"
 										k = 1
+										
 									break
 									
 									default:
@@ -1568,7 +1571,7 @@ const Discord = require('discord.js');
 
 							}).catch(console.error)
 						}
-						if (menuIndex === "exit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	You have exited the menu.`)
+						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
 						else if (menuIndex === "timeout") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Menu timed out.`)
 						else if (menuIndex === "fail") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
