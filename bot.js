@@ -45,6 +45,14 @@ const Discord = require('discord.js');
 	 votingteam = ""
 	 voting = 0	
 	 efflog = 0
+	 
+	 // Function for getting an emoji by name
+	function emoji(nme, srv = msg.guild, a = false, id = false) {
+		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
+		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
+			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
+		return emvar
+	}
 
 	// Return the level of a stat
 	function statLVL(stat) {
@@ -510,14 +518,6 @@ const Discord = require('discord.js');
 	// Just a function that times the message out in x seconds
 	function yeet(sec) {
 		setTimeout(function(){msg.delete().catch(console.error)}, sec * 1000)
-	}
-	
-	// Function for getting an emoji by name
-	function emoji(nme, srv = msg.guild, a = false, id = false) {
-		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
-		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
-			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
-		return emvar
 	}
 	
 	// Function for getting a box by array explaining its contents
