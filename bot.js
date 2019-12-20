@@ -1467,8 +1467,8 @@ const Discord = require('discord.js');
 				case "ex":
 				case "extraction":
 				
-				function ext(empID, channel) {
-					let cUser = employee(empID)
+				function ext(emp, channel) {
+					const cUser = emp
 					let cCh = DELTAS.channels.get(channel)
 					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 					.then(menumsg => {
