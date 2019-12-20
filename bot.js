@@ -1492,7 +1492,8 @@ const Discord = require('discord.js');
 							rp.delete(100)
 							if (rp.content != "exit") {
 								let k = 0
-								while (k === 0) {
+								let ki = 0
+								while (k === 0 && ki < 25) {
 								switch (menuIndex) {
 									
 									// Main menu of extraction
@@ -1507,6 +1508,7 @@ const Discord = require('discord.js');
 				/*[shop]----------*/case "shop":
 										currentShop = {"boxes": Number(cUser.balancespecific.split(" ").find(b => b.startsWith(currentAbnoCode))), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	${currentShop}`)
+										console.log(currentShop)
 										menuIndex = "test"
 										k = 1
 				/*[/shop]---------*/break
@@ -1516,6 +1518,7 @@ const Discord = require('discord.js');
 									k = 1
 									break
 								}// [/switch]
+								ki++
 								}
 							
 							} else menuIndex = "exit"
