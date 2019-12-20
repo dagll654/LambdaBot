@@ -1620,11 +1620,9 @@ const Discord = require('discord.js');
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
 											menuIndex = "shop"
-											menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
-											k = 1
 											break
 										}
-										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; k = 1; break}
+										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; break}
 									default:
 									k = 1
 									menuIndex = "fail"
