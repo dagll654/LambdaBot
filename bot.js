@@ -64,7 +64,6 @@ const Discord = require('discord.js');
 		let balances = emp.balancespecific.split(" ")
 		let bal = balances.find(b => {return b.startsWith(abn)})
 		let bal2 = bal.split("|")
-		console.log("returning: " + abn + " " + bal2[1])
 		return bal2[1]
 	}
 	
@@ -76,7 +75,6 @@ const Discord = require('discord.js');
 		if ((emp.inventoryw != undefined) && (emp.inventoryw != 'undefined')) {
 			emp.inventoryw.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
 		}
-		console.log("Fullness: " + emp.tag + " " + iN)
 		return iN	
 	}
 	
@@ -1509,11 +1507,13 @@ const Discord = require('discord.js');
 					let currentAbno
 					let currentAbnoCode
 					let currentShop
-					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(1000))}
+					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(2500))}
 					const cUser = emp
 					let cCh = DELTAS.channels.get(channel)
+					
 					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 					.then(menumsg => {
+						
 				/*func*/async function menuNavigationExtraction() {
 						let menuIndex = "main"
 							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit")) {
@@ -1531,22 +1531,29 @@ const Discord = require('discord.js');
 								switch (menuIndex) {
 									
 									// Main menu of extraction
-				/*[main]----------*/case "main": 
+									case "main": 
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentACode = rp.content.toLowerCase()
 										menuIndex = "shop"
 									} else {invResponse(rp); k = 1}
-				/*[/main]---------*/break
+									break
 
-				/*[shop]----------*/case "shop":
+									case "shop":
 										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										invFullness(cUser)
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}\n		${weapon(currentAbno.ego)}`)
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
 										console.log(currentShop[0])
+										menuIndex = "purchase"
+										k = 1
+									break
+									
+									case "purchase":
+										if (invFullness(cUser) > 3) {msg.reply("your inventory is full. Discard an item in the inventory menu.").then(tmp => tmp.delete(2500)); k = 1; break}
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Are you sure you want to purchase (wip)`)
 										menuIndex = "silentexit"
 										k = 1
-				/*[/shop]---------*/break
+									break
 									
 									default:
 									k = 1
@@ -1568,6 +1575,7 @@ const Discord = require('discord.js');
 						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 						
 				/*func*/}
+				
 						menuNavigationExtraction()
 					})
 				}
