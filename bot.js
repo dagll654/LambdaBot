@@ -1544,7 +1544,7 @@ const Discord = require('discord.js');
 										invFullness(cUser)
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}\n		${weapon(currentAbno.ego)}`)
 										console.log(currentShop[0])
-										menuIndex = "test"
+										menuIndex = "silentexit"
 										k = 1
 				/*[/shop]---------*/break
 									
