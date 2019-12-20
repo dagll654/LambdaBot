@@ -60,6 +60,14 @@ const Discord = require('discord.js');
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
 	}
 	
+	function getBox(emp, abn) {
+		let balances = emp.balancespecific.split(" ")
+		console.log("returning: " + abn + " " + balances.find(b => b.startsWith(abn.toLowerCase)))
+		let bal = balances.find(b => b.startsWith(abn.toLowerCase))
+		let bal2 = bal.split("|")
+		return bal2[1]
+	}
+	
 	function statLVN(stat) {
 		if (stat < 30) {return 1}
 		else if (stat < 45) {return 2}
@@ -1506,7 +1514,7 @@ const Discord = require('discord.js');
 				/*[/main]---------*/break
 
 				/*[shop]----------*/case "shop":
-										currentShop = {"boxes": Number(cUser.balancespecific.split(" ").find(b => b.startsWith(currentAbnoCode))), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	${currentShop}`)
 										console.log(currentShop)
 										menuIndex = "test"
