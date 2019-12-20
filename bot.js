@@ -548,6 +548,28 @@ const Discord = require('discord.js');
 		}
 	}
 	
+	// Stand-in function for cleaning inventories
+	function invClean() {
+		dbployees.forEach(e => {
+			let bxd = e.inventorys.split("|")
+			let bxdNew = []
+			for (i = 0; i < bxd.length; i++) {
+				if (bxd[i] != "undefined" && bxd[i] != "") {
+					bxdNew.push(bxd[i])
+				}
+			}
+			e.inventorys = bxdNew.join("|")
+			let bxdw = e.inventoryw.split("|")
+			let bxdwNew = []
+			for (i = 0; i < bxdw.length; i++) {
+				if (bxdw[i] != "undefined" && bxdw[i] != "") {
+					bxdwNew.push(bxdw[i])
+				}
+			}
+			e.inventoryw = bxdwNew.join("|")
+		})
+	}
+	
 	// Function for getting a role by name 
 	function getRole(nme) {
 		if (msg.guild.roles.map(r => r.name).includes(nme)) {
@@ -1385,24 +1407,7 @@ const Discord = require('discord.js');
 								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discard suit or weapon?")
 								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 20000 })
 								.then(m => {
-								dbployees.forEach(e => {
-									let bxd = e.inventorys.split("|")
-									let bxdNew = []
-									for (i = 0; i < bxd.length; i++) {
-										if (bxd[i] != "undefined" && bxd[i] != "") {
-											bxdNew.push(bxd[i])
-										}
-									}
-									e.inventorys = bxdNew.join("|")
-									let bxdw = e.inventoryw.split("|")
-									let bxdwNew = []
-									for (i = 0; i < bxdw.length; i++) {
-										if (bxdw[i] != "undefined" && bxdw[i] != "") {
-											bxdwNew.push(bxdw[i])
-										}
-									}
-									e.inventoryw = bxdwNew.join("|")
-								})
+								invClean()
 								if (m.array()[0] != undefined) {
 								if (m.array()[0].content.toLowerCase() === "suit" || m.array()[0].content.toLowerCase() === "weapon") {
 
@@ -1429,6 +1434,7 @@ const Discord = require('discord.js');
 												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
 												dbployees[dbids.indexOf(curruser.id)].inventorys = newinvtext
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}.`) 
+												invClean()
 											} else msg.reply("error: you do not have that suit.")
 											} else msg.reply("error: invalid choice.")
 										})
@@ -1455,6 +1461,7 @@ const Discord = require('discord.js');
 												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
 												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinvtext
 												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}.`)
+												invClean()
 											} else msg.reply("error: you do not have that weapon.")
 											} else msg.reply("error: invalid choice.")
 										})
