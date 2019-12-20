@@ -1283,6 +1283,7 @@ const Discord = require('discord.js');
 				case "inv":
 				case "inventory":
 					msg.delete(1)
+					invClean()
 							curruser = dbployees[dbids.indexOf(msg.author.id)]
 							invs = "Suit"
 							invw = "Riot Stick"
@@ -1520,7 +1521,7 @@ const Discord = require('discord.js');
 					break
 				case "ex":
 				case "extraction":
-				
+				invClean()
 				function ext(emp, channel) {
 					const cUser = emp
 					const cCh = DELTAS.channels.get(channel)
