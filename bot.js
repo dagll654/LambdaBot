@@ -426,8 +426,8 @@ const Discord = require('discord.js');
 	}	
 	
 	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
-	function bumpBoxes(val = 0, abn = "O-03-03", id) {
-		let emp = dbployees[dbids.indexOf(id)]
+	function bumpBoxes(val = 0, abn = "O-03-03", empid) {
+		let emp = dbployees[dbids.indexOf(empid)]
 		let bAbnos = []
 		let bBals = []
 		let bGotten = emp.balancespecific.split(" ")
@@ -442,7 +442,7 @@ const Discord = require('discord.js');
 			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
 			bReturn.push([a, bBals[bAbnos.indexOf(a)]])
 		})
-		dbployees[dbids.indexOf(id)].balancespecific = bToSend.join(" ")
+		dbployees[dbids.indexOf(empid)].balancespecific = bToSend.join(" ")
 		return bReturn
 	}
 	
@@ -535,6 +535,17 @@ const Discord = require('discord.js');
 	// Roll an x-sided die, even if that makes absolutely no sence in practice
 	function roll(sides) {
 		return Math.ceil(Math.random() * sides)
+	}
+	
+	// Add an item id to suit/weapon inventory
+	function addItemID(emp, inv, id) {
+		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) emp[inv] = id
+		else if (emp[inv].length === 1) emp[inv] += "|" + id 
+		else {
+			let splitInv = emp[inv].split("|")
+			splitInv.push(id)
+			emp[inv] = splitInv.join("|")
+		}
 	}
 	
 	// Function for getting a role by name 
@@ -1507,7 +1518,16 @@ const Discord = require('discord.js');
 					let currentAbno
 					let currentAbnoCode
 					let currentShop
-					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(2500))}
+					let cPurchase
+					let cInv
+					let item
+					let menuIndex = "main"
+					let prices
+					let totalBalance
+					let price
+					let k
+					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(3000))}
+					function forceReturn(msg, code) {msg.reply(code).then(tmp => tmp.delete(4000)); menuIndex = "shop"; k = 1; break}
 					const cUser = emp
 					let cCh = DELTAS.channels.get(channel)
 					
@@ -1515,7 +1535,6 @@ const Discord = require('discord.js');
 					.then(menumsg => {
 						
 				/*func*/async function menuNavigationExtraction() {
-						let menuIndex = "main"
 							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 							
@@ -1543,21 +1562,48 @@ const Discord = require('discord.js');
 										currentShop = {"boxes": Number(getBox(cUser, currentACode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										invFullness(cUser)
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
-										if ((rp.content === "suit") || (rp.content === "weapon")) menuIndex = "purchase"
+										if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
 										else k = 1
 									break
 									
 									case "purchase":
-										switch (rp.content) {
-											
+										switch (rp.content.toLowerCase()) {
+											case "suit":
+												cInv = "inventorys"
+												item = suit(currentAbno.ego)
+												break
+											case "weapon":
+												cInv = "inventoryw"
+												item = weapon(currentAbno.ego)
+												break
 										}
-										if (invFullness(cUser) > 2) {msg.reply("your inventory is full. Discard an item in the inventory menu.").then(tmp => tmp.delete(2500)); k = 1; break}
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Are you sure you want to purchase (wip)`)
-										menuIndex = "silentexit"
-										k = 1
 										
+										price = item.price
+										totalBalance = Number(currentShop.boxes) + empex.balance
+										if (totalBalance < Number(price)) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
+										prices = []
+										if (Number(currentShop.boxes) >= price) prices = [price, 0]
+										else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
+										if (prices[1] > price/4) forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price.")
+										let tmptxt = ""
+											if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
+										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
+										
+										if (invFullness(cUser) > 2) forceReturn(rp, "your inventory is full. Discard an item in the inventory menu.")
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
+										menuIndex = "purChoice"
+										k = 1
 									break
 									
+									case "purChoice":
+										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) forceReturn(rp, "invalid response.")
+										if (rp.content.toLowerCase() === "y") {
+											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
+											cUser.balance -= prices[1]
+											addItemID(cUser, cInv, currentAbno.ego)
+										}
+										else if (rp.content.toLowerCase() === "n") forceReturn(rp, "purchase cancelled.")
+										k = 1
 									default:
 									k = 1
 									menuIndex = "fail"
