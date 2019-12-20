@@ -1491,8 +1491,9 @@ const Discord = require('discord.js');
 						if (jn.nccideproles.includes(rtmp)) {
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 							databaseThing()
-							updData()
-							dbployees[dbids.indexOf(msg.author.id)].tjtime = Date.now()
+							async function setJoinTime() {
+							await wait(10000).then(dbployees[dbids.indexOf(msg.author.id)].tjtime = Date.now())
+							}
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
