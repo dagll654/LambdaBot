@@ -370,6 +370,7 @@ const Discord = require('discord.js');
 								} 
 								}
 							}
+							if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
 						}
 					})
 					//console.log("Healed all.")
