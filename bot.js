@@ -1478,9 +1478,11 @@ const Discord = require('discord.js');
 						let menuIndex = "main"
 							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test")) {
 							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
-								
+							
+							
 							let rp = r.first()
-				/*========*/if (rp != undefined) {
+				/*========*/if (rp != undefined) 
+							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(100)
 							if (rp.content != "exit") {
 							
@@ -1491,6 +1493,7 @@ const Discord = require('discord.js');
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										menuIndex = "shop"
+										console.log("this? " + menuIndex)
 									} else invResponse(rp)
 				/*[/main]---------*/break
 
