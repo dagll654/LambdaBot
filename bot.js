@@ -1568,7 +1568,6 @@ const Discord = require('discord.js');
 										currentAbnoCode = rp.content.toLowerCase()
 										menuIndex = "shop"
 									} else {invResponse(rp); k = 1}
-									k = 1
 									break
 
 									case "shop":
