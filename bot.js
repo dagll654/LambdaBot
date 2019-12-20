@@ -1532,6 +1532,7 @@ const Discord = require('discord.js');
 					let cPurchase
 					let cInv
 					let item
+					let objItem
 					let menuIndex = "main"
 					let prices
 					let totalBalance
@@ -1552,7 +1553,9 @@ const Discord = require('discord.js');
 				/*========*/if (rp != undefined) {
 							console.log(cUser.tag + ": " + menuIndex)
 							rp.delete(100)
-							if (rp.content != "exit") {
+							
+							if (rp.content.toLowerCase() != "exit") {
+							if (rp.content.toLowerCase() != "return") {
 								let k = 0
 								let ki = 0
 								while (k === 0 && ki < 25) {
@@ -1579,16 +1582,17 @@ const Discord = require('discord.js');
 										switch (rp.content.toLowerCase()) {
 											case "suit":
 												cInv = "inventorys"
+												objItem = gear.suits[currentAbno.ego]
 												item = suit(currentAbno.ego)
 												break
 											case "weapon":
 												cInv = "inventoryw"
+												objItem = gear.weapons[currentAbno.ego]
 												item = weapon(currentAbno.ego)
 												break
 										}
-										console.log(item)
 										
-										price = item.cost
+										price = objItem.cost
 										console.log("Price: " + price)
 										totalBalance = Number(currentShop.boxes) + cUser.balance
 										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
@@ -1626,7 +1630,7 @@ const Discord = require('discord.js');
 								}// [/switch]
 								ki++
 								}
-							
+							} else menuIndex = "main"
 							} else menuIndex = "exit"
 				/*========*/} else menuIndex = "timeout"
 
