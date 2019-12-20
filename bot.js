@@ -1586,13 +1586,16 @@ const Discord = require('discord.js');
 												item = weapon(currentAbno.ego)
 												break
 										}
+										console.log(item)
 										
 										price = item.cost
+										console.log("Price: " + price)
 										totalBalance = Number(currentShop.boxes) + cUser.balance
 										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
 										prices = []
 										if (Number(currentShop.boxes) >= price) prices = [price, 0]
 										else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
+										console.log("Prices: " + prices)
 										if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); menuIndex = "shop"; k = 1; break}
 										let tmptxt = ""
 											if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
@@ -1612,7 +1615,7 @@ const Discord = require('discord.js');
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
 										}
-										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); break}
+										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; k = 1; break}
 										menuIndex = "shop"
 										k = 1
 										break
