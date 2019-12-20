@@ -1475,7 +1475,7 @@ const Discord = require('discord.js');
 				/*func*/async function menuNavigationExtraction() {
 						let menuIndex = "main"
 							while (menuIndex != "exit" && menuIndex != "timeout") {
-							await cCh.awaitMessages(r => r.author.id === cUser.author.id, { max: 1, time: 10000 }).then(r => {
+							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 10000 }).then(r => {
 								
 				/*========*/if (r.first != undefined) {
 								let rp = r.first()
