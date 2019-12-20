@@ -1563,6 +1563,7 @@ const Discord = require('discord.js');
 									
 									// Main menu of extraction
 									case "main": 
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentACode = rp.content.toLowerCase()
