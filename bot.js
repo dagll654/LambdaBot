@@ -1598,12 +1598,14 @@ const Discord = require('discord.js');
 									case "purChoice":
 										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) forceReturn(rp, "invalid response.")
 										if (rp.content.toLowerCase() === "y") {
+											rp.reply("Successfully purchased " + item)
 											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
 										}
 										else if (rp.content.toLowerCase() === "n") forceReturn(rp, "purchase cancelled.")
 										k = 1
+										menuIndex = "shop"
 									default:
 									k = 1
 									menuIndex = "fail"
