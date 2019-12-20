@@ -1569,6 +1569,7 @@ const Discord = require('discord.js');
 										currentACode = rp.content.toLowerCase()
 										menuIndex = "shop"
 									} else {invResponse(rp); k = 1}
+									k = 1
 									break
 
 									case "shop":
@@ -1616,6 +1617,7 @@ const Discord = require('discord.js');
 										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
 										if (rp.content.toLowerCase() === "y") {
 											rp.reply("Successfully purchased " + item)
+											console.log(-prices[0] + " " + currentAbnoCode + " " + cUser.id)
 											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
