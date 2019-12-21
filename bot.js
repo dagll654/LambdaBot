@@ -1061,7 +1061,7 @@ const Discord = require('discord.js');
 					console.log("Debug command !debug var noticed.")
 					switch (cmd[2]) { 
 					case "set": 
-						dbvars[dbvnames.indexOf(cmd[3])] = cmd[4]
+						dbvars[dbvnames.indexOf(cmd[3])] = Number(cmd[4])
 						break
 					case "get":
 						ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
