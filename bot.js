@@ -1508,7 +1508,7 @@ const Discord = require('discord.js');
 						var rtmp = cmd[2]
 						if (jn.nccideproles.includes(rtmp)) {
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
-							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(m)})
+							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member)})
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 							databaseThing()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
