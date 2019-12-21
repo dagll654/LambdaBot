@@ -39,8 +39,8 @@ const Discord = require('discord.js');
 	 x = 0 
 	 x1 = 0
 	 dbg1 = 0
-	 dbvars = [0, 0, 0, 0]
-	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal']
+	 dbvars = [0, 0, 0, 0, 0]
+	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal', 'stop']
 	 quotelog = []
 	 votingteam = ""
 	 voting = 0	
@@ -391,6 +391,8 @@ const Discord = require('discord.js');
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
+		
+	if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return
 		
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
