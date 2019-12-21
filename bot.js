@@ -1510,6 +1510,8 @@ const Discord = require('discord.js');
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member)})
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
+							updData()
+							databaseThing()
 							databaseThing()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
