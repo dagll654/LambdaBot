@@ -317,12 +317,6 @@ const Discord = require('discord.js');
 
 	
 	})
-	connection.query("SELECT * FROM `employees`", function (err, result) {
-		dbployees = []
-		dbids = []
-		result.forEach(e => fdbPush(e))
-		result.forEach(e => dbids.push(e.userid))
-	})
 }
 
 	
@@ -1520,6 +1514,16 @@ const Discord = require('discord.js');
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 							updData()
 							databaseThing()
+							async function thisshit() {
+								await wait(200).then({
+									connection.query("SELECT * FROM `employees`", function (err, result) {
+									dbployees = []
+									dbids = []
+									result.forEach(e => fdbPush(e))
+									result.forEach(e => dbids.push(e.userid))
+									})
+								})
+							}
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
