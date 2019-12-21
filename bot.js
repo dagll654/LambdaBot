@@ -177,7 +177,7 @@ const Discord = require('discord.js');
 	client.setInterval(function(){
 		efflog = efflog + 1
 		dbployees.forEach(e => {
-			if (e.dead === 0) e.effects = "null"
+			if (e.dead === 1) e.effects = "null"
 			if (e === undefined) return 0
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
