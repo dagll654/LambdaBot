@@ -264,7 +264,7 @@ const Discord = require('discord.js');
 	
 	function databaseThing() {
 		connection.query("SELECT * FROM `employees`", function (err, result) {
-			DELTAS.members.forEach(m => {
+			client.guilds.get("607318782624399361").members.forEach(m => {
 			if(drFind(m)) {
 				employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 				}
