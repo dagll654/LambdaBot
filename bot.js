@@ -1589,7 +1589,6 @@ const Discord = require('discord.js');
 							
 							let rp = r.first()
 				/*========*/if (rp != undefined) {
-							rp.delete(1000)
 							
 							if (rp.content.toLowerCase().startsWith("!lc") === false) {
 							if (rp.content.toLowerCase() != "exit") {
