@@ -473,6 +473,7 @@ const Discord = require('discord.js');
 	
 		 // Function for getting an emoji by name
 	function emoji(nme, srv = DELTAS, a = false, id = false) {
+		if (nme === "none") {return ""}
 		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
 		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
 			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}

@@ -258,7 +258,7 @@
 			"dtype": [0, 0, 0, 0],
 			"speed": "null",
 			"range": "null",
-			"level": "ZAYIN",
+			"level": "none",
 			"cost": "-",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none"
