@@ -260,31 +260,6 @@ const Discord = require('discord.js');
 	
 	// Update the data in the database
 	client.setInterval(updData, 30000) 
-
-	
-	
-
-	client.on('ready', () => {
-		
-	const DELTAS = client.guilds.get("607318782624399361");
-	const bch = DELTAS.channels.get("607558082381217851");
-	bch.send("Bot started.")
-	
-		// Getting all of the 'employees' - members with a department role
-		
-		
-			// Bot readiness announcement, both in the log and in my DMs
-	console.log('I am ready!');
-	client.users.get('143261987575562240').send('Bot started up succesfully.')
-	
-		// Setting the bot's current game to 'try !help'
-		client.user.setPresence({
-			game: {
-				name: 'try !help',
-				type: "Playing",
-				url: "https://tinyurl.com/rollntroll"
-			}
-    })
 	
 	function databaseThing() {
 		connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -346,6 +321,33 @@ const Discord = require('discord.js');
 	
 	})
 }
+
+	
+	
+
+	client.on('ready', () => {
+		
+	const DELTAS = client.guilds.get("607318782624399361");
+	const bch = DELTAS.channels.get("607558082381217851");
+	bch.send("Bot started.")
+	
+		// Getting all of the 'employees' - members with a department role
+		
+		
+			// Bot readiness announcement, both in the log and in my DMs
+	console.log('I am ready!');
+	client.users.get('143261987575562240').send('Bot started up succesfully.')
+	
+		// Setting the bot's current game to 'try !help'
+		client.user.setPresence({
+			game: {
+				name: 'try !help',
+				type: "Playing",
+				url: "https://tinyurl.com/rollntroll"
+			}
+    })
+	
+	
 	databaseThing()
 		
 		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
