@@ -1521,7 +1521,7 @@ const Discord = require('discord.js');
 								dbids = []
 								result.forEach(e => fdbPush(e))
 								result.forEach(e => dbids.push(e.userid))
-								}))
+								})
 							}
 							thisshit()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
