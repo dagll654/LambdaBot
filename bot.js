@@ -1515,15 +1515,15 @@ const Discord = require('discord.js');
 							updData()
 							databaseThing()
 							async function thisshit() {
-								await wait(200).then({
-									connection.query("SELECT * FROM `employees`", function (err, result) {
-									dbployees = []
-									dbids = []
-									result.forEach(e => fdbPush(e))
-									result.forEach(e => dbids.push(e.userid))
-									})
-								})
+								await wait(200)
+								connection.query("SELECT * FROM `employees`", function (err, result) {
+								dbployees = []
+								dbids = []
+								result.forEach(e => fdbPush(e))
+								result.forEach(e => dbids.push(e.userid))
+								}))
 							}
+							thisshit()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
