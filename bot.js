@@ -973,6 +973,9 @@ const Discord = require('discord.js');
 				case "altertable":
 					connection.query("ALTER TABLE `employees` ADD `defensebuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
 					break
+				case "bals":
+					console.log(dbployees.map(e => [e.tag, e.balance]))
+					break
 				case "nut":
 					var embed = new Discord.RichEmbed()
 					.setTitle("The (late) No Nut November Alert")
