@@ -743,7 +743,7 @@ const Discord = require('discord.js');
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + dbployees[dbids.indexOf(arrg[0])].id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, arrg[1], dbployees[dbids.indexOf(arrg[0])].id)
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
-						dbployees[dbids.indexOf(arrg[0])].balance = dbployees[dbids.indexOf(arrg[0])].balance + ppeboxes
+						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
 						dbployees[dbids.indexOf(arrg[0])].working = 0
