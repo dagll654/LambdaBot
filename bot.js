@@ -264,6 +264,11 @@ const Discord = require('discord.js');
 	
 	function databaseThing() {
 		connection.query("SELECT * FROM `employees`", function (err, result) {
+			DELTAS.members.forEach(m => {
+			if(drFind(m)) {
+				employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+				}
+			})
 			//console.log(result)
 			dbpush = []
 			result.forEach(e => fdbPush(e))
@@ -326,11 +331,7 @@ const Discord = require('discord.js');
 	bch.send("Bot started.")
 	
 		// Getting all of the 'employees' - members with a department role
-		DELTAS.members.forEach(m => {
-			if(drFind(m)) {
-				employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
-			}
-		})
+		
 		
 			// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
@@ -1509,7 +1510,6 @@ const Discord = require('discord.js');
 							}
 							console.log("test: 2")
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
-							databaseThing()
 							databaseThing()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
