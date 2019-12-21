@@ -234,7 +234,7 @@ const Discord = require('discord.js');
 				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "tag") && (prop != "id") && (prop != "stats") && (prop != "statlimit")) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
-				if (dbployees2[i] != undefined) {
+				if (dbployees[i] != undefined) {
 				if (dbployees2[i][prop] != tempval) {
 					if (prop != "stats") {					
 					if (Number(dbployees2[i][prop]) != tempval) {
