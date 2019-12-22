@@ -403,8 +403,8 @@ const Discord = require('discord.js');
 		content.shift()
 		content = content.join("")
 		if (getUser(content.split(" ")[0]) != undefined) {
-		tmpmsg.author = client.users.get(newid)
-		tmpmsg.member = client.guilds.get("607318782624399361").members.get(newid)
+		tmpmsg.author = getUser(content.split(" ")[0])
+		tmpmsg.member = client.guilds.get("607318782624399361").members.get(getUser(content.split(" ")[0]).id)
 		let ctemp = tmpmsg.content.split(" ")
 		ctemp.shift()
 		tmpmsg.content = ctemp.join(" ")
