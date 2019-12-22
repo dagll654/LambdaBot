@@ -392,7 +392,7 @@ const Discord = require('discord.js');
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
-	const DELTAS = client.guilds.get("607318782624399361");
+		
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
@@ -411,7 +411,7 @@ const Discord = require('discord.js');
 		msg = tmpmsg
 		} else msg = tempbigmessagevaluesoIneveruseitagain
 	} else msg = tempbigmessagevaluesoIneveruseitagain
-
+	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
 	const ESERV = client.guilds.get('513660754633949208')
 	const bsch = ESERV.channels.get('653572131262693379')
@@ -622,11 +622,11 @@ const Discord = require('discord.js');
 			if (nmbrs.includes(c)) {id += c}
 		})
 		if (id.length === 18) return client.users.get(id)
-		else if (DELTAS.members.find(m => {
+		else if (client.guilds.get("607318782624399361").members.find(m => {
 			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
 				}) != undefined)
-			return DELTAS.members.find(m => {
+			return client.guilds.get("607318782624399361").members.find(m => {
 			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
 				}).user
