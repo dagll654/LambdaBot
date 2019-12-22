@@ -1298,7 +1298,7 @@ const Discord = require('discord.js');
 							workableCpx[Math.floor(i/10)].push(workableArr[i])
 						}
 						ch.send(baseStr + workableCpx[0].join("\n		")).then(l => {
-							l.react('👉').then(l.react('👈'))
+							l.react('👈').then(l.react('👉'))
 							const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
 							const collector = l.createReactionCollector(filter, { time: 30000 })
 							collector.on('collect', rct => {
