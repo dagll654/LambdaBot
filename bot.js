@@ -1123,7 +1123,7 @@ const Discord = require('discord.js');
 				case "revive":
 					function revive(cmd) {
 					let uid = "" //
-					if ((cmd[4] != undefined) && (getUser(cmd[4]) != undefined)) {uid = getUser(cmd[4]).id} else {uid = "143261987575562240"}
+					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {uid = getUser(cmd[2]).id} else {uid = "143261987575562240"}
 						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
 						dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
 						dbployees[dbids.indexOf(uid)].dead = 0
@@ -1287,7 +1287,7 @@ const Discord = require('discord.js');
 				case "p":
 				case "profile": {
 					let curruser
-					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[4]).id
+					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[2]).id
 					curruser = dbployees[dbids.indexOf(cuid)]}
 					 else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 								
