@@ -404,6 +404,9 @@ const Discord = require('discord.js');
 		})
 		tmpmsg.author = client.users.get(newid)
 		tmpmsg.member = client.guilds.get("607318782624399361").members.get(newid)
+		let ctemp = tmpmsg.content.split(" ")
+		ctemp.shift()
+		tmpmsg.content = ctemp.join(" ")
 		msg = tmpmsg
 	} else msg = tempbigmessagevaluesoIneveruseitagain
 	const DELTAS = client.guilds.get("607318782624399361");
