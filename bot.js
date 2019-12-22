@@ -622,11 +622,11 @@ const Discord = require('discord.js');
 		if (id.length === 18) return client.users.get(id)
 		else if (client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)}) != undefined)
 			return client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)})
-		else if (DELTAS.members.find(m => {return m.nickname.toLowerCase().startsWith(getter)}) != undefined)
-			return DELTAS.members.find(m => {
-				if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
+		else if (DELTAS.members.find(m => {
+			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
-				})
+				}) != undefined)
+			return DELTAS.members.find(m => {m.nickname.toLowerCase().startsWith(getter)})
 		else return undefined
 	}
 	
