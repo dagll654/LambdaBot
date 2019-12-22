@@ -1306,13 +1306,13 @@ const Discord = require('discord.js');
 								if (rct.emoji.name === '👈') {
 									index -= 1
 									if (index < 0) index = workableCpx.length - 1
-									l.edit(baseStr + workableCpx[index].join("\n		")
+									l.edit(baseStr + workableCpx[index].join("\n		"))
 								}
 									
 								if (rct.emoji.name === '👉') {
 									index += 1
 									if (index > (workableCpx.length - 1)) index = 0
-									l.edit(baseStr + workableCpx[index].join("\n		")
+									l.edit(baseStr + workableCpx[index].join("\n		"))
 								}
 								
 								collector.stop()
