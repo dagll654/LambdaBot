@@ -135,6 +135,14 @@
 			"cost": 1000,
 			"requirements": [0, 0, 0, 0, 3],
 			"reqString": "Employee Level III" 
+		},
+		{	"id": "17",
+			"name": "No suit available.",
+			"resistance": ["-", "-", "-", "-"],
+			"level": "none",
+			"cost": "-",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 			
@@ -325,6 +333,17 @@
 			"cost": "1200",
 			"requirements": [0, 0, 0, 0, 4],
 			"reqString": "Employee Level IV" 
+		},
+		{	"id": "17",
+			"name": "Diffraction",
+			"damage": [15, 17],
+			"dtype": [0, 1, 0, 0],
+			"speed": "normal",
+			"range": "medium",
+			"level": "WAW",
+			"cost": "1000",
+			"requirements": [45, 45, 0, 0, 0],
+			"reqString": "Fortitude III, Prudence III" 
 		}
 			],
 	
