@@ -235,8 +235,8 @@ exports.effectApplication = {
 				employee.sp = 0
 				employee.dead = 1
 				return [true, "\n	You became a disgusting worm nest and were dealt with."]
-			} else return[false]
-		} else return[false]
+			} else return [false]
+		} else return [false]
 	},
 	"19": function(employee, result) {
 		if ((result === 2) && (employee.tempL < 45)) {
@@ -244,8 +244,7 @@ exports.effectApplication = {
 				employee.sp = 0
 				employee.dead = 1
 				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
-			} else return[false]
-		} else return[false]
+		} else return [false]
 	},
 	"9": function(employee, result, workorder) {
 		if (employee.tempL < 30) {
