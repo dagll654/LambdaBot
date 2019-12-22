@@ -626,7 +626,10 @@ const Discord = require('discord.js');
 			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
 				}) != undefined)
-			return DELTAS.members.find(m => {m.nickname.toLowerCase().startsWith(getter)})
+			return DELTAS.members.find(m => {
+			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
+					else return false
+				})
 		else return undefined
 	}
 	
