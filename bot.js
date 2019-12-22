@@ -1286,7 +1286,7 @@ const Discord = require('discord.js');
 					} else msg.reply("error: work on the specified abnormality unavailable. (!lc w list)")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 					} else {
-						let baseStr = "	List of currently workable abnormalities:\n\n		"
+						let baseStr = " List of currently workable abnormalities:\n\n		"
 						let workableArr = []
 						let workableCpx = []
 						let index = 0
@@ -1297,7 +1297,7 @@ const Discord = require('discord.js');
 							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 							workableCpx[Math.floor(i/10)].push(workableArr[i])
 						}
-						ch.send(baseStr + workableCpx[0].join("\n		")).then(l => {
+						ch.send(`	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
 							l.react('👈').then(l.react('👉'))
 							const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
 							const collector = l.createReactionCollector(filter, { time: 120000 })
@@ -1305,13 +1305,13 @@ const Discord = require('discord.js');
 								if (rct.emoji.name === '👈') {
 									index -= 1
 									if (index < 0) index = workableCpx.length - 1
-									l.edit(baseStr + workableCpx[index].join("\n		"))
+									l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 								}
 									
 								if (rct.emoji.name === '👉') {
 									index += 1
 									if (index > (workableCpx.length - 1)) index = 0
-									l.edit(baseStr + workableCpx[index].join("\n		"))
+									l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 								}
 								
 								
