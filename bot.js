@@ -1291,7 +1291,7 @@ const Discord = require('discord.js');
 						let workableCpx = []
 						let index = 0
 						jn.abnWorkable.forEach(aID => {
-							workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "`" + abno(aID).name + "` ")
+							workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
 						})
 						for (i = 0; i < workableArr.length; i++) {
 							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
