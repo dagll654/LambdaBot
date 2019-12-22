@@ -408,7 +408,6 @@ const Discord = require('discord.js');
 	} else msg = tempbigmessagevaluesoIneveruseitagain
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
-	const 
 	const ESERV = client.guilds.get('513660754633949208')
 	const bsch = ESERV.channels.get('653572131262693379')
 
