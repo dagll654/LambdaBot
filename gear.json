@@ -127,6 +127,14 @@
 			"cost": 2400,
 			"requirements": [85, 0, 0, 0, 5],
 			"reqString": "Fortitude V, Employee Level V" 
+		},
+		{	"id": "16",
+			"name": "Shed Skin",
+			"resistance": [0.6, 0.8, 1.2, 1.5],
+			"level": "WAW",
+			"cost": 1000,
+			"requirements": [0, 0, 0, 0, 3],
+			"reqString": "Employee Level III" 
 		}
 			],
 			
@@ -306,6 +314,17 @@
 			"cost": "4444",
 			"requirements": [85, 0, 0, 0, 5],
 			"reqString": "Fortitude V, Employee Level V" 
+		},
+		{	"id": "16",
+			"name": "Shed Skin",
+			"damage": [35, 50],
+			"dtype": [1, 0, 0, 0],
+			"speed": "very slow",
+			"range": "long",
+			"level": "WAW",
+			"cost": "1200",
+			"requirements": [0, 0, 0, 0, 4],
+			"reqString": "Employee Level IV" 
 		}
 			],
 	

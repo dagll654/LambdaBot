@@ -567,7 +567,7 @@ const Discord = require('discord.js');
 		return jn.boxes[jn.boxcodes.indexOf(a)]
 	}
 	
-	// Roll an x-sided die, even if that makes absolutely no sence in practice
+	// Roll an x-sided die, even if that makes absolutely no sense in practice
 	function roll(sides) {
 		return Math.ceil(Math.random() * sides)
 	}

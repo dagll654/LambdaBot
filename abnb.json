@@ -20,7 +20,8 @@
 			"t-06-27",
 			"t-05-41",
 			"o-02-62",
-			"t-04-06"
+			"t-04-06",
+			"o-02-74"
 			],
 	"abn": [
 			{
@@ -355,6 +356,46 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 11],
+				"effect": [true],
+				"affstat": [false]
+			},
+			{
+				"name": "T-04-06: 'Happy Teddy Bear'",
+				"color": [0, 0, 0],
+				"risk": "HE",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "14",
+				"peoutput": 15,
+				"workPreferences": [[0, 0, 0, 0, 0],
+									[0.4, 0.45, 0.45, 0.35, 0.35],
+									[0.6, 0.6, 0.6, 0.5, 0.45],
+									[0.4, 0.45, 0.45, 0.4, 0.35]									
+									],
+				"damage": [2, 4],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 6, 11],
+				"effect": [true],
+				"affstat": [false]
+			},
+			{
+				"name": "O-02-74: 'The Naked Nest'",
+				"color": [0, 0, 0],
+				"risk": "WAW",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "16",
+				"peoutput": 22,
+				"workPreferences": [[0.4, 0.45, 0.5, 0.5, 0.55],
+									[0, 0, 0, 0, 0],
+									[0, 0, 0.45, 0.45, 0.5],
+									[0.4, 0.4, 0.4, 0.4, 0.4]									
+									],
+				"damage": [5, 7],
+				"dtype": [1, 0, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 9, 15],
 				"effect": [true],
 				"affstat": [false]
 			}

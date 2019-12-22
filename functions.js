@@ -15,6 +15,11 @@
 		else if (stat < 85) {return 4}
 		else {return 5}
 	}
+	
+	// Roll an x-sided die, even if that makes absolutely no sense in practice
+	function roll(sides) {
+		return Math.ceil(Math.random() * sides)
+	}
 
 buffs = {
 	"buff": function(employee, buff, action) {
@@ -221,6 +226,17 @@ exports.effectApplication = {
 		} else {
 			return[false]
 		}
+	},
+	"16": function(employee, result) {
+		if (result != 2) {
+			let oofChance = 30*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*50
+			if (roll(100) < oofChance) {
+				employee.hp = 0
+				employee.sp = 0
+				employee.dead = 1
+				return [true, "\n	You became a disgusting worm nest and were dealt with."]
+			} else return[false]
+		} else return[false]
 	},
 	"9": function(employee, result, workorder) {
 		if (employee.tempL < 30) {
