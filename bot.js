@@ -393,10 +393,22 @@ const Discord = require('discord.js');
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
 		
-		
+	// An array containing all digits, for convenience of comparing
+	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	let msg
+	tmpmsg = tempbigmessagevaluesoIneveruseitagain
+	if ((tmpmsg.author.id === '143261987575562240') && (msg.content.startsWith(">!"))) {
+		newid = ""
+		tmpmsg.content.split(" ")[0].split("").forEach(c => {
+			if (nmbrs.includes(c)) {newid += c}
+		})
+		tmpmsg.author = client.users.get(newid)
+		tmpmsg.member = client.guilds.get("607318782624399361").members.get(newid)
+		msg = tmpmsg
+	} else msg = tempbigmessagevaluesoIneveruseitagain
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
-	const msg = tempbigmessagevaluesoIneveruseitagain
+	const 
 	const ESERV = client.guilds.get('513660754633949208')
 	const bsch = ESERV.channels.get('653572131262693379')
 
@@ -432,11 +444,7 @@ const Discord = require('discord.js');
 	// The quote pool
 	
 	// Help command pool
-	
-	
-	// An array containing all digits, for convenience of comparing
-	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-	
+		
 	// was (frick puriora)
 	function wait(msc) {
 		return new Promise(resolve => {
