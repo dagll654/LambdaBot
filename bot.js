@@ -404,6 +404,7 @@ const Discord = require('discord.js');
 		content = content.join("")
 		if (getUser(content.split(" ")[0]) != undefined) {
 		tmpmsg.author = getUser(content.split(" ")[0])
+		tmpmsg.author = getUser(content.split(" ")[0])
 		tmpmsg.member = client.guilds.get("607318782624399361").members.get(getUser(content.split(" ")[0]).id)
 		let ctemp = tmpmsg.content.split(" ")
 		ctemp.shift()
@@ -1284,7 +1285,19 @@ const Discord = require('discord.js');
 					} else msg.reply("error: incorrect work order. Orders: instinct, insight, attachment, repression.")
 					} else msg.reply("error: work on the specified abnormality unavailable. (!lc w list)")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
-					} else msg.reply("currently available abnormalities: " + jn.abnWorkableUpperCase.join(", ") + ".")
+					} else {
+						let baseStr = "	List of currently workable abnormalities:\n	"
+						let workableArr = []
+						let workableCpx
+						jn.abnWorkable.forEach(aID => {
+							workableArr.push(abno(aID).name + " " + emoji(abno(aID).risk))
+						})
+						for (i = 0; i < workableArr.length; i++) {
+							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
+							workableCpx[Math.floor(i/10)].push(workableArr[i])
+						}
+						ch.send(baseStr + workableArr.join("	\n"))
+					}
 					break
 				case "p":
 				case "profile": {
