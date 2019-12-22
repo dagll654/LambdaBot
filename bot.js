@@ -1288,7 +1288,7 @@ const Discord = require('discord.js');
 					} else {
 						let baseStr = "	List of currently workable abnormalities:\n	"
 						let workableArr = []
-						let workableCpx
+						let workableCpx = []
 						jn.abnWorkable.forEach(aID => {
 							workableArr.push(abno(aID).name + " " + emoji(abno(aID).risk))
 						})
