@@ -397,7 +397,7 @@ const Discord = require('discord.js');
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain
-	if ((tmpmsg.author.id === '143261987575562240') && (msg.content.startsWith(">!"))) {
+	if ((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) {
 		newid = ""
 		tmpmsg.content.split(" ")[0].split("").forEach(c => {
 			if (nmbrs.includes(c)) {newid += c}
