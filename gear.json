@@ -143,6 +143,14 @@
 			"cost": "-",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
+		},
+		{	"id": "18",
+			"name": "Ecstasy.",
+			"resistance": [0.8, 0.8, 0.8, 1.5],
+			"level": "WAW",
+			"cost": "600",
+			"requirements": [0, 0, 30, 0, 2],
+			"reqString": "Temperance II, Employee Level II" 
 		}
 			],
 			
@@ -344,6 +352,17 @@
 			"cost": "1000",
 			"requirements": [45, 45, 0, 0, 0],
 			"reqString": "Fortitude III, Prudence III" 
+		},
+		{	"id": "18",
+			"name": "Ecstasy",
+			"damage": [2, 4],
+			"dtype": [0, 1, 0, 0],
+			"speed": "fast",
+			"range": "long",
+			"level": "WAW",
+			"cost": "1200",
+			"requirements": [30, 0, 0, 0, 3],
+			"reqString": "Fortitude II, Employee Level III" 
 		}
 			],
 	

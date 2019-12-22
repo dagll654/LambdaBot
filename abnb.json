@@ -22,7 +22,8 @@
 			"o-02-62",
 			"t-04-06",
 			"o-02-74",
-			"o-03-88"
+			"o-03-88",
+			"t-02-71"
 			],
 	"abn": [
 			{
@@ -397,6 +398,26 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 9, 17],
+				"effect": [false],
+				"affstat": [false]
+			},
+			{
+				"name": "T-02-71: 'The Dreaming Current'",
+				"color": [0, 0, 0],
+				"risk": "WAW",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "18",
+				"peoutput": 20,
+				"workPreferences": [[0.5, 0.5, 0.6, 0.55, 0.55],
+									[0, 0, 0, 0, 0],
+									[0.45, 0.45, 0.45, 0.5, 0.55],
+									[0.45, 0.45, 0.45, 0.45, 0.45]									
+									],
+				"damage": [3, 6],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 6, 11],
 				"effect": [false],
 				"affstat": [false]
 			}
