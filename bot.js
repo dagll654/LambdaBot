@@ -629,7 +629,7 @@ const Discord = require('discord.js');
 			return DELTAS.members.find(m => {
 			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
-				})
+				}).user
 		else return undefined
 	}
 	
@@ -1111,7 +1111,7 @@ const Discord = require('discord.js');
 					break
 				case "profile":
 				let uid = "" //
-				if (cmd[4] != undefined) {uid = cmd[4]} else {uid = "143261987575562240"}
+				if ((cmd[4] != undefined) && (getUser(cmd[4]) != undefined)) {uid = getUser(cmd[4]).id} else {uid = "143261987575562240"}
 					let tempval = cmd[3]
 					if ((cmd[2] === "hp") || (cmd[2] === "sp")) {tempval = Number(cmd[3]).toFixed(1)}
 					if ((cmd[2] === "dead") || (cmd[2] === "working")) {tempval = Number(cmd[3])}
@@ -1123,7 +1123,7 @@ const Discord = require('discord.js');
 				case "revive":
 					function revive(cmd) {
 					let uid = "" //
-					if (cmd[2] != undefined) {uid = cmd[2]} else {uid = "143261987575562240"}
+					if ((cmd[4] != undefined) && (getUser(cmd[4]) != undefined)) {uid = getUser(cmd[4]).id} else {uid = "143261987575562240"}
 						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
 						dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
 						dbployees[dbids.indexOf(uid)].dead = 0
@@ -1285,14 +1285,11 @@ const Discord = require('discord.js');
 					} else msg.reply("currently available abnormalities: " + jn.abnWorkableUpperCase.join(", ") + ".")
 					break
 				case "p":
-				case "profile":
-					if (cmd[2] && (cmd[2].startsWith("<@") || cmd[2].startsWith("<!@") || cmd[2].startsWith("<@!"))) {
-						cuid = ""
-						cmd[2].split("").forEach(c => {
-							if (nmbrs.includes(c)) {cuid += c}
-						})
+				case "profile": {
+					let curruser
+					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[4]).id} 
 						curruser = dbployees[dbids.indexOf(cuid)]//
-					} else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
+					 else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 								
 								let expmod = 0
 								if (curruser.bufflist != undefined) {
@@ -1338,6 +1335,7 @@ const Discord = require('discord.js');
 								}
 								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}+${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}+${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}+${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}+${statB[3]}\nEmployee Level ${empLVL(statsL[4])}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(16-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(16-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(16-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(16-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
+				}
 				break 
 				case "i":
 				case "inv":
