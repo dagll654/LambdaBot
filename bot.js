@@ -398,16 +398,18 @@ const Discord = require('discord.js');
 	let msg
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain
 	if ((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) {
-		newid = ""
-		tmpmsg.content.split(" ")[0].split("").forEach(c => {
-			if (nmbrs.includes(c)) {newid += c}
-		})
+		let content = tmpmsg.content.split(" ")[0].split("")
+		content.shift()
+		content.shift()
+		content = content.join("")
+		if (getUser(content.split(" ")[0]) != undefined) {
 		tmpmsg.author = client.users.get(newid)
 		tmpmsg.member = client.guilds.get("607318782624399361").members.get(newid)
 		let ctemp = tmpmsg.content.split(" ")
 		ctemp.shift()
 		tmpmsg.content = ctemp.join(" ")
 		msg = tmpmsg
+		} else msg = tempbigmessagevaluesoIneveruseitagain
 	} else msg = tempbigmessagevaluesoIneveruseitagain
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
