@@ -614,6 +614,17 @@ const Discord = require('discord.js');
 		return srv.emojis.get("650293931791089684").animated
 	}
 	
+	function getUser(getter) {
+		let id = ""
+		getter.split("").forEach(c => {
+			if (nmbrs.includes(c)) {id += c}
+		})
+		if (id.length === 18) return client.users.get(id)
+		else if (client.users.find(u => {return u.tag.startsWith(getter)}) != undefined) return client.users.find(u => {return u.tag.startsWith(getter)})
+		else if (DELTAS.members.find(m => {return m.nickname.startsWith(getter)}) != undefined) return DELTAS.members.find(m => {return m.nickname.startsWith(getter)})
+		else return undefined
+	}
+	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
 	if (ch.type != 'dm') {
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
@@ -981,6 +992,9 @@ const Discord = require('discord.js');
 					} 
 					tempch.send(tempmsg)
 					.catch(console.error)
+					break
+				case "gettest":
+					console.log(getUser(cmd[2]))
 					break
 				case "altertable":
 					connection.query("ALTER TABLE `employees` ADD `defensebuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
