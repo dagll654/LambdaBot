@@ -1287,8 +1287,8 @@ const Discord = require('discord.js');
 				case "p":
 				case "profile": {
 					let curruser
-					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[4]).id} 
-						curruser = dbployees[dbids.indexOf(cuid)]//
+					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[4]).id
+					curruser = dbployees[dbids.indexOf(cuid)]}
 					 else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 								
 								let expmod = 0
