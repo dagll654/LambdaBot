@@ -145,12 +145,20 @@
 			"reqString": "none" 
 		},
 		{	"id": "18",
-			"name": "Ecstasy.",
+			"name": "Ecstasy",
 			"resistance": [0.8, 0.8, 0.8, 1.5],
 			"level": "WAW",
-			"cost": "600",
+			"cost": "1000",
 			"requirements": [0, 0, 30, 0, 2],
 			"reqString": "Temperance II, Employee Level II" 
+		},
+		{	"id": "19",
+			"name": "Pleasure",
+			"resistance": [1.2, 0.8, 0.8, 1.5],
+			"level": "HE",
+			"cost": "600",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 			
@@ -363,6 +371,17 @@
 			"cost": "1200",
 			"requirements": [30, 0, 0, 0, 3],
 			"reqString": "Fortitude II, Employee Level III" 
+		},
+		{	"id": "19",
+			"name": "Pleasure",
+			"damage": [1, 4],
+			"dtype": [0, 0, 1, 0],
+			"speed": "fast",
+			"range": "medium",
+			"level": "HE",
+			"cost": "900",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 	
