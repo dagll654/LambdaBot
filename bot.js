@@ -1290,13 +1290,13 @@ const Discord = require('discord.js');
 						let workableArr = []
 						let workableCpx = []
 						jn.abnWorkable.forEach(aID => {
-							workableArr.push(abno(aID).name + " " + emoji(abno(aID).risk))
+							workableArr.push(abno(aID).name + " " + emoji(abno(aID).risk, ESERV))
 						})
 						for (i = 0; i < workableArr.length; i++) {
 							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 							workableCpx[Math.floor(i/10)].push(workableArr[i])
 						}
-						ch.send(baseStr + workableArr.join("	\n"))
+						ch.send(baseStr + workableArr.join("\n	"))
 					}
 					break
 				case "p":
