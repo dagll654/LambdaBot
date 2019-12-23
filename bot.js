@@ -145,8 +145,40 @@ const Discord = require('discord.js');
 	// 0/brooch1 | 1/brooch2 | 3/head1 | 4/head2 | 5/mouth1 | 6/mouth2 | 7/hand1 | 8/hand2 | 9/eye | 10/face | 11/cheek | 12/back1 | 13/back2
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
+	class employee {
+		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100) {
+			this.id = id
+			this.tag = tag
+			this.hp = hp/100
+			this.sp = sp/100
+			this.fortitude = fortitude
+			this.prudence = prudence
+			this.temperance = temperance
+			this.justice = justice
+			this.suit = suit
+			this.weapon = weapon
+			this.inventorys = inventorys
+			this.inventoryw = inventoryw
+			this.working = Number(working)
+			this.dead = Number(dead)
+			this.balance = Number(balance)
+			this.balancespecific = balancespecific
+			this.subpoints = subpoints
+			this.effects = effects
+			this.buffs = buffs
+			this.defensebuffs = defensebuffs
+			this.bufflist = bufflist
+			this.tjtime = tjtime
+			this.statlimit = statlimit
+		}
+		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
+		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
+		get tempL() {return Number(this.temperance) + Number(this.buffs.split("|")[2])}
+		get justL() {return Number(this.justice) + Number(this.buffs.split("|")[3])}
+		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}
+	}
 	function fdbPush(e, arr = dbployees) {
-		arr.push({"id": e.userid, "tag": e.usertag, "hp": e.hp/100, "sp": e.sp/100, "fortitude": e.fortitude, get fortL() {return (Number(this.fortitude)+Number(this.buffs.split("|")[0]))}, "prudence": e.prudence, get prudL() {return (Number(this.prudence)+Number(this.buffs.split("|")[1]))}, "temperance": e.temperance, get tempL() {return (Number(this.temperance)+Number(this.buffs.split("|")[2]))}, "justice": e.justice, get justL() {return (Number(this.justice)+Number(this.buffs.split("|")[3]))}, "suit": e.suit, "weapon": e.weapon, "inventorys": e.inventorys, "inventoryw": e.inventoryw, "working": Number(e.working), "dead": Number(e.dead), "balance": Number(e.balance), "balancespecific": e.balancespecific, "subpoints": e.subpoints, "effects": e.effects, "buffs": e.buffs, "defensebuffs": e.defensebuffs, "bufflist": e.bufflist, "tjtime": e.tjtime, "statlimit": 100, get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}})
+		arr.push(employee(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100)})
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -252,7 +284,7 @@ const Discord = require('discord.js');
 			if (pushSmallStr === ("UPDATE `employees` SET  WHERE `employees`.`userid` = '" + e.id + "';")) {pushBig.pop()}
 		})
 		pushBig.forEach(q => {
-			queryAndWait(q, connection)
+			//queryAndWait(q, connection)
 		})
 		console.log("Updated the database.")
 		console.log(pushBig)
@@ -572,17 +604,6 @@ const Discord = require('discord.js');
 		return Math.ceil(Math.random() * sides)
 	}
 	
-	// Add an item id to suit/weapon inventory
-	function addItemID(emp, inv, id) {
-		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) emp[inv] = id
-		else if (emp[inv].length === 1) emp[inv] += "|" + id 
-		else {
-			let splitInv = emp[inv].split("|")
-			splitInv.push(id)
-			emp[inv] = splitInv.join("|")
-		}
-	}
-	
 	// Stand-in function for cleaning inventories
 	function invClean() {
 		dbployees.forEach(e => {
@@ -604,6 +625,35 @@ const Discord = require('discord.js');
 			e.inventoryw = bxdwNew.join("|")
 		})
 	}
+	
+	// Add an item id to suit/weapon inventory
+	function addItemID(emp, inv, id) {
+		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) emp[inv] = id
+		else if (emp[inv].length === 1) emp[inv] += "|" + id 
+		else {
+			let splitInv = emp[inv].split("|")
+			splitInv.push(id)
+			emp[inv] = splitInv.join("|")
+		}
+	}
+	
+	// Remove an item id from suit/weapon inventory
+	function removeItemID(emp, inv, id) {
+		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) return
+		else {
+		let bxd = emp[inv].split("|")
+		let bxdNew = []
+		for (i = 0; i < bxd.length; i++) {
+			if (bxd[i] != id) {
+				bxdNew.push(bxd[i])
+			}
+		}
+		emp[inv] = bxdNew.join("|")
+		}
+		invClean()
+	}
+	
+
 	
 	// Function for getting a role by name 
 	function getRole(nme) {
