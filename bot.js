@@ -178,7 +178,7 @@ const Discord = require('discord.js');
 		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}
 	}
 	function fdbPush(e, arr = dbployees) {
-		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100)})
+		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100))
 	}
 	
 	// Function for finding the dep role among a member's roles
