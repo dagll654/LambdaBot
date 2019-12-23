@@ -284,7 +284,7 @@ const Discord = require('discord.js');
 			if (pushSmallStr === ("UPDATE `employees` SET  WHERE `employees`.`userid` = '" + e.id + "';")) {pushBig.pop()}
 		})
 		pushBig.forEach(q => {
-			//queryAndWait(q, connection)
+			queryAndWait(q, connection)
 		})
 		console.log("Updated the database.")
 		console.log(pushBig)
