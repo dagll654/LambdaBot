@@ -1347,7 +1347,7 @@ const Discord = require('discord.js');
 					} else {
 						let baseStr = " List of currently workable abnormalities:\n\n		"
 						let workableIDs = jn.abnWorkable
-						workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)}
+						workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
 						let workableArr = []
 						let workableCpx = []
 						let index = 0
