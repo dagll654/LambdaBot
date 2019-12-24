@@ -216,6 +216,8 @@ const Discord = require('discord.js');
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (effArr[1] != "inf") {
+					console.log("TEST ")
+					console.log(effArr)
 				if (Number(effArr[1]) > 0) {
 				
 				if (e.dead === 1 || e.dead === '1') {
