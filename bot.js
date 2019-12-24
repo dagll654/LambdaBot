@@ -641,7 +641,7 @@ const Discord = require('discord.js');
 	
 	// Add an item id to suit/weapon inventory
 	function addItemID(emp, inv, id) {
-		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) emp[inv] = id
+		if ((emp[inv] === undefined) || (emp[inv] === 'undefined') || (emp[inv] === '')) emp[inv] = id
 		else if (emp[inv].length === 1) emp[inv] += "|" + id 
 		else {
 			let splitInv = emp[inv].split("|")
