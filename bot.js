@@ -1509,6 +1509,7 @@ const Discord = require('discord.js');
 										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") eqItem = suit(eqID)
 										else eqItem = weapon(eqID)
 										rp.reply("Equipped " + eqItem)
+										fn.egoChange(cUser, jn.risk.indexOf(gear[indInv.find(i => {return i["i"] === Number(mr)}).type + "s"].level))
 										cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
 										menuIndex = "main"
 										r = 1
