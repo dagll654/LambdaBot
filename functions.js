@@ -336,10 +336,10 @@ exports.effectApplication = {
 		if (effects.length > 0) {
 			if (effects.some(e => {return e.startsWith("3/")})) {
 				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
-				let fMod = employee.stats[4] - risk
+				let fMod = Math.round((employee.stats[4] - risk)/1.5)
 				if (fMod < 0) fMod = 0
-				fArr[3] = Number(fArr[3]) + fMod + Math.round(Number(fArr[3])/4)
-				fArr[1] = 40 + Math.floor(Number(fArr[3])/1.5)
+				fArr[3] = Number(fArr[3]) + fMod + Math.round(Number(fArr[3])/5)
+				fArr[1] = 40 + Number(fArr[3])
 				fatigueEffect = fArr.join("/")
 				if (effects.length === 1) employee.effects = fatigueEffect
 				else {

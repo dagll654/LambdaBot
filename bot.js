@@ -227,7 +227,7 @@ const Discord = require('discord.js');
 
 				effectsNew.push(effArr.join("/"))
 				} else {eff = "null"}
-				}
+				} else effectsNew.push(eff)
 				if ((eff === undefined) || (eff === "")) {eff = "null"}
 			})
 			e.effects = effectsNew.join("|")
