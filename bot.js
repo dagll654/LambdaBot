@@ -1735,7 +1735,7 @@ const Discord = require('discord.js');
 							if (rp.content.toLowerCase() != "return") {
 								let k = 0
 								let ki = 0
-								while (k === 0 && ki < 25) {
+								while (k === 0 && ki < 4) {
 								switch (menuIndex) {
 									
 									// Main menu of extraction 
