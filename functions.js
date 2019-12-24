@@ -306,14 +306,19 @@ exports.effectApplication = {
 		return [false]
 	},
 	"workCD": function(employee, boxes) {
-		effects = employee.effects.split("|")
-		if (effects.every(eff => {return (eff.startsWith("3/") === false)})) {fatiguemod = 0}
-		else {
-			fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			fatiguemod = Math.floor(Number(fatigue[3])/3)			
+		let effects = employee.effects.split("|")
+		let CDEffect
+		let fatiguemod = 0
+		if (effects.some(e => {return e.startsWith("3/")})) {
+			let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
+			fatiguemod = Math.floor(Number(fArr[3])/3)
 		}
-		effects.push("2/" + (Math.round(Number(boxes)/1.4) + fatiguemod - 1) + "/work cooldown")
-		employee.effects = effects.join("|")
+		let CDEArr = ["2"]
+		CDEArr.push(Math.round(Number(boxes)/1.4) + fatiguemod)
+		CDEArr.push("Work cooldown")
+		CDEffect = CDEArr.join("/")
+		if (employee.effects === 'null') employee.effects = CDEffect
+		else employee.effects += CDEffect
 		return [false]
 	},
 	"3": function(employee, result, workorder) {
@@ -323,14 +328,27 @@ exports.effectApplication = {
 		return [false]
 	},
 	"fatigue": function(employee, risk) {
-			effects = employee.effects.split("|")
-			
-			if (effects.every(eff => {
-				return (eff.startsWith("3/") === false)
-			})) {effects.push("3/40/fatigue/0"); employee.effects = effects.join("|")}
-			else {fatigue = effects[effects.findIndex(checkFatigue)].split("/")
-			effects[effects.findIndex(checkFatigue)] = "3/" + (40 + Math.floor((Number(fatigue[3])/risk)*2)) + "/fatigue/" + Math.round((Number(fatigue[3]) + Math.floor(Number(fatigue[3])/6) + 1)/risk)
-			employee.effects = effects.join("|")}
+		let effects = employee.effects.split("|")
+		if (employee.effects === 'null') effects = []
+		let fatigueEffect
+		if (effects.length > 0) {
+			if (effects.some(e => {return e.startsWith("3/")})) {
+				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
+				let fMod = employee.stats[4] - risk
+				if (fMod < 0) fMod = 0
+				fArr[3] = Number(fArr[3]) + fMod + Math.round(Number(fArr[3])/4)
+				fArr[1] = 40 + Math.floor(Number(fArr[3])/1.5)
+				fatigueEffect = fArr.join("/")
+				if (effects.length === 1) employee.effects = fatigueEffect
+				else {
+					effects[effects.indexOf(effects.find(e => {return e.startsWith("3/")}))] = fatigueEffect
+					employee.effects = effects.join("|")
+				}
+			}
+		}
+		else {
+			employee.effects = "3/40/fatigue/0"
+		}
 		return [false]
 	},
 	"department": function(employee, dep, action, level = 0) {
