@@ -214,6 +214,7 @@ const Discord = require('discord.js');
 			if ((e.effects != "null") && (e.effects != undefined)){
 			let effects = e.effects.split("|")
 			if (e.id === '143261987575562240') {console.log("Quack's effects before shenanigans: "); console.log(e.effects)}
+			
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (effArr[1] != "inf") {
@@ -231,6 +232,7 @@ const Discord = require('discord.js');
 			})
 			e.effects = effectsNew.join("|")
 			}
+			
 			if (e.id === '143261987575562240') {console.log("Quack's effects after shenanigans: "); console.log(e.effects)}
 			if (e.effects === null) e.effects = 'null'
 			
@@ -814,9 +816,9 @@ const Discord = require('discord.js');
 					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
 					else {mood = jn.badresult; moodResult = 0}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])
-						if (fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[0] === true) {
-							moodEffectResult = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])[1]
+						let effe = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])
+						if (effe[0] === true) {
+							moodEffectResult = effe[1]
 						}
 					}
 					if (damageArray.length === 0) {damageArray.push("none")}
