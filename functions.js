@@ -318,7 +318,7 @@ exports.effectApplication = {
 		CDEArr.push("Work cooldown")
 		CDEffect = CDEArr.join("/")
 		if (employee.effects === 'null') employee.effects = CDEffect
-		else employee.effects += CDEffect
+		else employee.effects += "|" CDEffect
 		return [false]
 	},
 	"3": function(employee, result, workorder) {
