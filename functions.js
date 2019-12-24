@@ -215,16 +215,12 @@ exports.effectApplication = {
 		
 	},
 	"20": function(employee, result, workorder) {
-		function checkEffect20(eff) {
-				if (eff.startsWith("20/")) {return true}
-				else {return false}
-		}
 		let effects = employee.effects.split("|")
 		if (effects.some(e => {return e.startsWith("20/")})) return [true, "\n	You have been made a bit *heart*-ier."]
 		else if (result === 0 || employee.temperance > 44) {
 			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {return (eff.startsWith("20/") === false)})) {
-				effects.push("20/inf/T-04-06")
+				effects.push("20/inf/F-05-32")
 				effects.shift()
 				employee.effects = effects.join("|")
 				}
