@@ -267,7 +267,9 @@ exports.effectApplication = {
 	"16": function(employee, result) {
 		if (result != 2) {
 			let oofChance = 30*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*50
-			if (roll(100) < oofChance) {
+			let nonoRoll = roll(100)
+			console.log("wormfuckers chance: " + `${oofChance}, roll: ${nonoRoll}`)
+			if (nonoRoll < oofChance) {
 				employee.hp = 0
 				employee.sp = 0
 				employee.dead = 1
