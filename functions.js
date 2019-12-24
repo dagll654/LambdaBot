@@ -368,7 +368,7 @@ exports.effectApplication = {
 		else {
 			let bufflist = employee.bufflist.split("|")
 			let buff = employee.bufflist.split("|").find(b => {return b.startsWith("manualDebuff")}).split("/")
-			if (bufflist.length >= 1) employee.bufflist = ''
+			if (bufflist.length <= 1) employee.bufflist = ''
 			else {
 				employee.bufflist = employee.bufflist.split("|").map(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => b != undefined).join("|")
 			}
