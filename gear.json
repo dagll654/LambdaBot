@@ -159,6 +159,14 @@
 			"cost": "600",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
+		},
+		{	"id": "20",
+			"name": "Logging",
+			"resistance": [0.8, 1.2, 0.8, 1.5],
+			"level": "HE",
+			"cost": "600",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 			
@@ -382,6 +390,17 @@
 			"cost": "900",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
+		},
+		{	"id": "20",
+			"name": "Logging",
+			"damage": [15, 21],
+			"dtype": [1, 0, 0, 0],
+			"speed": "slow",
+			"range": "medium",
+			"level": "HE",
+			"cost": "800",
+			"requirements": [0, 0, 30, 0, 0],
+			"reqString": "Temperance II" 
 		}
 			],
 	
