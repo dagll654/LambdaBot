@@ -374,7 +374,7 @@ exports.effectApplication = {
 				employee.bufflist = employee.bufflist.join("|")
 			}
 			let currentBuffs = employee.buffs.split("|")
-			currentBuffs[jn.stats.indexOf(stat)] += Number(buff[2])
+			currentBuffs[jn.stats.indexOf(stat)] = Number(currentBuffs[jn.stats.indexOf(stat)]) + Number(buff[2])
 			employee.buffs = currentBuffs.join("|")
 		}
 	}
