@@ -766,7 +766,7 @@ const Discord = require('discord.js');
 					}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[3] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[3]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[3])
-						damageArray.push(dmg.toFixed(1) + "% " + `(${((dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg).toFixed(1)})` + jn.dtype[3])
+						damageArray.push(dmg.toFixed(1) + "% " + `(${((dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg).toFixed(1)}) ` + jn.dtype[3])
 						dbployees[dbids.indexOf(arrg[0])].hp -= (dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg
 						//console.log("DAMAGE:" + dmg)
 					}
@@ -829,7 +829,7 @@ const Discord = require('discord.js');
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)}	
+						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
 						dbployees[dbids.indexOf(arrg[0])].working = 0
 				}
 				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
