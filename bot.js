@@ -39,8 +39,8 @@ const Discord = require('discord.js');
 	 x = 0 
 	 x1 = 0
 	 dbg1 = 0
-	 dbvars = [0, 0, 0, 0, 0]
-	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal', 'stop']
+	 dbvars = [0, 0, 0, 0, 0, 4]
+	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal', 'stop', 'efflog']
 	 quotelog = []
 	 votingteam = ""
 	 voting = 0	
@@ -239,7 +239,7 @@ const Discord = require('discord.js');
 			e.effects = effectsSplit.join("|")
 			}
 			}
-			if (efflog === 4) {
+			if (efflog >= dbvars[5]) {
 			if (e.effects != "null"){
 			console.log(e.tag + " " + e.effects)
 			console.log(e.tag + " " + effectsNew)
@@ -248,7 +248,7 @@ const Discord = require('discord.js');
 			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
 			if (e.effects.split("|").some(fef => fef.startsWith("0/"))) {e.hp = e.hp + 0.1}
 		})
-		if (efflog === 4) {efflog = 0}
+		if (efflog >= dbvars[5]) {efflog = 0}
 	}, 1000)
 	
 	// Update the data in the database
