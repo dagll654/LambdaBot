@@ -217,7 +217,7 @@ const Discord = require('discord.js');
 				let effArr = eff.split("/")
 				if (Number(effArr[1]) > 0) {
 				if (effArr[1] != "inf") {
-				if (e.dead === 1 || e.dead = '1') {
+				if (e.dead === 1 || e.dead === '1') {
 					if (effArr[0] === "1") effArr[1] = Number(effArr[1]) - 1
 					else effArr[1] = 0
 				} else effArr[1] = Number(effArr[1]) - 1
