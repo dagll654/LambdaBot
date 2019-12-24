@@ -1699,12 +1699,12 @@ const Discord = require('discord.js');
 					let item
 					let objItem
 					let menuIndex = "main"
-					let instAbnoCode
+					let instAbno = 0
 					if (jn.abnWorkable.includes(cmd[2])) {
-						instAbnoCode = cmd[2]
 						menuIndex = "shop"
 						currentAbnoCode = cmd[2]
 						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+						instAbno = 1
 					}
 					let prices
 					let totalBalance
@@ -1715,6 +1715,10 @@ const Discord = require('discord.js');
 					
 					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 					.then(menumsg => {
+					if (instAbno === 1) {
+						currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+						menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
+					}
 						
 				/*func*/async function menuNavigationExtraction() {
 							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
@@ -1743,7 +1747,6 @@ const Discord = require('discord.js');
 
 									case "shop":
 										currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
-										invFullness(cUser)
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
 										if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
 										else k = 1
