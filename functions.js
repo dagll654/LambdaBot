@@ -181,9 +181,24 @@ exports.effectApplication = {
 	},
 	"14": function(employee, result, workorder) {
 		let effects = employee.effects.split("|")
-		console.log(employee.tag + " " + effects)
+		console.log("14Test: " + employee.tag + " " + effects)
+		if (effects.length > 0) {
+			if (effects.length > 1) {
+				effects.push("14/inf/T-04-06")
+				employee.effects = effects.join("|")
+				return [false]
+			}
+			else {
+				employee.effects += "|14/inf/T-04-06"
+				return [false]
+			}
+		}
+		else {
+			employee.effects = "14/inf/T-04-06"
+			return [false]
+		}
 		
-		return false
+		return [false]
 		
 		
 		/*	effects = employee.effects.split("|")
