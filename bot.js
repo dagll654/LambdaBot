@@ -438,10 +438,11 @@ const Discord = require('discord.js');
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
+	{
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	let content = tmpmsg.content.split(" ")[0].split("")
 	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || (getUser(tmpmsg.content.split(" ")[0].slice(2)) === client.user)) {
 		botPass = 1
-		let content = tmpmsg.content.split(" ")[0].split("")
 		content.shift()
 		content.shift()
 		content = content.join("")
@@ -455,6 +456,7 @@ const Discord = require('discord.js');
 		msg = tmpmsg
 		} else msg = tempbigmessagevaluesoIneveruseitagain
 	} else msg = tempbigmessagevaluesoIneveruseitagain
+	}
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
 	const ESERV = client.guilds.get('513660754633949208')
@@ -1049,7 +1051,7 @@ const Discord = require('discord.js');
 					break
 				case "employee":
 					let uid2 = ""
-					if (cmd[2] != undefined) {uid2 = cmd[2]} else {uid2 = "143261987575562240"}
+					if (getUser(cmd[2]) != undefined) {uid2 = getUser(cmd[2]).id} else {uid2 = "143261987575562240"}
 					console.log(dbployees[dbids.indexOf(uid2)])
 					break
 				case "msg":
