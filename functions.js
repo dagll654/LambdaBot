@@ -180,7 +180,13 @@ exports.effectApplication = {
 		return [false]
 	},
 	"14": function(employee, result, workorder) {
-			effects = employee.effects.split("|")
+		let effects = employee.effects.split("|")
+		console.log(employee.tag + " " + effects)
+		
+		return false
+		
+		
+		/*	effects = employee.effects.split("|")
 			function checkEffect14(eff) {
 				if (eff.startsWith("14/")) {return true}
 				else {return false}
@@ -190,7 +196,8 @@ exports.effectApplication = {
 				return (eff.startsWith("14/") === false)
 			})) {effects.push("14/inf/T-04-06"); effects.shift(); employee.effects = effects.join("|")}
 			else {effects[effects.findIndex(checkEffect14)] = "14/inf/T-04-06"; employee.effects = effects.join("|")}
-		return [false]
+		return [false]*/
+		
 	},
 	"20": function(employee, result, workorder) {
 		function checkEffect20(eff) {
