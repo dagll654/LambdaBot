@@ -1669,7 +1669,7 @@ const Discord = require('discord.js');
 					if (cmd[2]) {
 						if (cmd[2] === "apply") {
 						if (jn.stats.includes(cmd[3])) {
-						if (checkSymbols(cmd[4], nmbrs) {
+						if (checkSymbols(cmd[4], nmbrs)) {
 						if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
 							if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
 								msg.reply("you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
