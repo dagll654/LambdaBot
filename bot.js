@@ -1689,6 +1689,9 @@ const Discord = require('discord.js');
 						if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
 						if (jn.stats.includes(cmd[3])) {
 							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
+							console.log(employee(msg.author.id).bufflist.split("|"))
+							console.log(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/")))
+							console.log(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3])).split("/"))
 							msg.reply(`removed the ${employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3])).split("/")[2]} ${emoji(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3])).split("/")[1], ESERV)} debuff.`)
 						} else msg.reply("error: incorrect stat specified.")
 						} else msg.reply("error: you do not have any active removable debuffs.")
