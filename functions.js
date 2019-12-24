@@ -344,7 +344,7 @@ exports.effectApplication = {
 					effects[effects.indexOf(effects.find(e => {return e.startsWith("3/")}))] = fatigueEffect
 					employee.effects = effects.join("|")
 				}
-			}
+			} else employee.effects += fatigueEffect
 		}
 		else {
 			employee.effects = "3/40/fatigue/0"
