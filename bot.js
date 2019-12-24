@@ -1670,6 +1670,7 @@ const Discord = require('discord.js');
 						if (cmd[2] === "apply") {
 						if (jn.stats.includes(cmd[3])) {
 						if (checkSymbols(cmd[4], nmbrs)) {
+						if (Number(cmd[4]) > 0) {	
 						if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
 							if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
 								msg.reply("you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
@@ -1679,6 +1680,7 @@ const Discord = require('discord.js');
 						}
 							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
 							msg.reply(`applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
+						} else msg.reply("error: cannot give debuffs for 0 or less.")
 						} else msg.reply("error: incorrect argument.")
 						} else msg.reply("error: incorrect stat specified.")
 						}
@@ -1687,10 +1689,10 @@ const Discord = require('discord.js');
 						if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
 						if (jn.stats.includes(cmd[3])) {
 							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
-							msg.reply(`removed the ${employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[2]} ${emoji(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[1], ESERV)} debuff.`)
-						}
-						}
-						}
+							msg.reply(`removed the ${employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3])).split("/")[2]} ${emoji(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3])).split("/")[1], ESERV)} debuff.`)
+						} else msg.reply("error: incorrect stat specified.")
+						} else msg.reply("error: you do not have any active removable debuffs.")
+						} else msg.reply("error: you do not have any active removable debuffs.")
 						}
 					} else msg.reply("error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
 				break
