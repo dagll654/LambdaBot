@@ -1149,7 +1149,7 @@ const Discord = require('discord.js');
 					dbployees[dbids.indexOf('312299633474928642')].balancespecific = dbployees[0].balancespecific
 					break
 				case "boxbump":
-					bumpBoxes(Number(cmd[2]), cmd[3], cmd[4])
+					bumpBoxes(Number(cmd[2]), cmd[3], getUser(cmd[4]).id)
 					break
 				case "crash":
 					updData()
