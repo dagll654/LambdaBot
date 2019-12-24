@@ -1677,7 +1677,7 @@ const Discord = require('discord.js');
 								return
 							}
 						}
-							fn.effectApplication(employee(msg.author.id), cmd[3], Number(cmd[4], "apply")
+							fn.effectApplication(employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
 							msg.reply(`applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
 						} else msg.reply("error: incorrect argument.")
 						} else msg.reply("error: incorrect stat specified.")
