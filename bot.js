@@ -765,7 +765,7 @@ const Discord = require('discord.js');
 						//console.log("DAMAGE:" + dmg)
 					}
 					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[3] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[2]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[2])
+						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[3]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[3])
 						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[3])
 						dbployees[dbids.indexOf(arrg[0])].hp -= (dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg
 						//console.log("DAMAGE:" + dmg)
