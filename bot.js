@@ -438,8 +438,8 @@ const Discord = require('discord.js');
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
-	tmpmsg = tempbigmessagevaluesoIneveruseitagain
-	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || ((client.bot.nickname.startsWith(tmpmsg.content.split(" ")[0].slice(2))) || (client.bot.tag.startsWith(tmpmsg.content.split(" ")[0].slice(2))))) {
+	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || (getUser(tmpmsg.content.split(" ")[0].slice(2)) === client.user)) {
 		botPass = 1
 		let content = tmpmsg.content.split(" ")[0].split("")
 		content.shift()
