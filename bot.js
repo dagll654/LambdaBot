@@ -1346,10 +1346,12 @@ const Discord = require('discord.js');
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 					} else {
 						let baseStr = " List of currently workable abnormalities:\n\n		"
+						let workableIDs = jn.abnWorkable
+						workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)}
 						let workableArr = []
 						let workableCpx = []
 						let index = 0
-						jn.abnWorkable.forEach(aID => {
+						workableIDs.forEach(aID => {
 							workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
 						})
 						for (i = 0; i < workableArr.length; i++) {
