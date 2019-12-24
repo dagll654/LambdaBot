@@ -193,7 +193,7 @@ exports.effectApplication = {
 				if (eff.startsWith("14/")) {return true}
 				else {return false}
 			}
-			//console.log(employee.tag + " " + effects)
+			console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("14/") === false)
 			})) {effects.push("14/inf/T-04-06"); employee.effects = effects.join("|")}
