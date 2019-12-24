@@ -197,7 +197,7 @@ exports.effectApplication = {
 			employee.effects = "14/inf/T-04-06"
 			return [false]
 		}
-		
+		console.log("14Test2: " + employee.tag + " " + effects)
 		return [false]
 		
 		

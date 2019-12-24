@@ -213,11 +213,10 @@ const Discord = require('discord.js');
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
 			let effects = e.effects.split("|")
+			if (e.id === '143261987575562240') {console.log("Quack's effects before shenanigans: "); console.log(e.effects)}
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if (effArr[1] != "inf") {
-					console.log("TEST ")
-					console.log(effArr)
 				if (Number(effArr[1]) > 0) {
 				
 				if (e.dead === 1 || e.dead === '1') {
@@ -232,6 +231,7 @@ const Discord = require('discord.js');
 			})
 			e.effects = effectsNew.join("|")
 			}
+			if (e.id === '143261987575562240') {console.log("Quack's effects after shenanigans: "); console.log(e.effects)}
 			if (e.effects === null) e.effects = 'null'
 			
 			if (e.effects != null) {
