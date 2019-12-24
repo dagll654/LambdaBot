@@ -1691,7 +1691,6 @@ const Discord = require('discord.js');
 				function ext(emp, channel) {
 					cUser = emp
 					const cCh = DELTAS.channels.get(channel)
-					
 					let currentAbno
 					let currentAbnoCode
 					let currentShop
@@ -1700,6 +1699,13 @@ const Discord = require('discord.js');
 					let item
 					let objItem
 					let menuIndex = "main"
+					let instAbnoCode
+					if (jn.abnWorkable.includes(cmd[2])) {
+						instAbnoCode = cmd[2]
+						menuIndex = "shop"
+						currentAbnoCode = cmd[2]
+						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+					}
 					let prices
 					let totalBalance
 					let price
