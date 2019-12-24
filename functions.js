@@ -89,10 +89,10 @@ exports.affstat = function(abn, stat, employee) {
 	if (abn.toLowerCase() === "o-06-20") {
 		switch (stat) {
 			case "fortitude":
-			return (8*(5-statLVN(employee.fortitude)))
+			return (8*(5-statLVN(employee.fortL)))
 			break
 			case "temperance":
-			return (10*(5-statLVN(employee.temperance)))
+			return (10*(5-statLVN(employee.tempL)))
 			default:
 			console.log("nothing")
 			return 0
@@ -221,7 +221,7 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			return [true, "\n	You have been made a bit *heart*-ier."]}
-		else if (result === 0 || employee.temperance > 44) {
+		else if (result === 0 || employee.tempL > 44) {
 			if (effects.every(eff => {return (eff.startsWith("20/") === false)})) {
 				effects.push("20/inf/F-05-32")
 				effects.shift()
@@ -254,7 +254,7 @@ exports.effectApplication = {
 		}
 	},
 	"15": function(employee, result, workorder) {
-		if (result === 0 || employee.fortitude < 65) {
+		if (result === 0 || employee.fortL < 65) {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
@@ -355,5 +355,26 @@ exports.effectApplication = {
 		console.log("|" + employee.tag + "|" + dep + "|")
 		buffs['buff'](employee, jn.bufflist['department'][dep][level], action)
 		return [false]
+	},
+	"manualDebuff": function(employee, stat, amount, action) {
+		if (action === "apply") {
+			let bufflist = employee.bufflist
+			if (bufflist === undefined || bufflist === '' || bufflist === null) employee.bufflist = "manualDebuff/" + stat + "/" + amount
+			else employee.bufflist += "|manualDebuff/" + stat + "/" + amount
+			let currentBuffs = employee.buffs.split("|")
+			currentBuffs[jn.stats.indexOf(stat)] -= amount
+			employee.buffs = currentBuffs.join("|")
+		}
+		else {
+			let bufflist = employee.bufflist.split("|")
+			let buff = employee.bufflist.split("|").find(b => {return b.startsWith("manualDebuff")}).split("/")
+			if (bufflist.length >= 1) employee.bufflist = ''
+			else {
+				employee.bufflist = employee.bufflist.split("|").map(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => b != undefined).join("|")
+			}
+			let currentBuffs = employee.buffs.split("|")
+			currentBuffs[jn.stats.indexOf(stat)] -= buff[2]
+			employee.buffs = currentBuffs.join("|")
+		}
 	}
 }

@@ -1665,6 +1665,35 @@ const Discord = require('discord.js');
 					} else {msg.reply("you are not currently assigned to any team.")}
 					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
 					break
+				case "debuff":
+					if (cmd[2]) {
+						if (cmd[2] === "apply") {
+						if (jn.stats.includes(cmd[3])) {
+						if (checkSymbols(cmd[4], nmbrs) {
+						if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
+							if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
+								msg.reply("you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
+								break
+								return
+							}
+						}
+							fn.effectApplication(employee(msg.author.id), cmd[3], Number(cmd[4], "apply")
+							msg.reply(`applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
+						} else msg.reply("error: incorrect argument.")
+						} else msg.reply("error: incorrect stat specified.")
+						}
+						else if (cmd[2] === "remove") {
+						if (employee(msg.author.id).bufflist != undefined) {
+						if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
+						if (jn.stats.includes(cmd[3])) {
+							fn.effectApplication(employee(msg.author.id), cmd[3], 0, "remove")
+							msg.reply(`removed the ${employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[2]} ${emoji(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[1], ESERV)} debuff.`)
+						}
+						}
+						}
+						}
+					} else msg.reply("error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
+				break
 				case "ex":
 				case "extraction":
 				invClean()
