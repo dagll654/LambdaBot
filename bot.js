@@ -1452,7 +1452,7 @@ const Discord = require('discord.js');
 					function instInvS() {
 						uSuitText = ""
 						if ((cUser.inventorys != undefined) && (cUser.inventorys != 'undefined') && (cUser.inventorys != '')) {
-						uSuitIds = ["0"].concat(cUser.inventorys.split("|")).filter(s => s != undefined)
+						uSuitIds = ["0"].concat(cUser.inventorys.split("|")).filter(s => gear.suits[s] != undefined)
 						uSuitText += uSuitIds.map(s => gear.suits[s].name).join(", ") + "."
 						} else {uSuitIds = ["0"]; uSuitText += "Suit."}
 					}
@@ -1461,7 +1461,7 @@ const Discord = require('discord.js');
 						uWeapText = ""
 						if ((cUser.inventoryw != undefined) && (cUser.inventoryw != 'undefined') && (cUser.inventoryw != '')) {
 							console.log(cUser.inventoryw)
-						uWeapIds = ["0"].concat(cUser.inventoryw.split("|")).filter(w => w != undefined)
+						uWeapIds = ["0"].concat(cUser.inventoryw.split("|")).filter(w => gear.weapons[w] != undefined)
 						uWeapText += uWeapIds.map(w => gear.weapons[w].name).join(", ") + "."
 						} else {uWeapIds = ["0"]; uWeapText += "Riot Stick."}
 					}
