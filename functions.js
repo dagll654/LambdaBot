@@ -89,11 +89,9 @@ exports.affstat = function(abn, stat, employee) {
 	if (abn.toLowerCase() === "o-06-20") {
 		switch (stat) {
 			case "fortitude":
-			console.log("TEST " + stat + " " + (8*(5-statLVN(employee.fortitude))))
 			return (8*(5-statLVN(employee.fortitude)))
 			break
 			case "temperance":
-			console.log("TEST " + stat + " " + (10*(5-statLVN(employee.fortitude))))
 			return (10*(5-statLVN(employee.temperance)))
 			default:
 			console.log("nothing")
@@ -124,6 +122,10 @@ exports.effects = {
 					deathEffect = e.split("/")
 					deathCause = "bear"
 				}
+				if (e.startsWith("20/")) {
+					deathEffect = e.split("/")
+					deathCause = "woodsman"
+				}
 			})
 			if (deathEffect.length > 0 && deathCause === "fairies") {
 				if (abn.toUpperCase() != deathEffect[2]) {
@@ -135,11 +137,15 @@ exports.effects = {
 				else {
 					let newEffects = []
 					effectArray.forEach(ef => {
-						if (ef.startsWith("14") === false) newEffects.push(ef)
+						if (ef.startsWith("14/") === false) newEffects.push(ef)
 					})
 					employee.effects = newEffects.join("|")
 					
 				}
+			}
+			if (deathEffect.length > 0 && deathCause === "woodsman") {
+				if (abn.toUpperCase() === "F-05-32") {
+				ret = [true, deathEffect[2], "became too *heart*-y."]}
 			}
 		}
 		return ret
@@ -190,8 +196,23 @@ exports.effectApplication = {
 			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {
 				return (eff.startsWith("14/") === false)
-			})) {effects.push("14/3600/T-04-06"); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect14)] = "14/3600/T-04-06"; employee.effects = effects.join("|")}
+			})) {effects.push("14/inf/T-04-06"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect14)] = "14/inf/T-04-06"; employee.effects = effects.join("|")}
+		return [false]
+	},
+	"20": function(employee, result, workorder) {
+		if (result === 0 || employee.temperance > 44) {
+			effects = employee.effects.split("|")
+			function checkEffect20(eff) {
+				if (eff.startsWith("20/")) {return true}
+				else {return false}
+			}
+			//console.log(employee.tag + " " + effects)
+			if (effects.every(eff => {
+				return (eff.startsWith("20/") === false)
+			})) {effects.push("20/inf/T-04-06"); employee.effects = effects.join("|")}
+			else {effects[effects.findIndex(checkEffect20)] = "20/inf/T-04-06"; employee.effects = effects.join("|")}
+		}
 		return [false]
 	},
 	"8": function(employee, result, workorder) {
