@@ -1437,7 +1437,7 @@ const Discord = require('discord.js');
 				break 
 				case "i":
 				case "inv":
-				case "inventory":
+				case "inventory": {
 					function inv(emp, channel) {
 					cUser = emp
 					const cCh = channel
@@ -1603,7 +1603,7 @@ const Discord = require('discord.js');
 				}
 				inv(dbployees.find(d => d.id === msg.author.id), msg.channel)
 				}
-					break
+				break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
