@@ -1677,7 +1677,7 @@ const Discord = require('discord.js');
 								return
 							}
 						}
-							fn.effectApplication(employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
+							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
 							msg.reply(`applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
 						} else msg.reply("error: incorrect argument.")
 						} else msg.reply("error: incorrect stat specified.")
@@ -1686,7 +1686,7 @@ const Discord = require('discord.js');
 						if (employee(msg.author.id).bufflist != undefined) {
 						if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
 						if (jn.stats.includes(cmd[3])) {
-							fn.effectApplication(employee(msg.author.id), cmd[3], 0, "remove")
+							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
 							msg.reply(`removed the ${employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[2]} ${emoji(employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + stat)).split("/")[1], ESERV)} debuff.`)
 						}
 						}
