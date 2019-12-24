@@ -1505,11 +1505,18 @@ const Discord = require('discord.js');
 									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
 									if (indInv.some(i => {return i["i"] === Number(mr)})) {
 										let eqItem
+										let level
 										let eqID = indInv.find(i => {return i["i"] === Number(mr)}).id
-										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") eqItem = suit(eqID)
-										else eqItem = weapon(eqID)
+										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") {
+											eqItem = suit(eqID)
+											level = gear.suits[eqID].level
+										}
+										else {
+											eqItem = weapon(eqID)
+											level = gear.weapons[eqID].level
+										}
 										rp.reply("Equipped " + eqItem)
-										fn.effectApplication.egoChange(cUser, jn.risk.indexOf(gear[indInv.find(i => {return i["i"] === Number(mr)}).type + "s"].level))
+										fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
 										cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
 										menuIndex = "main"
 										r = 1
