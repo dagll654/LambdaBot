@@ -209,7 +209,6 @@ const Discord = require('discord.js');
 	client.setInterval(function(){
 		efflog = efflog + 1
 		dbployees.forEach(e => {
-			if (e.dead === 1) e.effects = "null"
 			if (e === undefined) return 0
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
@@ -218,7 +217,11 @@ const Discord = require('discord.js');
 				let effArr = eff.split("/")
 				if (Number(effArr[1]) > 0) {
 				if (effArr[1] != "inf") {
-				effArr[1] = Number(effArr[1]) - 1
+				if (e.dead === 1) {
+					if (effArr[0] === "1") effArr[1] = Number(effArr[1]) - 1
+					else eff = "null"
+				} else effArr[1] = Number(effArr[1]) - 1
+				
 				}
 				effectsNew.push(effArr.join("/"))
 				} else {eff = "null"}
