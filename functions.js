@@ -216,9 +216,11 @@ exports.effectApplication = {
 	},
 	"20": function(employee, result, workorder) {
 		let effects = employee.effects.split("|")
+		console.log(effects)
+		console.log(effects.some(e => {return e.startsWith("20/")}))
+		console.log(effects.find(e => {return e.startsWith("3/")}))
 		if (effects.some(e => {return e.startsWith("20/")})) return [true, "\n	You have been made a bit *heart*-ier."]
 		else if (result === 0 || employee.temperance > 44) {
-			//console.log(employee.tag + " " + effects)
 			if (effects.every(eff => {return (eff.startsWith("20/") === false)})) {
 				effects.push("20/inf/F-05-32")
 				effects.shift()
@@ -333,7 +335,7 @@ exports.effectApplication = {
 			if (effects.some(e => {return e.startsWith("3/")})) {
 				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
 				let fMod = Math.round((employee.stats[4] - risk)/1.5)
-				fArr[3] = Number(fArr[3]) + fMod + Math.round(Number(fArr[3])/5)
+				fArr[3] = Number(fArr[3]) + fMod
 				fArr[1] = 40 + Number(fArr[3])
 				fatigueEffect = fArr.join("/")
 				if (effects.length === 1) employee.effects = fatigueEffect
