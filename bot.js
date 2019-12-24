@@ -433,12 +433,14 @@ const Discord = require('discord.js');
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
-		
+	
+	let botPass = 0		
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain
 	if ((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) {
+		botPass = 1
 		let content = tmpmsg.content.split(" ")[0].split("")
 		content.shift()
 		content.shift()
@@ -700,10 +702,7 @@ const Discord = require('discord.js');
 	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
 	console.log(log11);
 	}
-	// And something to notify me whenever a message is sent on any channel. I don't want to disturb people, but I do want to be notified.
-	if (!msg.author.bot && msg.author.id != '143261987575562240' && ch.id != '607318782624399363' && ch.id != '609506201591480341') {
-	client.users.get('143261987575562240').send("New message on " + ch.name + " by " + msg.author.username);
-	}
+
 	//if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
 	//	yeet(600)
 	//}
@@ -909,7 +908,7 @@ const Discord = require('discord.js');
 	}
 	
 	// If the message's author is a bot, just ignore it
-	if (msg.author.bot && ((msg.content.startsWith("Initiating vote for ") === false))) return;
+	if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
 	
 	// Command check
 	if (mesc.startsWith("!")) {
