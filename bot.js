@@ -1438,6 +1438,7 @@ const Discord = require('discord.js');
 				case "i":
 				case "inv":
 				case "inventory": {
+					invClean()
 					function inv(emp, channel) {
 					cUser = emp
 					const cCh = channel
