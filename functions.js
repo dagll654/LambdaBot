@@ -370,7 +370,8 @@ exports.effectApplication = {
 			let buff = employee.bufflist.split("|").find(b => {return b.startsWith("manualDebuff")}).split("/")
 			if (bufflist.length <= 1) employee.bufflist = ''
 			else {
-				employee.bufflist = employee.bufflist.split("|").map(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => b != undefined).join("|")
+				employee.bufflist = employee.bufflist.split("|").map(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => b != undefined)
+				employee.bufflist = employee.bufflist.join("|")
 			}
 			let currentBuffs = employee.buffs.split("|")
 			currentBuffs[jn.stats.indexOf(stat)] -= buff[2]
