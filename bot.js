@@ -1438,201 +1438,171 @@ const Discord = require('discord.js');
 				case "i":
 				case "inv":
 				case "inventory":
-					msg.delete(1)
-					invClean()
-							curruser = dbployees[dbids.indexOf(msg.author.id)]
-							invs = "Suit"
-							invw = "Riot Stick"
-							invsarr = []
-							invwarr = []
-							ainvs = [{"name": gear.suits[0].name, "id": 0}]
-							ainvw = [{"name": gear.weapons[0].name, "id": 0}]
-							ainvsd = [0]
-							ainvwd = [0]
-							console.log(`inventorys ${curruser.inventorys}`)
-							if (curruser.inventorys != undefined && curruser.inventorys != 'undefined' && curruser.inventorys != '') {
-							invs += ", "
-							curruser.inventorys.split("|").forEach(id => {
-								if (gear.suits[id] != undefined) {
-								ainvs.push({"name": gear.suits[Number(id)].name, "id": Number(id)})
-								ainvsd.push(Number(id))
-								invsarr.push(gear.suits[id].name)
-								}
-							}) 
-							invs += invsarr.join(", ") + "."
-							} else invs += "."
-							if (curruser.inventoryw != undefined && curruser.inventoryw != 'undefined' && curruser.inventoryw != '') {
-							invw += ", " 
-							console.log(curruser.inventoryw)
-							curruser.inventoryw.split("|").forEach(id => {
-								if (gear.weapons[id] != undefined) {
-								ainvw.push({"name": gear.weapons[Number(id)].name, "id": Number(id)})
-								ainvwd.push(Number(id))
-								invwarr.push(gear.weapons[id].name)
-								}
-							})
-							invw += invwarr.join(", ") + "."
-							} else invw += "."
-						ch.send("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```" + `		${jn.pebox} PPE Boxes: ${curruser.balance}\n\n        Suits:	${invs}\n        Weapons:	${invw}\n\nType in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`).then(menu2 => {
-						invmenu = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { max: 1, time: 20000 })
-						invmenu.on('collect', cmsg => {
-							menumsg = menu2
-							c1msg = cmsg.content.toLowerCase()
-							let effects = curruser.effects.split("|")
-							if (c1msg === "equip") {
-								function checkEffect(eff) {
-									if (eff.startsWith("1/")) {return true}
-									else {return false}
-								}
-								if (effects.every(eff => {
-									return (eff.startsWith("1/") === false)
-								})) {
-								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equip suit or weapon?")
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
-								.then(m => {
-								if (m.array()[0].content.toLowerCase() === "suit") {
-									if (ainvs.length > 1) {
-									invs2 = ""
-									suitchoice = []
-									console.log("AINVS: ")
-									console.log(ainvs)
-									ainvs.forEach(s => {
-										invs2 += s.name + ` (${Number(s.id) + 1})`
-										if (ainvs.indexOf(s) < (ainvs.length - 1)) {invs2 += ", "} else {invs2 += "."}
-									})
-									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the suit to equip: " + invs2)
-									//checkSymbols(str, arr)
-								ch.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 15000 })
-									.then(m => {
-										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
-												let equpd = (Number(m.array()[0].content) - 1).toString()
-												if (curruser.stats.every((s, i) => {return (s > gear.suits[equpd].requirements[i])})) {
-												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.suits[equpd].level))
-												console.log("EQUPD: " + equpd)
-												m.delete(1)
-												dbployees[dbids.indexOf(curruser.id)].suit = equpd
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}   -   ${gear.suits[Number(m.array()[0].content) - 1].resistance[0]} ${jn.dtype[0]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[1]} ${jn.dtype[1]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[2]} ${jn.dtype[2]}	${gear.suits[Number(m.array()[0].content) - 1].resistance[3]} ${jn.dtype[3]}`) 
-												menumsg.delete(8000)
-												} else msg.reply("you do not meet the requirements for wearing that suit. " + `(${gear.suits[equpd].reqString})`)
-											} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified suit unavailable."); menumsg.delete(2000)}
-										} else {menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
-									})
-									.catch(console.error)
-								} else msg.reply("you only have the default suit.")
-								} else
-								if (m.array()[0].content.toLowerCase() === "weapon") {
-									if (ainvw.length > 1) { 
-									invw2 = ""
-									weaponchoice = []
-									console.log("AINVW: ")
-									console.log(ainvw)
-									ainvw.forEach(w => {
-										invw2 += w.name + ` (${Number(w.id) + 1})`
-										if (ainvw.indexOf(w) < (ainvw.length - 1)) {invw2 += ", "} else {invw2 += "."}
-									})
-									menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Choose the weapon to equip: " + invw2)
-									//checkSymbols(str, arr)
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 10000 })
-									.then(m => {
-										if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
-												equpd = Number(m.array()[0].content) - 1
-												if (curruser.stats.every((s, i) => {return (s > gear.weapons[equpd].requirements[i])})) {
-												fn.effectApplication['egoChange'](dbployees[dbids.indexOf(curruser.id)], jn.risk.indexOf(gear.weapons[equpd].level))
-												console.log("EQUPD: " + equpd)
-												wepd = `${gear.weapons[Number(m.array()[0])-1].damage[0]} - ${gear.weapons[Number(m.array()[0])-1].damage[1]} `
-												for (i = 0; i < 4; i++) {
-													if (gear.weapons[Number(m.array()[0].content) - 1].dtype[i] > 0) {wepd += jn.dtype[i]}
-												}
-												dbployees[dbids.indexOf(curruser.id)].weapon = equpd
-												msg.delete(1) 
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Equipped " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}   -   ${wepd}`) 
-												menumsg.delete(8000)
-											 } else msg.reply("you do not meet the requirements for using that weapon. " + `(${gear.weapons[equpd].reqString})`)
-											} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: specified weapon unavailable."); menumsg.delete(2000)}
-										} else {msg.delete(1); menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Error: invalid choice."); menumsg.delete(2000)}
-									})
-									.catch(console.error)
-								} else msg.reply("you only have the default weapon.")
-								} else
-								msg.reply("error: incorrect response.")
-								})
-								.catch(console.error)
-							} else msg.reply("error: cannot change EGO equipment again yet. Try again later.")
-							} else if (c1msg === "discard") {
-								menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discard suit or weapon?")
-								ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 20000 })
-								.then(m => {
-								invClean()
-								if (m.array()[0] != undefined) {
-								if (m.array()[0].content.toLowerCase() === "suit" || m.array()[0].content.toLowerCase() === "weapon") {
-
-									switch (m.array()[0].content) {
-										case "suit":
-										if (ainvs.length > 1) {
-										inv2 = ""
-										ainvs.shift()
-										ainvsd.shift()
-										ainvs.forEach(s => {
-											inv2 += s.name + ` (${Number(s.id) + 1})`
-											if (ainvs.indexOf(s) < (ainvs.length - 1)) {inv2 += ", "} else {inv2 += "."}
-										})
-										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the suit to discard: " + inv2)
-										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
-										.then(m => {
-											if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvsd.includes(Number(m.array()[0].content) - 1)) {
-												equpd = (Number(m.array()[0].content) - 1)
-												if (Number(curruser.suit) === equpd) {dbployees[dbids.indexOf(curruser.id)].suit = 0}
-												let newinv = ainvsd.map(function(i){if (Number(i) != equpd) return i})
-												console.log(equpd + " " + typeof(equpd) + " " + ainvsd.join("|") + " " + newinv.join("|"))
-												let newinvtext = ""
-												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
-												dbployees[dbids.indexOf(curruser.id)].inventorys = newinvtext
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.suits[equpd].level.toLowerCase(), ESERV)} ${gear.suits[equpd].name}.`) 
-												invClean()
-											} else msg.reply("error: you do not have that suit.")
-											} else msg.reply("error: invalid choice.")
-										})
-										} else msg.reply("you only have the default suit.")
-										break
-										case "weapon":
-										if (ainvw.length > 1) {
-										inv2 = ""
-										ainvw.shift()
-										ainvwd.shift()
-										ainvw.forEach(s => {
-											inv2 += s.name + ` (${Number(s.id) + 1})`
-											if (ainvw.indexOf(s) < (ainvw.length - 1)) {inv2 += ", "} else {inv2 += "."}
-										})
-										menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "	Choose the weapon to discard: " + inv2)
-										ch.awaitMessages(m => m.author.id === curruser.id, { max: 1, time: 15000 })
-										.then(m => {
-											if (checkSymbols(m.array()[0].content, nmbrs)) {
-											if (ainvwd.includes(Number(m.array()[0].content) - 1)) {
-												equpd = (Number(m.array()[0].content) - 1).toString()
-												if (Number(curruser.weapon) === equpd) {dbployees[dbids.indexOf(curruser.id)].weapon = 0}
-												let newinv = ainvwd.map(function(i){if (Number(i) != equpd) return i})
-												console.log(equpd + " " + typeof(equpd) + " " + ainvwd.join("|") + " " + newinv.join("|"))
-												if (newinv.length > 1) {newinvtext = newinv.join("|")} else newinvtext = newinv[0]
-												dbployees[dbids.indexOf(curruser.id)].inventoryw = newinvtext
-												menumsg.edit("\n```mb\n 📦 | Showing inventory of " + curruser.tag + "\n```\n" + "		Discarded " + `${emoji(gear.weapons[equpd].level.toLowerCase(), ESERV)} ${gear.weapons[equpd].name}.`)
-												invClean()
-											} else msg.reply("error: you do not have that weapon.")
-											} else msg.reply("error: invalid choice.")
-										})
-										} else msg.reply("you only have the default weapon.")
+					function inv(emp, channel) {
+					cUser = emp
+					const cCh = channel
+					const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
+					const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`
+					let menuIndex = "main"
+					let uSuitIds = []
+					let uWeapIds = []
+					let uSuitText = ""
+					let uWeapText = ""
+					let r = 0
+					function instInvS() {
+						uSuitText = ""
+						if ((cUser.inventorys != undefined) && (cUser.inventorys != 'undefined') && (cUser.inventorys != '')) {
+						uSuitIds = ["0"].concat(cUser.inventorys.split("|"))
+						uSuitText += uSuitIds.map(s => gear.suits[s].name).join(", ") + "."
+						} else {uSuitIds = ["0"]; uSuitText += "Suit."}
+					}
+					instInvS()
+					function instInvW() {
+						uWeapText = ""
+						if ((cUser.inventoryw != undefined) && (cUser.inventoryw != 'undefined') && (cUser.inventoryw != '')) {
+							console.log(cUser.inventoryw)
+						uWeapIds = ["0"].concat(cUser.inventoryw.split("|"))
+						uWeapText += uWeapIds.map(w => gear.weapons[w].name).join(", ") + "."
+						} else {uWeapIds = ["0"]; uWeapText += "Riot Stick."}
+					}
+					instInvW()
+					cCh.send(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
+					.then(menumsg => {
+						
+				/*func*/async function menuNavigationInventory() {
+							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
+							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
+							instInvS()
+							instInvW()
+							let rp = r.first()
+				/*========*/if (rp != undefined) {
+							let mr = rp.content.toLowerCase()
+							
+							if (mr.startsWith("!lc") === false) {
+							if (mr != "exit") {
+								let k = 0
+								let ki = 0
+								while (k === 0 && ki < 6) {
+								switch (menuIndex) {
+									case "main":
+										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
+										if (r === 1) {r = 0; k = 1; break}
+										switch (mr) {
+											case "equip":
+											menuIndex = "equip"
+											break
+											case "discard":
+											menuIndex = "discard"
+											break
+										}
+									break
+									
+									case "equip":
+									if (menuIndex === "equip" && r != 1) {
+									let indInv = uSuitIds.map((s, i) => {return {"i": i+1, "id": s, "type": "suit"}}).concat(uWeapIds.map((w, i) => {return {"i": i+uSuitIds.length+1, "id": w, "type": "weapon"}}))
+									let suitChArr = indInv.map(i => {if (i["type"] === "suit") return `${gear.suits[i.id].name} (${i.i})`}).filter(s => s != undefined)
+									let weapChArr = indInv.map(i => {if (i["type"] === "weapon") return `${gear.weapons[i.id].name} (${i.i})`}).filter(s => s != undefined)
+									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
+									if (indInv.some(i => {return i["i"] === Number(mr)})) {
+										let eqItem
+										let eqID = indInv.find(i => {return i["i"] === Number(mr)}).id
+										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") eqItem = suit(eqID)
+										else eqItem = weapon(eqID)
+										rp.reply("Equipped " + eqItem)
+										cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
+										menuIndex = "main"
+										r = 1
 										break
 									}
+									else if (mr === "cancel") {
+										menuIndex = "main"
+										k = 1
+										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
+										break
+									}
+									k = 1
+									}
+									break
 									
+									case "discard": 
+									if (menuIndex === "discard" && r != 1) {
+									let indInv
+									let dsSTemp = uSuitIds.map((s, i) => {return {"i": i+1, "id": s, "type": "suit"}})
+									dsSTemp.shift()
+									if (dsSTemp === []) dsSTemp = ["None"]
+									let dsWTemp = uWeapIds.map((w, i) => {return {"i": i+uSuitIds.length+1, "id": w, "type": "weapon"}})
+									dsWTemp.shift()
+									if (dsWTemp === []) dsWTemp = ["None"]
+									indInv = dsSTemp.concat(dsWTemp)
+									
+									let suitChArr = indInv.map(i => {
+										if (i === "None") return `None`
+										if (i["type"] === "suit") return `${gear.suits[i.id].name} (${i.i})`
+										}).filter(s => s != undefined)
+										if (suitChArr.length === 0) suitChArr = ["None"]
+										
+									let weapChArr = indInv.map(i => {
+										if (i === "None") return `None`
+										if (i["type"] === "weapon") return `${gear.weapons[i.id].name} (${i.i})`
+										}).filter(s => s != undefined)
+										if (weapChArr.length === 0) weapChArr = ["None"]
+										
+									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
+									if (indInv.some(i => {return i["i"] === Number(mr)})) {
+										let dsItem = indInv.find(i => {return i["i"] === Number(mr)})
+										let dsID = indInv.find(i => {return i["i"] === Number(mr)}).id
+										let dsText
+										let inv
+										if (dsItem.type === "suit") {inv = "inventorys"; dsText = suit(dsID)}
+										else {inv = "inventoryw"; dsText = weapon(dsID)}
+										removeItemID(cUser, inv, dsID)
+										rp.reply("Discarded " + dsText)
+										if (cUser[dsItem.type] === dsID) cUser[dsItem.type] = "0"
+										instInvS()
+										instInvW()
+										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
+										menuIndex = "main"
+										break
+									} 
+									else if (mr === "cancel") {
+										menuIndex = "main"
+										k = 1
+										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
+										break
+									}
+									k = 1
+									}
+									break
+									
+									
+									default:
+									k = 1
+									menuIndex = "fail"
+									break
+								}// [/switch]
+								ki++
 								}
-								}
-								})//
-							} else if (c1msg === "exit") {menumsg.edit("Exited the menu.")}
-							else msg.reply("error: incorrect response.")
-			})})
-					
+								if (ki > 24) menuIndex = "fail"
+							} else menuIndex = "exit"
+							} else menuIndex = "interExit"
+				/*========*/} else menuIndex = "timeout"
+
+							}).catch(console.error)
+						}
+						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
+						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
+						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
+						else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
+						
+				/*func*/}
+				
+						menuNavigationInventory()
+					})
+				}
+				inv(dbployees.find(d => d.id === msg.author.id), msg.channel)
+				}
 					break
 				case "info":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
