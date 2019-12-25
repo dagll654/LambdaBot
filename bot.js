@@ -1625,7 +1625,7 @@ const Discord = require('discord.js');
 						var rtmp = cmd[2]
 						if (jn.nccideproles.includes(rtmp)) {
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
-							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member)})
+							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 							updData()
 							databaseThing()
@@ -1639,6 +1639,7 @@ const Discord = require('discord.js');
 								})
 							}
 							thisshit()
+							employee(msg.author.id).tjtime = Date.now()
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
