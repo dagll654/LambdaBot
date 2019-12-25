@@ -1426,7 +1426,7 @@ const Discord = require('discord.js');
 								stats = [Number(curruser.fortitude), Number(curruser.prudence), Number(curruser.temperance), Number(curruser.justice)]
 								statsL = [curruser.fortL, curruser.prudL, curruser.tempL, curruser.justL, curruser.stats[4]]
 								statB = [statsL[0]-stats[0], statsL[1]-stats[1], statsL[2]-stats[2], statsL[3]-stats[3]]
-								statB.forEach(s => {if (s > 0) s = "+" + s.toString() else if (s === 0) s = ""})
+								statB.forEach(s => {if (s > 0) {s = "+" + s.toString()} else if (s === 0) s = ""})
 								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
 								wepd = `${gearc[1].damage[0]}-${gearc[1].damage[1]} `
 								for (i = 0; i < 4; i++) {
