@@ -212,7 +212,7 @@ const Discord = require('discord.js');
 			if (e === undefined) return 0
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
-			let effects = e.effects.split("|")
+			let effects = e.effects.split("undefined").join("").split("|")
 			//if (e.id === '143261987575562240') {console.log("Quack's effects before shenanigans: "); console.log(e.effects)}
 			
 			effects.forEach(eff => {
