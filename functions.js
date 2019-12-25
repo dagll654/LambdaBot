@@ -323,7 +323,7 @@ exports.effectApplication = {
 			fatiguemod = Math.floor(Number(fArr[3])/3)
 		}
 		let CDEArr = ["2"]
-		CDEArr.push(Math.round(Number(boxes)/1.4) + fatiguemod)
+		CDEArr.push(Math.round(Number(boxes)/1.7) + fatiguemod)
 		CDEArr.push("Work cooldown")
 		CDEffect = CDEArr.join("/")
 		if (employee.effects === 'null') employee.effects = CDEffect
@@ -337,13 +337,13 @@ exports.effectApplication = {
 		return [false]
 	},
 	"fatigue": function(employee, risk) {
-		let effects = employee.effects.split("|")
+		let effects = employee.effects.split("|").split("undefined").join("")
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
 		if (effects.length > 0) {
 			if (effects.some(e => {return e.startsWith("3/")})) {
 				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
-				let fMod = Math.ceil( ( jn.statLevels.indexOf(empLVL(employee.stats[4])) - risk + 1))
+				let fMod = jn.statLevels.indexOf(empLVL(employee.stats[4])) - risk + 1
 				console.log("FMOD: " + fMod)
 				fArr[3] = Number(fArr[3]) + fMod
 				fArr[1] = 40 + Number(fArr[3])
