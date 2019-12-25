@@ -110,11 +110,12 @@ exports.affstat = function(abn, stat, employee) {
 	return 0
 }
 
+exports.giftManip = function(employee, result, ) {
+	
+}
+
 
 exports.effects = {
-	// If {employee} is working on an abnormality with the code "abn" while under an effect that instakills on particular work orders, check whether to kill them or not
-	// 0/30/o-01-01
-	// 0: death on work, 1: ego change CD, 2: work CD, 3: fatigue
 	"deathOnWork": function(employee, abn) {
 		let ret = false
 		if (employee.effects.length > 0) {
@@ -337,7 +338,7 @@ exports.effectApplication = {
 		return [false]
 	},
 	"fatigue": function(employee, risk) {
-		let effects = employee.effects.split("undefined").join("").split("|")
+		let effects = employee.effects.split("|")
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
 		if (effects.length > 0) {

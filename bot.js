@@ -146,7 +146,7 @@ const Discord = require('discord.js');
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
-		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100) {
+		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0) {
 			this.id = id
 			this.tag = tag
 			this.hp = hp/100
@@ -170,6 +170,7 @@ const Discord = require('discord.js');
 			this.bufflist = bufflist
 			this.tjtime = tjtime
 			this.statlimit = statlimit
+			this.gifts = gifts
 		}
 		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
 		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
@@ -178,7 +179,7 @@ const Discord = require('discord.js');
 		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}
 	}
 	function fdbPush(e, arr = dbployees) {
-		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100))
+		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts))
 	}
 	
 	// Function for finding the dep role among a member's roles
@@ -1224,7 +1225,7 @@ const Discord = require('discord.js');
 	}
 	
 	// Role giving and taking
-	if (cmd[0] === "!giverole") {
+	if (cmd[0] === [1, "1"]) {
 		var rtmp = ""
 		for (i = 1; i < cmd1.length; i++) {
 			rtmp += cmd1[i]
@@ -1242,7 +1243,7 @@ const Discord = require('discord.js');
 		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
 	}
 	
-	if (cmd[0] === "!removerole") {
+	if (cmd[0] === [1, "1"]) {
 		var rtmp = ""
 		for (i = 1; i < cmd1.length; i++) {
 			rtmp += cmd1[i]

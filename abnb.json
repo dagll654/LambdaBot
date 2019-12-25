@@ -112,8 +112,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
 				"effect": [true],
-				"affstat": [false]
-				
+				"affstat": [false],
+				"gift": [true]
 			},
 			{
 				"name": "F-01-02: 'Scorched Girl'",

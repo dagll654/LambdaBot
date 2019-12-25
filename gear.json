@@ -412,7 +412,12 @@
 		{	"id": "2"
 		},
 		{	"id": "3",
-			"name": "Penitence"
+			"name": "Penitence",
+			"slot": "head1",
+			"buffs": 	{
+				"stats": "0|2|0|0",
+				"abnobuffs": "o-03-03/10"
+						}
 			
 		},
 		{	"id": "4",
