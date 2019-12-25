@@ -731,6 +731,7 @@ const Discord = require('discord.js');
 		let successChance = 0
 		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
+		console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
 		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
 			console.log("TEST2 " + successChance)
 			successChance = successChance - fn.affstat(arrg[1], respectiveStat, dbployees[dbids.indexOf(arrg[0])])
@@ -751,10 +752,13 @@ const Discord = require('discord.js');
 			let neboxes = 0
 			let peboxes = 0
 			let ppeboxes = 0
+			let rollArr = []
 			i = 0
 			for (i = 0; i < abn.abn[abn.lista.indexOf(arrg[1])].peoutput; i++) {
 				if ((dbployees[dbids.indexOf(arrg[0])].hp > 0) && (dbployees[dbids.indexOf(arrg[0])].sp > 0)) {
-				if (roll(100) > successChance) {neboxes++; 
+				let cRoll = roll(100)
+				rollArr.push(cRoll)
+				if (cRoll > successChance) {neboxes++; 
 					let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
 					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[0]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[0])
@@ -845,6 +849,7 @@ const Discord = require('discord.js');
 				}
 				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
 				asyncEdit(mesg)})
+				console.log(rollArr)
 		
 						
 	}
