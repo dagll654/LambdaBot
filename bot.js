@@ -757,7 +757,7 @@ const Discord = require('discord.js');
 			for (i = 0; i < abn.abn[abn.lista.indexOf(arrg[1])].peoutput; i++) {
 				if ((dbployees[dbids.indexOf(arrg[0])].hp > 0) && (dbployees[dbids.indexOf(arrg[0])].sp > 0)) {
 				let cRoll = roll(100)
-				rollArr.push(cRoll)
+				rollArr.push([cRoll, cRoll > successChance])
 				if (cRoll > successChance) {neboxes++; 
 					let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
 					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[0] === 1) {
