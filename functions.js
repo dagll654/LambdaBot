@@ -20,6 +20,14 @@
 	function roll(sides) {
 		return Math.ceil(Math.random() * sides)
 	}
+	
+	function empLVL(statcount) {
+		if (statcount < 6) {return "I"}
+		else if (statcount < 9) {return "II"}
+		else if (statcount < 12) {return "III"}
+		else if (statcount < 16) {return "IV"}
+		else {return "V"}
+	}
 
 buffs = {
 	"buff": function(employee, buff, action) {
@@ -335,7 +343,8 @@ exports.effectApplication = {
 		if (effects.length > 0) {
 			if (effects.some(e => {return e.startsWith("3/")})) {
 				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
-				let fMod = Math.ceil((employee.stats[4] - risk)/1.5)
+				let fMod = Math.ceil( ( jn.statLevels.indexOf(empLVL(employee.stats[4])) - risk + 1))
+				console.log("FMOD: " + fMod)
 				fArr[3] = Number(fArr[3]) + fMod
 				fArr[1] = 40 + Number(fArr[3])
 				fatigueEffect = fArr.join("/")
