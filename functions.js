@@ -337,7 +337,7 @@ exports.effectApplication = {
 		return [false]
 	},
 	"fatigue": function(employee, risk) {
-		let effects = employee.effects.split("|").split("undefined").join("")
+		let effects = employee.effects.split("undefined").join("").split("|")
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
 		if (effects.length > 0) {
