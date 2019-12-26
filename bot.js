@@ -69,10 +69,10 @@ const Discord = require('discord.js');
 	
 	function invFullness(emp) {
 		let iN = 0
-		if ((emp.inventorys != undefined) && (emp.inventorys != 'undefined')) {
+		if ((emp.inventorys != undefined) && (emp.inventorys != 'undefined') && (emp.inventorys != '')) {
 			emp.inventorys.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
 		}
-		if ((emp.inventoryw != undefined) && (emp.inventoryw != 'undefined')) {
+		if ((emp.inventoryw != undefined) && (emp.inventoryw != 'undefined') && (emp.inventoryw != '')) {
 			emp.inventoryw.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
 		}
 		return iN	
