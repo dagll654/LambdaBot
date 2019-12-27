@@ -274,7 +274,7 @@ const Discord = require('discord.js');
 			//vals[2] = val[2]*1000
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
-				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "id") && (prop != "stats") && (prop != "statlimit")) {
+				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "id") && (prop != "stats") && (prop != "statlimit") && (prop != "tag")) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
 				if (dbployees[i] != undefined) {
