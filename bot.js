@@ -1707,6 +1707,7 @@ const Discord = require('discord.js');
 				break
 				case "ex":
 				case "extraction":
+				if (cmd[2] != "list") {
 				invClean()
 				function ext(emp, channel) {
 					cUser = emp
@@ -1845,7 +1846,44 @@ const Discord = require('discord.js');
 					})
 				}
 				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
-				
+				} else {
+				let cUser = employee(msg.author.id)
+				let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":\n\n		"
+				let workableIDs = jn.abnWorkable
+				workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
+				workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
+				let workableArr = []
+				let workableCpx = []
+				let index = 0
+				workableIDs.forEach(aID => {
+					let cBal = cUser.balancespecific.split(" ").find(b => b.startsWith(aID)).split("|")
+					workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
+				})
+				for (i = 0; i < workableArr.length; i++) {
+					if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
+					workableCpx[Math.floor(i/10)].push(workableArr[i])
+				}
+				ch.send(`	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
+					l.react('👈').then(l.react('👉'))
+					const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
+					const collector = l.createReactionCollector(filter, { time: 120000 })
+					collector.on('collect', rct => {
+						if (rct.emoji.name === '👈') {
+							index -= 1
+							if (index < 0) index = workableCpx.length - 1
+							l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+						}
+							
+						if (rct.emoji.name === '👉') {
+							index += 1
+							if (index > (workableCpx.length - 1)) index = 0
+							l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+						}
+						
+						
+					})
+				})
+				}
 				//==[/extraction]==
 				break
 				
