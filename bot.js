@@ -21,6 +21,7 @@ const Discord = require('discord.js');
 			"animenacing",
 			"Hod"
 			]
+	const b3ck = "```"
 	const deproles = jn.deproles
 	const ncdeproles = jn.ncdeproles
 	const cdeproles = jn.cdeproles
@@ -1352,7 +1353,7 @@ const Discord = require('discord.js');
 					} else msg.reply("error: work on the specified abnormality unavailable. (!lc w list)")
 					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 					} else {
-						let baseStr = " List of currently workable abnormalities:\n\n		"
+						let baseStr = " List of currently workable abnormalities:```\n		"
 						let workableIDs = jn.abnWorkable
 						workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
 						workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
@@ -1366,7 +1367,7 @@ const Discord = require('discord.js');
 							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 							workableCpx[Math.floor(i/10)].push(workableArr[i])
 						}
-						ch.send(`	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
+						ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
 							l.react('👈').then(l.react('👉'))
 							const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
 							const collector = l.createReactionCollector(filter, { time: 120000 })
@@ -1374,13 +1375,13 @@ const Discord = require('discord.js');
 								if (rct.emoji.name === '👈') {
 									index -= 1
 									if (index < 0) index = workableCpx.length - 1
-									l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+									l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 								}
 									
 								if (rct.emoji.name === '👉') {
 									index += 1
 									if (index > (workableCpx.length - 1)) index = 0
-									l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+									l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 								}
 								
 								
@@ -1848,7 +1849,7 @@ const Discord = require('discord.js');
 				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
 				} else {
 				let cUser = employee(msg.author.id)
-				let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":\n\n		"
+				let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":```\n		"
 				let workableIDs = jn.abnWorkable
 				workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
 				workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
@@ -1863,7 +1864,7 @@ const Discord = require('discord.js');
 					if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 					workableCpx[Math.floor(i/10)].push(workableArr[i])
 				}
-				ch.send(`	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
+				ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
 					l.react('👈').then(l.react('👉'))
 					const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
 					const collector = l.createReactionCollector(filter, { time: 120000 })
@@ -1871,13 +1872,13 @@ const Discord = require('discord.js');
 						if (rct.emoji.name === '👈') {
 							index -= 1
 							if (index < 0) index = workableCpx.length - 1
-							l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+							l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 						}
 							
 						if (rct.emoji.name === '👉') {
 							index += 1
 							if (index > (workableCpx.length - 1)) index = 0
-							l.edit(`	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+							l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
 						}
 						
 						
