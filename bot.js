@@ -395,33 +395,35 @@ const Discord = require('discord.js');
 					if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
 				}
 			})
-			DELTAS.members.forEach(m => {
-				
-				let cMember = m
-				let LVLRole
-				let ChRoles = []
-				cMember.roles.forEach(r => {
-					if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
-					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
-				})
-				ChRoles.push({"name": "none", "id": "none"})
-				if (LVLRole === undefined) return
-				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
-					if (ChRoles.length > 0) {
-					ChRoles.forEach(r => {
-						if (r['id'] != "none") cMember.removeRole(r['id'])
-													  .catch(console.error)
-					})
-					}
-					if (cMember.roles.some(r => r.name === "TO THE RANCH") === false) {
-					cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
-						   .catch(console.error)
-					}
-				}
-			})
 			console.log("Healed all.")
 		}
 	}
+	
+	client.on('guildMemberUpdate', () => {
+		DELTAS.members.forEach(m => {
+			let cMember = m
+			let LVLRole
+			let ChRoles = []
+			cMember.roles.forEach(r => {
+				if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
+				if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
+			})
+			ChRoles.push({"name": "none", "id": "none"})
+			if (LVLRole === undefined) return
+			if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
+				if (ChRoles.length > 0) {
+				ChRoles.forEach(r => {
+					if (r['id'] != "none") cMember.removeRole(r['id'])
+												  .catch(console.error)
+				})
+				}
+				if (cMember.roles.some(r => r.name === "TO THE RANCH") === false) {
+				cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
+					   .catch(console.error)
+				}
+			}
+		})
+	})
 
 	client.on('ready', () => {
 		
