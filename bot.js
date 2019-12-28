@@ -147,6 +147,8 @@ const Discord = require('discord.js');
 	// Gifts:
 	// 0/brooch1 | 1/brooch2 | 3/head1 | 4/head2 | 5/mouth1 | 6/mouth2 | 7/hand1 | 8/hand2 | 9/eye | 10/face | 11/cheek | 12/back1 | 13/back2
 	
+	//class classAbno {}
+	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
 		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0) {
@@ -309,16 +311,22 @@ const Discord = require('discord.js');
 	// Update the data in the database
 	client.setInterval(updData, 30000) 
 	
+	function databaseAbnos() {
+		abnos = []
+		jn.abnWorkable.forEach(a => {
+		abnos.push({"tag": a, "id": abno(a).ego})
+		})
+		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+			console.log(result)
+			if (err) throw err
+		})
+	}
+	
 	function databaseThing() {
 		employees = []
 		client.guilds.get("607318782624399361").members.forEach(m => {
 		if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 		})
-		abnos = []
-		jn.abnWorkable.forEach(a => {
-			abnos.push({"tag": a, "id": abno(a).ego})
-		})
-		console.log(abnos)
 		connection.query("SELECT * FROM `employees`", function (err, result) {
 			//console.log(result)
 			dbpush = []
