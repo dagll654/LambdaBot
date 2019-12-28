@@ -367,6 +367,7 @@ const Discord = require('discord.js');
 
 	
 	function healPulse() {
+		const DELTAS = client.guilds.get("607318782624399361");
 		if (dbvars[3] === 0) {
 			dbployees.forEach(e => {
 				if (e.working === 0) {
