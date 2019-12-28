@@ -440,14 +440,22 @@ const Discord = require('discord.js');
 						}
 						
 						let cMember = DELTAS.members.get(e.id)
-						let LVLRoles = []
+						let LVLRole
 						let ChRoles = []
 						cMember.roles.forEach(r => {
-							if (r.name.startsWith("Level")) LVLRoles.push({"name": r.name, "id": r.id})
+							if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
 							if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
 						})
+						if (jn.levels.indexOf(LVLRole.name) != jn.risk.indexOf(ChRoles[0])) {
+							if (ChRoles.length > 0) {
+							ChRoles.forEach(r => {
+								cMember.removeRole(r.id)
+							})
+							}
+							cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole.name)]).id)
+						}
 						console.log(e.tag)
-						console.log(LVLRoles)
+						console.log(LVLRole)
 						console.log(ChRoles)
 					})
 					console.log("Healed all.")
