@@ -400,6 +400,7 @@ const Discord = require('discord.js');
 	}
 	
 	client.on('guildMemberUpdate', () => {
+		const DELTAS = client.guilds.get("607318782624399361");
 		DELTAS.members.forEach(m => {
 			let cMember = m
 			let LVLRole
