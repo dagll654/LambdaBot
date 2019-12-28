@@ -33,6 +33,8 @@ const Discord = require('discord.js');
 	var employees = []
 	var dbployees = []
 	var dbids = []
+	var abnos = []
+	var dbnos = []
 	 var today = new Date()
 	 var employees = []
 	 var dbployees = []
@@ -308,6 +310,15 @@ const Discord = require('discord.js');
 	client.setInterval(updData, 30000) 
 	
 	function databaseThing() {
+		employees = []
+		client.guilds.get("607318782624399361").members.forEach(m => {
+		if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+		})
+		abnos = []
+		jn.abnWorkable.forEach(a => {
+			abnos.push({"tag": a, "id": abno(a).ego})
+		})
+		console.log(abnos)
 		connection.query("SELECT * FROM `employees`", function (err, result) {
 			//console.log(result)
 			dbpush = []
@@ -322,7 +333,7 @@ const Discord = require('discord.js');
 			console.log("To push:")
 			console.log(dbpush)
 			dbpush.forEach(e => {
-			var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + "', '0|0', '1700', '1700')";
+			var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + "', '', '1700', '1700')";
 			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${e.tag} inserted!`)
@@ -458,15 +469,7 @@ const Discord = require('discord.js');
 				type: "Playing",
 				url: "https://tinyurl.com/rollntroll"
 			}
-    })
-	
-	employees = []
-	client.guilds.get("607318782624399361").members.forEach(m => {
-	if(drFind(m)) {
-		employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
-		}
-	})
-	
+    })	
 	
 	databaseThing()
 		
@@ -782,9 +785,9 @@ const Discord = require('discord.js');
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
 		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
-			console.log("TEST2 " + successChance)
+			console.log("Pre-affstat success chance: " + successChance + "%")
 			successChance = successChance - fn.affstat(arrg[1], respectiveStat, dbployees[dbids.indexOf(arrg[0])])
-			console.log("TEST3 " + successChance)
+			console.log("Post-affstat success chance: " + successChance + "%")
 		}
 		/*succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
 		//msg.edit("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `\n	${succtext}`)
