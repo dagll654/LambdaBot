@@ -370,6 +370,14 @@ const Discord = require('discord.js');
 
 	client.on('ready', () => {
 		
+	function wait(msc) {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('resolved')
+			}, msc)
+		})
+	}
+		
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
 	bch.send("Bot started.")
@@ -401,9 +409,9 @@ const Discord = require('discord.js');
 	databaseThing()
 		
 		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
-	function healTmp() {setTimeout(function(){healPulse()}, 30000)}
 	
-	function healPulse() {
+	async function healPulse() {
+		while(true) {
 			if (dbvars[3] === 0) {
 					dbployees.forEach(e => {
 						if (e.working === 0) {
@@ -445,7 +453,8 @@ const Discord = require('discord.js');
 					console.log("Healed all.")
 					
 			}
-			setTimeout(healTmp(), 30000)
+		await wait(60000)
+		}
 	}
 	healPulse()
 		
