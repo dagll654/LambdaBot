@@ -396,7 +396,7 @@ const Discord = require('discord.js');
 				}
 			})
 			DELTAS.members.forEach(m => {
-				if (m.bot === true) return
+				
 				let cMember = m
 				let LVLRole
 				let ChRoles = []
@@ -405,6 +405,7 @@ const Discord = require('discord.js');
 					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
 				})
 				ChRoles.push({"name": "none", "id": "none"})
+				if (LVLRole === undefined) return
 				console.log(LVLRole['name'])
 				console.log(ChRoles[0]['name'])
 				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
