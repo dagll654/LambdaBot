@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const Discord = require('discord.js'); z
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
