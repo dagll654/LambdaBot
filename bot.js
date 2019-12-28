@@ -405,9 +405,7 @@ const Discord = require('discord.js');
 					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
 				})
 				ChRoles.push({"name": "none", "id": "none"})
-				if (LVLRole === undefined) {console.log("THIS BITCH: " + m.user.tag); return}
-				console.log(LVLRole['name'])
-				console.log(ChRoles[0]['name'])
+				if (LVLRole === undefined) return
 				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
 					if (ChRoles.length > 0) {
 					ChRoles.forEach(r => {
@@ -415,8 +413,10 @@ const Discord = require('discord.js');
 													  .catch(console.error)
 					})
 					}
+					if (cMember.roles.some(r => r.name === "TO THE RANCH") === false) {
 					cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
 						   .catch(console.error)
+					}
 				}
 			})
 			console.log("Healed all.")
