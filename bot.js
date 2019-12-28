@@ -402,9 +402,9 @@ const Discord = require('discord.js');
 					if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
 					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
 				})
-				if (ChRoles[0] === undefined) {
-					ChRoles.push({"name": "none", "id": "none"})
-				}
+				ChRoles.push({"name": "none", "id": "none"})
+				console.log(LVLRole['name'])
+				console.log(ChRoles[0]['name'])
 				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
 					if (ChRoles.length > 0) {
 					ChRoles.forEach(r => {
