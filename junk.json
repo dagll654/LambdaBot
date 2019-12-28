@@ -130,6 +130,13 @@
 			"WAW",
 			"ALEPH"
 			],
+	"level":	[
+				"Level I",
+				"Level II",
+				"Level III",
+				"Level IV",
+				"Level V"
+				],
 	"abnWorkable":  [
 					"o-03-03",
 					"f-01-02",
