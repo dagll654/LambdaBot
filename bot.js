@@ -396,6 +396,7 @@ const Discord = require('discord.js');
 				}
 			})
 			DELTAS.members.forEach(m => {
+				if (m.bot === true) return
 				let cMember = m
 				let LVLRole
 				let ChRoles = []
