@@ -421,6 +421,9 @@ const Discord = require('discord.js');
 				if (cMember.roles.some(r => r.name === "TO THE RANCH") === false) {
 				cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
 					   .catch(console.error)
+				} else {
+				cMember.removeRole(LVLRole['id'])
+					   .catch(console.error)
 				}
 			}
 		})
