@@ -1,4 +1,4 @@
-const Discord = require('discord.js'); z
+const Discord = require('discord.js');
  const db = require('mysql');
  	var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -401,6 +401,7 @@ const Discord = require('discord.js'); z
 	databaseThing()
 		
 		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
+	function healTmp() {setTimeout(function(){healPulse()}, 30000)}
 	
 	function healPulse() {
 			if (dbvars[3] === 0) {
@@ -444,7 +445,7 @@ const Discord = require('discord.js'); z
 					console.log("Healed all.")
 					
 			}
-			setTimeout(healPulse(), 60000)
+			setTimeout(healTmp(), 30000)
 	}
 	healPulse()
 		
