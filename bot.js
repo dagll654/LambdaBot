@@ -402,10 +402,13 @@ const Discord = require('discord.js');
 					if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
 					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
 				})
+				if (ChRoles[0] === undefined) {
+					ChRoles.push({"name": "none", "id": "none"})
+				}
 				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
 					if (ChRoles.length > 0) {
 					ChRoles.forEach(r => {
-						cMember.removeRole(r['id'])
+						if (r['id'] != "none") cMember.removeRole(r['id'])
 					})
 					}
 					cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
