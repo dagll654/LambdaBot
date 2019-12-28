@@ -183,6 +183,8 @@ const Discord = require('discord.js');
 		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts))
 	}
 	
+	
+	
 	// Function for finding the dep role among a member's roles
 	function drFind(mmbr) {
 		ret = ""
@@ -426,6 +428,17 @@ const Discord = require('discord.js');
 							}
 							if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
 						}
+						
+						let cMember = DELTAS.members.get(e.id)
+						let LVLRoles = []
+						let ChRoles = []
+						cMember.roles.forEach(r => {
+							if (r.name.startsWith("Level")) LVLRoles.push({"name": r.name, "id": r.id})
+							if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
+						})
+						console.log(e.tag)
+						console.log(LVLRoles)
+						console.log(ChRoles)
 					})
 					//console.log("Healed all.")
 					
@@ -1666,6 +1679,7 @@ const Discord = require('discord.js');
 							if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
 							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
 							}
+							employee(msg.author.id).tjtime = 'undefined'
 							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}
