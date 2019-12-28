@@ -401,7 +401,8 @@ const Discord = require('discord.js');
 	databaseThing()
 		
 		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
-	client.setInterval(function(){
+	
+	function healPulse() {
 			if (dbvars[3] === 0) {
 					dbployees.forEach(e => {
 						if (e.working === 0) {
@@ -440,10 +441,12 @@ const Discord = require('discord.js');
 						console.log(LVLRoles)
 						console.log(ChRoles)
 					})
-					//console.log("Healed all.")
+					console.log("Healed all.")
 					
 			}
-	}, 60000)	
+			setTimeout(healPulse(), 60000)
+	}
+	healPulse()
 		
 	})
 
