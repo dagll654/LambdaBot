@@ -366,7 +366,56 @@ const Discord = require('discord.js');
 }
 
 	
-	
+	function healPulse() {
+		if (dbvars[3] === 0) {
+			dbployees.forEach(e => {
+				if (e.working === 0) {
+				if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60) + e.fortL/60}
+				if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
+				let sp = e.sp
+				if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60) + e.prudL/60}
+				if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
+				if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
+					e.dead = 0
+				}
+				} else {e.working = 0}
+				if (drFind(DELTAS.members.get(e.id))) {
+					bufflist = []
+					if (e.bufflist != undefined) {
+					bufflist = e.bufflist.split("|")
+					}
+					if (bufflist.every(eff => {return (eff.startsWith("team") === false)})) {
+						if (e.tjtime != undefined) {
+						if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+							fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
+						} 
+						}
+					}
+					if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
+				}
+				
+				let cMember = DELTAS.members.get(e.id)
+				let LVLRole
+				let ChRoles = []
+				cMember.roles.forEach(r => {
+					if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
+					if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
+				})
+				if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
+					if (ChRoles.length > 0) {
+					ChRoles.forEach(r => {
+						cMember.removeRole(r['id'])
+					})
+					}
+					cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
+				}
+				console.log(e.tag)
+				console.log(LVLRole)
+				console.log(ChRoles)
+			})
+			console.log("Healed all.")
+		}
+	}
 
 	client.on('ready', () => {
 		
@@ -410,61 +459,13 @@ const Discord = require('discord.js');
 		
 		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
 	
-	async function healPulse() {
+	async function healPulser() {
 		while(true) {
-			if (dbvars[3] === 0) {
-					dbployees.forEach(e => {
-						if (e.working === 0) {
-						if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60) + e.fortL/60}
-						if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
-						let sp = e.sp
-						if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60) + e.prudL/60}
-						if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
-						if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
-							e.dead = 0
-						}
-						} else {e.working = 0}
-						if (drFind(DELTAS.members.get(e.id))) {
-							bufflist = []
-							if (e.bufflist != undefined) {
-							bufflist = e.bufflist.split("|")
-							}
-							if (bufflist.every(eff => {return (eff.startsWith("team") === false)})) {
-								if (e.tjtime != undefined) {
-								if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-									fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
-								} 
-								}
-							}
-							if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
-						}
-						
-						let cMember = DELTAS.members.get(e.id)
-						let LVLRole
-						let ChRoles = []
-						cMember.roles.forEach(r => {
-							if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
-							if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
-						})
-						if (jn.levels.indexOf(LVLRole.name) != jn.risk.indexOf(ChRoles[0])) {
-							if (ChRoles.length > 0) {
-							ChRoles.forEach(r => {
-								cMember.removeRole(r.id)
-							})
-							}
-							cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole.name)]).id)
-						}
-						console.log(e.tag)
-						console.log(LVLRole)
-						console.log(ChRoles)
-					})
-					console.log("Healed all.")
-					
-			}
+		healPulse()
 		await wait(60000)
 		}
 	}
-	healPulse()
+	healPulser()
 		
 	})
 
@@ -1107,6 +1108,9 @@ const Discord = require('discord.js');
 					break
 				case "gettest":
 					console.log(getUser(cmd[2]))
+					break
+				case "healpulse":
+					healPulse()
 					break
 				case "altertable":
 					connection.query("ALTER TABLE `employees` ADD `defensebuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
