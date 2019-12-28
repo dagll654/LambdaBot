@@ -395,8 +395,8 @@ const Discord = require('discord.js');
 					if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
 				}
 			})
-			employees.forEach(e => {
-				let cMember = DELTAS.members.get(e.id)
+			DELTAS.members.forEach(m => {
+				let cMember = m
 				let LVLRole
 				let ChRoles = []
 				cMember.roles.forEach(r => {
