@@ -394,7 +394,8 @@ const Discord = require('discord.js');
 					}
 					if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
 				}
-				
+			})
+			employees.forEach(e => {
 				let cMember = DELTAS.members.get(e.id)
 				let LVLRole
 				let ChRoles = []
@@ -409,13 +410,12 @@ const Discord = require('discord.js');
 					if (ChRoles.length > 0) {
 					ChRoles.forEach(r => {
 						if (r['id'] != "none") cMember.removeRole(r['id'])
+													  .catch(console.error)
 					})
 					}
 					cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
+						   .catch(console.error)
 				}
-				console.log(e.tag)
-				console.log(LVLRole)
-				console.log(ChRoles)
 			})
 			console.log("Healed all.")
 		}
