@@ -500,6 +500,25 @@ const Discord = require('discord.js');
 	const ESERV = client.guilds.get('513660754633949208')
 	const bsch = ESERV.channels.get('653572131262693379')
 	
+	function getUser(getter) {
+		let id = ""
+		getter.split("").forEach(c => {
+			if (nmbrs.includes(c)) {id += c}
+		})
+		if (id.length === 18) return client.users.get(id)
+		else if (client.guilds.get("607318782624399361").members.find(m => {
+			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
+					else return false
+				}) != undefined)
+			return client.guilds.get("607318782624399361").members.find(m => {
+			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
+					else return false
+				}).user
+		else if (client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)}) != undefined)
+			return client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)})
+		else return undefined
+	}
+	
 	let chPass = 0
 	let botPass = 0		
 	
@@ -753,25 +772,6 @@ const Discord = require('discord.js');
 	// Function for checking whether an emoji (found by name) is animated
 	function emanim(name, srv = msg.guild) {
 		return srv.emojis.get("650293931791089684").animated
-	}
-	
-	function getUser(getter) {
-		let id = ""
-		getter.split("").forEach(c => {
-			if (nmbrs.includes(c)) {id += c}
-		})
-		if (id.length === 18) return client.users.get(id)
-		else if (client.guilds.get("607318782624399361").members.find(m => {
-			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
-					else return false
-				}) != undefined)
-			return client.guilds.get("607318782624399361").members.find(m => {
-			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
-					else return false
-				}).user
-		else if (client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)}) != undefined)
-			return client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)})
-		else return undefined
 	}
 	
 	// Evil logger so I can see everything that goes on at the sever >:Dc
