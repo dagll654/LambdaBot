@@ -533,14 +533,15 @@ const Discord = require('discord.js');
 	
 	let content = tmpmsg.content
 	
-	while (content.slice(0,2) === ">!") {
+	let k = 0
+	while (content.slice(0,2) === ">!" && k === 0) {
 		content = content.slice(2)
 		let cArr = content.split(" ")
 		if (getUser(cArr[0]) === client.user || tmpmsg.author.id === '143261987575562240') {
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
-		}} else cmsg.channel.send(`**${cmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user.")
+		}} else {cmsg.channel.send(`**${cmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
 		cArr.shift()
 		content = cArr.join(" ")
 		tmpmsg.content = content
