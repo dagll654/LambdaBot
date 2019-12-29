@@ -551,6 +551,7 @@ const Discord = require('discord.js');
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
+			botPass = 1
 		}} else {initmsg.channel.send(`**${initmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
 		cArr.shift()
 		content = cArr.join(" ")
