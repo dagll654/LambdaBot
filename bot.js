@@ -501,9 +501,13 @@ const Discord = require('discord.js');
 	let msg
 	{
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
-	if (tmpmsg.content.slice(0,4) === "sudo" && tmpmsg.author.id === '143261987575562240') {
-		tmpmsg.content = tmpmsg.content.slice(5)
+	if (tmpmsg.content.split(" ")[0] === "sudo") {
+		if (tmpmsg.author.id === '143261987575562240') {
+		let content = tmpmsg.content.split(" ")
+		content.shift()
+		tmpmsg.content = content.join(" ")
 		chPass = 1
+		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
 	}
 	let content = tmpmsg.content.split(" ")[0].split("")
 	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || (getUser(tmpmsg.content.split(" ")[0].slice(2)) === client.user)) {
