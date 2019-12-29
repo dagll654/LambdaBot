@@ -532,7 +532,7 @@ const Discord = require('discord.js');
 	let content = tmpmsg.content
 	
 	while (content.slice(0,2) === ">!") {
-		content = content.slice(3)
+		content = content.slice(2)
 		let cArr = content.split(" ")
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
