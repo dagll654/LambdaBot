@@ -537,7 +537,7 @@ const Discord = require('discord.js');
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
-		}
+		} else console.log("THING: " + cArr[0])
 		cArr.shift()
 		content = cArr.join(" ")
 		msg = tmpmsg
