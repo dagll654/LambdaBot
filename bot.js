@@ -523,6 +523,7 @@ const Discord = require('discord.js');
 		content = cArr.join(" ")
 		msg = tmpmsg
 	}
+	msg = tmpmsg
 	
 	if (tmpmsg.content.split(" ")[0] === "sudo") {
 		if (tmpmsg.author.id === '143261987575562240') {
