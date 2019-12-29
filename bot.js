@@ -547,9 +547,7 @@ const Discord = require('discord.js');
 	
 	let content = tmpmsg.content
 	
-	let k = 0
-	console.log(`K-test: "${content.split(" ")[0].slice(0,2)}"`)
-	while (content.split(" ")[0].slice(0,2) === ">!" && k === 0) {
+	while (content.split(" ")[0].slice(0,2) === ">!") {
 		content = content.slice(2)
 		let cArr = content.split(" ")
 		if (getUser(cArr[0]) === client.user || tmpmsg.author.id === '143261987575562240') {
