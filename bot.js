@@ -522,6 +522,7 @@ const Discord = require('discord.js');
 		cArr.shift()
 		content = cArr.join(" ")
 		msg = tmpmsg
+		console.log(content)
 	}
 	msg = tmpmsg
 	
