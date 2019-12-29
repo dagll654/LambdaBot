@@ -494,13 +494,35 @@ const Discord = require('discord.js');
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
+	
+	const DELTAS = client.guilds.get("607318782624399361")
+	const bch = DELTAS.channels.get("607558082381217851")
+	const ESERV = client.guilds.get('513660754633949208')
+	const bsch = ESERV.channels.get('653572131262693379')
+	
 	let chPass = 0
 	let botPass = 0		
+	
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+	
 	let msg
 	{
+		
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	let content = tmpmsg.content
+	
+	while (content.slice(0,2) === ">!") {
+		content = content.slice(3)
+		let cArr = content.split(" ")
+		if (getUser(cArr[0]) != "undefined") {
+			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
+			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
+		}
+		cArr.shift()
+		content = cArr.join(" ")
+	}
+	
 	if (tmpmsg.content.split(" ")[0] === "sudo") {
 		if (tmpmsg.author.id === '143261987575562240') {
 		let content = tmpmsg.content.split(" ")
@@ -509,27 +531,8 @@ const Discord = require('discord.js');
 		chPass = 1
 		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
 	}
-	let content = tmpmsg.content.split(" ")[0].split("")
-	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || (getUser(tmpmsg.content.split(" ")[0].slice(2)) === client.user)) {
-		botPass = 1
-		content.shift()
-		content.shift()
-		content = content.join("")
-		if (getUser(content.split(" ")[0]) != undefined) {
-		tmpmsg.author = getUser(content.split(" ")[0])
-		tmpmsg.author = getUser(content.split(" ")[0])
-		tmpmsg.member = client.guilds.get("607318782624399361").members.get(getUser(content.split(" ")[0]).id)
-		let ctemp = tmpmsg.content.split(" ")
-		ctemp.shift()
-		tmpmsg.content = ctemp.join(" ")
-		msg = tmpmsg
-		} else msg = tempbigmessagevaluesoIneveruseitagain
-	} else msg = tempbigmessagevaluesoIneveruseitagain
+	
 	}
-	const DELTAS = client.guilds.get("607318782624399361");
-	const bch = DELTAS.channels.get("607558082381217851");
-	const ESERV = client.guilds.get('513660754633949208')
-	const bsch = ESERV.channels.get('653572131262693379')
 
 	if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return
 
