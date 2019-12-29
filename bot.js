@@ -494,13 +494,17 @@ const Discord = require('discord.js');
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
-	
+	let chPass = 0
 	let botPass = 0		
 	// An array containing all digits, for convenience of comparing
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	let msg
 	{
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	if (tmpmsg.content.slice(0,4) === "sudo" && tmpmsg.author.id === '143261987575562240') {
+		tmpmsg.content = tmpmsg.content.slice(5)
+		chPass = 1
+	}
 	let content = tmpmsg.content.split(" ")[0].split("")
 	if (((tmpmsg.author.id === '143261987575562240') && (tmpmsg.content.startsWith(">!"))) || (getUser(tmpmsg.content.split(" ")[0].slice(2)) === client.user)) {
 		botPass = 1
@@ -1329,7 +1333,7 @@ const Discord = require('discord.js');
 	}
 	
 	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
-	if ((ch === DELTAS.channels.get('653538398681825300')) || (ch === DELTAS.channels.get('654361755857846303')) || (ch === DELTAS.channels.get('655509126612385812'))) {
+	if ((ch === DELTAS.channels.get('653538398681825300')) || (ch === DELTAS.channels.get('654361755857846303')) || (ch === DELTAS.channels.get('655509126612385812')) || (chPass === 1)) {
 		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
 			switch (cmd[1]) {
 				case "list":
