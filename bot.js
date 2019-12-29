@@ -1601,22 +1601,25 @@ const Discord = require('discord.js');
 									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
 									if (indInv.some(i => {return i["i"] === Number(mr)})) {
 										let eqItem
+										let eqRaw
 										let level
 										let eqID = indInv.find(i => {return i["i"] === Number(mr)}).id
 										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") {
 											eqItem = suit(eqID)
 											level = gear.suits[eqID].level
+											eqRaw = gear.suits[eqID]
 										}
 										else {
 											eqItem = weapon(eqID)
 											level = gear.weapons[eqID].level
+											eqRaw = gear.weapons[eqID]
 										}
-										if (cUser.stats.every((s, i) => s >= eqItem.requirements[i])) {
+										if (cUser.stats.every((s, i) => s >= eqRaw.requirements[i])) {
 											rp.reply("Equipped " + eqItem)
 											fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
 											cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
 										} 
-										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (${eqItem.reqString})`)
+										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (${eqRaw.reqString})`)
 										menuIndex = "main"
 										r = 1
 										break
