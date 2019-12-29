@@ -544,6 +544,7 @@ const Discord = require('discord.js');
 	}
 	
 	let k = 0
+	console.log(`K-test: "${content.split(" ")[0].slice(0,2)}"`)
 	while (content.split(" ")[0].slice(0,2) === ">!" && k === 0) {
 		content = content.slice(2)
 		let cArr = content.split(" ")
