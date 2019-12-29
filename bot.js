@@ -539,7 +539,7 @@ const Discord = require('discord.js');
 		tmpmsg.content = tcontent.join(" ")
 		chPass = 1
 		console.log(`Content: '${tcontent.join(" ")}'`)
-		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
+		} else (tmpmsg.channel.send(`**${tmpmsg.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
 	}
 	}
 	
