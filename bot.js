@@ -531,6 +531,7 @@ const Discord = require('discord.js');
 		
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
 
+	function sudoCheck() {
 	if (tmpmsg.content.split(" ")[0] === "sudo") {
 		if (tmpmsg.author.id === '143261987575562240') {
 		let tcontent = tmpmsg.content.split(" ")
@@ -540,6 +541,9 @@ const Discord = require('discord.js');
 		console.log(`Content: '${tcontent.join(" ")}'`)
 		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
 	}
+	}
+	
+	sudoCheck()
 	
 	let content = tmpmsg.content
 	
@@ -558,6 +562,7 @@ const Discord = require('discord.js');
 		content = cArr.join(" ")
 		tmpmsg.content = content
 		msg = tmpmsg
+		sudoCheck()
 		console.log(content)
 	}
 	msg = tmpmsg
