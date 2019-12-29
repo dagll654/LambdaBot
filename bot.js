@@ -521,6 +521,7 @@ const Discord = require('discord.js');
 		}
 		cArr.shift()
 		content = cArr.join(" ")
+		msg = tmpmsg
 	}
 	
 	if (tmpmsg.content.split(" ")[0] === "sudo") {
