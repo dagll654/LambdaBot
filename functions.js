@@ -293,6 +293,11 @@ exports.effectApplication = {
 				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
 		} else return [false]
 	},
+	"21": function(employee, result) {
+		if ((result === 0) || (employee.fortL > 84) || (employee.tempL < 30)) {
+				return [false]
+		} else return [false]
+	},
 	"9": function(employee, result, workorder) {
 		if (employee.tempL < 30) {
 			employee.hp = 0

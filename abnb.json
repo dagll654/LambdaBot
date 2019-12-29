@@ -25,7 +25,8 @@
 			"o-03-88",
 			"t-02-71",
 			"o-02-98",
-			"f-05-32"
+			"f-05-32",
+			"o-05-30"
 			],
 	"abn": [
 			{
@@ -460,6 +461,26 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 9, 15],
+				"effect": [true],
+				"affstat": [false]
+			},
+			{
+				"name": "O-05-30: 'Singing Machine'",
+				"color": [0, 0, 0],
+				"risk": "HE",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "21",
+				"peoutput": 18,
+				"workPreferences": [[0.55, 0.55, 0.6, 0.6, 0.65],
+									[0.5, 0.5, 0.5, 0.5, 0.5],
+									[0, 0, 0, 0.3, 0.3],
+									[0.4, 0.4, 0.4, 0.4, 0.4]									
+									],
+				"damage": [4, 6],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 8, 15],
 				"effect": [true],
 				"affstat": [false]
 			}

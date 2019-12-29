@@ -1611,9 +1611,12 @@ const Discord = require('discord.js');
 											eqItem = weapon(eqID)
 											level = gear.weapons[eqID].level
 										}
-										rp.reply("Equipped " + eqItem)
-										fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
-										cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
+										if (cUser.stats.every((s, i) => s >= eqItem.requirements[i])) {
+											rp.reply("Equipped " + eqItem)
+											fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
+											cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
+										} 
+										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (${eqItem.reqString})`)
 										menuIndex = "main"
 										r = 1
 										break

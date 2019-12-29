@@ -167,6 +167,14 @@
 			"cost": "600",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
+		},
+		{	"id": "21",
+			"name": "No suit available.",
+			"resistance": ["-", "-", "-", "-"],
+			"level": "none",
+			"cost": "-",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 			
@@ -401,6 +409,17 @@
 			"cost": "800",
 			"requirements": [0, 0, 30, 0, 0],
 			"reqString": "Temperance II" 
+		},
+		{	"id": "21",
+			"name": "Harmony",
+			"damage": [30, 50],
+			"dtype": [0, 1, 0, 0],
+			"speed": "very slow",
+			"range": "long",
+			"level": "HE",
+			"cost": "800",
+			"requirements": [30, 0, 0, 0, 2],
+			"reqString": "Fortitude II, Employee Level II" 
 		}
 			],
 	
