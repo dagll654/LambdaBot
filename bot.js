@@ -526,18 +526,21 @@ const Discord = require('discord.js');
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
 	let msg
+	const cmsg = tempbigmessagevaluesoIneveruseitagain
 	{
 		
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	
 	let content = tmpmsg.content
 	
 	while (content.slice(0,2) === ">!") {
 		content = content.slice(2)
 		let cArr = content.split(" ")
+		if (getUser(cArr[0]) === client.user || tmpmsg.author.id = '143261987575562240') {
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
-		} else console.log("THING: " + cArr[0])
+		}} else cmsg.reply("you do not have permission to use `>!` on that user.")
 		cArr.shift()
 		content = cArr.join(" ")
 		tmpmsg.content = content
