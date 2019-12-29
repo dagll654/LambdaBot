@@ -526,7 +526,7 @@ const Discord = require('discord.js');
 	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 	
 	let msg
-	const cmsg = tempbigmessagevaluesoIneveruseitagain
+	const initmsg = tempbigmessagevaluesoIneveruseitagain
 	{
 		
 	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
@@ -541,7 +541,7 @@ const Discord = require('discord.js');
 		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
-		}} else {cmsg.channel.send(`**${cmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
+		}} else {initmsg.channel.send(`**${initmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
 		cArr.shift()
 		content = cArr.join(" ")
 		tmpmsg.content = content
