@@ -540,6 +540,7 @@ const Discord = require('discord.js');
 		} else console.log("THING: " + cArr[0])
 		cArr.shift()
 		content = cArr.join(" ")
+		tmpmsg.content = content
 		msg = tmpmsg
 		console.log(content)
 	}
