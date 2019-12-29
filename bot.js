@@ -515,7 +515,7 @@ const Discord = require('discord.js');
 	while (content.slice(0,2) === ">!") {
 		content = content.slice(3)
 		let cArr = content.split(" ")
-		if (getUser(cArr[0]) != "undefined") {
+		if (getUser(cArr[0]) != undefined) {
 			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
 			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
 		}
