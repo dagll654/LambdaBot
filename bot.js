@@ -533,6 +533,15 @@ const Discord = require('discord.js');
 	
 	let content = tmpmsg.content
 	
+	if (tmpmsg.content.split(" ")[0] === "sudo") {
+		if (tmpmsg.author.id === '143261987575562240') {
+		let content = tmpmsg.content.split(" ")
+		content.shift()
+		tmpmsg.content = content.join(" ")
+		chPass = 1
+		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
+	}
+	
 	let k = 0
 	while (content.slice(0,2) === ">!" && k === 0) {
 		content = content.slice(2)
@@ -549,15 +558,6 @@ const Discord = require('discord.js');
 		console.log(content)
 	}
 	msg = tmpmsg
-	
-	if (tmpmsg.content.split(" ")[0] === "sudo") {
-		if (tmpmsg.author.id === '143261987575562240') {
-		let content = tmpmsg.content.split(" ")
-		content.shift()
-		tmpmsg.content = content.join(" ")
-		chPass = 1
-		} else (tmpmsg.reply("error: you do not have permission to use `sudo`."))
-	}
 	
 	}
 
