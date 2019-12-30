@@ -24,6 +24,7 @@ const Discord = require('discord.js');
 	const b3ck = "```"
 	const deproles = jn.deproles
 	const ncdeproles = jn.ncdeproles
+	const nccideproles = jn.nccideproles
 	const cdeproles = jn.cdeproles
 	const help1 = jn.help1 
 	const qte = jn.qte
