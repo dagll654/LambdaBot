@@ -443,7 +443,7 @@ const Discord = require('discord.js');
 					   .catch(console.error)
 				} else {
 				if (cMember.roles.some(r => jn.risk.includes(r.name)))
-				cMember.removeRole(DELTAS.roles.get(cMember.roles.find(r => jn.risk.includes(r.name)).id))
+				cMember.removeRole(cMember.roles.find(r => jn.risk.includes(r.name)).id)
 					   .catch(console.error)
 				else console.log("What even is happening? " + cMember.user.tag)
 				}
