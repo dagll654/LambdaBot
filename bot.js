@@ -1369,7 +1369,7 @@ const Discord = require('discord.js');
 					if (cmd[2]) {
 					if (nccideproles.includes(cmd[2])) {
 					currdep = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
-					currdepm = DELTAS.roles.get(getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
+					currdepm = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
 					depm = ""
 					cpt = "none."
 					if ((currdepm[0] === undefined) === false) {
