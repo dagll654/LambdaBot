@@ -1369,7 +1369,7 @@ const Discord = require('discord.js');
 					if (cmd[2]) {
 					if (nccideproles.includes(cmd[2])) {
 					currdep = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
-					currdepm = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
+					currdepm = getRole(ncdeproles[nccideproles.indexOf(cmd[2])]).members.map(m=>m.user.tag)
 					depm = ""
 					cpt = "none."
 					if ((currdepm[0] === undefined) === false) {
@@ -1378,8 +1378,8 @@ const Discord = require('discord.js');
 						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
 					})
 					} else {depm = "The department is empty... *crickets*"}
-					if (getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
-						cpt = getRole(cmd1[2] + " " + cmd1[3] + " (C)").members.map(m=>m.user.tag)[0]
+					if (getRole(ncdeproles[nccideproles.indexOf(cmd[2])]).members.map(m=>m.user.tag)[0] != undefined) {
+						cpt = getRole(ncdeproles[nccideproles.indexOf(cmd[2])] + " (C)").members.map(m=>m.user.tag)[0]
 					}
 					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
 					
