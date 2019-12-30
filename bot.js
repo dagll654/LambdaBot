@@ -1764,7 +1764,7 @@ const Discord = require('discord.js');
 							bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
 							}
 							if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
-							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
+							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 0)	
 							}
 							employee(msg.author.id).tjtime = 'undefined'
 							msg.member.removeRole(getRole(drFind(msg.member)))
