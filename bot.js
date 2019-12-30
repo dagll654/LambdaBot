@@ -968,7 +968,7 @@ const Discord = require('discord.js');
 			lrn = client.users.find("id", lru)
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
-			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; boo = 0}
+			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; boo = 0; vtd.length = reqv}
 			if (rct.emoji.name === '🦆') console.log("Duck: " + lru)
 			vtd.push(lru)
 			if (vtd.length >= reqv) {
