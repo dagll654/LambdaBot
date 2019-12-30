@@ -466,12 +466,12 @@
 	[
 		{
 		"name": "HP Bullet",
-		"action": "hp",
+		"action": "hpbullet",
 		"cost": 10
 		},
 		{
 		"name": "SP Bullet",
-		"action": "sp",
+		"action": "spbullet",
 		"cost": 10
 		}
 	]
