@@ -1378,7 +1378,7 @@ const Discord = require('discord.js');
 						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
 					})
 					} else {depm = "The department is empty... *crickets*"}
-					if (getRole(ncdeproles[nccideproles.indexOf(cmd[2])]).members.map(m=>m.user.tag)[0] != undefined) {
+					if (getRole(ncdeproles[nccideproles.indexOf(cmd[2])] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
 						cpt = getRole(ncdeproles[nccideproles.indexOf(cmd[2])] + " (C)").members.map(m=>m.user.tag)[0]
 					}
 					ch.send("\n```md\n" + `[${cmd1[2] + " " + cmd1[3]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
