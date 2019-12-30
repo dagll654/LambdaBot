@@ -964,17 +964,14 @@ const Discord = require('discord.js');
 		const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
-			let vtGoal
-			if (DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length <= 5) 
-				vtGoal = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length
-			else vtGoal = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
 			lru = rct.users.map(u => u.id).pop()
 			lrn = client.users.find("id", lru)
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
-			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = vtGoal; boo = 0}
+			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; boo = 0}
+			if (rct.emoji.name === '🦆') console.log("Duck: " + lru)
 			vtd.push(lru)
-			if (vtd.length >= vtGoal) {
+			if (vtd.length >= reqv) {
 			timeout = 0
 			collector.stop()
 			} 
