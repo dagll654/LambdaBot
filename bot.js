@@ -448,6 +448,7 @@ const Discord = require('discord.js');
 				console.log("ChRole ID: " + cMember.roles.find(r => jn.risk.includes(r.name)).id)
 				}
 				else console.log("What even is happening? " + cMember.user.tag)
+				console.log("Ranch role is on " + cMember.user.tag)
 				}
 			}
 		})
