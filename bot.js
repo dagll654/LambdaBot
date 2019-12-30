@@ -960,15 +960,20 @@ const Discord = require('discord.js');
 		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 		msg.react('✅')
 		msg.react('🚫')
-		const filter = (reaction, user, voted) => (reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false
+		const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false) || ((reaction.emoji.name === '🦆') && (user.id === '143261987575562240'))
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
+			let vtGoal
+			if (DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length <= 5) 
+				vtGoal = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length
+			else vtGoal = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
 			lru = rct.users.map(u => u.id).pop()
 			lrn = client.users.find("id", lru)
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
+			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = vtGoal; boo = 0}
 			vtd.push(lru)
-			if ((vtd.length >= DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) || (vtd.length >= (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)))) {
+			if (vtd.length >= vtGoal) {
 			timeout = 0
 			collector.stop()
 			} 
@@ -1232,6 +1237,8 @@ const Discord = require('discord.js');
 					})
 					
 					break
+				case "forcecaptain":
+					
 				case "dbase2":
 
 						connection.query(`SELECT ${cmd[2]} FROM users`, function (err, result) {
@@ -1359,8 +1366,8 @@ const Discord = require('discord.js');
 			switch (cmd[1]) {
 				case "list":
 					if (cmd[2]) {
-					if (ncdeproles.includes(cmd1[2] + " " + cmd1[3])) {
-					currdep = getRole(cmd1[2] + " " + cmd1[3])
+					if (nccideproles.includes(cmd[2])) {
+					currdep = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
 					currdepm = DELTAS.roles.get(getRole(cmd1[2] + " " + cmd1[3]).id).members.map(m=>m.user.tag)
 					depm = ""
 					cpt = "none."
@@ -1619,7 +1626,7 @@ const Discord = require('discord.js');
 											fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
 											cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
 										} 
-										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (${eqRaw.reqString})`)
+										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${eqRaw.reqString}**)`)
 										menuIndex = "main"
 										r = 1
 										break

@@ -1,5 +1,6 @@
 {
-	"suits": [
+	"suits": 
+	[
 		{	"id": "0",
 			"name": "Suit",
 			"resistance": [1, 1, 1.5, 2],
@@ -421,9 +422,10 @@
 			"requirements": [30, 0, 0, 0, 2],
 			"reqString": "Fortitude II, Employee Level II" 
 		}
-			],
+	],
 	
-	"gifts": [
+	"gifts": 
+	[
 		{	"id": "0"
 		},
 		{	"id": "1"
@@ -459,7 +461,20 @@
 			"name": "Soda"
 			
 		}
-			]
+	],
+	"bullets":	
+	[
+		{
+		"name": "HP Bullet",
+		"action": function (employee) {employee.hp += 25},
+		"cost": 10
+		},
+		{
+		"name": "SP Bullet",
+		"action": function (employee) {employee.sp += 25},
+		"cost": 10
+		}
+	]
 		
 
 }
