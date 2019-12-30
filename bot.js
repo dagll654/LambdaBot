@@ -442,9 +442,11 @@ const Discord = require('discord.js');
 				cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
 					   .catch(console.error)
 				} else {
-				if (cMember.roles.some(r => jn.risk.includes(r.name)))
+				if (cMember.roles.some(r => jn.risk.includes(r.name))) {
 				cMember.removeRole(cMember.roles.find(r => jn.risk.includes(r.name)).id)
 					   .catch(console.error)
+				console.log(cMember.roles.find(r => jn.risk.includes(r.name)).id)
+				}
 				else console.log("What even is happening? " + cMember.user.tag)
 				}
 			}
