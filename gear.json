@@ -466,12 +466,12 @@
 	[
 		{
 		"name": "HP Bullet",
-		"action": function (employee) {employee.hp += 25},
+		"action": "hp",
 		"cost": 10
 		},
 		{
 		"name": "SP Bullet",
-		"action": function (employee) {employee.sp += 25},
+		"action": "sp",
 		"cost": 10
 		}
 	]
