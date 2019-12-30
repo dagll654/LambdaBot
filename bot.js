@@ -445,6 +445,7 @@ const Discord = require('discord.js');
 				if (cMember.roles.some(r => jn.risk.includes(r.name)))
 				cMember.removeRole(DELTAS.roles.find(r => jn.risk.includes(r.name)).id)
 					   .catch(console.error)
+				else console.log("What even is happening?")
 				}
 			}
 		})
