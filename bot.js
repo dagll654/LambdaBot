@@ -430,12 +430,14 @@ const Discord = require('discord.js');
 	client.on('guildMemberUpdate', () => {
 		const DELTAS = client.guilds.get("607318782624399361");
 		async function dipOut(member) {
-			await wait(500)
-			member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+			await wait(1000)
+			await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH")).catch(console.error)
+			return true
 		}
 		async function dipIn(member) {
-			await wait(500)
-			member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+			await wait(1000)
+			await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH")).catch(console.error)
+			return true
 		}
 		DELTAS.members.forEach(m => {
 			let cMember = m
