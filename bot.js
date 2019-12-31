@@ -1231,6 +1231,8 @@ const Discord = require('discord.js');
 							await wait(500)
 						}
 					}
+					ranchdip(DELTAS.members.get(getUser(cmd[2]).id))
+					break
 				case "emojisraw":
 					console.log(DELTAS.emojis)
 					break
