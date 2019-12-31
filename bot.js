@@ -1230,9 +1230,9 @@ const Discord = require('discord.js');
 						console.log("Started.")
 						while (member.roles.some(r => r.name === "RANCHDIP")) {
 							async function dip(m) {
-							await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
+							await m.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
 							await wait(500)
-							await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
+							await m.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
 							await wait(500)}
 							dip(member)
 						}})
