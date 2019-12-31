@@ -1223,6 +1223,14 @@ const Discord = require('discord.js');
 						dbployees[i].inventoryw = weapons.join("|")
 					})
 					break
+				case "ranchdip":
+					async function ranchdip(member) {
+						member.addRole(DELTAS.roles.find(r => r.name === "RANCHDIP").id)
+						while (member.roles.some(r => r.name === "RANCHDIP")) {
+							await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
+							await wait(500)
+						}
+					}
 				case "emojisraw":
 					console.log(DELTAS.emojis)
 					break
