@@ -1230,13 +1230,13 @@ const Discord = require('discord.js');
 						console.log("Started.")
 						while (member.roles.some(r => r.name === "RANCHDIP")) {
 							async function dip(m) {
+							console.log("Tick.")
 							await m.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
 							await wait(500)
 							await m.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
 							await wait(500)}
 							dip(member)
 						}})
-						console.log("Ended.")
 					}
 					ranchdip(DELTAS.members.get(getUser(cmd[2]).id))
 					break
