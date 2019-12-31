@@ -50,6 +50,14 @@ const Discord = require('discord.js');
 	 voting = 0	
 	 efflog = 0
 
+	function wait(msc) {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve('resolved')
+			}, msc)
+		})
+	}
+	
 	// Return the level of a stat
 	function statLVL(stat) {
 		if (stat < 30) {return "I"}
@@ -421,6 +429,14 @@ const Discord = require('discord.js');
 	
 	client.on('guildMemberUpdate', () => {
 		const DELTAS = client.guilds.get("607318782624399361");
+		async function dipOut(member) {
+			await wait(500)
+			member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+		}
+		async function dipIn(member) {
+			await wait(500)
+			member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+		}
 		DELTAS.members.forEach(m => {
 			let cMember = m
 			let LVLRole
@@ -449,27 +465,20 @@ const Discord = require('discord.js');
 				   .catch(console.error)
 			}
 			}
+			if (cMember.roles.some(r => r.name === "RANCHDIP")) {
+				if (cMember.roles.some(r => r.name === "TO THE RANCH")) dipOut(cMember)
+				else dipIn(cMember)
+			}
 		})
 	})
 
 	client.on('ready', () => {
 		
-	function wait(msc) {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				resolve('resolved')
-			}, msc)
-		})
-	}
-		
 	const DELTAS = client.guilds.get("607318782624399361");
 	const bch = DELTAS.channels.get("607558082381217851");
 	bch.send("Bot started.")
-	
-		// Getting all of the 'employees' - members with a department role
 		
-		
-			// Bot readiness announcement, both in the log and in my DMs
+	// Bot readiness announcement, both in the log and in my DMs
 	console.log('I am ready!');
 	client.users.get('143261987575562240').send('Bot started up succesfully.')
 	
@@ -1222,23 +1231,6 @@ const Discord = require('discord.js');
 						dbployees[i].inventorys = suits.join("|")
 						dbployees[i].inventoryw = weapons.join("|")
 					})
-					break
-				case "ranchdip":
-					async function ranchdip(member) {
-						member.addRole(DELTAS.roles.find(r => r.name === "RANCHDIP").id)
-						.then(m => {
-						console.log("Started.")
-						while (member.roles.some(r => r.name === "RANCHDIP")) {
-							async function dip(m) {
-							console.log("Tick.")
-							await m.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
-							await wait(500)
-							await m.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
-							await wait(500)}
-							dip(member)
-						}})
-					}
-					ranchdip(DELTAS.members.get(getUser(cmd[2]).id))
 					break
 				case "emojisraw":
 					console.log(DELTAS.emojis)
