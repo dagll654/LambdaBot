@@ -1226,10 +1226,15 @@ const Discord = require('discord.js');
 				case "ranchdip":
 					async function ranchdip(member) {
 						member.addRole(DELTAS.roles.find(r => r.name === "RANCHDIP").id)
+						.then(m => {
+						console.log("Started.")
 						while (member.roles.some(r => r.name === "RANCHDIP")) {
 							await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
 							await wait(500)
-						}
+							await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH").id)
+							await wait(500)
+						}})
+						console.log("Ended.")
 					}
 					ranchdip(DELTAS.members.get(getUser(cmd[2]).id))
 					break
