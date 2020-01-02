@@ -1745,8 +1745,6 @@ const Discord = require('discord.js');
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
 							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
-							updData()
-							databaseThing()
 							async function thisshit() {
 								await wait(200)
 								connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -1755,6 +1753,13 @@ const Discord = require('discord.js');
 								result.forEach(e => fdbPush(e))
 								result.forEach(e => dbids.push(e.userid))
 								})
+								updData()
+								await wait(200)
+								databaseThing()
+								await wait(200)
+								updData()
+								await wait(200)
+								databaseThing()
 							}
 							thisshit()
 							if (employee(msg.author.id))
