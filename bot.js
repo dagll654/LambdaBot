@@ -1759,6 +1759,7 @@ const Discord = require('discord.js');
 							thisshit()
 							if (employee(msg.author.id))
 								employee(msg.author.id).tjtime = Date.now()
+							else dbployees.push(new emp(msg.author.id, msg.author.tag))
 						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
 					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
