@@ -943,7 +943,7 @@ const Discord = require('discord.js');
 						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						}
-						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost (WIP)${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
+						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
 						dbployees[dbids.indexOf(arrg[0])].working = 0
 				}
 				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
@@ -1178,6 +1178,9 @@ const Discord = require('discord.js');
 					break
 				case "altertable":
 					connection.query("ALTER TABLE `employees` ADD `defensebuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
+					break
+				case "dropme":
+					connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = '143261987575562240'", function(err, result){if (err) throw err})
 					break
 				case "bals":
 					console.log(dbployees.map(e => [e.tag, e.balance]))
