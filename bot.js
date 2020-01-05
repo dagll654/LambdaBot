@@ -1147,6 +1147,7 @@ const Discord = require('discord.js');
 							if (m.reactions.array.find(r => r.name === 'upvote')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
+							console.log(m.reactions.array)
 						}).catch(console.error)
 					break
 				case "roleraw":
