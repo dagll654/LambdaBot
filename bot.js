@@ -1141,14 +1141,15 @@ const Discord = require('discord.js');
 					updData()
 					break
 				case "upvote":
-					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessages()
-						.then(ms => {
-							let m = ms.find(m => m.id === cmd[3])
+					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
+						.then(m => {
 							if (m.reactions.array.find(r => r.name === 'upvote')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
-							console.log(m)
+							console.log(`//====\\`)
+							console.log(m.content)
 							console.log(m.reactions)
+							console.log(`\\====//`)
 						}).catch(console.error)
 					break
 				case "roleraw":
