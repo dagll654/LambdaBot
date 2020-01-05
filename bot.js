@@ -1143,13 +1143,9 @@ const Discord = require('discord.js');
 				case "upvote":
 					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
 						.then(m => {
-							if (m.reactions.exists(r => r.name === 'upvote')) m.clearReactions()
+							if (m.reactions.has('upvote:663458914851094588')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
-							console.log(`//====\\`)
-							console.log(m.content)
-							console.log(m.reactions)
-							console.log(`\\====//`)
 						}).catch(console.error)
 					break
 				case "roleraw":
