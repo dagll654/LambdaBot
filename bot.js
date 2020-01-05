@@ -1140,6 +1140,13 @@ const Discord = require('discord.js');
 				case "upd":
 					updData()
 					break
+				case "upvote":
+					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessages({ limit: 200 })
+						.then(ms => {
+							ms.find(m => m.id === cmd[3])
+								.react('663458914851094588')
+								.catch(console.error)
+						}).catch(console.error)
 				case "roleraw":
 					var rtmp = ""
 					for (i = 2; i < cmd1.length; i++) {
