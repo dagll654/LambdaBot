@@ -1141,7 +1141,7 @@ const Discord = require('discord.js');
 					updData()
 					break
 				case "upvote":
-					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessages({ limit: 200 })
+					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessages()
 						.then(ms => {
 							ms.find(m => m.id === cmd[3])
 								.react('663458914851094588')
