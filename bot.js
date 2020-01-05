@@ -1143,7 +1143,7 @@ const Discord = require('discord.js');
 				case "upvote":
 					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
 						.then(m => {
-							if (m.reactions.array.find(r => r.name === 'upvote')) m.clearReactions()
+							if (m.reactions.exists(r => r.name === 'upvote')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
 							console.log(`//====\\`)
