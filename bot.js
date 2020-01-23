@@ -947,7 +947,7 @@ const Discord = require('discord.js');
 							if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk))
 							else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk))
 							else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk))
-							else subPtToBump = 4*Math.pow(2, aRisk))
+							else subPtToBump = 4*Math.pow(2, aRisk)
 						}
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
