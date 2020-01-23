@@ -944,9 +944,9 @@ const Discord = require('discord.js');
 						let boxTotal = peboxes + ppeboxes
 						let aRisk = jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)
 						if (boxTotal >= aRisk + 2) {
-							if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk))
-							else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk))
-							else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk))
+							if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk)
+							else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk)
+							else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk)
 							else subPtToBump = 4*Math.pow(2, aRisk)
 						}
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
