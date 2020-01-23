@@ -1520,6 +1520,8 @@ const Discord = require('discord.js');
 					curruser = dbployees[dbids.indexOf(cuid)]}
 					 else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
 								
+								if (curruser.tjtime === undefined || curruser.tjtime === "undefined")
+									curruser.tjtime === Date.now()
 								let expmod = 0
 								if (curruser.bufflist != undefined) {
 								if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
