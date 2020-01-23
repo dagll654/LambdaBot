@@ -733,9 +733,7 @@ const Discord = require('discord.js');
 	
 	// Roll an x-sided die, even if that makes absolutely no sense in practice
 	function roll(sides) {
-		let res = Math.ceil(Math.random() * sides)
-		if (res === 0) res = 1
-		return res
+		return Math.floor(Math.random() * sides) + 1
 	}
 	
 	// Stand-in function for cleaning inventories
