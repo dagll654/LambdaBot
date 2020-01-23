@@ -122,8 +122,8 @@ const Discord = require('discord.js');
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
 		if (statIndex === 3) {mult = 3}
 
-		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (16 - expmod) * mult)) {
-			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (16-expmod) * mult
+		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (14 - expmod) * mult)) {
+			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (14-expmod) * mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
@@ -940,7 +940,16 @@ const Discord = require('discord.js');
 						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp).toFixed(1)} / ${dbployees[dbids.indexOf(arrg[0])].fortL} ${jn.health}\n	Remaining SP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp).toFixed(1)} / ${dbployees[dbids.indexOf(arrg[0])].prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 						connection.query("UPDATE `employees` SET `balance` = '" + (Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + dbployees[dbids.indexOf(arrg[0])].id + "';", function (err, result) {if (err) throw err})
 						bumpBoxes(peboxes, arrg[1], dbployees[dbids.indexOf(arrg[0])].id)
-						bumpSubpoint(dbployees[dbids.indexOf(arrg[0])].id, respectiveStat, (Math.ceil((peboxes+ppeboxes)/10)*Math.pow(2, jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk))))
+						let subPtToBump = 0
+						let boxTotal = peboxes + ppeboxes
+						let aRisk = jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)
+						if (boxTotal >= aRisk + 2) {
+							if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk))
+							else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk))
+							else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk))
+							else subPtToBump = 4*Math.pow(2, aRisk))
+						}
+						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
@@ -1554,7 +1563,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${empLVL(statsL[4])}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(16-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(16-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(16-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(16-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${empLVL(statsL[4])}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 				}
 				break 
