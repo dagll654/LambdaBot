@@ -298,6 +298,14 @@ exports.effectApplication = {
 				return [false]
 		} else return [false]
 	},
+	"22": function(employee, result) {
+		if (employee.tempL < 45) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have been sucked into the abnormality. We will meet again as stars..."]
+		} else return [false]
+	},
 	"9": function(employee, result, workorder) {
 		if (employee.tempL < 30) {
 			employee.hp = 0
@@ -394,6 +402,6 @@ exports.effectApplication = {
 		}
 	},
 	"hpbullet": function(employee) {
-		
+		employee.hp += 1
 	}
 }

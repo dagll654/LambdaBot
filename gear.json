@@ -149,7 +149,7 @@
 			"name": "Ecstasy",
 			"resistance": [0.8, 0.8, 0.8, 1.5],
 			"level": "WAW",
-			"cost": "1000",
+			"cost": 1000,
 			"requirements": [0, 0, 30, 0, 2],
 			"reqString": "Temperance II, Employee Level II" 
 		},
@@ -157,7 +157,7 @@
 			"name": "Pleasure",
 			"resistance": [1.2, 0.8, 0.8, 1.5],
 			"level": "HE",
-			"cost": "600",
+			"cost": 600,
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
 		},
@@ -165,7 +165,7 @@
 			"name": "Logging",
 			"resistance": [0.8, 1.2, 0.8, 1.5],
 			"level": "HE",
-			"cost": "600",
+			"cost": 600,
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
 		},
@@ -176,6 +176,14 @@
 			"cost": "-",
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none" 
+		},
+		{	"id": "22",
+			"name": "Sound of a star",
+			"resistance": [0.4, 0.4, 0.4, 1],
+			"level": "ALEPH",
+			"cost": 3000,
+			"requirements": [0, 85, 85, 0, 5],
+			"reqString": "Prudence V, Temperance V, Employee Level V" 
 		}
 			],
 			
@@ -421,6 +429,17 @@
 			"cost": "800",
 			"requirements": [30, 0, 0, 0, 2],
 			"reqString": "Fortitude II, Employee Level II" 
+		},
+		{	"id": "22",
+			"name": "Sound of a Star",
+			"damage": [8, 12],
+			"dtype": [0, 1, 0, 0],
+			"speed": "fast",
+			"range": "long",
+			"level": "ALEPH",
+			"cost": "4444",
+			"requirements": [0, 85, 85, 0, 5],
+			"reqString": "Prudence V, Temperance V, Employee Level V" 
 		}
 	],
 	

@@ -26,7 +26,8 @@
 			"t-02-71",
 			"o-02-98",
 			"f-05-32",
-			"o-05-30"
+			"o-05-30",
+			"o-03-93"
 			],
 	"abn": [
 			{
@@ -481,6 +482,26 @@
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 8, 15],
+				"effect": [true],
+				"affstat": [false]
+			},
+			{
+				"name": "O-03-93: 'Blue Star'",
+				"color": [0, 0, 0],
+				"risk": "ALEPH",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"ego": "22",
+				"peoutput": 33,
+				"workPreferences": [[0.3, 0.3, 0.3, 0.3, 0.3],
+									[0.5, 0.5, 0.5, 0.5, 0.5],
+									[0, 0, 0, 0, 0],
+									[0.4, 0.4, 0.4, 0.4, 0.4]									
+									],
+				"damage": [6, 9],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 7, 28],
 				"effect": [true],
 				"affstat": [false]
 			}
