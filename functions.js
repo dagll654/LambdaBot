@@ -392,5 +392,8 @@ exports.effectApplication = {
 			currentBuffs[jn.stats.indexOf(stat)] = Number(currentBuffs[jn.stats.indexOf(stat)]) + Number(buff[2])
 			employee.buffs = currentBuffs.join("|")
 		}
+	},
+	"hpbullet": function(employee) {
+		
 	}
 }

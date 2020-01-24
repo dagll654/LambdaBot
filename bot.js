@@ -67,16 +67,17 @@ const Discord = require('discord.js');
 		else if (stat < 100) {return "V"}
 		else {return "EX"}
 	}
+	// Same, but returns a number
+	function statLVN(stat) {
+		if (stat < 30) {return 1}
+		else if (stat < 45) {return 2}
+		else if (stat < 65) {return 3}
+		else if (stat < 85) {return 4}
+		else {return 5}
+	}
 	
 	function abno(code) {
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
-	}
-	
-	function getBox(emp, abn) {
-		let balances = emp.balancespecific.split(" ")
-		let bal = balances.find(b => {return b.startsWith(abn)})
-		let bal2 = bal.split("|")
-		return bal2[1]
 	}
 	
 	function invFullness(emp) {
@@ -90,14 +91,7 @@ const Discord = require('discord.js');
 		return iN	
 	}
 	
-	function statLVN(stat) {
-		if (stat < 30) {return 1}
-		else if (stat < 45) {return 2}
-		else if (stat < 65) {return 3}
-		else if (stat < 85) {return 4}
-		else {return 5}
-	}
-	
+	// I dunno if this is needed? Don't want to break anything lol
 	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
 	
 	function employee(empID) {
@@ -160,7 +154,7 @@ const Discord = require('discord.js');
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
-		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0) {
+		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0, inventory = "") {
 			this.id = id
 			this.tag = tag
 			this.hp = hp/100
@@ -185,6 +179,7 @@ const Discord = require('discord.js');
 			this.tjtime = tjtime
 			this.statlimit = statlimit
 			this.gifts = gifts
+			this.inventory = inventory
 		}
 		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
 		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
@@ -193,7 +188,7 @@ const Discord = require('discord.js');
 		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}
 	}
 	function fdbPush(e, arr = dbployees) {
-		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts))
+		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
 	}
 	
 	
@@ -519,7 +514,7 @@ const Discord = require('discord.js');
 		getter.split("").forEach(c => {
 			if (nmbrs.includes(c)) {id += c}
 		})
-		if (id.length === 18) return client.users.get(id)
+		if (id.length === 18 && getter.length === 18) return client.users.get(id)
 		else if (client.guilds.get("607318782624399361").members.find(m => {
 			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
 					else return false
@@ -543,7 +538,7 @@ const Discord = require('discord.js');
 	const initmsg = tempbigmessagevaluesoIneveruseitagain
 	{
 		
-	tmpmsg = tempbigmessagevaluesoIneveruseitagain // tmpmsg.content.split(" ")[0].slice(2)
+	tmpmsg = tempbigmessagevaluesoIneveruseitagain
 
 	function sudoCheck() {
 	if (tmpmsg.content.split(" ")[0] === "sudo") {
@@ -591,21 +586,8 @@ const Discord = require('discord.js');
 	// Handy vars
 	var ch = msg.channel
 	var mesc = msg.content
-		
-	// Duck club secretiveness ensurance
-	if (mesc.toLowerCase().indexOf("duckclub") != -1 && dbvars[0] === 1) {
-		setTimeout(function(){msg.delete()}, 10)
-	}
 	
-	// Roles that can be assigned/unassigned by anyone
-	const roles1 = [
-			]
-	
-	// Department roles
-	// nothing lol cause it's in the beginning now
-	deproles.forEach(r => roles1.push(r))
-	
-	// Messages by the bot that will be deleted indefinitely
+	// Messages by the bot that will be deleted indefinitely (unused, probably)
 	const deletableReplies = [
 			"Debug command run, check logs."
 			]
