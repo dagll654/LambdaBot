@@ -76,6 +76,13 @@ const Discord = require('discord.js');
 		else {return 5}
 	}
 	
+	function getBox(emp, abn) {
+		let balances = emp.balancespecific.split(" ")
+		let bal = balances.find(b => {return b.startsWith(abn)})
+		let bal2 = bal.split("|")
+		return bal2[1]
+	}
+	
 	function abno(code) {
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
 	}
