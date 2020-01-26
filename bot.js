@@ -972,6 +972,7 @@ const Discord = require('discord.js');
 		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 		msg.react('✅')
 		msg.react('🚫')
+		override = 0
 		const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
 		const collector = msg.createReactionCollector(filter, { time: 15000 })
 		collector.on('collect', rct => {//${rct.emoji.name}
@@ -980,8 +981,8 @@ const Discord = require('discord.js');
 			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
 			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
 			vtd.push(lru)
-			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; boo = 0; vtd.length = reqv}
-			if (vtd.length >= reqv) {
+			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; console.log("Ducktest"); boo = 0; override = 1}
+			if (vtd.length >= reqv || override === 1) {
 			timeout = 0
 			collector.stop()
 			} 
