@@ -123,21 +123,21 @@ const Discord = require('discord.js');
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
 		if (statIndex === 3) {mult = 3}
 
-		if (subStatArr[statIndex] >= ((jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (14 - expmod) * mult)) {
-			subStatArr[statIndex] = subStatArr[statIndex] - (jn.statLevels.indexOf(statLVL(curruser[stat.toLowerCase()])) + 1) * (14-expmod) * mult
+		if (subStatArr[statIndex] >= statLVN(subStatArr[statIndex])*(14 - expmod)*mult) {
+			subStatArr[statIndex] -= statLVN(subStatArr[statIndex])*(14 - expmod)*mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
-						dbployees[dbids.indexOf(id)].fortitude = dbployees[dbids.indexOf(id)].fortitude + 1
+						dbployees[dbids.indexOf(id)].fortitude += 1
 						break
 					case 1:
-						dbployees[dbids.indexOf(id)].prudence = dbployees[dbids.indexOf(id)].prudence + 1
+						dbployees[dbids.indexOf(id)].prudence += 1
 						break
 					case 2:
-						dbployees[dbids.indexOf(id)].temperance = dbployees[dbids.indexOf(id)].temperance + 1
+						dbployees[dbids.indexOf(id)].temperance += 1
 						break
 					case 3:
-						dbployees[dbids.indexOf(id)].justice = dbployees[dbids.indexOf(id)].justice + 1
+						dbployees[dbids.indexOf(id)].justice += 1
 						break
 				}
 			}
