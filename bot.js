@@ -127,16 +127,16 @@ const Discord = require('discord.js');
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
-						dbployees[dbids.indexOf(id)].fortitude += 1
+						dbployees[dbids.indexOf(id)].fortitude = Number(dbployees[dbids.indexOf(id)].fortitude) + 1
 						break
 					case 1:
-						dbployees[dbids.indexOf(id)].prudence += 1
+						dbployees[dbids.indexOf(id)].prudence = Number(dbployees[dbids.indexOf(id)].prudence) + 1
 						break
 					case 2:
-						dbployees[dbids.indexOf(id)].temperance += 1
+						dbployees[dbids.indexOf(id)].temperance = Number(dbployees[dbids.indexOf(id)].temperance) + 1
 						break
 					case 3:
-						dbployees[dbids.indexOf(id)].justice += 1
+						dbployees[dbids.indexOf(id)].justice = Number(dbployees[dbids.indexOf(id)].justice) + 1
 						break
 				}
 			}
