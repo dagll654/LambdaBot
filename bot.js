@@ -121,7 +121,7 @@ const Discord = require('discord.js');
 		let subStatArr = curruser.subpoints.split("|")
 		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (statIndex === 3) {mult = 3; console.log("This: " + statLVN(subStatArr[statIndex])*(14 - expmod)*mult + " " + statLVN(subStatArr[statIndex] + " " + (14 - expmod)*mult))}
+		if (statIndex === 3) {mult = 3; console.log("This: " + statLVN(subStatArr[statIndex])*(14 - expmod)*mult); console.log(statLVN(subStatArr[statIndex])); console.log((14 - expmod)*mult)}
 
 		if (subStatArr[statIndex] >= statLVN(subStatArr[statIndex])*(14 - expmod)*mult) {
 			subStatArr[statIndex] -= statLVN(subStatArr[statIndex])*(14 - expmod)*mult
