@@ -121,7 +121,7 @@ const Discord = require('discord.js');
 		let subStatArr = curruser.subpoints.split("|")
 		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (statIndex === 3) {mult = 3}
+		if (statIndex === 3) {mult = 3; console.log("This: " + statLVN(subStatArr[statIndex])*(14 - expmod)*mult)}
 
 		if (subStatArr[statIndex] >= statLVN(subStatArr[statIndex])*(14 - expmod)*mult) {
 			subStatArr[statIndex] -= statLVN(subStatArr[statIndex])*(14 - expmod)*mult
@@ -232,8 +232,6 @@ const Discord = require('discord.js');
 			let effectsNew = []
 			if ((e.effects != "null") && (e.effects != undefined)){
 			let effects = e.effects.split("undefined").join("").split("|")
-			//if (e.id === '143261987575562240') {console.log("Quack's effects before shenanigans: "); console.log(e.effects)}
-			
 			effects.forEach(eff => {
 				let effArr = eff.split("/")
 				if ((e.dead === 1 || e.dead === '1') && effArr[0] != "1") eff = 'null'
@@ -252,8 +250,6 @@ const Discord = require('discord.js');
 			})
 			e.effects = effectsNew.join("|")
 			}
-			
-			//if (e.id === '143261987575562240') {console.log("Quack's effects after shenanigans: "); console.log(e.effects)}
 			if (e.effects === null) e.effects = 'null'
 			
 			if (e.effects != null) {
@@ -1342,42 +1338,6 @@ const Discord = require('discord.js');
 			.catch(console.error)
 			yeet(0)
 		} else {msg.reply("The command !say is currently disabled.")}
-	}
-	
-	// Role giving and taking
-	if (cmd[0] === [1, "1"]) {
-		var rtmp = ""
-		for (i = 1; i < cmd1.length; i++) {
-			rtmp += cmd1[i]
-			if (i < (cmd1.length - 1)) {rtmp += " "}
-		}
-		// If the role is stated to be operable in the relevant array
-		if (ncdeproles.includes(rtmp)) {
-			if (msg.member.roles.map(r => r.name).includes(rtmp) === false) {
-				if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-					// Find the role among the guild's roles and add it
-					msg.member.addRole(getRole(rtmp))
-					ch.send("Successfully given the specified role to <@" + msg.author.id + ">.")
-				} else {msg.reply("Error: only one department assignment role may be given to a user.")}
-			} else {ch.send("Error: user <@" + msg.author.id + "> already has the specified role")}
-		} else {msg.reply("Error: role was specified incorrectly or cannot be given.")}
-	}
-	
-	if (cmd[0] === [1, "1"]) {
-		var rtmp = ""
-		for (i = 1; i < cmd1.length; i++) {
-			rtmp += cmd1[i]
-			if (i < (cmd1.length - 1)) {rtmp += " "}
-		}
-		// If the role is stated to be operable in the relevant array
-		if (roles1.includes(rtmp)) {
-			if (msg.member.roles.map(r => r.name).includes(rtmp) === true) {
-				// Find the role among the guild's roles and remove it
-				msg.member.removeRole(getRole(rtmp))
-				ch.send("Successfully taken the specified role from <@" + msg.author.id + ">.")
-			} else {ch.send("Error: user <@" + msg.author.id + "> does not have the specified role")}
-		} else {msg.reply("Error: role was specified incorrectly or cannot be removed.")}
-		
 	}
 	
 	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
