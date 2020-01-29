@@ -1021,7 +1021,7 @@ const Discord = require('discord.js');
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
-			msg.reply("Unrecognized command. Type in !help to get the list of all available commands.")
+			ch.send("**" + msg.author.tag + "**, " + "Unrecognized command. Type in !help to get the list of all available commands.")
 			
 		}
 		
@@ -1034,7 +1034,7 @@ const Discord = require('discord.js');
 				x1 = cmd[1]
 				// If the argument is beyond the amount of quotes currently available, apologise and stop.
 				if (x1 > qte.length) {
-					msg.reply("Sorry, only " + qte.length + " quotes are currently available.")
+					ch.send("**" + msg.author.tag + "**, " + "Sorry, only " + qte.length + " quotes are currently available.")
 					return
 				} 
 				var txt = qte[x1-1]
@@ -1085,7 +1085,7 @@ const Discord = require('discord.js');
 					return 
 				}
 				yeet(0)
-			} else {msg.reply("Emoji not found.")}
+			} else {ch.send("**" + msg.author.tag + "**, " + "Emoji not found.")}
 		}
 		
 		// Debug commands
@@ -1321,14 +1321,14 @@ const Discord = require('discord.js');
 					console.log("Unrecognized debug command noticed.")
 					break
 			} 	
-		} else {msg.reply("Sorry, but only the bot's author can use the debug commands.")}
+		} else {ch.send("**" + msg.author.tag + "**, " + "Sorry, but only the bot's author can use the debug commands.")}
 		yeet(2)
 		}
 	
 	// For making the bot say whatever, but only if the debug variable debugsay is 1
 	if (cmd[0] === "!say") {
 		if (cmd.length < 2) {
-			msg.reply("Cannot send empty messages.")
+			ch.send("**" + msg.author.tag + "**, " + "Cannot send empty messages.")
 			return }
 		if ((dbvars[1] === 1) || (dbvars[1] === '1')) {
 			var tempmsg = ""
@@ -1339,7 +1339,7 @@ const Discord = require('discord.js');
 			ch.send(tempmsg)
 			.catch(console.error)
 			yeet(0)
-		} else {msg.reply("The command !say is currently disabled.")}
+		} else {ch.send("**" + msg.author.tag + "**, " + "The command !say is currently disabled.")}
 	}
 	
 	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
@@ -1365,7 +1365,7 @@ const Discord = require('discord.js');
 					ch.send("\n```md\n" + `[${ncdeproles[nccideproles.indexOf(cmd[2])]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
 					
 					break
-					} else {msg.reply("incorrect department name."); break}
+					} else {ch.send("**" + msg.author.tag + "**, " + "incorrect department name."); break}
 					} else {
 						
 					var cpts = ""
@@ -1420,14 +1420,14 @@ const Discord = require('discord.js');
 						dbployees[dbids.indexOf(msg.author.id)].hp = 0
 						dbployees[dbids.indexOf(msg.author.id)].sp = 0
 						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
-						msg.reply("you have died. Cause of death: " + effectDeathCause)
+						ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
 					}
-					} else msg.reply("you are still on a cooldown. " + `(~${cdVal + 1} second(s))`)
-					} else msg.reply("error: you are dead.")
-					} else msg.reply("error: you are already currently working on an abnormality.")
-					} else msg.reply("error: incorrect work order. Orders: instinct, insight, attachment, repression.")
-					} else msg.reply("error: work on the specified abnormality unavailable. (!lc w list)")
-					} else msg.reply("error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
+					} else ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${cdVal + 1} second(s))`)
+					} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 					} else {
 						let baseStr = " List of currently workable abnormalities:```\n		"
 						let workableIDs = jn.abnWorkable
@@ -1732,7 +1732,7 @@ const Discord = require('discord.js');
 				break
 				case "help":
 					if (drFind(msg.member) === "") {
-						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
+						ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name).")
 						
 					} else {
 						let helpArr = [
@@ -1757,7 +1757,7 @@ const Discord = require('discord.js');
 						if (jn.nccideproles.includes(rtmp)) {
 							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
-							msg.reply("you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
+							ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
 							async function thisshit() {
 								await wait(200)
 								connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -1778,17 +1778,17 @@ const Discord = require('discord.js');
 							if (employee(msg.author.id))
 								employee(msg.author.id).tjtime = Date.now()
 							else dbployees.push(new emp(msg.author.id, msg.author.tag))
-						} else {msg.reply("error: incorrect team name. Example: !lc assign extraction team")}
-					} else {msg.reply("you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
+						} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
+					} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
 					break
 				case "leave":
 					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						msg.reply("do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
+						ch.send("**" + msg.author.tag + "**, " + "do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 						collector.on('collect', cmsg => {
 						if (cmsg.content.toLowerCase() === "y") {
-							msg.reply("you have left the " + drFind(msg.member) + ".") 
+							ch.send("**" + msg.author.tag + "**, " + "you have left the " + drFind(msg.member) + ".") 
 							let bufflist = []
 							if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
 							bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
@@ -1800,10 +1800,10 @@ const Discord = require('discord.js');
 							msg.member.removeRole(getRole(drFind(msg.member)))
 							collector.stop()
 						}
-						if (cmsg.content.toLowerCase() === "n") {msg.reply("team leave cancelled."); collector.stop()}
+						if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
 						})
-					} else {msg.reply("you are not currently assigned to any team.")}
-					} else {msg.reply("captains cannot simply leave their team! (!lc captain resign)")}
+					} else {ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to any team.")}
+					} else {ch.send("**" + msg.author.tag + "**, " + "captains cannot simply leave their team! (!lc captain resign)")}
 					break
 				case "debuff":
 					if (cmd[2]) {
@@ -1813,16 +1813,20 @@ const Discord = require('discord.js');
 						if (Number(cmd[4]) > 0) {	
 						if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
 							if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
-								msg.reply("you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
+								ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
 								break
 								return
 							}
 						}
+						if ((employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]) < 17) {
+							ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]} with the specified argument)`)
+							return
+						} 
 							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
-							msg.reply(`applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
-						} else msg.reply("error: cannot give debuffs for 0 or less.")
-						} else msg.reply("error: incorrect argument.")
-						} else msg.reply("error: incorrect stat specified.")
+							ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
+						} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
+						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
+						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 						}
 						else if (cmd[2] === "remove") {
 						if (employee(msg.author.id).bufflist != undefined) {
@@ -1830,12 +1834,12 @@ const Discord = require('discord.js');
 						if (jn.stats.includes(cmd[3])) {
 							let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3]))
 							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
-							msg.reply(`removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV)} debuff.`)
-						} else msg.reply("error: incorrect stat specified.")
-						} else msg.reply("error: you do not have any active removable debuffs.")
-						} else msg.reply("error: you do not have any active removable debuffs.")
+							ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV)} debuff.`)
+						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
+						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
+						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
 						}
-					} else msg.reply("error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
 				break
 				case "ex":
 				case "extraction":
@@ -1863,8 +1867,8 @@ const Discord = require('discord.js');
 					let totalBalance
 					let price
 					let k
-					function invResponse(msg) {msg.reply("error: invalid response.").then(tmp => tmp.delete(3000))}
-					function forceReturn(msg, code) {msg.reply(code).then(tmp => tmp.delete(4000))}
+					function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete(3000))}
+					function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete(4000))}
 					
 					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
 					.then(menumsg => {
@@ -2039,26 +2043,26 @@ const Discord = require('discord.js');
 										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-								} else {msg.reply("Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {msg.reply("the specified user is not in your department."); break} else {msg.reply("the specified user is not an employee."); break}
+								} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
 								break
-								} else {msg.reply("error: invalid or missing argument. Usage: !lc captain vote @person"); break}
-						} else {msg.reply("an election is in process currently!"); break}
-						} else {msg.reply("error: no employee specified."); break}
+								} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
+						} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
+						} else {ch.send("**" + msg.author.tag + "**, " + "error: no employee specified."); break}
 						}
 					// Captain commands
 					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
 							case "vote":
-								msg.reply("you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
+								ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
 								break
 							case "resign":
 								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-									msg.reply("do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
+									ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
 									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 									collector.on('collect', cmsg => {
 									if (cmsg.content.toLowerCase() === "y") {
-										msg.reply("you have resigned as the " + drFind(msg.member) + " captain.") 
+										ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
 										var cptxt = drFind(msg.member)
 										msg.member.removeRole(getRole(cptxt + " (C)"))
 										msg.member.addRole(getRole(cptxt))
@@ -2069,30 +2073,30 @@ const Discord = require('discord.js');
 										}
 										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
 									}
-									if (cmsg.content.toLowerCase() === "n") {msg.reply("resign cancelled."); collector.stop()}
+									if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
 									})
-								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
+								} else {ch.send("**" + msg.author.tag + "**, " + "you are not the captain of the " + drFind(msg.member) + "!")}
 								break
 							default:
-								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
+								ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
 								break
 						}
-					} else {msg.reply("ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+					} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 				break
 				}
 
 				default:
-					msg.reply("error: unrecognized command. Type in !help lc to get info on the command.")
+					ch.send("**" + msg.author.tag + "**, " + "error: unrecognized command. Type in !help lc to get info on the command.")
 					break
 			}
-		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc help).")}
-	} else msg.reply("the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
+		} else {ch.send("**" + msg.author.tag + "**, " + "You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc help).")}
+	} else ch.send("**" + msg.author.tag + "**, " + "the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
 	}
 
 	if (cmd[0] === "!help") {
 		if (cmd.length > 1) {
-		msg.reply(help1[cmds.indexOf("!" + cmd[1].toLowerCase())+1])
-		} else {msg.reply(help1[0])}
+		ch.send("**" + msg.author.tag + "**, " + help1[cmds.indexOf("!" + cmd[1].toLowerCase())+1])
+		} else {ch.send("**" + msg.author.tag + "**, " + help1[0])}
 	}
 	
 	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
@@ -2118,17 +2122,17 @@ const Discord = require('discord.js');
 				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
 				break	
 			default:
-				msg.reply("I can't do that!")
+				ch.send("**" + msg.author.tag + "**, " + "I can't do that!")
 				break
 			}
-		} else {msg.reply("I can't do that!")}
+		} else {ch.send("**" + msg.author.tag + "**, " + "I can't do that!")}
 	}
 	
 	if (cmd[0] === "!abn") {
 		ch.send("`abn` command is currently disabled.")
 		return
 		if (!argCheck(cmd, 2)) {
-			msg.reply("Invalid command usage. Try !help abn.")
+			ch.send("**" + msg.author.tag + "**, " + "Invalid command usage. Try !help abn.")
 			return
 		}
 		if (abn.lista.indexOf(cmd[1]) != -1) {
@@ -2141,7 +2145,7 @@ const Discord = require('discord.js');
 				.setFooter("EGO: " + "this doesn't work currently")
 			ch.send({embed})
 		.catch(console.error)
-		} else {msg.reply("Sorry, info on the specified abnormality is unavailable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
+		} else {ch.send("**" + msg.author.tag + "**, " + "Sorry, info on the specified abnormality is unavailable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
 		yeet(5)
 	}
 	
