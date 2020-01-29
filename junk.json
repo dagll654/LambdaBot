@@ -68,7 +68,7 @@
 			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
 			"Usage: !lobcorp/!lc (arguments). Type in `!lc help` to get more detailed info.",
-			"Usage: !lobcorp/!lc (arguments). Type in `!lc help` to get more detailed info.""
+			"Usage: !lobcorp/!lc (arguments). Type in `!lc help` to get more detailed info."
 			],
 	"cmds": [
 			"!quote",
