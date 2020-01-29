@@ -1597,7 +1597,7 @@ const Discord = require('discord.js');
 									let spbullet = 0
 									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 									if (inv.some(i => i[0] === "spbullet")) hpbullet = inv.find(i => i[0] === "spbullet")[1]
-									menumsg.edit(header + `\n	Bullet inventory: \n		HP Bullets:\n\n `)
+									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n [WIP]`)
 									console.log("Test Alpha")
 									k = 1
 									console.log("Test Beta")
