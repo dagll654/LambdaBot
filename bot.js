@@ -1713,7 +1713,7 @@ const Discord = require('discord.js');
 							"	`!lc w (abnormality ID) (work order)` - executes the selected work order (instinct, insight, attachment or repression) on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 							"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
 							"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
-							"	`!lc list [department]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise."
+							"	`!lc list [department]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise.",
 							"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
 							"	`!lc captain`:",
 							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
