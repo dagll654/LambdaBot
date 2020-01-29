@@ -1597,7 +1597,11 @@ const Discord = require('discord.js');
 									let spbullet = 0
 									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n [WIP]`)
+									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'cancel' to go back, 'exit' to exit.`)
+									if (mr === "sp" || mr = "hp") {
+									if ({"hp": hpbullet, "sp": spbullet}[mr] > 0) fn.effectApplication[mr + "bullet"](cUser)
+									else cCh.send(`**${cUser.tag}**, you do not have any of those bullets.`)
+									}
 									k = 1
 									}
 									break
