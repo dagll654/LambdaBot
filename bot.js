@@ -1602,7 +1602,7 @@ const Discord = require('discord.js');
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
 										if (Number.isInteger(Number(mr.split(" ")[1]))) {
 											if (Number(mr.split(" ")[1]) >= {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
-											else if (Number(mr.split(" ")[1] <= 0) {cCh.send(`**${cUser.tag}**, stop fucking around.`); return}
+											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, stop fucking around.`); return}
 											else {
 											for (i = 0; i < Number(mr.split(" ")[1]; i++) 
 											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
