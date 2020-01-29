@@ -1597,17 +1597,24 @@ const Discord = require('discord.js');
 									let spbullet = 0
 									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'cancel' to go back, 'exit' to exit.`)
+									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
 									if ((mr.split(" ")[0] === "sp") || (mr.split(" ")[0] === "hp")) {
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
-										if (Number.isInteger(Number(mr.split(" ")[1]))) ch.send("Test Alpha: true; Test Beta: " + Number.isInteger(NaN))
-										
-										
+										if (Number.isInteger(Number(mr.split(" ")[1]))) {
+											if (Number(mr.split(" ")[1]) >= {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
+											else if (Number(mr.split(" ")[1] <= 0) {cCh.send(`**${cUser.tag}**, stop fucking around.`); return}
+											else {
+											for (i = 0; i < Number(mr.split(" ")[1]; i++) 
+											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
+											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${15*Number(mr.split(" ")[1])} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+											}
+										}
+										else {
 										fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)
-										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet! (15 ${jn[mr.split(" ")[0]+"heal"]})`)
-										
+										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (15 ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+										}										
 									}
-									else cCh.send(`**${cUser.tag}**, you do not have any of those bullets.`)
+									else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[0].toUpperCase()} bullets.`)
 									}
 									k = 1
 									}
