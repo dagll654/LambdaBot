@@ -1151,7 +1151,7 @@ const Discord = require('discord.js');
 					console.log(getRole(rtmp))
 					break
 				case "bullettest":
-					fn.effectApplication["hpbullet"](employee(getUser("quack").id))
+					fn.effectApplication["hpbullet"](employee(getUser("quack").id), "hpbullet")
 					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
