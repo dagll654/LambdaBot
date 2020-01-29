@@ -1890,6 +1890,7 @@ const Discord = require('discord.js');
 							
 							let rp = r.first()
 				/*========*/if (rp != undefined) {
+							let mr = rp.content.toLowerCase()
 							
 							if (rp.content.toLowerCase().startsWith("!lc") === false) {
 							if (rp.content.toLowerCase() != "exit") {
@@ -1905,7 +1906,14 @@ const Discord = require('discord.js');
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentAbnoCode = rp.content.toLowerCase()
 										menuIndex = "shop"
-									} else {invResponse(rp); k = 1}
+									} else if (mr === "bullet" || mr === "bullets") menuIndex === "bulletShop"
+									else {invResponse(rp); k = 1}
+									break
+									
+									case "bulletShop":
+										ch.send("mm yes bean yoda I am bullets to you I will sell in the future")
+										k = 1
+										menuIndex = "test"
 									break
 
 									case "shop":
