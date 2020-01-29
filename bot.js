@@ -1709,7 +1709,7 @@ const Discord = require('discord.js');
 					} else {
 						let helpArr = [
 							"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work.\n",
-							"	`!lc p [employee's nickname/discord tag]` - shows your profile if no ",
+							"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
 							"	`!lc w (abnormality ID) (work order)` - executes the selected work order (instinct, insight, attachment or repression) on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 							"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
 							"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
@@ -1719,7 +1719,7 @@ const Discord = require('discord.js');
 							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
 							"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
 						]
-						msg.reply(helpArr.join("\n"))
+						ch.send(helpArr.join("\n"))
 						}
 					
 					break
