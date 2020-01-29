@@ -28,6 +28,11 @@
 		else if (statcount < 16) {return "IV"}
 		else {return "V"}
 	}
+	
+	function useConsumable(employee) {
+		let inv = employee.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+		console.log(inv)
+	}
 
 buffs = {
 	"buff": function(employee, buff, action) {
@@ -173,7 +178,13 @@ exports.effects = {
 				else {return false}
 			}
 exports.effectApplication = {
-	"5": function(employee, result, workorder) {
+	"3": function a3 (employee, result, workorder) {
+		if (result > 1) {
+			employee.sp = employee.sp + 3
+		}
+		return [false]
+	},
+	"5": function a5 (employee, result, workorder) {
 		if (result > 0) {
 			effects = employee.effects.split("|")
 			function checkEffect(eff) {
@@ -188,7 +199,46 @@ exports.effectApplication = {
 		}
 		return [false]
 	},
-	"14": function(employee, result, workorder) {
+	"8": function a8 (employee, result, workorder) {
+		if (result > 0) {
+			switch (workorder) {
+				case "instinct":
+				employee.hp = employee.hp + 1.5
+				break
+				case "insight":
+				employee.sp = employee.sp + 1.5
+				break
+				case "attachment":
+				case "repression":
+				employee.hp = employee.hp + 1
+				employee.sp = employee.sp + 1
+				break
+			}
+			return [false]
+		} else {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have been taken away to a fishing boat."]
+		}
+	},
+	"9": function a9 (employee, result, workorder) {
+		if (employee.tempL < 30) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have fallen asleep. Good night, sweet prince."]
+		} else return [false]
+	},
+	"10": function a10 (employee, result, workorder) {
+		if (employee.prudL < 30 || workorder === "insight") {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have been cocooned. I hope you like getting digested."]
+		} else return [false]
+	},
+	"14": function a14 (employee, result, workorder) {
 		let effects = employee.effects.split("|")
 		console.log("14Test: " + employee.tag + " " + effects)
 		if (effects.length > 0) {
@@ -223,7 +273,38 @@ exports.effectApplication = {
 		return [false]*/
 		
 	},
-	"20": function(employee, result, workorder) {
+	"15": function a15 (employee, result, workorder) {
+		if (result === 0 || employee.fortL < 65) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			return [true, "\n	You have been found to be much more *loving* than usual. And then disposed of with an execution bullet."]
+		} else {
+			return[false]
+		}
+	},
+	"16": function a16 (employee, result) {
+		if (result != 2) {
+			let oofChance = 30*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*50
+			let nonoRoll = roll(100)
+			console.log("wormfuckers chance: " + `${oofChance}, roll: ${nonoRoll}`)
+			if (nonoRoll < oofChance) {
+				employee.hp = 0
+				employee.sp = 0
+				employee.dead = 1
+				return [true, "\n	You became a disgusting worm nest and were dealt with."]
+			} else return [false]
+		} else return [false]
+	},
+	"19": function a19 (employee, result) {
+		if ((result === 2) && (employee.tempL < 45)) {
+				employee.hp = 0
+				employee.sp = 0
+				employee.dead = 1
+				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
+		} else return [false]
+	},
+	"20": function a20 (employee, result, workorder) {
 		let effects = employee.effects.split("|")
 		if (effects.some(e => {return e.startsWith("20/")})) {
 			employee.hp = 0
@@ -239,66 +320,12 @@ exports.effectApplication = {
 		}
 		return [false]
 	},
-	"8": function(employee, result, workorder) {
-		if (result > 0) {
-			switch (workorder) {
-				case "instinct":
-				employee.hp = employee.hp + 1.5
-				break
-				case "insight":
-				employee.sp = employee.sp + 1.5
-				break
-				case "attachment":
-				case "repression":
-				employee.hp = employee.hp + 1
-				employee.sp = employee.sp + 1
-				break
-			}
-			return [false]
-		} else {
-			employee.hp = 0
-			employee.sp = 0
-			employee.dead = 1
-			return [true, "\n	You have been taken away to a fishing boat."]
-		}
-	},
-	"15": function(employee, result, workorder) {
-		if (result === 0 || employee.fortL < 65) {
-			employee.hp = 0
-			employee.sp = 0
-			employee.dead = 1
-			return [true, "\n	You have been found to be much more *loving* than usual. And then disposed of with an execution bullet."]
-		} else {
-			return[false]
-		}
-	},
-	"16": function(employee, result) {
-		if (result != 2) {
-			let oofChance = 30*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*50
-			let nonoRoll = roll(100)
-			console.log("wormfuckers chance: " + `${oofChance}, roll: ${nonoRoll}`)
-			if (nonoRoll < oofChance) {
-				employee.hp = 0
-				employee.sp = 0
-				employee.dead = 1
-				return [true, "\n	You became a disgusting worm nest and were dealt with."]
-			} else return [false]
-		} else return [false]
-	},
-	"19": function(employee, result) {
-		if ((result === 2) && (employee.tempL < 45)) {
-				employee.hp = 0
-				employee.sp = 0
-				employee.dead = 1
-				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
-		} else return [false]
-	},
-	"21": function(employee, result) {
+	"21": function a21 (employee, result) {
 		if ((result === 0) || (employee.fortL > 84) || (employee.tempL < 30)) {
 				return [false]
 		} else return [false]
 	},
-	"22": function(employee, result) {
+	"22": function a22 (employee, result) {
 		if (employee.tempL < 45) {
 			employee.hp = 0
 			employee.sp = 0
@@ -306,29 +333,13 @@ exports.effectApplication = {
 			return [true, "\n	You have been sucked into the abnormality. We will meet again as stars..."]
 		} else return [false]
 	},
-	"9": function(employee, result, workorder) {
-		if (employee.tempL < 30) {
-			employee.hp = 0
-			employee.sp = 0
-			employee.dead = 1
-			return [true, "\n	You have fallen asleep. Good night, sweet prince."]
-		} else return [false]
-	},
-	"10": function(employee, result, workorder) {
-		if (employee.prudL < 30 || workorder === "insight") {
-			employee.hp = 0
-			employee.sp = 0
-			employee.dead = 1
-			return [true, "\n	You have been cocooned. I hope you like getting digested."]
-		} else return [false]
-	},
-	"egoChange": function(employee, index) {
+	"egoChange": function egoChange (employee, index) {
 		effects = employee.effects.split("|")
 		effects.push("1/" + (index + 1) * 60 * 12 + "/E.G.O. adaptation")
 		employee.effects = effects.join("|")
 		return [false]
 	},
-	"workCD": function(employee, boxes) {
+	"workCD": function workCD (employee, boxes) {
 		let effects = employee.effects.split("|")
 		let CDEffect
 		let fatiguemod = 0
@@ -344,13 +355,7 @@ exports.effectApplication = {
 		else employee.effects += "|" + CDEffect
 		return [false]
 	},
-	"3": function(employee, result, workorder) {
-		if (result > 1) {
-			employee.sp = employee.sp + 3
-		}
-		return [false]
-	},
-	"fatigue": function(employee, risk) {
+	"fatigue": function fatigue (employee, risk) {
 		let effects = employee.effects.split("|")
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
@@ -374,12 +379,12 @@ exports.effectApplication = {
 		}
 		return [false]
 	},
-	"department": function(employee, dep, action, level = 0) {
+	"department": function department (employee, dep, action, level = 0) {
 		console.log("|" + employee.tag + "|" + dep + "|")
 		buffs['buff'](employee, jn.bufflist['department'][dep][level], action)
 		return [false]
 	},
-	"manualDebuff": function(employee, stat, amount, action) {
+	"manualDebuff": function manualDebuff (employee, stat, amount, action) {
 		if (action === "apply") {
 			let bufflist = employee.bufflist
 			if (bufflist === undefined || bufflist === '' || bufflist === null) employee.bufflist = "manualDebuff/" + stat + "/" + amount
@@ -401,7 +406,9 @@ exports.effectApplication = {
 			employee.buffs = currentBuffs.join("|")
 		}
 	},
-	"hpbullet": function(employee) {
-		employee.hp += 1
+	"hpbullet": function hpbullet (employee) {
+		employee.hp = Number(employee.hp) + 15 
+		if (employee.hp > employee.stats[0]) employee.hp = employee.stats[0]
+		useConsumable(employee)
 	}
 }

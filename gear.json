@@ -481,17 +481,19 @@
 			
 		}
 	],
-	"bullets":	
+	"items":	
 	[
 		{
 		"name": "HP Bullet",
+		"usable": true,
 		"action": "hpbullet",
-		"cost": 10
+		"cost": 25
 		},
 		{
 		"name": "SP Bullet",
+		"usable": true,
 		"action": "spbullet",
-		"cost": 10
+		"cost": 25
 		}
 	]
 		

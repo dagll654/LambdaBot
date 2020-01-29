@@ -1150,6 +1150,9 @@ const Discord = require('discord.js');
 					}
 					console.log(getRole(rtmp))
 					break
+				case "bullettest":
+					fn.effectApplication["hpbullet"](getUser("quack"))
+					break
 				case "embed":
 					var embed = new Discord.RichEmbed()
 					.setTitle(abn.abn[0].number)
