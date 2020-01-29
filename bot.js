@@ -1597,7 +1597,6 @@ const Discord = require('discord.js');
 									let spbullet = 0
 									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
 									if ((mr.split(" ")[0] === "sp") || (mr.split(" ")[0] === "hp")) {
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
 										if (Number.isInteger(Number(mr.split(" ")[1]))) {
