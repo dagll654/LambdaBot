@@ -418,6 +418,6 @@ exports.effectApplication = {
 	"hpbullet": function hpbullet (employee) {
 		employee.hp = Number(employee.hp) + 15 
 		if (employee.hp > employee.stats[0]) employee.hp = employee.stats[0]
-		useConsumable(employee)
+		useConsumable(employee, "hpbullet")
 	}
 }
