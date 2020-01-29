@@ -1984,7 +1984,8 @@ const Discord = require('discord.js');
 									break
 								}// [/switch]
 								ki++
-								} else if (ki === 4) menuIndex = "fail"
+								} 
+								if (ki === 4) menuIndex = "fail"
 							} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)}
 							} else menuIndex = "exit"
 							} else menuIndex = "interExit"
