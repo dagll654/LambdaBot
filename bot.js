@@ -1529,7 +1529,7 @@ const Discord = require('discord.js');
 					cUser = emp
 					const cCh = channel
 					const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
-					const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'exit' to leave.`
+					const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'bullet' to open the bullet menu, 'exit' to leave.`
 					let menuIndex = "main"
 					let uSuitIds = []
 					let uWeapIds = []
@@ -1580,6 +1580,9 @@ const Discord = require('discord.js');
 											break
 											case "discard":
 											menuIndex = "discard"
+											break
+											case "bullet":
+											menuIndex = "bullet"
 											break
 										}
 									break
