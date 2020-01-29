@@ -1915,12 +1915,12 @@ const Discord = require('discord.js');
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentAbnoCode = rp.content.toLowerCase()
 										menuIndex = "shop"
-									} else if (mr === "bullet" || mr === "bullets") {menuIndex === "bulletShop"; k = 1}
+									} else if (mr === "bullet" || mr === "bullets") menuIndex === "bulletShop"
 									else {invResponse(rp); k = 1}
 									break
 									
 									case "bulletShop":
-										ch.send("mm yes bean yoda I am bullets to you I will sell in the future")
+										cCh.send("mm yes bean yoda I am bullets to you I will sell in the future")
 										k = 1
 										menuIndex = "test"
 									break
