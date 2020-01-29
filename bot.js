@@ -1602,7 +1602,7 @@ const Discord = require('discord.js');
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
 										if (Number.isInteger(Number(mr.split(" ")[1]))) {
 											if (Number(mr.split(" ")[1]) >= {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
-											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, stop fucking around.`); return}
+											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
 											else {
 											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
 											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
@@ -1615,6 +1615,9 @@ const Discord = require('discord.js');
 										}										
 									}
 									else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[0].toUpperCase()} bullets.`)
+									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
+									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
 									}
 									k = 1
 									}
