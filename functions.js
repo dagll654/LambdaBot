@@ -38,7 +38,7 @@
 			if (cnsInv[1] > 0) {
 				console.log("Test Beta")
 				cnsInv[1] -= 1
-				if (cnsInv[1] === 0) inv = inv.map(i => return i != cnsInv)
+				if (cnsInv[1] === 0) inv = inv.map(i => if (i != cnsInv) return i)
 				inv.forEach((i, k) => console.log(k + ": " + i))
 			}
 		}
