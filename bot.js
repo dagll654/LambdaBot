@@ -1706,7 +1706,21 @@ const Discord = require('discord.js');
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
 						
-					} else {msg.reply(`Type in "!lc p/!lc profile" to see your profile. It displays your stats, progress towards the next stat increase, current HP and SP and your equipped gear.\n!lc i/!lc inventory" to see your inventory. It displays your amount of pe and ppe boxes and all of your gear`)}
+					} else {
+						helparr = [
+							"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work.\n",
+							"	`!lc p [employee's nickname/discord tag]` - shows your profile if no ",
+							"	`!lc w (abnormality ID) (work order)` - executes the selected work order (instinct, insight, attachment or repression) on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
+							"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
+							"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
+							"	`!lc list [department]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise."
+							"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
+							"	`!lc captain`:"
+							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
+							"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
+						]
+						msg.reply("`	!lc p` - shows your profile \n	")
+						}
 					
 					break
 				case "assign":
@@ -1982,9 +1996,6 @@ const Discord = require('discord.js');
 					// Non-captain commands
 					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
 						switch (cmd[2]) {
-							case "list": 
-								// At the end (non-restricted)
-								break
 							case "vote":
 							if (cmd[3]) {
 							if (voting != 1) {
@@ -2033,9 +2044,6 @@ const Discord = require('discord.js');
 									if (cmsg.content.toLowerCase() === "n") {msg.reply("resign cancelled."); collector.stop()}
 									})
 								} else {msg.reply("you are not the captain of the " + drFind(msg.member) + "!")}
-								break
-							case "list": 
-								// At the end (non-restricted)
 								break
 							default:
 								msg.reply("incorrect usage. Avaliable arguments: resign, list.")
@@ -2089,6 +2097,8 @@ const Discord = require('discord.js');
 	}
 	
 	if (cmd[0] === "!abn") {
+		ch.send("`abn` command is currently disabled.")
+		return
 		if (!argCheck(cmd, 2)) {
 			msg.reply("Invalid command usage. Try !help abn.")
 			return
