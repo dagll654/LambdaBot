@@ -1715,7 +1715,7 @@ const Discord = require('discord.js');
 							"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
 							"	`!lc list [department]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise."
 							"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
-							"	`!lc captain`:"
+							"	`!lc captain`:",
 							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
 							"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
 						]
