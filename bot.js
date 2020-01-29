@@ -1567,6 +1567,9 @@ const Discord = require('discord.js');
 							
 							if (mr.startsWith("!lc") === false) {
 							if (mr != "exit") {
+							if (mr === "cancel") {
+								menuIndex = "main"
+							}
 								let k = 0
 								let ki = 0
 								while (k === 0 && ki < 6) {
@@ -1585,6 +1588,20 @@ const Discord = require('discord.js');
 											menuIndex = "bullet"
 											break
 										}
+									break
+									
+									case "bullet":
+									if (menuIndex === "bullet" && r != 1) {
+									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+									let hpbullet = 0
+									let spbullet = 0
+									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+									if (inv.some(i => i[0] === "spbullet")) hpbullet = inv.find(i => i[0] === "spbullet")[1]
+									menumsg.edit(header + `\n	Bullet inventory: \n		HP Bullets:\n\n `)
+									console.log("Test Alpha")
+									k = 1
+									console.log("Test Beta")
+									}
 									break
 									
 									case "equip":
@@ -1618,12 +1635,12 @@ const Discord = require('discord.js');
 										r = 1
 										break
 									}
-									else if (mr === "cancel") {
+									/*else if (mr === "cancel") {
 										menuIndex = "main"
 										k = 1
 										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
 										break
-									}
+									}*/
 									k = 1
 									}
 									break
@@ -1668,12 +1685,12 @@ const Discord = require('discord.js');
 										menuIndex = "main"
 										break
 									} 
-									else if (mr === "cancel") {
+									/*else if (mr === "cancel") {
 										menuIndex = "main"
 										k = 1
 										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
 										break
-									}
+									}*/
 									k = 1
 									}
 									break
