@@ -1703,7 +1703,7 @@ const Discord = require('discord.js');
 				}
 				break
 				case "help":
-					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
+					if (drFind(msg.member) === "") {
 						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
 						
 					} else {
