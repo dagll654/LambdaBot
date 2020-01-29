@@ -18,7 +18,7 @@
 	
 	// Roll an x-sided die, even if that makes absolutely no sense in practice
 	function roll(sides) {
-		return Math.ceil(Math.random() * sides)
+		return Math.floor(Math.random() * sides) + 1
 	}
 	
 	function empLVL(statcount) {
@@ -29,9 +29,18 @@
 		else {return "V"}
 	}
 	
-	function useConsumable(employee) {
+	function useConsumable(employee, cns) {
 		let inv = employee.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
 		console.log(inv)
+		if (inv.some(i => cns === i[0])) {
+			console.log("Test Alpha")
+			cnsInv = inv.find(i => cns === i[0])
+			if (cnsInv[1] > 0) {
+				console.log("Test Beta")
+				cnsInv[1] -= 1
+				if (cnsInv[1] === 0) inv = inv.map(i => i != cnsInv)
+			}
+		}
 	}
 
 buffs = {
