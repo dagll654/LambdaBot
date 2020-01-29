@@ -485,13 +485,13 @@
 	[
 		{
 		"name": "HP Bullet",
-		"usable": true,
+		"usable": "true",
 		"action": "hpbullet",
 		"cost": 25
 		},
 		{
 		"name": "SP Bullet",
-		"usable": true,
+		"usable": "true",
 		"action": "spbullet",
 		"cost": 25
 		}
