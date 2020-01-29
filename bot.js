@@ -1915,7 +1915,7 @@ const Discord = require('discord.js');
 										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 										currentAbnoCode = rp.content.toLowerCase()
 										menuIndex = "shop"
-									} else if (mr === "bullet" || mr === "bullets") menuIndex === "bulletShop"
+									} else if (mr === "bullet" || mr === "bullets") {menuIndex === "bulletShop"; k = 1}
 									else {invResponse(rp); k = 1}
 									break
 									
