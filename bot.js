@@ -122,8 +122,8 @@ const Discord = require('discord.js');
 		let mult = 1
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
 		if (statIndex === 3) {mult = 3}
-		if (subStatArr[statIndex] >= statLVN(curruser.stats[statIndex])*(14 - expmod)*mult) {
-			subStatArr[statIndex] -= statLVN(curruser.stats[statIndex])*(14 - expmod)*mult
+		if (subStatArr[statIndex] >= statLVN(curruser[jn.stats[statIndex]])*(14 - expmod)*mult) {
+			subStatArr[statIndex] -= statLVN(curruser[jn.stats[statIndex]])*(14 - expmod)*mult
 			if (curruser.stats[statIndex] < curruser.statlimit) {
 				switch (statIndex) {
 					case 0:
