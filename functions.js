@@ -39,7 +39,8 @@
 				console.log("Test Beta")
 				cnsInv[1] -= 1
 				if (cnsInv[1] === 0) inv = inv.map(i => i != cnsInv)
-				employee.inventory = inv.map(i => i.join("|")).join("/")
+				inv.forEach(i => i = i.join("|"))
+				employee.inventory = inv.join("/")
 			}
 		}
 	}
