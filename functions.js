@@ -38,8 +38,9 @@
 			if (cnsInv[1] > 0) {
 				console.log("Test Beta")
 				cnsInv[1] -= 1
-				if (cnsInv[1] === 0) inv = inv.map(i => {if (i != cnsInv) return i}).filter(i => i != undefined)
-				inv.forEach((i, k) => console.log(k + ": " + i))
+				if (cnsInv[1] === 0) inv = inv.map(i => {if (i != cnsInv) return i.join("|")}).filter(i => i != undefined)
+				console.log(inv.join("/"))
+				employee.inventory = inv.join("/")
 			}
 		}
 	}
