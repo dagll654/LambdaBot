@@ -1604,7 +1604,7 @@ const Discord = require('discord.js');
 											if (Number(mr.split(" ")[1]) >= {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
 											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, stop fucking around.`); return}
 											else {
-											for (i = 0; i < Number(mr.split(" ")[1]; i++) 
+											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
 											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
 											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${15*Number(mr.split(" ")[1])} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
 											}
