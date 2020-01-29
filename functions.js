@@ -423,8 +423,9 @@ exports.effectApplication = {
 		useConsumable(employee, "hpbullet")
 	},
 	"spbullet": function spbullet (employee) {
-		employee.hp = Number(employee.sp) + 15 
+		employee.sp = Number(employee.sp) + 15 
 		if (employee.sp > employee.stats[1]) employee.sp = employee.stats[1]
 		useConsumable(employee, "spbullet")
+		console.log("Used an SP bullet")
 	}
 }

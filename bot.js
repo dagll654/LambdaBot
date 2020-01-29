@@ -1601,6 +1601,7 @@ const Discord = require('discord.js');
 									if ((mr === "sp") || (mr = "hp")) {
 									if ({"hp": hpbullet, "sp": spbullet}[mr] > 0) fn.effectApplication[mr + "bullet"](cUser)
 									else cCh.send(`**${cUser.tag}**, you do not have any of those bullets.`)
+									cCh.send(`**${cUser.tag}** used an ${mr.toUpperCase()} bullet! (+15${jn[mr]})`)
 									}
 									k = 1
 									}
