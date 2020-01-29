@@ -39,6 +39,7 @@
 				console.log("Test Beta")
 				cnsInv[1] -= 1
 				if (cnsInv[1] === 0) inv = inv.map(i => {if (i != cnsInv) return i.join("|")}).filter(i => i != undefined)
+				else inv = inv.map(i => return i.join("|"))
 				console.log(inv.join("/"))
 				employee.inventory = inv.join("/")
 			}
