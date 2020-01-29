@@ -1702,7 +1702,7 @@ const Discord = require('discord.js');
 				inv(dbployees.find(d => d.id === msg.author.id), msg.channel)
 				}
 				break
-				case "info":
+				case "help":
 					if (msg.member.roles.map(r => r.name).includes("Employees") === false) {
 						msg.reply("To get assigned to a team, type in !lc assign (Team name).")
 						
@@ -2049,7 +2049,7 @@ const Discord = require('discord.js');
 					msg.reply("error: unrecognized command. Type in !help lc to get info on the command.")
 					break
 			}
-		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc info).")}
+		} else {msg.reply("You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc help).")}
 	} else msg.reply("the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
 	}
 
@@ -2073,6 +2073,14 @@ const Discord = require('discord.js');
 				var c = Number(cmd[1]) - Number(cmd[3])
 				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
 				break
+			case "/":
+				var c = Number(cmd[1]) / Number(cmd[3])
+				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
+				break
+			case "*":
+				var c = Number(cmd[1]) * Number(cmd[3])
+				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
+				break	
 			default:
 				msg.reply("I can't do that!")
 				break
