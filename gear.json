@@ -487,13 +487,13 @@
 		"name": "HP Bullet",
 		"usable": "true",
 		"action": "hpbullet",
-		"cost": 25
+		"cost": 15
 		},
 		{
 		"name": "SP Bullet",
 		"usable": "true",
 		"action": "spbullet",
-		"cost": 25
+		"cost": 15
 		}
 	]
 		

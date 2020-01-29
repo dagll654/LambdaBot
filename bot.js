@@ -1740,12 +1740,12 @@ const Discord = require('discord.js');
 						
 					} else {
 						let helpArr = [
-							"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work.\n",
+							"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work, arguments in {curly brackets} are options and only one needs to be specified.\n",
 							"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
-							"	`!lc w (abnormality ID) (work order)` - executes the selected work order (instinct, insight, attachment or repression) on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
+							"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 							"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
-							"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
-							"	`!lc list [department]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise.",
+							"	`!lc debuff {apply/remove} (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
+							"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
 							"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
 							"	`!lc captain`:",
 							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
@@ -1843,6 +1843,7 @@ const Discord = require('discord.js');
 						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
 						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
 						}
+						else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
 					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
 				break
 				case "ex":
