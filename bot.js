@@ -1600,7 +1600,7 @@ const Discord = require('discord.js');
 									menumsg.edit(header + `\n	Bullet inventory:\n		HP Bullets: ${hpbullet}\n		SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'cancel' to go back, 'exit' to exit.`)
 									if ((mr.split(" ")[0] === "sp") || (mr.split(" ")[0] === "hp")) {
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
-										if (Number(mr.split(" ")[1]).isInteger()) ch.send("Test Alpha: true; Test Beta: " + NaN.isInteger())
+										if (Number.isInteger(Number(mr.split(" ")[1]))) ch.send("Test Alpha: true; Test Beta: " + Number.isInteger(NaN))
 										
 										
 										fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)
