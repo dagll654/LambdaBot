@@ -1992,18 +1992,20 @@ const Discord = require('discord.js');
 									break
 									
 									case "bulletshop":
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - 15 ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - 15 ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${gear.items.hpbullet.cost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${gear.items.spbullet.cost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
 										if (["hp", "sp"].includes(mr.split(" ")[0])) {
 										mr0 = mr.split(" ")[0]
 										let amt
+										let price = gear.items[mr+"bullet"].cost
 										if (mr.split(" ")[1] === undefined || Number.isInteger(Number(mr.split(" ")[1])) === false) amt = 1
 										else amt = Number(mr.split(" ")[1])
-										if (amt*15 > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
+										
+										if (amt*price > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
 										else {
 										let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
 										if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
 										else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
-										cUser.balance -= amt*15
+										cUser.balance -= amt*price
 										inv = inv.map(i => {return i.join("|")})
 										cUser.inventory = inv.join("/")
 										cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
