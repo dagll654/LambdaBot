@@ -1884,7 +1884,7 @@ const Discord = require('discord.js');
 					function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete(3000))}
 					function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete(4000))}
 					
-					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)
+					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)
 					.then(menumsg => {
 					if (instAbno === 1) {
 						currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
@@ -1958,7 +1958,7 @@ const Discord = require('discord.js');
 										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
 										
 										if (invFullness(cUser) > 3) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); menuIndex = "shop"; k = 1; break}
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
 										menuIndex = "purChoice"
 										k = 1
 									break
@@ -1982,7 +1982,7 @@ const Discord = require('discord.js');
 								ki++
 								} 
 								if (ki === 4) menuIndex = "fail"
-							} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract.`)}
+							} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)}
 							} else menuIndex = "exit"
 							} else menuIndex = "interExit"
 				/*========*/} else menuIndex = "timeout"
