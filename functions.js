@@ -6,7 +6,6 @@
 	const help1 = jn.help1 
 	const qte = jn.qte
 	const cmds = jn.cmds
-//module.js
 
 	function statLVN(stat) {
 		if (stat < 30) {return 1}
