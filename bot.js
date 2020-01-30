@@ -682,6 +682,7 @@ const Discord = require('discord.js');
 		//console.log(levelDifference)
 		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
 		switch (levelDifference) {
+			case 5: dMult = 0; break;
 			case 4: dMult = 0.4; break;
 			case 3: dMult = 0.6; break;
 			case 2: dMult = 0.7; break;
@@ -691,6 +692,7 @@ const Discord = require('discord.js');
 			case -2: dMult = 1.2; break;
 			case -3: dMult = 1.5; break;
 			case -4: dMult = 2; break;
+			case -5: dMult = 999; break;
 			default: dMult = 1; break;
 		}
 		return (dMult * res)
