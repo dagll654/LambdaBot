@@ -156,8 +156,6 @@ const Discord = require('discord.js');
 	// Gifts:
 	// 0/brooch1 | 1/brooch2 | 3/head1 | 4/head2 | 5/mouth1 | 6/mouth2 | 7/hand1 | 8/hand2 | 9/eye | 10/face | 11/cheek | 12/back1 | 13/back2
 	
-	//class classAbno {}
-	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
 		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0, inventory = "") {
@@ -195,6 +193,14 @@ const Discord = require('discord.js');
 	}
 	function fdbPush(e, arr = dbployees) {
 		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+	}
+	
+	class clAbn {
+		constructor (id, state = 0, qcounter = 'undefined') {
+			this.id = id
+			this.state = state
+			this.qcounter = qcounter
+		}
 	}
 	
 	
@@ -319,12 +325,24 @@ const Discord = require('discord.js');
 	
 	function databaseAbnos() {
 		abnos = []
+		dbnos = []
 		jn.abnWorkable.forEach(a => {
-		abnos.push({"tag": a, "id": abno(a).ego})
+		abnos.push({"id": abno(a).ego, "tag": a})
 		})
 		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-			console.log(result)
-			if (err) throw err
+			result.forEach(r => dbnos.push(clAbn(r[0])))
+		})
+		abnos.forEach(a => {
+		if (dbnos.some(da => da.id === a.id) === false) abnodbpush.push(a.id)
+		
+		
+		abnodbpush.forEach(e => {
+			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e.id + "', '0', 'undefined')";
+			//connection.query(sql, function (err, result) {
+			if (err) throw err;
+			console.log(`${abn.abn.find(a => a.ego === e.id).name} inserted!`)
+			})
+		})
 		})
 	}
 	
@@ -388,8 +406,7 @@ const Discord = require('discord.js');
 
 	
 	})
-}
-
+	}
 	
 	function healPulse() {
 		const DELTAS = client.guilds.get("607318782624399361");
@@ -1121,6 +1138,9 @@ const Discord = require('discord.js');
 				case "hook":
 					lambHook.send("test")
 					console.log("Debug command !debug hook noticed.")
+					break
+				case "dbnotest":
+					databaseAbnos()
 					break
 				case "roletest":
 					cdeproles.forEach(r => {
