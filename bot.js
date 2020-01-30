@@ -678,8 +678,8 @@ const Discord = require('discord.js');
 	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
 	function rDamage(rec, dea, res) {
 		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
-		if (dea.toUpperCase() === "LUL") levelDifference = -5
 		if (rec.toUpperCase() === "LUL") levelDifference = 5
+		if (dea.toUpperCase() === "LUL") levelDifference = -5
 		let dMult = 1
 		//console.log(levelDifference)
 		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
@@ -825,6 +825,7 @@ const Discord = require('discord.js');
 	// Work stuff
 	function work(arrg, channel) {
 		
+		let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/3)
 		let respectiveStat = jn.stats[jn.workOrders.indexOf(arrg[2])]
 		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(arrg[0])], (jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk) + 1))
 		fn.effectApplication['workCD'](dbployees[dbids.indexOf(arrg[0])], abn.abn[abn.lista.indexOf(arrg[1])].peoutput)
@@ -864,8 +865,13 @@ const Discord = require('discord.js');
 			for (i = 0; i < abn.abn[abn.lista.indexOf(arrg[1])].peoutput; i++) {
 				if ((dbployees[dbids.indexOf(arrg[0])].hp > 0) && (dbployees[dbids.indexOf(arrg[0])].sp > 0)) {
 				let cRoll = roll(100)
-				rollArr.push([cRoll, cRoll > successChance])
-				if (cRoll > successChance) {neboxes++; 
+				let luckRoll = roll(1000)
+				if (cRoll > successChance) {
+				if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
+				else rollArr.push([cRoll, cRoll > successChance])
+				} 
+				else rollArr.push([cRoll, cRoll > successChance])
+				if (cRoll > successChance && luckRoll > luck) {neboxes++; 
 					let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
 					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[0] === 1) {
 						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[0]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[0])
