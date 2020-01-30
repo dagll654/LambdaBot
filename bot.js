@@ -1136,7 +1136,7 @@ const Discord = require('discord.js');
 					break
 				case "upvote":
 					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
-						.then(m => {
+						.then(m =>
 							if (m.reactions.has('upvote:663458914851094588')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
@@ -1600,7 +1600,7 @@ const Discord = require('discord.js');
 									if ((mr.split(" ")[0] === "sp") || (mr.split(" ")[0] === "hp")) {
 									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
 										if (Number.isInteger(Number(mr.split(" ")[1]))) {
-											if (Number(mr.split(" ")[1]) >= {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
+											if (Number(mr.split(" ")[1]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
 											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
 											else {
 											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
@@ -1721,7 +1721,7 @@ const Discord = require('discord.js');
 								}// [/switch]
 								ki++
 								}
-								if (ki > 24) menuIndex = "fail"
+								if (ki > 5) menuIndex = "fail"
 							} else menuIndex = "exit"
 							} else menuIndex = "interExit"
 				/*========*/} else menuIndex = "timeout"
@@ -1920,12 +1920,11 @@ const Discord = require('discord.js');
 									break
 									
 									case "bulletshop":
-										cCh.send("mm yes bean yoda I am bullets to you I will sell in the future")
-										console.log("Test Beta")
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		jn[hpheal] HP Bullets - 15 ${jn.ppebox} PPE boxes\n		jn[spheal] SP Bullets - 15 ${jn.ppebox} PPE boxes\n\n		Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk.`)
 										menuIndex = "test"
 										k = 1
 									break
-
+										
 									case "shop":
 										currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
@@ -1948,13 +1947,11 @@ const Discord = require('discord.js');
 										}
 										
 										price = objItem.cost
-										console.log("Price: " + price)
 										totalBalance = Number(currentShop.boxes) + cUser.balance
 										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
 										prices = []
 										if (Number(currentShop.boxes) >= price) prices = [price, 0]
 										else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
-										console.log("Prices: " + prices)
 										if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); menuIndex = "shop"; k = 1; break}
 										let tmptxt = ""
 											if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
@@ -1970,7 +1967,6 @@ const Discord = require('discord.js');
 										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
 										if (rp.content.toLowerCase() === "y") {
 											rp.reply("Successfully purchased " + item)
-											console.log(-prices[0] + " " + currentAbnoCode + " " + cUser.id)
 											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
 											cUser.balance -= prices[1]
 											addItemID(cUser, cInv, currentAbno.ego)
@@ -1996,7 +1992,7 @@ const Discord = require('discord.js');
 						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
 						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
 						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
-						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
+						else if (menuIndex === "test") menumsg.edit(menumsg.content + `\n\n Testing concluded.`)
 						else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
 						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 						
