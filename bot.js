@@ -691,6 +691,7 @@ const Discord = require('discord.js');
 			case -2: dMult = 1.2; break;
 			case -3: dMult = 1.5; break;
 			case -4: dMult = 2; break;
+			default: dMult = 1; break;
 		}
 		return (dMult * res)
 	}
