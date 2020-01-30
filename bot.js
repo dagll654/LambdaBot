@@ -184,6 +184,7 @@ const Discord = require('discord.js');
 			this.statlimit = statlimit
 			this.gifts = gifts
 			this.inventory = inventory
+			this.luck = 0
 		}
 		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
 		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
@@ -293,7 +294,7 @@ const Discord = require('discord.js');
 			//vals[2] = val[2]*1000
 			//vals[3] = val[3]*1000
 			for (const prop in e) {
-				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "id") && (prop != "stats") && (prop != "statlimit") && (prop != "tag")) {
+				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "id") && (prop != "stats") && (prop != "statlimit") && (prop != "luck")) {
 				let tempval = e[prop]
 				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
 				if (dbployees[i] != undefined) {
@@ -825,7 +826,6 @@ const Discord = require('discord.js');
 	// Work stuff
 	function work(arrg, channel) {
 		
-		let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/3)
 		let respectiveStat = jn.stats[jn.workOrders.indexOf(arrg[2])]
 		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(arrg[0])], (jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk) + 1))
 		fn.effectApplication['workCD'](dbployees[dbids.indexOf(arrg[0])], abn.abn[abn.lista.indexOf(arrg[1])].peoutput)
@@ -834,6 +834,7 @@ const Discord = require('discord.js');
 		let userStat = dbployees[dbids.indexOf(arrg[0])].stats[jn.stats.indexOf(respectiveStat)]
 		let userTemp = dbployees[dbids.indexOf(arrg[0])].temperance
 		let userStatLevelText = statLVL(userStat)
+		let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/3) + dbployees[dbids.indexOf(arrg[0])].luck
 		let userStatLevel = jn.statLevels.indexOf(userStatLevelText)
 		if (userStatLevel > 4) {userStatLevel = 4} 
 		let successChance = 0
