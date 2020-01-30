@@ -340,10 +340,10 @@ const Discord = require('discord.js');
 		})
 		abnodbpush.forEach(e => {
 			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
-			//connection.query(sql, function (err, result) {
+			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
-			//})
+			})
 		})
 		})
 	}
