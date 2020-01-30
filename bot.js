@@ -335,10 +335,11 @@ const Discord = require('discord.js');
 		let abnodbpush = []
 		abnos.forEach(a => {
 		if (dbnos.some(da => da.id === a.id) === false) abnodbpush.push(a.id)
+		else console.log(`${abn.abn.find(a1 => a1.ego === a.id).name} included!`
 		})
 		abnodbpush.forEach(e => {
 			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e.id + "', '0', 'undefined')";
-			//connection.query(sql, function (err, result) {
+			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
 			//})
