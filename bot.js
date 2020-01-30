@@ -1924,7 +1924,7 @@ const Discord = require('discord.js');
 										wait(200).then(() => {
 										menuIndex = "test"
 										k = 1
-										}
+										})
 									break
 										
 									case "shop":
