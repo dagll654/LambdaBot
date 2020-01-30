@@ -94,7 +94,10 @@
 				"damage": [1, 999],
 				"dtype": [0, 0, 0, 1],
 				"tips": ["bruh", "bruh2"],
-				"mood": [0, 9, 10],
+				"mood": [-1, 0, 1],
+				"effect": [false],
+				"affstat": [false],
+				"gift": [false]
 				"qcounter": 2
 			},
             {
