@@ -1933,7 +1933,7 @@ const Discord = require('discord.js');
 										else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
 										inv = inv.map(i => {return i.join("|")})
 										cUser.inventory = inv.join("/")
-										cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr+"heal"]} ${mr.toUpperCase()} bullet(s).`) 
+										cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
 										}}
 										k = 1
 									break
