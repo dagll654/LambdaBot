@@ -340,7 +340,7 @@ const Discord = require('discord.js');
 			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e.id + "', '0', 'undefined')";
 			//connection.query(sql, function (err, result) {
 			if (err) throw err;
-			console.log(`${abn.abn.find(a => a.ego === e.id).name} inserted!`)
+			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
 			//})
 		})
 	}
