@@ -343,7 +343,6 @@ const Discord = require('discord.js');
 			console.log(`${abn.abn.find(a => a.ego === e.id).name} inserted!`)
 			})
 		})
-		})
 	}
 	
 	function databaseThing() {
