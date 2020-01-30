@@ -88,7 +88,7 @@ const Discord = require('discord.js')
 		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
 	}
 	
-	function item(name) {
+	function getItem(name) {
 		return gear.items.find(i => i.name === name)
 	}
 	
@@ -1997,7 +1997,7 @@ const Discord = require('discord.js')
 									break
 									
 									case "bulletshop":
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${item("hpbullet").cost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${item("spbullet").cost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${getItem("hpbullet").cost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${getItem("spbullet").cost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
 										if (["hp", "sp"].includes(mr.split(" ")[0])) {
 										mr0 = mr.split(" ")[0]
 										let amt
