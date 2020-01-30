@@ -1920,8 +1920,8 @@ const Discord = require('discord.js');
 									break
 									
 									case "bulletshop":
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		jn[hpheal] HP Bullets - 15 ${jn.ppebox} PPE boxes\n		jn[spheal] SP Bullets - 15 ${jn.ppebox} PPE boxes\n\n		Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk.`)
-										menuIndex = "test"
+										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn[hpheal]} HP Bullets - 15 ${jn.ppebox} PPE boxes\n		${jn[spheal]} SP Bullets - 15 ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk.`)
+										
 										k = 1
 									break
 										
