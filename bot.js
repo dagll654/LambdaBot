@@ -1552,7 +1552,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${jn.statLevels(statsL[4])}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${jn.statLevels[statsL[4]]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 				}
 				break 
@@ -1683,11 +1683,11 @@ const Discord = require('discord.js');
 											eqRaw = gear.weapons[eqID]
 										}
 										if (cUser.stats.every((s, i) => s >= eqRaw.requirements[i])) {
-											rp.reply("Equipped " + eqItem)
+											cCh.send(`**${cUser.tag}**, ` + "Equipped " + eqItem)
 											fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
 											cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
 										} 
-										else rp.reply(`error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${eqRaw.reqString}**)`)
+										else cCh.send(`**${cUser.tag}**, error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${eqRaw.reqString}**)`)
 										menuIndex = "main"
 										r = 1
 										break
