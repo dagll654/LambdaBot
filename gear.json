@@ -14,8 +14,8 @@
 			"resistance": [-1, -1, -1, -1],
 			"level": "LUL",
 			"cost": 1,
-			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"requirements": [0, 0, 0, 0, 999999],
+			"reqString": "Employee Level +INF"
 		},
 		{	"id": "2",
 			"name": "Debug (god mode)",
@@ -201,14 +201,14 @@
 		},
 		{	"id": "1",
 			"name": "The Sword",
-			"damage": [9999, 9999],
-			"dtype": [1, 1, 1, 1],
+			"damage": [1, 2],
+			"dtype": [1, 1, 0, 0],
 			"speed": "very fast",
 			"range": "very long",
 			"level": "LUL",
 			"cost": 1,
-			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"requirements": [0, 0, 0, 0, 999999],
+			"reqString": "Employee Level +INF"
 		},
 		{	"id": "2",
 			"name": "Debug (butcher)",

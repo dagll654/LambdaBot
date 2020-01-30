@@ -189,7 +189,7 @@ const Discord = require('discord.js');
 		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
 		get tempL() {return Number(this.temperance) + Number(this.buffs.split("|")[2])}
 		get justL() {return Number(this.justice) + Number(this.buffs.split("|")[3])}
-		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL)]}
+		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, empLVL(statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL))]}
 	}
 	function fdbPush(e, arr = dbployees) {
 		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
@@ -678,6 +678,8 @@ const Discord = require('discord.js');
 	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
 	function rDamage(rec, dea, res) {
 		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
+		if (dea.toUpperCase() === "LUL") levelDifference = -5
+		if (rec.toUpperCase() === "LUL") levelDifference = 5
 		let dMult = 1
 		//console.log(levelDifference)
 		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
@@ -692,7 +694,7 @@ const Discord = require('discord.js');
 			case -2: dMult = 1.2; break;
 			case -3: dMult = 1.5; break;
 			case -4: dMult = 2; break;
-			case -5: dMult = 999; break;
+			case -5: dMult = 69; break;
 			default: dMult = 1; break;
 		}
 		return (dMult * res)
@@ -1543,7 +1545,7 @@ const Discord = require('discord.js');
 								for (i = 0; i < 4; i++) {
 									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
 								}
-								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${empLVL(statsL[4])}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
+								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${statsL[4]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
 								if (err) throw err
 				}
 				break 
