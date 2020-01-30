@@ -330,7 +330,7 @@ const Discord = require('discord.js');
 		abnos.push({"id": abno(a).ego, "tag": a})
 		})
 		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-			result.forEach(r => {dbnos.push(new clAbn(r[0], r[1], r[2])); console.log(r)})
+			result.forEach(r => dbnos.push(r))
 		})
 		
 		let abnodbpush = []
