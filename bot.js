@@ -330,8 +330,7 @@ const Discord = require('discord.js');
 		abnos.push({"id": abno(a).ego, "tag": a})
 		})
 		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-			result.forEach(r => dbnos.push(r))
-		})
+		result.forEach(r => dbnos.push(r))		
 		console.log(dbnos)
 		console.log(abnos)
 		let abnodbpush = []
@@ -345,6 +344,7 @@ const Discord = require('discord.js');
 			if (err) throw err;
 			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
 			//})
+		})
 		})
 	}
 	
