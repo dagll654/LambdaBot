@@ -196,7 +196,7 @@ const Discord = require('discord.js');
 	}
 	
 	class clAbn {
-		constructor (id, state = 0, qcounter = 'undefined') {
+		constructor (id, state = 0, qcounter = 'und') {
 			this.id = id
 			this.state = state
 			this.qcounter = qcounter
@@ -338,7 +338,7 @@ const Discord = require('discord.js');
 		else console.log(`${abn.abn.find(a1 => a1.ego === a.id).name} included!`)
 		})
 		abnodbpush.forEach(e => {
-			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e.id + "', '0', 'undefined')";
+			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
 			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
