@@ -1462,6 +1462,7 @@ const Discord = require('discord.js');
 						let workableCpx = []
 						let index = 0
 						workableIDs.forEach(aID => {
+							if (aID != "o-01-01")
 							workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
 						})
 						for (i = 0; i < workableArr.length; i++) {
@@ -2054,8 +2055,10 @@ const Discord = require('discord.js');
 				let workableCpx = []
 				let index = 0
 				workableIDs.forEach(aID => {
+					if (aID != "o-01-01") {
 					let cBal = cUser.balancespecific.split(" ").find(b => b.startsWith(aID)).split("|")
 					workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
+					}
 				})
 				for (i = 0; i < workableArr.length; i++) {
 					if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
