@@ -1931,6 +1931,7 @@ const Discord = require('discord.js');
 										let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
 										if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
 										else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
+										cUser.balance -= amt*15
 										inv = inv.map(i => {return i.join("|")})
 										cUser.inventory = inv.join("/")
 										cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
