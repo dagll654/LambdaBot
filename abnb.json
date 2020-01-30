@@ -85,16 +85,17 @@
 				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
 				"description": "For testing purposes only.",
 				"ego": "1",
-				"peoutput": 10,
+				"peoutput": 1,
 				"workPreferences": [[-1, -1, -1, -1, -1],
 									[-1, -1, -1, -1, -1],
 									[-1, -1, -1, -1, -1],
 									[-1, -1, -1, -1, -1]									
 									],
-				"damage": [0, 0],
-				"dtype": [1, 0, 0, 0],
+				"damage": [1, 999],
+				"dtype": [0, 0, 0, 1],
 				"tips": ["bruh", "bruh2"],
-				"mood": [0, 9, 10]
+				"mood": [0, 9, 10],
+				"qcounter": 2
 			},
             {
 				"name": "O-03-03: 'One Sin and Hundreds of Good Deeds'",
