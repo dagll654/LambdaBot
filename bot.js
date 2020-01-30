@@ -343,7 +343,7 @@ const Discord = require('discord.js');
 			connection.query(sql, function (err, result) {
 			if (err) throw err;
 			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
-			}).catch(console.error)
+			})
 		})
 	}
 	
