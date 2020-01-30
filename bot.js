@@ -332,10 +332,11 @@ const Discord = require('discord.js');
 		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 			result.forEach(r => dbnos.push(r))
 		})
-		
+		console.log(dbnos)
+		console.log(abnos)
 		let abnodbpush = []
 		abnos.forEach(a => {
-		if (dbnos.some(da => da.id === a.id) === false) abnodbpush.push(a.id)
+		if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
 		else console.log(`${abn.abn.find(a1 => a1.ego === a.id).name} included!`)
 		})
 		abnodbpush.forEach(e => {
