@@ -1136,7 +1136,7 @@ const Discord = require('discord.js');
 					break
 				case "upvote":
 					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
-						.then(m =>
+						.then(m => {
 							if (m.reactions.has('upvote:663458914851094588')) m.clearReactions()
 							else m.react('663458914851094588')
 								.catch(console.error)
