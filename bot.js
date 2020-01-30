@@ -1782,6 +1782,39 @@ const Discord = require('discord.js');
 				inv(dbployees.find(d => d.id === msg.author.id), msg.channel)
 				}
 				break
+				case "b": {
+					let cUser = employee(msg.author.id)
+					let cCh = msg.channel
+					let mr = msg.content.toLowerCase()
+					let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+					let hpbullet = 0
+					let spbullet = 0
+					if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+					if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
+					if ((mr.split(" ")[2] === "sp") || (mr.split(" ")[2] === "hp")) {
+					if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]] > 0) {
+						if (cUser.dead === 1 || cUser.dead === "1") {
+							cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
+							return
+							}
+						if (Number.isInteger(Number(mr.split(" ")[3]))) {
+							if (Number(mr.split(" ")[3]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[2].toUpperCase()} bullets.`); return}
+							else if (Number(mr.split(" ")[3] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
+							else {
+							for (i = 0; i < Number(mr.split(" ")[3]); i++) 
+							{fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)}
+							cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${15*Number(mr.split(" ")[3])} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+							}
+						}
+						else {
+						fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
+						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (15 ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+						}										
+					}
+					else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
+					}
+				}
+				break
 				case "help":
 					if (drFind(msg.member) === "") {
 						ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name).")

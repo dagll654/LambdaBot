@@ -294,7 +294,7 @@ exports.effectApplication = {
 	},
 	"16": function a16 (employee, result) {
 		if (result != 2) {
-			let oofChance = 17*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*50
+			let oofChance = 17*(2-result) + ((employee.fortL - employee.hp)/employee.fortL)*25
 			let nonoRoll = roll(100)
 			if (nonoRoll < oofChance) {
 				employee.hp = 0
