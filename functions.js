@@ -112,8 +112,8 @@ function giftManip(employee, giftID, action) {
 		gifts.push(gift.slot + "/" + giftID)
 		if (gifts.length > 1) employee.gifts = gifts.join("|") 
 			else employee.gifts = gifts[0]
+		buffs.buff(employee, gift.buff, "give")
 	} else employee.gifts = gift.slot + "/" + giftID
-	buffs.buff(employee, gift.buff, "give")
 	console.log("Test: ADD")
 	}
 	else if (action === "remove") {
