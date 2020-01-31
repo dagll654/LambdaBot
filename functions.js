@@ -164,7 +164,7 @@ exports.gift = function(employee, abnoID, result) {
 				return [true, 1]
 				}
 			} else return [false, 0]
-			}
+			} else return [false, 0]
 		break
 		
 		
