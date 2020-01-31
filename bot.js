@@ -1217,7 +1217,7 @@ const Discord = require('discord.js')
 					.catch(console.error)
 					break
 				case "extest":
-					console.log("Test Alpha: " + simpleCombat.rDamage("LUL", "LUL", 1))
+					console.log(simpleCombat.rDamage)
 					break
 				case "healpulse":
 					healPulse()
