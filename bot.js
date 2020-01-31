@@ -846,6 +846,11 @@ const Discord = require('discord.js')
 		if (userStatLevel > 4) {userStatLevel = 4} 
 		let successChance = 0
 		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
+		let buffs = cUser.bufflist.split("|").map(i => i.split("/"))
+		if buffs.some(b => b[0] === arrg[1]) {
+			if (b[1] === "sChance") successChancet -= -Number(b[2])
+		}
+		
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
 		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {

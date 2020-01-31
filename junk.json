@@ -204,22 +204,6 @@
 					"V",
 					"EX"
 					],
-	"boxes":	[
-				"<:peboxwork2:653520035075194901>",
-				"<:neboxwork2:653520022286893066>",
-				"<:peemptyboxwork:653533057541996544>",
-				"<:emptyneboxwork:653533492969340928>",
-				"<:emptyboxwork:653533024163594241>",
-				"<:peneboxwork:653593854137597999>"
-				],
-	"boxcodes":	[
-				2,
-				6,
-				8,
-				10,
-				14,
-				4
-				],
 	"bufflist": {
 	"department": {
 		"Control Team": [{"list": "teamct/0"}, {"list": "teamct/1"}], 

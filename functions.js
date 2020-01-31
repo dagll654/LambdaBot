@@ -98,7 +98,7 @@ buffs = {
 					}
 					employee.defensebuffs = abuffs.join("|")
 				}
-				break				
+				break
 			}
 		}
 	}
