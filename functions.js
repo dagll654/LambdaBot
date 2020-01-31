@@ -156,9 +156,9 @@ exports.gift = function(employee, abnoID, result) {
 		if (result["mood"] === 2) gRRes = [true, 0]
 		break
 		case 3:
-		let sinRoll = roll(20)
+		let sinRoll = roll(2)
 		console.log("SINROLL " + sinRoll)
-		if (result["mood"] === 2 && sinRoll === 12) gRRes = [true, 0]
+		if (result["mood"] === 2 && sinRoll === 1) gRRes = [true, 0]
 		break
 		
 		default: return [false, 2]
