@@ -97,7 +97,7 @@
 				"mood": [-1, 0, 1],
 				"effect": [false],
 				"affstat": [false],
-				"gift": [true],
+				"gift": "true",
 				"qcounter": 2
 			},
             {
@@ -119,7 +119,7 @@
 				"mood": [0, 4, 8],
 				"effect": [true],
 				"affstat": [false],
-				"gift": [true]
+				"gift": "true"
 			},
 			{
 				"name": "F-01-02: 'Scorched Girl'",
