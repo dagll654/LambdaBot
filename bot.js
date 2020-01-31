@@ -2003,7 +2003,7 @@ const Discord = require('discord.js')
 										if (["hp", "sp"].includes(mr.split(" ")[0])) {
 										mr0 = mr.split(" ")[0]
 										let amt
-										let price = gear.items[mr+"bullet"].cost
+										let price = {"hp": hpCost, "sp": spCost}[mr0]
 										if (mr.split(" ")[1] === undefined || Number.isInteger(Number(mr.split(" ")[1])) === false) amt = 1
 										else amt = Number(mr.split(" ")[1])
 										
