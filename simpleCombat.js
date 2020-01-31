@@ -5,4 +5,4 @@
 
 	//begin here :D
 
-	rDamage = main.rDamage
+	rDamage(rec, dea, res) = main.rDamage(rec, dea, res)
