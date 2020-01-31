@@ -163,7 +163,7 @@ const Discord = require('discord.js')
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
-		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0, inventory = "") {
+		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0, inventory = "", luck = 0) {
 			this.id = id
 			this.tag = tag
 			this.hp = hp/100
@@ -189,7 +189,7 @@ const Discord = require('discord.js')
 			this.statlimit = statlimit
 			this.gifts = gifts
 			this.inventory = inventory
-			this.luck = 0
+			this.luck = luck
 		}
 		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
 		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
@@ -528,7 +528,6 @@ const Discord = require('discord.js')
 		}
 	}
 	healPulser()
-	console.log("Test: " + (true === 1))
 	})
 
 	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
@@ -707,6 +706,7 @@ const Discord = require('discord.js')
 		}
 		return (dMult * res)
 	}
+	exports.rDamage = rDamage
 
 	// Function for checking if all the symbols of a given string are included in an array
 	function checkSymbols(str, arr) {
@@ -1216,8 +1216,8 @@ const Discord = require('discord.js')
 					tempch.send(tempmsg)
 					.catch(console.error)
 					break
-				case "gettest":
-					console.log(getUser(cmd[2]))
+				case "extest":
+					console.log("Test Alpha: " + simpleCombat.rDamage("LUL", "LUL", 1))
 					break
 				case "healpulse":
 					healPulse()
