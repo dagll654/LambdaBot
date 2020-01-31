@@ -5,4 +5,4 @@
 
 	//begin here :D
 
-	function rDamage(rec, dea, res) = main.rDamage(rec, dea, res)
+	exports.rDamage = main.rDamage(rec, dea, res)
