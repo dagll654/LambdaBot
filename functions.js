@@ -152,14 +152,19 @@ exports.gift = function(employee, abnoID, result) {
 	switch (Number(abnoID)) {
 		case 1:
 			if (result["mood"] === 2) {
-			console.log("Gift giving fail?")
+			let gift = gear.gifts.find(g => g.id === abnoID)
+			let gifts = employee.gifts.split("|")
 			if (roll(20) > 0) {
-			if (employee.gifts.split("|").some(g => g.startsWith("brooch1")) === false) {
+			if (gifts.some(g => g.startsWith(gift.slot)) === false) {
 			giftManip(employee, abnoID, "add")
 			return [true, 0]
-			} else return [false, 1]
+			} else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
+				giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
+				giftManip(employee, abnoID, "add")
+				return [true, 1]
+				}
 			} else return [false, 0]
-			} else console.log("Gift giving false?")
+			}
 		break
 		
 		

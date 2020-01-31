@@ -980,7 +980,7 @@ const Discord = require('discord.js')
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						if (abno(arrg[1]).gift === "true") {
 							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
-							if (giftRoll[0] === true) channel.send("Gift test: true")
+							if (giftRoll[0] === true) channel.send("Gift test: true; " + giftRoll[1])
 							else if (giftRoll[0] === false && giftRoll[1] === 1) channel.send("Gift test: could not give")
 							else if (giftRoll[0] === false && giftRoll[1] === 2) channel.send("Gift test: something broke")
 							console.log("Test Gift Roll")
