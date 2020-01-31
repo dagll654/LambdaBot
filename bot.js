@@ -423,9 +423,11 @@ const Discord = require('discord.js')
 				if (e.working === 0) {
 				if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60) + e.fortL/60}
 				if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
+				if (e.hp < -0.5*e.fortL) {e.hp = -0.5*e.fortL}
 				let sp = e.sp
 				if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60) + e.prudL/60}
 				if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
+				if (e.sp < -0.5*e.prudLL) {e.hp = -0.5*e.prudL}
 				if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
 					e.dead = 0
 				}
@@ -700,7 +702,7 @@ const Discord = require('discord.js')
 			case -2: dMult = 1.2; break;
 			case -3: dMult = 1.5; break;
 			case -4: dMult = 2; break;
-			case -5: dMult = roll(100); break;
+			case -5: dMult = 69; break;
 			default: dMult = 1; break;
 		}
 		return (dMult * res)
