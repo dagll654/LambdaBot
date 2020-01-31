@@ -162,7 +162,7 @@ exports.gift = function(employee, abnoID, result) {
 				giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
 				giftManip(employee, abnoID, "add")
 				return [true, 1]
-				}
+				} else return [false, 1]
 			} else return [false, 0]
 			} else return [false, 0]
 		break
