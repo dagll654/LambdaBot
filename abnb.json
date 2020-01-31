@@ -97,7 +97,7 @@
 				"mood": [-1, 0, 1],
 				"effect": [false],
 				"affstat": [false],
-				"gift": [false],
+				"gift": [true],
 				"qcounter": 2
 			},
             {

@@ -978,6 +978,12 @@ const Discord = require('discord.js')
 						}
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
+						if (abno(arrg[1]).gift === true) {
+							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).gift, {"mood": moodResult})
+							if (giftRoll[0] === true) channel.send("Gift test: true")
+							else if (giftRoll[0] === false && giftRoll[1] === 1) channel.send("Gift test: could not give")
+							console.log("Test Gift Roll")
+						}
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
 						dbployees[dbids.indexOf(arrg[0])].working = 0
