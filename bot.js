@@ -1666,7 +1666,7 @@ const Discord = require('discord.js')
 									
 									case "bullet":
 									if (menuIndex === "bullet" && r != 1) {
-									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
 									let hpbullet = 0
 									let spbullet = 0
 									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
@@ -1825,7 +1825,7 @@ const Discord = require('discord.js')
 					let cUser = employee(msg.author.id)
 					let cCh = msg.channel
 					let mr = msg.content.toLowerCase()
-					let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+					let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
 					let hpbullet = 0
 					let spbullet = 0
 					if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
@@ -2043,7 +2043,7 @@ const Discord = require('discord.js')
 										
 										if (amt*price > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
 										else {
-										let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
+										let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
 										if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
 										else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
 										cUser.balance -= amt*price
