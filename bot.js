@@ -706,7 +706,7 @@ const Discord = require('discord.js')
 		}
 		return (dMult * res)
 	}
-	exports.rDamage(rec, dea, res) = rDamage
+	exports.rDamage = rDamage
 
 	// Function for checking if all the symbols of a given string are included in an array
 	function checkSymbols(str, arr) {
