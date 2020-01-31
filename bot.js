@@ -848,6 +848,7 @@ const Discord = require('discord.js')
 		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
 		let buffs = dbployees.find(e => e.id === arrg[0]).bufflist.split("|").map(i => i.split("/"))
 		if (buffs.some(b => b[0] === arrg[1])) {
+			let b = buffs.find(b => b[0] === arrg[1])
 			if (b[1] === "sChance") successChancet -= -Number(b[2])
 		}
 		
