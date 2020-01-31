@@ -166,8 +166,14 @@ exports.gift = function(employee, abnoID, result) {
 	let gifts = employee.gifts.split("|")
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	giftManip(employee, abnoID, "add")
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
+	console.log("Test 1")
+	console.log(gifts)
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
+	console.log("Test 2")
+	console.log(gifts)
 	giftManip(employee, abnoID, "add")
+	console.log("Test 3")
+	console.log(gifts)
 	gRRes = [true, 1]
 	} else gRRes = [false, 1]
 	}
