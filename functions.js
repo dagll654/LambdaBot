@@ -415,9 +415,9 @@ exports.effectApplication = {
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
 		if (effects.length > 0) {
-			if (effects.some(e => {return e.startsWith("3/")})) {
+			if (effects.some(e => e.startsWith("3/"))) {
 				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
-				let fMod = jn.statLevels.indexOf(empLVL(employee.stats[4])) - risk + 1
+				let fMod = employee.stats[4] - risk + 1
 				console.log("FMOD: " + fMod)
 				fArr[3] = Number(fArr[3]) + fMod
 				fArr[1] = 40 + Number(fArr[3])
