@@ -77,6 +77,14 @@ const Discord = require('discord.js')
 		else {return 5}
 	}
 	
+	function sSlotText(text) {
+		let technical = ['brooch1', 'brooch2', 'head1', 'head2', 'mouth1', 'mouth2', 'hand1', 'hand2', 'eye', 'face', 'cheek', 'back1', 'back2']
+		let normal = ['Brooch 1', 'Brooch 2', 'Head 1', 'Head 2', 'Mouth 1', 'Mouth 2', 'Hand 1', 'Hand 2', 'Eye', 'Face', 'Cheek', 'Back 1', 'Back 2']
+		if (technical.includes(text)) return normal[technical.indexOf(text)]
+		else if (normal.includes(text)) return technical[normal.indexOf(text)]
+		else return undefined
+	}
+	
 	function getBox(emp, abn) {
 		let balances = emp.balancespecific.split(" ")
 		let bal = balances.find(b => {return b.startsWith(abn)})
@@ -979,10 +987,11 @@ const Discord = require('discord.js')
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						if (abno(arrg[1]).gift === "true") {
-							gifttxt = ""
+							let gifttxt = ""
+							let gift = gear.gifts.find(g => g.id === abno(arrg[1]).ego)
 							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
 							if (giftRoll[0] === true) {
-								gifttxt = "Rolled the gift!";
+								gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
 								if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
 							}
 							else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
