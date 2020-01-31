@@ -849,7 +849,7 @@ const Discord = require('discord.js')
 		let buffs = dbployees.find(e => e.id === arrg[0]).bufflist.split("|").map(i => i.split("/"))
 		if (buffs.some(b => b[0] === arrg[1])) {
 			let b = buffs.find(b => b[0] === arrg[1])
-			if (b[1] === "sChance") successChancet -= -Number(b[2])
+			if (b[1] === "schance") successChancet += Number(b[2])
 		}
 		
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
