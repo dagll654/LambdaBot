@@ -117,7 +117,7 @@ function giftManip(employee, giftID, action) {
 	console.log("Test: ADD")
 	}
 	else if (action === "remove") {
-	if (employee.gifts != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
+	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') {
 		let gifts = employee.gifts.split("|")
 		let gift = gear.gifts.find(g => {return Number(g.id) != Number(giftID)})
 		gifts.filter(g => g.split("/")[1] != giftID)
