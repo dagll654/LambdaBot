@@ -986,8 +986,7 @@ const Discord = require('discord.js')
 								if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
 							}
 							else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
-							/*else if (giftRoll[0] === false && giftRoll[1] === 2) channel.send("Gift test: something broke")
-							console.log("Test Gift Roll")*/
+							console.log("Gift Roll: " + giftRoll.join(", "))
 							if (gifttxt != "") channel.send(gifttxt)
 						}
 						}
