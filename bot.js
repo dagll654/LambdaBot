@@ -979,11 +979,16 @@ const Discord = require('discord.js')
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
 						if (abno(arrg[1]).gift === "true") {
+							gifttxt = ""
 							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
-							if (giftRoll[0] === true) channel.send("Gift test: true; " + giftRoll[1])
-							else if (giftRoll[0] === false && giftRoll[1] === 1) channel.send("Gift test: could not give")
-							else if (giftRoll[0] === false && giftRoll[1] === 2) channel.send("Gift test: something broke")
-							console.log("Test Gift Roll")
+							if (giftRoll[0] === true) {
+								gifttxt = "Rolled the gift!";
+								if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
+							}
+							else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
+							/*else if (giftRoll[0] === false && giftRoll[1] === 2) channel.send("Gift test: something broke")
+							console.log("Test Gift Roll")*/
+							if (gifttxt != "") channel.send(gifttxt)
 						}
 						}
 						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	

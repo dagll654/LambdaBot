@@ -149,27 +149,30 @@ exports.affstat = function(abn, stat, employee) {
 }
 
 exports.gift = function(employee, abnoID, result) {
+	let gRRes = [false, 0]
 	switch (Number(abnoID)) {
 		case 1:
-			if (result["mood"] === 2) {
-			let gift = gear.gifts.find(g => g.id === abnoID)
-			let gifts = employee.gifts.split("|")
-			if (roll(20) > 0) {
-			if (gifts.some(g => g.startsWith(gift.slot)) === false) {
-			giftManip(employee, abnoID, "add")
-			return [true, 0]
-			} else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
-				giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
-				giftManip(employee, abnoID, "add")
-				return [true, 1]
-				} else return [false, 1]
-			} else return [false, 0]
-			} else return [false, 0]
+		if (result["mood"] === 2) gRRes = [true, 0]
 		break
-		
+		case 3:
+		if (result["mood"] === 2 && roll(20) === 20) gRRes = [true, 0]
+		break
 		
 		default: return [false, 2]
 	}
+	
+	if (gRRes[0] === true) {
+	let gift = gear.gifts.find(g => g.id === abnoID)
+	let gifts = employee.gifts.split("|")
+	if (gifts.some(g => g.startsWith(gift.slot)) === false)	giftManip(employee, abnoID, "add")
+	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
+	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
+	giftManip(employee, abnoID, "add")
+	gRRes = [true, 1]
+	} else gRRes = [false, 1]
+	}
+	
+	return gRRes
 }
 
 
