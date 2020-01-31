@@ -700,7 +700,7 @@ const Discord = require('discord.js')
 			case -2: dMult = 1.2; break;
 			case -3: dMult = 1.5; break;
 			case -4: dMult = 2; break;
-			case -5: dMult = roll(10); break;
+			case -5: dMult = roll(100); break;
 			default: dMult = 1; break;
 		}
 		return (dMult * res)
@@ -1997,8 +1997,8 @@ const Discord = require('discord.js')
 									break
 									
 									case "bulletshop":
-										let hpCost = gear.items.find(i => i.name === "hpbullet")
-										let spCost = gear.items.find(i => i.name === "spbullet")
+										let hpCost = gear.items.find(i => i.name === "hpbullet").cost
+										let spCost = gear.items.find(i => i.name === "spbullet").cost
 										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${hpCost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${spCost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
 										if (["hp", "sp"].includes(mr.split(" ")[0])) {
 										mr0 = mr.split(" ")[0]
