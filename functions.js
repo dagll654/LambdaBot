@@ -163,7 +163,7 @@ exports.gift = function(employee, abnoID, result) {
 		break
 		
 		
-		default: return [false, 0]
+		default: return [false, 2]
 	}
 }
 
