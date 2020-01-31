@@ -151,13 +151,15 @@ exports.affstat = function(abn, stat, employee) {
 exports.gift = function(employee, abnoID, result) {
 	switch (Number(abnoID)) {
 		case 1:
-			if (result["mood"] === 2)
+			if (result["mood"] === 2) {
+			console.log("Gift giving fail?")
 			if (roll(20) > 0) {
 			if (employee.gifts.split("|").some(g => g.startsWith("brooch1")) === false) {
 			giftManip(employee, abnoID, "add")
 			return [true, 0]
 			} else return [false, 1]
 			} else return [false, 0]
+			} else console.log("Gift giving false?")
 		break
 		
 		
