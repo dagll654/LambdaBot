@@ -159,11 +159,11 @@ const Discord = require('discord.js')
 	}
 	
 	// Gifts:
-	// 0/brooch1 | 1/brooch2 | 3/head1 | 4/head2 | 5/mouth1 | 6/mouth2 | 7/hand1 | 8/hand2 | 9/eye | 10/face | 11/cheek | 12/back1 | 13/back2
+	// brooch1 | brooch2 | head1 | head2 | mouth1 | mouth2 | hand1 | hand2 | eye | face | cheek | back1 | back2
 	
 	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
 	class emp {
-		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = 0, inventory = "", luck = 0) {
+		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
 			this.id = id
 			this.tag = tag
 			this.hp = hp/100
@@ -851,7 +851,6 @@ const Discord = require('discord.js')
 			let b = buffs.find(b => b[0] === arrg[1])
 			if (b[1] === "schance") successChancet += Number(b[2])
 		}
-		
 		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
 		console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
 		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
@@ -1245,6 +1244,12 @@ const Discord = require('discord.js')
 					.setDescription("Everyone is welcome to participate in the annual No Nut November event. Yes, it's now annual. Don't ask me why. Everyone willing to participate should react with a <:yeahboy:608361227130896384>, everyone that has already failed - react with <:angelaTits2:608813572662755338><:angelaTits1:608813588228079626>.")
 					ch.send({embed})
 					.catch(console.error)
+					break
+				case "gifttest1":
+					fn.debug(employee(getUser("quack").id), 3, "add")
+					break
+				case "gifttest2":
+					fn.debug(employee(getUser("quack").id), 3, "remove")
 					break
 				case "emojis":
 					var emarr = emojiid

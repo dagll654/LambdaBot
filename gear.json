@@ -454,9 +454,9 @@
 		{	"id": "3",
 			"name": "Penitence",
 			"slot": "head1",
-			"buffs": 	{
-				"stats": "0|2|0|0",
-				"abnobuffs": "o-03-03/10"
+			"buff": 	{
+				"stat": "0|2|0|0",
+				"list": "o-03-03/0/100"
 						}
 			
 		},
