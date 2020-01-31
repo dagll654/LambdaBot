@@ -451,11 +451,10 @@
 			"name": "The Charm",
 			"slot": "brooch1",
 			"buff": 	{
-				"stat": "100|100|100|100",
+				"stat": "100|100|100|1",
 				"list": "o-01-01/schance/100"
 						}
 			
-		},
 		},
 		{	"id": "2"
 		},
