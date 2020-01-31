@@ -108,7 +108,7 @@ function giftManip(employee, giftID, action) {
 	if (action === "add") {
 	if (employee.gifts != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
 		let gifts = employee.gifts.split("|")
-		let gift = gear.gifts.find(g => Number(id) === Number(giftID))
+		let gift = gear.gifts.find(g => Number(g.id) === Number(giftID))
 		gifts.push(gift.slot + "/" + giftID)
 		if (gifts.length > 1) employee.gifts = gifts.join("|") 
 			else employee.gifts = gifts[0]
@@ -119,7 +119,7 @@ function giftManip(employee, giftID, action) {
 	else if (action === "remove") {
 	if (employee.gifts != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
 		let gifts = employee.gifts.split("|")
-		let gift = gear.gifts.find(g => Number(id) === Number(giftID))
+		let gift = gear.gifts.find(g => Number(g.id) === Number(giftID))
 		gifts.filter(g => g.split("/")[1] != giftID)
 		if (gifts != "") employee.gifts = gifts.join("|")
 		else employee.gifts = ""
