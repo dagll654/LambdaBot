@@ -402,6 +402,7 @@ exports.effectApplication = {
 		return [false]
 	},
 	"workCD": function workCD (employee, boxes) {
+		if (employee.luck > 500) {employee.working = 0; return [false]}
 		let effects = employee.effects.split("|")
 		let CDEffect
 		let fatiguemod = 0
@@ -418,6 +419,7 @@ exports.effectApplication = {
 		return [false]
 	},
 	"fatigue": function fatigue (employee, risk) {
+		if (employee.luck > 500) return [false]
 		let effects = employee.effects.split("|")
 		if (employee.effects === 'null') effects = []
 		let fatigueEffect
