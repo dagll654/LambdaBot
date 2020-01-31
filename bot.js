@@ -683,7 +683,7 @@ const Discord = require('discord.js')
 	}
 	
 	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
-	exports.rDamage = function rDamage(rec, dea, res) {
+	exports.rDamage = function rDamageEX(rec, dea, res) {
 		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
 		if (rec.toUpperCase() === "LUL") levelDifference = 5
 		if (dea.toUpperCase() === "LUL") levelDifference = -5
@@ -706,7 +706,7 @@ const Discord = require('discord.js')
 		}
 		return (dMult * res)
 	}
-	function rDamage(rec, dea, res) return exports.rDamage(rec, dea, res)
+	function rDamage(rec, dea, res) {return exports.rDamage(rec, dea, res)}
 
 	// Function for checking if all the symbols of a given string are included in an array
 	function checkSymbols(str, arr) {
