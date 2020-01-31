@@ -978,7 +978,7 @@ const Discord = require('discord.js')
 						}
 						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
 						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
-						if (abno(arrg[1]).gift === true) {
+						if (abno(arrg[1]).gift === "true") {
 							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).gift, {"mood": moodResult})
 							if (giftRoll[0] === true) channel.send("Gift test: true")
 							else if (giftRoll[0] === false && giftRoll[1] === 1) channel.send("Gift test: could not give")
