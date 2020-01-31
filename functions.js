@@ -110,6 +110,7 @@ function giftManip(employee, giftID, action) {
 		let gifts = employee.gifts.split("|")
 		let gift = gear.gifts.find(g => Number(g.id) === Number(giftID))
 		gifts.push(gift.slot + "/" + giftID)
+		gifts = gifts.filter(g => g != undefined).filter(g => g != "")
 		if (gifts.length > 1) employee.gifts = gifts.join("|") 
 			else employee.gifts = gifts[0]
 		buffs.buff(employee, gift.buff, "give")
@@ -120,7 +121,7 @@ function giftManip(employee, giftID, action) {
 	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') {
 		let gifts = employee.gifts.split("|")
 		let gift = gear.gifts.find(g => {return Number(g.id) === Number(giftID)})
-		gifts = gifts.map(g => {if (g.split("/")[1] != giftID) return g}).filter(s => gear.suits[s] != undefined)
+		gifts = gifts.map(g => {if (g.split("/")[1] != giftID) return g}).filter(g => g != undefined).filter(g => g != "")
 		if (gifts != "") employee.gifts = gifts.join("|")
 		else employee.gifts = ""
 		buffs.buff(employee, gift.buff, "take")
@@ -166,7 +167,13 @@ exports.gift = function(employee, abnoID, result) {
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
 	let gifts = employee.gifts.split("|")
-	if (gifts.some(g => g.startsWith(gift.slot)) === false)	giftManip(employee, abnoID, "add")
+	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
+		console.log("Test 1")
+		console.log(gifts)
+		giftManip(employee, abnoID, "add")
+		console.log("Test 2")
+		console.log(gifts)
+	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
 	console.log("Test 1")
 	console.log(gifts)
