@@ -253,7 +253,7 @@ exports.effects = {
 exports.effectApplication = {
 	"3": function a3 (employee, result, workorder) {
 		if (result > 1) {
-			employee.sp = employee.sp + 3
+			employee.sp = employee.sp + healCalc(employee, "sp", 3)
 		}
 		return [false]
 	},
@@ -276,15 +276,15 @@ exports.effectApplication = {
 		if (result > 0) {
 			switch (workorder) {
 				case "instinct":
-				employee.hp = employee.hp + 1.5
+				employee.hp = employee.hp + healCalc(employee, "hp", 1.5)
 				break
 				case "insight":
-				employee.sp = employee.sp + 1.5
+				employee.sp = employee.sp + healCalc(employee, "sp", 1.5)
 				break
 				case "attachment":
 				case "repression":
-				employee.hp = employee.hp + 1
-				employee.sp = employee.sp + 1
+				employee.hp = employee.hp + healCalc(employee, "hp", 1)
+				employee.sp = employee.sp + healCalc(employee, "sp", 1)
 				break
 			}
 			return [false]
