@@ -1093,6 +1093,7 @@ const Discord = require('discord.js')
 		// Make an array with values equal to the command name and arguments
 		var cmd = mesc.toLowerCase().split(" ")
 		var cmd1 = mesc.split(" ")
+		var cmdClean = msg.cleanContent.split(" ")
 		
 		// Check if the command even exists (if it is in the right guild)
 		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
@@ -1164,8 +1165,8 @@ const Discord = require('discord.js')
 		}
 		
 		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
-			DELTAS.members.get(getUser(cmd[1]).id).removeRoles(DELTAS.members.get(getUser(cmd[1]).id).roles)
-			  .then(() => ch.send(`Banned ${cmd[1]}! Hope you feel great about yourself.`))
+			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(DELTAS.members.get(getUser(cmd[1]).id).roles)
+			  .then(() => ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`))
 			  .catch(console.error)
 		}
 		
