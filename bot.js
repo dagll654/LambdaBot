@@ -1964,7 +1964,7 @@ const Discord = require('discord.js')
 						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
 						}
 						else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
+					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove temperance")
 				break
 				case "ex":
 				case "extraction":
