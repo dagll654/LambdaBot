@@ -1170,8 +1170,15 @@ const Discord = require('discord.js')
 			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
 			  .then(() => ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`))
 			  .catch(console.error)
-			wait(5000).then(() => DELTAS.members.get(getUser(cmdClean[1]).id).addRoles(roles.map(r => DELTAS.members.get(getUser(cmdClean[1]).id).roles.some(mr => mr.id === r.id) === false))
-			  .catch(console.error))
+			wait(5000).then(() => {
+				let mem = DELTAS.members.get(getUser(cmd[1]).id)
+				let backr = []
+				roles.forEach(r => {
+					if (mem.roles.includes(r) === false) backr.push(r)
+				})
+				if (backr != []) mem.addRoles(backr)
+								.catch(console.error)
+			})
 		}
 		
 		// Debug commands
