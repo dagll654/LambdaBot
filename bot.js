@@ -1168,12 +1168,51 @@ const Discord = require('discord.js')
 			let amt
 			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
 			else amt = 60
+			if (amt > 120) {
+				ch.send(`Can't ban for longer than 120 seconds :P.`)
+				return
+			}
+			if (amt < 0) {
+				ch.send(`Can't ban for less than 0 seconds :P.`)
+				return
+			}
 			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
 			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
 				.then(() => {ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`); 
 				DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214')
 				})
+				.catch(console.error)
+			wait(amt*1000).then(() => {
+				let mem = DELTAS.members.get(getUser(cmd[1]).id)
+				let memr = mem.roles.array().map(r => r.id)
+				let backr = []
+				roles.forEach(r => {
+					if (memr.some(mr => mr === r.id) === false) backr.push(r)
+				})
+				if (backr != []) mem.addRoles(backr).then(() => 
+				DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214'))
+								.catch(console.error)
+				
+			})
+		}
+		
+		if (cmd[0] === '!silentban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240' || msg.author.id === '389226857679159336')) {
+			let amt
+			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
+			else amt = 60
+			if (amt > 120) {
+				ch.send(`Can't ban for longer than 120 seconds :P.`)
+				return
+			}
+			if (amt < 0) {
+				ch.send(`Can't ban for less than 0 seconds :P.`)
+				return
+			}
+			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
+			let mem = DELTAS.members.get(getUser(cmd[1]).id)
+			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
+				.then(() => DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214'))
 				.catch(console.error)
 			wait(amt*1000).then(() => {
 				let mem = DELTAS.members.get(getUser(cmd[1]).id)
