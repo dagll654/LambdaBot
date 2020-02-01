@@ -1178,7 +1178,7 @@ const Discord = require('discord.js')
 			}
 			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
-			if (mem.bot === true) {
+			if (mem.user.bot === true) {
 				ch.send(`Can't ban bots :P.`)
 				return
 			}
@@ -1215,7 +1215,7 @@ const Discord = require('discord.js')
 			}
 			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
-			if (mem.bot === true) {
+			if (mem.user.bot === true) {
 				ch.send(`Can't ban bots :P.`)
 				return
 			}
