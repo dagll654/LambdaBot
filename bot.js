@@ -1176,6 +1176,8 @@ const Discord = require('discord.js')
 				roles.forEach(r => {
 					if (mem.roles.find(mr => mr.id === r.id) === undefined) backr.push(r)
 				})
+				console.log(backr)
+				console.log(roles)
 				if (backr != []) mem.addRoles(backr)
 								.catch(console.error)
 			})
