@@ -180,7 +180,9 @@ exports.gift = function(employee, abnoID, result) {
 	if (gifts) gifts = employee.gifts.split("|")
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
+		console.log(gifts)
 		giftManip(employee, abnoID, "add")
+		console.log(gifts)
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
