@@ -1168,9 +1168,10 @@ const Discord = require('discord.js')
 			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
 			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
-				.then(() => ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`))
+				.then(() => {ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`); 
+				DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214')
+				})
 				.catch(console.error)
-			DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214')
 			wait(10000).then(() => {
 				let mem = DELTAS.members.get(getUser(cmd[1]).id)
 				let memr = mem.roles.array().map(r => r.id)
