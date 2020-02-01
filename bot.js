@@ -1164,7 +1164,7 @@ const Discord = require('discord.js')
 		}
 		
 		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
-			getUser(cmd[1]).kick()
+			ESERV.members.get(getUser(cmd[1]).id).kick()
 			  .then(() => ch.send(`Banned ${cmd[2]}! Hope you feel great about yourself.`))
 			  .catch(console.error)
 		}
