@@ -78,12 +78,14 @@ const Discord = require('discord.js')
 	}
 	
 	function healCalc(employee, pts, amt) {
-		let buffs = employee.bufflist.split("|").map(i => i.split("/"))
+		let buffs 
+		if (employee.bufflist === undefined || employee.bufflist === 'undefined' || employee.bufflist === "") buffs = []
+		else buffs = employee.bufflist.split("|").map(i => i.split("/"))
 		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
 			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
 			console.log("Heal Buff Test")
-			return amt * (1 + b[3])
+			return amt * (1 + Number(b[3]))
 		} else return amt
 	}
 	
@@ -1693,12 +1695,12 @@ const Discord = require('discord.js')
 											else {
 											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
 											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
-											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${15*Number(mr.split(" ")[1])} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[1])} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
 											}
 										}
 										else {
 										fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)
-										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (15 ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
 										}										
 									}
 									else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[0].toUpperCase()} bullets.`)
@@ -1852,12 +1854,12 @@ const Discord = require('discord.js')
 							else {
 							for (i = 0; i < Number(mr.split(" ")[3]); i++) 
 							{fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)}
-							cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${15*Number(mr.split(" ")[3])} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+							cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[3]))} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
 							}
 						}
 						else {
 						fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
-						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (15 ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
 						}										
 					}
 					else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
