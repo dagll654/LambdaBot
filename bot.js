@@ -1165,6 +1165,9 @@ const Discord = require('discord.js')
 		}
 		
 		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
+			let amt
+			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
+			else amt = 60
 			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
 			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
@@ -1172,7 +1175,7 @@ const Discord = require('discord.js')
 				DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214')
 				})
 				.catch(console.error)
-			wait(10000).then(() => {
+			wait(amt*1000).then(() => {
 				let mem = DELTAS.members.get(getUser(cmd[1]).id)
 				let memr = mem.roles.array().map(r => r.id)
 				let backr = []
