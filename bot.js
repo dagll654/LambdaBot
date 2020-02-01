@@ -1178,9 +1178,10 @@ const Discord = require('discord.js')
 				roles.forEach(r => {
 					if (memr.some(mr => mr === r.id) === false) backr.push(r)
 				})
-				if (backr != []) mem.addRoles(backr)
+				if (backr != []) mem.addRoles(backr).then(() => 
+				DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214'))
 								.catch(console.error)
-				DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
+				
 			})
 		}
 		
