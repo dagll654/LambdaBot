@@ -29,7 +29,10 @@
 	}
 	
 	function healCalc(employee, pts, amt) {
-		let buffs = employee.bufflist.split("|").map(i => i.split("/"))
+		
+		let buffs 
+		if (employee.bufflist === undefined || employee.bufflist === 'undefined' || employee.bufflist === "") buffs = []
+		else buffs = employee.bufflist.split("|").map(i => i.split("/"))
 		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
 			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
