@@ -1164,7 +1164,7 @@ const Discord = require('discord.js')
 			} else {ch.send("**" + msg.author.tag + "**, " + "Emoji not found.")}
 		}
 		
-		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
+		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240' || msg.author.id === '389226857679159336')) {
 			let amt
 			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
 			else amt = 60
