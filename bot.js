@@ -1163,7 +1163,7 @@ const Discord = require('discord.js')
 			} else {ch.send("**" + msg.author.tag + "**, " + "Emoji not found.")}
 		}
 		
-		if (cmd[0] === 'n' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
+		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
 			DELTAS.members.get(getUser(cmd[1]).id).removeRoles(DELTAS.members.get(getUser(cmd[1]).id).roles)
 			  .then(() => ch.send(`Banned ${cmd[1]}! Hope you feel great about yourself.`))
 			  .catch(console.error)
