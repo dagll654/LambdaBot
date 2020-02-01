@@ -1695,12 +1695,12 @@ const Discord = require('discord.js')
 											else {
 											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
 											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
-											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[1])} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[1]))} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
 											}
 										}
 										else {
 										fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)
-										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
+										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[0]+"heal"])}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
 										}										
 									}
 									else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[0].toUpperCase()} bullets.`)
@@ -1859,7 +1859,7 @@ const Discord = require('discord.js')
 						}
 						else {
 						fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
-						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15} ${jn[mr.split(" ")[2]+"heal"])}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
 						}										
 					}
 					else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
