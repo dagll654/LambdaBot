@@ -1171,7 +1171,7 @@ const Discord = require('discord.js')
 			  .then(() => ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`))
 			  .catch(console.error)
 			wait(10000).then(() => {
-				let mem = DELTAS.members.get(getUser(cmd[1]).id).roles.array.map(r => r.id)
+				let mem = DELTAS.members.get(getUser(cmd[1]).id).roles.array().map(r => r.id)
 				let backr = []
 				roles.forEach(r => {
 					if (mem.some(mr => mr === r.id) === false) backr.push(r)
