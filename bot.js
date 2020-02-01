@@ -77,6 +77,16 @@ const Discord = require('discord.js')
 		else {return 5}
 	}
 	
+	function healCalc(employee, pts, amt) {
+		let buffs = employee.bufflist.split("|").map(i => i.split("/"))
+		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
+		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
+			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts)))
+			console.log("Heal Buff Test")
+			return amt * (1 + b[3])
+		} else return amt
+	}
+	
 	function sSlotText(text) {
 		let technical = ['brooch1', 'brooch2', 'head1', 'head2', 'mouth1', 'mouth2', 'hand1', 'hand2', 'eye', 'face', 'cheek', 'back1', 'back2']
 		let normal = ['Brooch 1', 'Brooch 2', 'Head 1', 'Head 2', 'Mouth 1', 'Mouth 2', 'Hand 1', 'Hand 2', 'Eye', 'Face', 'Cheek', 'Back 1', 'Back 2']
@@ -429,11 +439,11 @@ const Discord = require('discord.js')
 		if (dbvars[3] === 0) {
 			dbployees.forEach(e => {
 				if (e.working === 0) {
-				if (e.hp < e.fortL) {e.hp = Number(e.hp) + Math.ceil(e.fortL/60) + e.fortL/60}
+				if (e.hp < e.fortL) {e.hp = Number(e.hp) + healCalc(e, "hp", Math.ceil(e.fortL/60) + e.fortL/60)}
 				if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
 				if (e.hp < -0.5*e.fortL) {e.hp = -0.5*e.fortL}
 				let sp = e.sp
-				if (e.sp < e.prudL) {e.sp = Number(e.sp) + Math.ceil(e.prudL/60) + e.prudL/60}
+				if (e.sp < e.prudL) {e.sp = Number(e.sp) + healCalc(e, "sp", Math.ceil(e.prudL/60) + e.prudL/60)}
 				if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
 				if (e.sp < -0.5*e.prudLL) {e.hp = -0.5*e.prudL}
 				if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {

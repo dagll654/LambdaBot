@@ -28,6 +28,16 @@
 		else {return "V"}
 	}
 	
+	function healCalc(employee, pts, amt) {
+		let buffs = employee.bufflist.split("|").map(i => i.split("/"))
+		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
+		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
+			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts)))
+			console.log("Heal Buff Test")
+			return amt * (1 + b[3])
+		} else return amt
+	}
+	
 	function useConsumable(employee, cns) {
 		let inv = employee.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
 		console.log(inv)
@@ -471,12 +481,12 @@ exports.effectApplication = {
 		}
 	},
 	"hpbullet": function hpbullet (employee) {
-		employee.hp = Number(employee.hp) + 15 
+		employee.hp = Number(employee.hp) + healCalc(employee, "hp", 15) 
 		if (employee.hp > employee.stats[0]) employee.hp = employee.stats[0]
 		useConsumable(employee, "hpbullet")
 	},
 	"spbullet": function spbullet (employee) {
-		employee.sp = Number(employee.sp) + 15 
+		employee.sp = Number(employee.sp) + healCalc(employee, "sp", 15) 
 		if (employee.sp > employee.stats[1]) employee.sp = employee.stats[1]
 		useConsumable(employee, "spbullet")
 		console.log("Used an SP bullet")

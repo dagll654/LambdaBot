@@ -139,7 +139,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 5, 8],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "combat"
 			},
 			{
 				"name": "O-01-04: 'The Queen of Hatred'",
@@ -167,7 +168,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 17, 27],
 				"effect": [true],
-				"affstat": [true, "fortitude", "down", 5, 10]
+				"affstat": [true, "fortitude", "down", 5, 10],
+				"gift": "true"
 			},
 			{
 				"name": "F-04-83: 'The Fairy Festival'",
