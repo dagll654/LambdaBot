@@ -34,7 +34,7 @@
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
 			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
 			console.log("Heal Buff Test")
-			return amt * (1 + b[3])
+			return amt * (1 + Number(b[3]))
 		} else return amt
 	}
 	
