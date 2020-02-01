@@ -169,7 +169,7 @@
 				"mood": [0, 17, 27],
 				"effect": [true],
 				"affstat": [true, "fortitude", "down", 5, 10],
-				"gift": "true"
+				"gift": "false"
 			},
 			{
 				"name": "F-04-83: 'The Fairy Festival'",
