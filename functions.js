@@ -32,7 +32,7 @@
 		let buffs = employee.bufflist.split("|").map(i => i.split("/"))
 		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
-			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts)))
+			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
 			console.log("Heal Buff Test")
 			return amt * (1 + b[3])
 		} else return amt
