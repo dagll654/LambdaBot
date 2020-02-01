@@ -1165,9 +1165,12 @@ const Discord = require('discord.js')
 		}
 		
 		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240')) {
-			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(DELTAS.members.get(getUser(cmd[1]).id).roles)
+			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
+			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
 			  .then(() => ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`))
 			  .catch(console.error)
+			wait(15000).then(() => DELTAS.members.get(getUser(cmdClean[1]).id).addRoles(roles)
+			  .catch(console.error))
 		}
 		
 		// Debug commands
