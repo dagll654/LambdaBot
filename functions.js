@@ -177,7 +177,7 @@ exports.gift = function(employee, abnoID, result) {
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
 	let gifts
-	if (gifts) gifts = employee.gifts.split("|")
+	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') gifts = employee.gifts.split("|")
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
 		console.log(gifts)
