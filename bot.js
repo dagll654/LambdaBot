@@ -1176,7 +1176,7 @@ const Discord = require('discord.js')
 				ch.send(`Can't ban for less than 0 seconds :P.`)
 				return
 			}
-			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
+			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles.filter(r => r.name != "PINK BOY")
 			let mem = DELTAS.members.get(getUser(cmd[1]).id)
 			if (mem.user.bot === true) {
 				ch.send(`Can't ban bots :P.`)
