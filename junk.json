@@ -206,6 +206,12 @@
 					"V",
 					"EX"
 					],
+	"damageTypes": 	[
+					"red",
+					"white",
+					"black",
+					"pale"
+					],
 	"bufflist": {
 	"department": {
 		"Control Team": [{"list": "teamct/0"}, {"list": "teamct/1"}], 

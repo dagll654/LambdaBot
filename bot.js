@@ -37,10 +37,6 @@ const Discord = require('discord.js')
 	var dbids = []
 	var abnos = []
 	var dbnos = []
-	 var today = new Date()
-	 var employees = []
-	 var dbployees = []
-	 var dbids = []
 	 x = 0 
 	 x1 = 0
 	 dbg1 = 0
@@ -232,7 +228,7 @@ const Discord = require('discord.js')
 	
 	
 	// Function for finding the dep role among a member's roles
-	function drFind(mmbr) {
+	/*function drFind(mmbr) {
 		ret = ""
 		if (ncdeproles.every(t => mmbr.roles.map(r => r.name).includes(t) === false) === false) {
 		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
@@ -247,6 +243,10 @@ const Discord = require('discord.js')
 			}
 		}}
 		return ret
+	}*/
+	function drFind(member) {
+		let reg = new RegExp(`\\s{1}Team`)
+		return member.roles.find(r => reg.test(role)).name
 	}
 	
 	async function queryAndWait(q, connection) {
@@ -356,9 +356,7 @@ const Discord = require('discord.js')
 		abnos.push({"id": abno(a).ego, "tag": a})
 		})
 		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-		result.forEach(r => dbnos.push(r))		
-		console.log(dbnos)
-		console.log(abnos)
+		result.forEach(r => dbnos.push(r))
 		let abnodbpush = []
 		abnos.forEach(a => {
 		if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
@@ -703,7 +701,7 @@ const Discord = require('discord.js')
 	}
 	
 	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
-	exports.rDamage = function rDamageEX(rec, dea, res) {
+	exports.rDamage = function rDamageEX(rec, dea, res = 1) {
 		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
 		if (rec.toUpperCase() === "LUL") levelDifference = 5
 		if (dea.toUpperCase() === "LUL") levelDifference = -5
