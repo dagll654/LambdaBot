@@ -246,7 +246,9 @@ const Discord = require('discord.js')
 	}*/
 	function drFind(member) {
 		let reg = new RegExp(`\\s{1}Team`)
+		if member.roles.some(r => reg.test(r))
 		return member.roles.find(r => reg.test(r)).name
+		else return undefined
 	}
 	
 	async function queryAndWait(q, connection) {
