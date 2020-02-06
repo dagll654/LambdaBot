@@ -605,7 +605,7 @@ function updateData() {
 			let lValue = e[prop]
 			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
 			if (eActual[prop] != lValue && Number(eActual[prop]) != lValue) {					
-			pushSmall.push("`" + prop + "` = '" + tempval + "'")
+			pushSmall.push("`" + prop + "` = '" + lValue + "'")
 			}
 		}
 		}
