@@ -1165,7 +1165,6 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
 				statsString.push("		`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
 			}
-			console.log(testArray)
 			statsString[1] += "\n"
 			let subPointString = []
 			for (m = 0; m < 4; m++) {
