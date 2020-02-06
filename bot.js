@@ -1215,17 +1215,18 @@ statsString.join(""),
 			let weapons // Weapon text objects
 	
 			function updateInventories(d = 0) {
+				inventoryS = cUser.inventorys.split("|")
+				inventoryW = cUser.inventoryw.split("|")
 				if (d = 0) {
-				inventoryS = cUser.inventorys.split("|").unshift("0").map((s, i) => 
-				{return {"id": Number(s), "index": i+1, "type": "suit"}})
-				inventoryW = cUser.inventoryw.split("|").unshift("0").map((w, i) => 
-				{return {"id": Number(w), "index": i+inventoryS.length, "type": "weapon"}})
-				} else {
-				inventoryS = cUser.inventorys.split("|").map((s, i) => 
-				{return {"id": Number(s), "index": i+1, "type": "suit"}})
-				inventoryW = cUser.inventoryw.split("|").map((w, i) => 
-				{return {"id": Number(w), "index": i+inventoryS.length, "type": "weapon"}})
+				inventoryS.unshift("0")
+				inventoryW.unshift("0")
 				}
+				inventoryS.map((s, i) => 
+				{return {"id": Number(s), "index": i+1, "type": "suit"}})
+				inventoryW.map((w, i) => 
+				{return {"id": Number(w), "index": i+inventoryS.length+1, "type": "weapon"}})
+				
+			
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
