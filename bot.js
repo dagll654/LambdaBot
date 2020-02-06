@@ -1148,7 +1148,7 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (m = 0; m < 4; m++) {
-				console.log(cUser.stats)
+				console.log(statLVN(cUser.stats[m]))
 				let statLV = "LV  "
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
