@@ -527,28 +527,6 @@ function work(employee1, abno1, order1, channel) {
 	console.log(rollArr)
 }
 
-
-
-
-
-client.on('ready', () => {
-
-console.log(cEmp)
-
-bch = DELTAS().channels.get("607558082381217851");
-// Bot readiness announcement, both in the log, #botspam and in my DMs
-console.log('I am ready!')
-bch.send("Bot started.")
-client.users.get('143261987575562240').send('Bot started up succesfully.')
-// Setting the bot's current game to 'try !help'
-client.user.setPresence({
-	game: {
-		name: 'try !help',
-		type: "Playing",
-		url: "https://tinyurl.com/rollntroll"
-	}
-})	
-
 // Push an employee into an array
 function eArrPush(e, arr = dbployees) {
 	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
@@ -683,14 +661,14 @@ function databaseEmployees() {
 function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
 		dbployees.forEach(e => {
-			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60).catch(console.error)
-			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60).catch(console.error)
+			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
-		})
+		}).catch(console.error)
 		if (e.drFind) {
 			if (exists(e.tjtime) === false) e.tjtime = Date.now()
 			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
@@ -718,6 +696,26 @@ async function globalTicker() {
 			
 	}
 }
+
+client.on('ready', () => {
+
+console.log(cEmp)
+
+bch = DELTAS().channels.get("607558082381217851");
+// Bot readiness announcement, both in the log, #botspam and in my DMs
+console.log('I am ready!')
+bch.send("Bot started.")
+client.users.get('143261987575562240').send('Bot started up succesfully.')
+// Setting the bot's current game to 'try !help'
+client.user.setPresence({
+	game: {
+		name: 'try !help',
+		type: "Playing",
+		url: "https://tinyurl.com/rollntroll"
+	}
+})	
+
+
 
 // Get employee data from the database
 databaseEmployees()
@@ -1148,19 +1146,19 @@ switch (ciCmd[0]) {
 				})
 			} else effectArray = ["none"]
 			let dead = ["alive", "dead"][Number(cUser.dead)]
-			let statsString = [0, 0, 0, 0]
-			statsString .forEach((l, i) => {
+			let statsString = []
+			[0, 0, 0, 0].forEach((l, i) => {
 				let statLV = `LV ${cUser.statLevels(1)[i]}`
 				let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
 				statLV = new Array(6 - statLV.length).fill(" ").join("") + statLV
 				if (statCount.length < 6)
 				statCount += new Array(6 - statCount.length).fill(" ").join("")
-				l = "		`" + statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`"
+				statsString.push("		`" + statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`")
 			})
 			statsString[1] += "\n"
-			let subPointString = [0, 0, 0, 0]
-			subPointString.forEach((p, i) => {
+			let subPointString = []
+			[0, 0, 0, 0].forEach((p, i) => {
 				let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (i = 3) mult = 3
@@ -1168,7 +1166,7 @@ switch (ciCmd[0]) {
 				let subPointCount = cUser.subPointsArray[i] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 				subPointCount += new Array(7 - subPointCount.length).fill(" ").join("")
-				p = "	" + jn[jn.stats[i]] + " `" + subPointCount + "`"
+				subPointString.push("	" + jn[jn.stats[i]] + " `" + subPointCount + "`")
 			})
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
