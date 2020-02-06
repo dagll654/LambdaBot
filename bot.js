@@ -1199,7 +1199,7 @@ statsString.join(""),
 			let weapons // Weapon text objects
 	
 			function updateInventories(d = 0) {
-				if d = 0 {
+				if (d = 0) {
 				inventoryS = cUser.inventorys.split("|").unshift("0").map((s, i) => 
 				{"id": Number(s), "index": i+1, "type": "suit"})
 				inventoryW = cUser.inventoryw.split("|").unshift("0").map((w, i) => 
