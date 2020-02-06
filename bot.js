@@ -444,7 +444,7 @@ function work(employee1, abno1, order1, channel) {
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
+	console.log(`Success chance for ${employee.tag} on ${arrg[1]}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
 	let peboxes = 0
@@ -463,7 +463,7 @@ function work(employee1, abno1, order1, channel) {
 		else rollArr.push([cRoll, cRoll > successChance])
 		if (cRoll > successChance && luckRoll > luck) {
 			neboxes++
-			let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
+			let dmg = (roll(cAbno.damage[1] - cAbno.damage[0] + 1) - 1) + cAbno.damage[0]
 			let dIndex = cAbno.dtype.indexOf(1)
 			let aDmg = e.damage(cAbno.risk, jn.damageTypes[dIndex], dmg)
 			let aDmgStr
