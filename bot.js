@@ -668,14 +668,15 @@ function healPulse() {
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
-		})
 		if (e.drFind) {
-			if (exists(e.tjtime) === false) e.tjtime = Date.now()
-			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
-			if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-			fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
-			}
-			}
+		if (exists(e.tjtime) === false) e.tjtime = Date.now()
+		if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
+		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+		fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
+		}
+		}
+		})
+		
 		}
 	}
 }
@@ -1148,8 +1149,8 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (m = 0; m < 4; m++) {
-				console.log(statLVN(cUser.stats[m]))
-				let statLV = "LV  "
+				
+				let statLV = "LV " + jn.statLevels(statLVN(cUser.stats[m]))
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
