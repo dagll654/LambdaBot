@@ -444,7 +444,7 @@ function work(employee1, abno1, order1, channel) {
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(`Success chance for ${employee.tag} on ${arrg[1]}: ${successChance}%`)
+	console.log(`Success chance for ${employee.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
 	let peboxes = 0
