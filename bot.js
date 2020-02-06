@@ -1147,7 +1147,7 @@ switch (ciCmd[0]) {
 			} else effectArray = ["none"]
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
-			for (i = 0; i < 4; i++) {
+			for (m = 0; m < 4; m++) {
 				console.log(cUser.stats)
 				let statLV = "LV "
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
@@ -1155,7 +1155,7 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
 				let stat = jn.stats[i]
 				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`") */
-				statsString.push("		`" + statLV + "` " + i + " `" + i + "`")
+				statsString.push("		`" + statLV + "` " + m + " `" + m + "`")
 			}
 			let testArray = []
 			for (i = 0; i < 10; i++) {testArray.push(i)}
@@ -1191,9 +1191,9 @@ statsString.join(""),
 			ch.send(messageArray.join(""))
 			} break 
 			
-			case "i":
+			
 			case "inv":
-			case "inventory": {
+			case "i": {
 			
 			function inv(emp, channel) {
 			cUser = emp
@@ -1222,6 +1222,9 @@ statsString.join(""),
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
+			suits = inventoryS.map(s => `${suit(s.id)}`)
+			weapons = inventoryW.map(w => `${weapon(w.id)}`)
+			cCh.send(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
@@ -1358,7 +1361,7 @@ statsString.join(""),
 			}
 		
 			menuNavigationInventory()
-			}
+			}}
 			inv(dbployees.e(msg.author.id), msg.channel)
 			} break
 			
