@@ -799,15 +799,15 @@ msg = tempMessage
 // If the message's author is a bot, just ignore it
 if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
 
+// Handy vars
+ch = msg.channel
+mesc = msg.content
+
 // Evil logger so I can see everything that goes on at the sever >:Dc
 if (ch.type != 'dm') {
 let log = msg.createdAt + msg.channel.name + " " + msg.author.username + ": " + msg.content
 console.log(log);
 }
-
-// Handy vars
-ch = msg.channel
-mesc = msg.content
 
 // Vote stuff - I positively cannot be arsed to rewrite this shite
 if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) && (msg.author.id === '607520778178527246')) {
