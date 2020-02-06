@@ -533,7 +533,9 @@ function work(employee1, abno1, order1, channel) {
 
 
 client.on('ready', () => {
-	
+
+console.log(cEmp)
+
 bch = DELTAS().channels.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
