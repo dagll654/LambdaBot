@@ -1128,7 +1128,7 @@ switch (ciCmd[0]) {
 			} else cUser = dbployees.e(msg.author.id)
 			} else cUser = dbployees.e(msg.author.id)
 			if (exists(cUser.tjtime) === false) cUser.tjtime === Date.now()
-			if (cUser.buffListArray.some(b => b[0] === teamtr)) 
+			if (cUser.buffListArray.some(b => b[0] === "teamtr")) 
 				expMod = Math.pow(2, Number(cUser.buffListArray.find(b => b[0] === teamtr)[1]))
 			let effectArray
 			if (exists(cUser.effectArray)) {
