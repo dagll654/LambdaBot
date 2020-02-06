@@ -183,7 +183,7 @@ class cEmp {
 			if (regBuff.test(b.join("/"))) amt += Number(b[3])*amount
 		})
 		}
-		employee[points.toLowerCase()] += Number(amt)
+		this[points.toLowerCase()] += Number(amt)
 		return Number(amt)
 	}
 	damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
