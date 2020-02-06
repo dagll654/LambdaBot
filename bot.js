@@ -1160,7 +1160,7 @@ switch (ciCmd[0]) {
 			let statsString = []
 			for (m = 0; m < 4; m++) {
 				
-				let statLV = "LV " + jn.statLevels(statLVN(cUser.stats[m]))
+				let statLV = "LV " + statLVL(cUser.stats[m])
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
