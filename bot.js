@@ -32,10 +32,10 @@ const qte = jn.qte // All quotes
 const qte2 = "Lambdadelta Quote #"
 const cmds = jn.cmds // All commands
 const b3ck = '```'
+Array.prototype.ids = function() {return this.map(e => e.id)}
+Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
 var dbployees = [] // Later filled with all employee data from the database and used everywhere
-dbployees.e = function(id) {return this.find(e => e.id === id)}
-dbployees.ids = function() {return this.map(e => e.id)}
 var abnos = [] // Later filled with all workable abnormalities
 var dbnos = [] // Later filled with all abno data from the database
 // Debug variables
