@@ -42,7 +42,7 @@ var dbnos = [] // Later filled with all abno data from the database
 debugVariables = {
 	'debug_duck': 0, // /shrug
 	'debug_say': 0, // If 0, !say is off
-	'debug_vote': 0, // No idea
+	'voting': 0, // No idea
 	'heal_pulser': 1, // If 1, the heal pulser is on
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
 	'effect_log': 999 // Rules how often the effect on employees are logged
@@ -321,14 +321,14 @@ function globalEffectTick() {
 		if (exists(effectsNew)) {
 		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
 		} else e.effects = 'null'
-		if (efflog >= dbvars[5] && e.effects != "null") {
+		if (efflog >= debugVariables[5] && e.effects != "null") {
 		console.log(e.tag + " " + e.effects)
 		console.log(e.tag + " " + effectsNew)
 		}
 		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
 	}
 	})
-	if (efflog >= dbvars["effect_log"]) efflog = 0
+	if (efflog >= debugVariables["effect_log"]) efflog = 0
 }
 
 // Updates the data to the database
@@ -424,7 +424,7 @@ function databaseEmployees() {
 
 // The heal pulse in regenerator rooms
 function healPulse() {
-	if (dbvars.heal_pulser === 1) {
+	if (debugVariables.heal_pulser === 1) {
 		dbployees.forEach(e => {
 			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
 			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
@@ -759,7 +759,7 @@ globalTicker()
 client.on('message', initialMessage => {
 	
 
-if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
+if ((debugVariables.stop === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
 let botPass = 0 // Normally, the bot ignores messages from bots
 
@@ -810,7 +810,7 @@ ch = msg.channel
 mesc = msg.content
 
 // Vote stuff - I positively cannot be arsed to rewrite this shite
-if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
+if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) && (msg.author.id === '607520778178527246')) {
 	voting = 1
 	voteeid = ""
 	mesc.split(" ")[3].split("").forEach(c => {
@@ -819,7 +819,7 @@ if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.autho
 	voteeuser = DELTAS().members.find("id", voteeid)
 	console.log("THIS SHIT " + voteeid)
 	cptxt = drFind(voteeuser)
-	dbvars[2] = 0
+	debugVariables.voting = 0
 	timeout = 1
 	vtd = [] 
 	yee = 0
@@ -1706,7 +1706,7 @@ statsString.join(""),
 						if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
 						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
 						if (DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
-								dbvars[2] = 1
+								debugVariables.voting = 1
 								votingteam = drFind(msg.member)
 								console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 								setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
