@@ -127,7 +127,7 @@ class emp {
 	get defenseArray() {
 		let arr = []
 		for (i = 0; i < 4; i++) {
-		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i]
+		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i])
 		}
 		return arr
 	}
