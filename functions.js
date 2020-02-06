@@ -410,19 +410,19 @@ exports.effectApplication = {
 			return [true, "\n	You have been sucked into the abnormality. We will meet again as stars..."]
 		} else return [false]
 	},
-	"egoChange": function egoChange (employee, index) {
+	"egoChange": function egoChange (employee, level) {
 		effects = employee.effects.split("|")
-		effects.push("1/" + (index + 1) * 60 * 12 + "/E.G.O. adaptation")
+		effects.push("1/" + level * 60 * 12 + "/E.G.O. adaptation")
 		employee.effects = effects.join("|")
 		return [false]
 	},
 	"workCD": function workCD (employee, boxes) {
-		if (employee.luck > 500) {employee.working = 0; return [false]}
+		if (employee.luck > 500) {employee.working = 0; return false}
 		let effects = employee.effects.split("|")
 		let CDEffect
 		let fatiguemod = 0
-		if (effects.some(e => {return e.startsWith("3/")})) {
-			let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
+		if (effects.some(e => e.startsWith("3/"))) {
+			let fArr = effects.find(e => e.startsWith("3/")).split("/")
 			fatiguemod = Math.floor(Number(fArr[3])/3)
 		}
 		let CDEArr = ["2"]
@@ -431,7 +431,7 @@ exports.effectApplication = {
 		CDEffect = CDEArr.join("/")
 		if (employee.effects === 'null') employee.effects = CDEffect
 		else employee.effects += "|" + CDEffect
-		return [false]
+		return false
 	},
 	"fatigue": function fatigue (employee, risk) {
 		if (employee.luck > 500) return [false]

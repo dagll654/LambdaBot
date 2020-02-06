@@ -1,2420 +1,1779 @@
-const Discord = require('discord.js')
- const db = require('mysql')
- 	var pool        = db.createPool({
+// Required stuff
+const Discord = require('discord.js') // Self-explanatory
+const db = require('mysql') // Mysql dependency for accessing the database
+// Additional files
+const abn = require("./abnb.json") // Abnormalities
+const jn = require("./junk.json") // Miscellaneous stuff
+const gear = require("./gear.json") // Gear and items
+const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
+const simpleCombat = require("./simpleCombat.js") // The simple version of combat
+// Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
+var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
 	host: "sql7.freesqldatabase.com",
 	user: "sql7314688",
 	password: process.env.DB_PASS,
 	database: "sql7314688"
-	})
-	pool.getConnection(function (err, connection) {
- const client = new Discord.Client();
-  const { Client, RichEmbed } = require('discord.js')
-  const lambHook = new Discord.WebhookClient(process.env.LAMBDAHOOK_ID, process.env.LAMBDAHOOK_TOKEN)
-  const abn = require("./abnb.json")
-  const jn = require("./junk.json")
-  const gear = require("./gear.json")
-  const fn = require("./functions.js")
-  const simpleCombat = require("./simpleCombat.js")
-  const animojis = [
-			"restartsForDays",
-			"pepanger",
-			"animenacing",
-			"Hod"
-			]
-	const b3ck = "```"
-	const deproles = jn.deproles
-	const ncdeproles = jn.ncdeproles
-	const nccideproles = jn.nccideproles
-	const cdeproles = jn.cdeproles
-	const help1 = jn.help1 
-	const qte = jn.qte
-	const qte2 = "Lambdadelta Quote #"
-	const cmds = jn.cmds
-	var today = new Date()
-	var employees = []
-	var dbployees = []
-	var dbids = []
-	var abnos = []
-	var dbnos = []
-	 x = 0 
-	 x1 = 0
-	 dbg1 = 0
-	 dbvars = [0, 0, 0, 0, 0, 4]
-	 dbvnames = ['debugduck', 'debugsay', 'debugvote', 'dbheal', 'stop', 'efflog']
-	 quotelog = []
-	 votingteam = ""
-	 voting = 0	
-	 efflog = 0
+})
+// Getting a connection
+pool.getConnection(function (err, connection) {
+const client = new Discord.Client()
+const DELTAS = client.guilds.get('607318782624399361') // Lambda's Deltas server
+const bch = DELTAS.channels.get('607558082381217851') // #botspam
+const ESERV = client.guilds.get('513660754633949208') // Emote server for the minigame stuff
+const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role
+const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
+const deproles = jn.deproles // All department role names
+const ncdeproles = jn.ncdeproles // Non-captain role names
+const nccideproles = jn.nccideproles // Case-insensitive role names
+const cdeproles = jn.cdeproles // Captain role names
+const help1 = jn.help1 // Help for all commands
+const qte = jn.qte // All quotes
+const qte2 = "Lambdadelta Quote #"
+const cmds = jn.cmds // All commands
+const b3ck = '```'
+var employees = [] // Later filled with all employees with a department role
+var dbployees = [] // Later filled with all employee data from the database and used everywhere
+dbployees.e = function(id) {return this.find(e => e.id === id)}
+dbployees.ids = function() {return this.map(e => e.id)}
+var abnos = [] // Later filled with all workable abnormalities
+var dbnos = [] // Later filled with all abno data from the database
+// Debug variables
+debugVariables = {
+	'debug_duck': 0, // /shrug
+	'debug_say': 0, // If 0, !say is off
+	'debug_vote': 0, // No idea
+	'heal_pulser': 1, // If 1, the heal pulser is on
+	'stop_all': 0, // If 1, bot accepts no commands except from bot author
+	'effect_log': 999 // Rules how often the effect on employees are logged
+}
+quotelog = []
+votingteam = ""
+voting = 0	
+efflog = 0
 
-	function wait(msc) {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				resolve('resolved')
-			}, msc)
-		})
+let statLevelArray = []// Yes, this is an ass-backwards way of doing this. I don't really care.
+for (i = 30; i < 100; i++) {
+	if (i < 45) statLevelArray.push([2, "II"])
+	else if (i < 65) statLevelArray.push([3, "III"])
+	else if (i < 85) statLevelArray.push([4, "IV"])
+	else if (i < 100) statLevelArray.push([5, "V"])
+}
+
+// Wait
+function wait(msc) {
+	return new Promise(resolve => {
+setTimeout(() => {resolve('resolved')}, msc)
+	})
+}
+
+// Check if something is not assigned a meaningful value
+function exists(v) {
+	return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
+}
+
+{
+
+// Function for finding the dep role among a member's roles
+function drFind(member) {
+	let reg = new RegExp(`\\s{1}Team`)
+	if (member.roles.some(r => reg.test(r.name)))
+	return member.roles.find(r => reg.test(r.name)).name
+	else return undefined
+}
+
+// Employee class
+class emp {
+	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
+		this.id = id
+		this.tag = tag
+		this.hp = hp/100
+		this.sp = sp/100
+		this.fortitude = fortitude
+		this.prudence = prudence
+		this.temperance = temperance
+		this.justice = justice
+		this.suit = suit
+		this.weapon = weapon
+		this.inventorys = inventorys
+		this.inventoryw = inventoryw
+		this.working = Number(working)
+		this.dead = Number(dead)
+		this.balance = Number(balance)
+		this.balancespecific = balancespecific
+		this.subpoints = subpoints
+		this.effects = effects
+		this.buffs = buffs
+		this.defensebuffs = defensebuffs
+		this.bufflist = bufflist
+		this.tjtime = tjtime
+		this.statlimit = statlimit
+		this.gifts = gifts
+		this.inventory = inventory
+		this.luck = roll(10)
 	}
-	
-	// Return the level of a stat
-	function statLVL(stat) {
-		if (stat < 30) {return "I"}
-		else if (stat < 45) {return "II"}
-		else if (stat < 65) {return "III"}
-		else if (stat < 85) {return "IV"}
-		else if (stat < 100) {return "V"}
-		else {return "EX"}
+	get effectArray() {
+		if (exists(this.effects))
+		return this.effects.split("|").map(e => e.split("/"))
+		else return []
 	}
-	// Same, but returns a number
-	function statLVN(stat) {
-		if (stat < 30) {return 1}
-		else if (stat < 45) {return 2}
-		else if (stat < 65) {return 3}
-		else if (stat < 85) {return 4}
-		else {return 5}
+	get subPointsArray() {return this.subpoints.split("|")}
+	get statBuffArray() {return this.buffs.split("|")}
+	get buffListArray() {
+		if (exists(this.bufflist)) return this.bufflist.split("|").map(i => i.split("/"))
+		else return []
 	}
-	
-	function healCalc(employee, pts, amt) {
-		let buffs 
-		if (employee.bufflist === undefined || employee.bufflist === 'undefined' || employee.bufflist === "") buffs = []
-		else buffs = employee.bufflist.split("|").map(i => i.split("/"))
-		if (buffs === undefined || buffs === 'undefined' || buffs === "") return amt
-		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
-			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
-			console.log("Heal Buff Test")
-			return amt * (1 + Number(b[3]))
-		} else return amt
+	get defenseBuffArray() {return this.defensebuffs.split("|").map(b => Number(b))}
+	get defenseArray() {
+		let arr = []
+		for (i = 0; i < 4; i++) {
+		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i]
+		}
+		return arr
 	}
-	
-	function sSlotText(text) {
-		let technical = ['brooch1', 'brooch2', 'head1', 'head2', 'mouth1', 'mouth2', 'hand1', 'hand2', 'eye', 'face', 'cheek', 'back1', 'back2']
-		let normal = ['Brooch 1', 'Brooch 2', 'Head 1', 'Head 2', 'Mouth 1', 'Mouth 2', 'Hand 1', 'Hand 2', 'Eye', 'Face', 'Cheek', 'Back 1', 'Back 2']
-		if (technical.includes(text)) return normal[technical.indexOf(text)]
-		else if (normal.includes(text)) return technical[normal.indexOf(text)]
+	get fortL() {return Number(this.fortitude) + Number(this.statBuffArray[0])} // L stands for "local" by the way
+	get prudL() {return Number(this.prudence) + Number(this.statBuffArray[1])}
+	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
+	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
+	statLevels: function (textForm = 0) { // Stat level
+	let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
+	let statLevelsArray = []
+	for (i = 0; i < 4; i++) {
+		if (statArray[i] > 29 && statArray[i] < 100) statLevelsArray.push(statLevelArray[textForm]) // If 29 < stat < 100 then it's not a fringe case, just get the value
+		else if (statArray[i] < 30) statLevelsArray.push([1, "I"][textForm]) // Fringe case of smol value
+		else statLevelsArray.push([5, "EX"][textForm]) // Fringe case of big value
+	}
+	return statLevelsArray
+	}
+	get employeeLevel() {
+		statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
+		if (statcount < 6) return 1
+		else if (statcount < 9) return 2
+		else if (statcount < 12) return 3
+		else if (statcount < 16) return 4
+		else return 5
+	}
+	get drFind() { // Returns the department role's name
+		let reg = new RegExp(`\\s{1}Team`)
+		if (DELTAS.members.get(this.id).roles.some(r => reg.test(r.name)))
+		return DELTAS.members.get(this.id).roles.find(r => reg.test(r.name)).name
 		else return undefined
 	}
-	
-	function getBox(emp, abn) {
-		let balances = emp.balancespecific.split(" ")
-		let bal = balances.find(b => {return b.startsWith(abn)})
-		let bal2 = bal.split("|")
-		return bal2[1]
+	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
+	getBox: function (abno) {
+		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
 	}
-	
-	function abno(code) {
-		return abn.abn[abn.lista.indexOf(code.toLowerCase())]
-	}
-	
-	function getItem(name) {
-		return gear.items.find(i => i.name === name)
-	}
-	
-	function invFullness(emp) {
-		let iN = 0
-		if ((emp.inventorys != undefined) && (emp.inventorys != 'undefined') && (emp.inventorys != '')) {
-			emp.inventorys.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
+	get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, this.employeeLevel]}
+	get statsReal() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}
+	heal: function (points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
+		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
+		let buffs = this.buffListArray
+		let amt = Number(amount)
+		if (exists(buffs)) {
+		let regBuff = new RegExp(`misc/healbuff/${points.toLowerCase()}`)
+		buffs.forEach(b => {
+			if (regBuff.test(b.join("/"))) amt += Number(b[3])*amount
+		})
 		}
-		if ((emp.inventoryw != undefined) && (emp.inventoryw != 'undefined') && (emp.inventoryw != '')) {
-			emp.inventoryw.split("|").forEach(bleh => {if ((bleh != undefined) && (bleh != 'undefined')) {iN++}})
+		employee[points.toLowerCase()] += Number(amt)
+		return Number(amt)
+	}
+	damage: function (risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
+		let amt = amount
+		let type = typeL
+		if (Array.isArray(type)) type = type[roll(type.length)] 
+		switch (type.toLowerCase()) {
+			case "red":
+			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			break
+			case "white":
+			amt = Number(amt)*Number(this.defenseArray[1])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.sp -= amt
+			break
+			case "black":
+			amt = Number(amt)*Number(this.defenseArray[3])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			this.sp -= amt
+			break
+			case "pale":
+			amt = Number(this.defenseArray[3])*(this.hp/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			break
+		}
+		return Number(amt)
+	}
+	bumpSubpoint: function (stat = "fortitude", amount = 0) {
+		let expMod = 0
+		let subStatArr = this.subPointsArray
+		let statIndex = jn.stats.indexOf(stat.toLowerCase())
+		let justiceMultiplier = 1
+		if (statIndex === 3) justiceMultiplier = 3
+		if (this.buffListArray.some(b => b[0] === "teamtr")) {
+		if (this.buffListArray.find(b => b[0] === "teamtr")[1] === 0) expMod = 2
+		else expMod = 4
+		}
+		subStatArr[statIndex] = Number(subStatArr[statIndex]) + amount
+		let subStatIncrement = 14 - expMod
+		let k = 0
+		while (k === 0) {
+		k = 1
+		if (subStatArr[statIndex] >= this.statLevels()[statIndex]*subStatIncrement*mult) {
+			subStatArr[statIndex] -= this.statLevels()[statIndex]*subStatIncrement*mult
+			if (this.stats[statIndex] < this.statlimit) {
+			this[stat]++
+			}
+		k = 0
+		}
+		}
+	}
+	bumpBox: function (abno, amount) {
+		if (this.balanceSpecificArray.some(b => b[0].toLowerCase() === abno.toLowerCase()) === false) return undefined
+		else {
+			let newBSA = this.balanceSpecificArray
+			let newAmount
+			newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1] -= -amount
+			newAmount = newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1]
+			this.balancespecific = newBSA.map(b => b.join("|")).join(" ")
+			return newAmount
+		}
+	}
+	get inventoryFullness() {
+		let iN = 0
+		if (exists(this.inventorys)) {
+			this.inventorys.split("|").forEach(s => {if (exists(s)) iN++})
+		}
+		if (exists(this.inventoryw)) {
+			this.inventoryw.split("|").forEach(w => {if (exists(w)) iN++})
 		}
 		return iN	
 	}
-	
-	// I dunno if this is needed? Don't want to break anything lol
-	var wait = ms => new Promise((r, j)=>setTimeout(r, ms))
-	
-	function employee(empID) {
-		return dbployees[dbids.indexOf(empID)]
-	}
+}
 
-	// Change an employee's subpoint (and award a stat-up if needed)
-	function bumpSubpoint(id, stat = "fortitude", val = 0) {
-		curruser = dbployees[dbids.indexOf(id)]
-		let expmod = 0
-		//console.log("Curruser ID (bumpStat): " + id)
-		if (curruser.bufflist != undefined) {
-		if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
-		if (curruser.bufflist.split("|").some(b => b.startsWith("teamtr"))) {
-			let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("teamtr")).split("/")
-			if (trainBuff[1] === '0') {expmod = 2}
-			else {expmod = 4}
-		}}}
-		let statIndex = jn.stats.indexOf(stat.toLowerCase())
-		let subStatArr = curruser.subpoints.split("|")
-		let mult = 1
-		subStatArr[statIndex] = Number(subStatArr[statIndex]) + val
-		if (statIndex === 3) {mult = 3}
-		if (subStatArr[statIndex] >= statLVN(curruser[jn.stats[statIndex]])*(14 - expmod)*mult) {
-			subStatArr[statIndex] -= statLVN(curruser[jn.stats[statIndex]])*(14 - expmod)*mult
-			if (curruser.stats[statIndex] < curruser.statlimit) {
-				switch (statIndex) {
-					case 0:
-						dbployees[dbids.indexOf(id)].fortitude = Number(dbployees[dbids.indexOf(id)].fortitude) + 1
-						break
-					case 1:
-						dbployees[dbids.indexOf(id)].prudence = Number(dbployees[dbids.indexOf(id)].prudence) + 1
-						break
-					case 2:
-						dbployees[dbids.indexOf(id)].temperance = Number(dbployees[dbids.indexOf(id)].temperance) + 1
-						break
-					case 3:
-						dbployees[dbids.indexOf(id)].justice = Number(dbployees[dbids.indexOf(id)].justice) + 1
-						break
-				}
-			}
-		}
-		dbployees[dbids.indexOf(id)].subpoints = subStatArr.join("|")
-		return subStatArr
-	}
-	
-	function empLVL(statcount) {
-		if (statcount < 6) {return 1}
-		else if (statcount < 9) {return 2}
-		else if (statcount < 12) {return 3}
-		else if (statcount < 16) {return 4}
-		else {return 5}
-	}
-	
-	// Gifts:
-	// brooch1 | brooch2 | head1 | head2 | mouth1 | mouth2 | hand1 | hand2 | eye | face | cheek | back1 | back2
-	
-	// Function for pushing results into dbployees, so I don't have to change the damn thing everywhere
-	class emp {
-		constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
-			this.id = id
-			this.tag = tag
-			this.hp = hp/100
-			this.sp = sp/100
-			this.fortitude = fortitude
-			this.prudence = prudence
-			this.temperance = temperance
-			this.justice = justice
-			this.suit = suit
-			this.weapon = weapon
-			this.inventorys = inventorys
-			this.inventoryw = inventoryw
-			this.working = Number(working)
-			this.dead = Number(dead)
-			this.balance = Number(balance)
-			this.balancespecific = balancespecific
-			this.subpoints = subpoints
-			this.effects = effects
-			this.buffs = buffs
-			this.defensebuffs = defensebuffs
-			this.bufflist = bufflist
-			this.tjtime = tjtime
-			this.statlimit = statlimit
-			this.gifts = gifts
-			this.inventory = inventory
-			this.luck = luck
-		}
-		get fortL() {return Number(this.fortitude) + Number(this.buffs.split("|")[0])}
-		get prudL() {return Number(this.prudence) + Number(this.buffs.split("|")[1])}
-		get tempL() {return Number(this.temperance) + Number(this.buffs.split("|")[2])}
-		get justL() {return Number(this.justice) + Number(this.buffs.split("|")[3])}
-		get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, empLVL(statLVN(this.fortL)+statLVN(this.prudL)+statLVN(this.tempL)+statLVN(this.justL))]}
-	}
-	function fdbPush(e, arr = dbployees) {
-		arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
-	}
-	
-	class clAbn {
-		constructor (id, state = 0, qcounter = 'und') {
-			this.id = id
-			this.state = state
-			this.qcounter = qcounter
-		}
-	}
-	
-	
-	
-	// Function for finding the dep role among a member's roles
-	/*function drFind(mmbr) {
-		ret = ""
-		if (ncdeproles.every(t => mmbr.roles.map(r => r.name).includes(t) === false) === false) {
-		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
-			if (ncdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
-				ret = mmbr.roles.map(r => r.name)[i]
-			}
-		}}
-		if (cdeproles.every(t => mmbr.roles.map(r => r.name).includes(t) === false) === false) {
-		for (i = 0; i <= mmbr.roles.map(r => r.name).length; i++) {
-			if (cdeproles.includes(mmbr.roles.map(r => r.name)[i])) {
-				ret = ncdeproles[cdeproles.indexOf(mmbr.roles.map(r => r.name)[i])]
-			}
-		}}
-		return ret
-	}*/
-	function drFind(member) {
-		let reg = new RegExp(`\\s{1}Team`)
-		if (member.roles.some(r => reg.test(r.name)))
-		return member.roles.find(r => reg.test(r.name)).name
-		else return undefined
-	}
-	
-	async function queryAndWait(q, connection) {
-		await wait(100).then(p => {
-		connection.query(q, function (err, result) {if (err) throw err})
-		})
-	}
-	
-	// Tick down any acting effects
-	client.setInterval(function(){
-		efflog = efflog + 1
-		dbployees.forEach(e => {
-			if (e === undefined) return 0
-			let effectsNew = []
-			if ((e.effects != "null") && (e.effects != undefined)){
-			let effects = e.effects.split("undefined").join("").split("|")
-			effects.forEach(eff => {
-				let effArr = eff.split("/")
-				if ((e.dead === 1 || e.dead === '1') && effArr[0] != "1") eff = 'null'
-				if (effArr[1] != "inf") {
-				if (Number(effArr[1]) > 0) {
-				
-				if (e.dead === 1 || e.dead === '1') {
-					if (effArr[0] === "1") effArr[1] = Number(effArr[1]) - 1
-					else effArr[1] = 0
-				} else effArr[1] = Number(effArr[1]) - 1
+} // [/emp]
+// Switch between technical and normal names of gift slots
+function sSlotText(text) {
+	let technical = ['brooch1', 'brooch2', 'head1', 'head2', 'mouth1', 'mouth2', 'hand1', 'hand2', 'eye', 'face', 'cheek', 'back1', 'back2']
+	let normal = ['Brooch 1', 'Brooch 2', 'Head 1', 'Head 2', 'Mouth 1', 'Mouth 2', 'Hand 1', 'Hand 2', 'Eye', 'Face', 'Cheek', 'Back 1', 'Back 2']
+	if (technical.includes(text)) return normal[technical.indexOf(text)]
+	else if (normal.includes(text)) return technical[normal.indexOf(text)]
+	else return undefined
+}
 
-				effectsNew.push(effArr.join("/"))
-				} else {eff = "null"}
-				} else effectsNew.push(eff)
-				if ((eff === undefined) || (eff === "")) {eff = "null"}
-			})
-			e.effects = effectsNew.join("|")
+
+
+// To-do: Fix the fucking abnormalities. Make them have actual IDs instead of misusing EGO.
+
+// Returns the abnormality by code
+function abno(code) {
+	if abn.abn.some(a => a.code === code.toLowerCase())
+	return abn.abn.find(a => a.code === code.toLowerCase())
+	else return undefined
+}
+
+// Returns an item by name (I don't like that it's not by id or something but that's not as essential as it is for E.G.O. equipment)
+function getItem(name) {
+	return gear.items.find(i => i.name === name)
+}
+
+// Wait 100 ms and query q on connection
+async function queryAndWait(q, connection) {
+	await wait(100).then(p => {
+	connection.query(q, function (err, result) {if (err) throw err})
+	})
+}
+
+// Push an employee into an array
+function eArrPush(e, arr = dbployees) {
+	arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+}
+
+// Abnormality class (unfinished)
+class clAbn {
+	constructor (id, state = 0, qcounter = 'und') {
+		this.id = id
+		this.state = state
+		this.qcounter = qcounter
+	}
+}
+
+// Ticks all employees' effects
+function globalEffectTick() {
+	efflog = efflog + 1 // efflog is responsible for effect logging
+	dbployees.forEach(e => {
+	if (exists(e) === false) return // If the employee doesn't exist, don't bother
+	let effects = []
+	let effectsNew = []
+	let persistentEffects = ["1"] // Effects that don't get removed on death
+	if (exists(e.effectArray)) { // If the effect array has anything in it
+		effects = e.effectArray.filter(e => exists(e[0])) // Filter out any effects that are null or otherwise nonexistent
+		effects.forEach(eff => {
+		if (eff[0] === "0") e.heal("hp", 0.1) // Fairies' effect heals 0.1 hp per tick (second)
+		if (Number(e.dead) === 1 && persistentEffects.includes(eff[0]) === false) eff = 'null' // If the effect is EGO change cooldown then it doesn't get removed on death
+		if (eff[1] != "inf") { // We don't touch inf effects
+		if (Number(e.dead) === 1) {
+			if (eff[0] === "1") {eff[1] -= 1; effectsNew.push(eff)}
+			else eff[1] = 0
+		} else {eff[1] -= 1; effectsNew.push(eff)}
+		} else effectsNew.push(eff)
+		}) //.map(e => e.join("/")).join("|")
+		effectsNew.filter(eff => exists(eff) && exists(eff[0]))
+		if (exists(effectsNew)) {
+		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
+		} else e.effects = 'null'
+		if (efflog >= dbvars[5] && e.effects != "null") {
+		console.log(e.tag + " " + e.effects)
+		console.log(e.tag + " " + effectsNew)
+		}
+		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
+	}
+	})
+	if (efflog >= dbvars["effect_log"]) efflog = 0
+}
+
+// Updates the data to the database
+function updateData() {
+	let dbployeesActual = []
+	let pushBig = []
+	connection.query("SELECT * FROM `employees`", function (err, result) {
+	result.forEach(r => {
+	eArrPush(r, dbployeesActual)
+	})
+	if (err) throw err
+	dbployees.forEach((e, i) => {
+		let eActual = dbployeesActual.find(d => d.id === e.id)
+		if (exists(e) === false) return
+		let pushSmall = []
+		for (const prop in e) {
+		if (eActual[prop] != undefined) {
+			let lValue = e[prop]
+			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
+			if (eActual[prop] != lValue && Number(eActual[prop]) != lValue) {					
+			pushSmall.push("`" + prop + "` = '" + tempval + "'")
 			}
-			if (e.effects === null) e.effects = 'null'
-			
-			if (e.effects != null) {
-			let effectsSplit = e.effects.split("|")
-			if ((effectsSplit.length > 1) && ((effectsSplit[0] === undefined)||(effectsSplit[0] === 'undefined')||(effectsSplit[0] === 'null')||(effectsSplit[0] === null))) {
-			effectsSplit.shift()
-			e.effects = effectsSplit.join("|")
-			}
-			}
-			if (efflog >= dbvars[5]) {
-			if (e.effects != "null"){
-			console.log(e.tag + " " + e.effects)
-			console.log(e.tag + " " + effectsNew)
-			}
-			}
-			if (e.effects === undefined || e.effects === "") {e.effects = "null"}
-			if (e.effects.split("|").some(fef => fef.startsWith("0/"))) {e.hp = e.hp + 0.1}
+		}
+		}
+		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
+		if (exists(pushSmall)) pushBig.push(pushSmallStr)
+	})
+	pushBig.forEach(q => {
+	queryAndWait(q, connection)
+	})
+	console.log("Updated the database.")
+	//console.log(pushBig)
+	})
+}
+
+// Functions like databaseEmployees()
+function databaseAbnos() {
+	abnos = []
+	dbnos = []
+	jn.abnWorkable.forEach(a => {
+	abnos.push({"id": abno(a).id, "tag": a})
+	})
+	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+	result.forEach(r => dbnos.push(r))
+	let abnodbpush = []
+	abnos.forEach(a => {
+	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
+	else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
+	})
+	abnodbpush.forEach(e => {
+		let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
+		connection.query(sql, function (err, result) {
+		if (err) throw err;
+		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
 		})
-		if (efflog >= dbvars[5]) {efflog = 0}
-	}, 1000)
-	
-	// Update the data in the database
-	function updData () {
-		let dbployees2 = []
-		let pushBig = []
-		connection.query("SELECT * FROM `employees`", function (err, result) {
-		result.forEach((r, i) => {
-			fdbPush(r, dbployees2)
-		})
+	})
+	})
+}
+
+// Gets the employee data from the database
+function databaseEmployees() {
+	employees = []
+	dbployees = []
+	let dbpush = []
+	DELTAS.members.forEach(m => {
+	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
+		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"]).join(" ")
+		result.forEach(e => eArrPush(e))
+		employees.forEach(e => {
+			if (dbployees.ids().includes(e.id)) {console.log(`Employee ${e.tag} is included!`)}
+			else {dbpush.push({"id": e.id, "tag": e.tag})}
+		})
+		console.log("To push:")
+		console.log(dbpush)
+		dbpush.forEach(e => {
+		var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
+		queryAndWait(sql, connection)
+		console.log(`${e.tag} inserted!`)
+		eArrPush(new emp(e.id, e.tag))
+		})
 		
-		dbployees.forEach((e, i) => {//
-			let pushSmall = []
-			//let keys = Object.keys(e)
-			//let vals = Object.values(e)
-			//vals[2] = val[2]*1000
-			//vals[3] = val[3]*1000
-			for (const prop in e) {
-				if ((prop != "fortL") && (prop != "prudL") && (prop != "tempL") && (prop != "justL") && (prop != "id") && (prop != "stats") && (prop != "statlimit") && (prop != "luck")) {
-				let tempval = e[prop]
-				if ((prop === "hp") || (prop === "sp")) {tempval = (Number(tempval)*100).toFixed(1); dbployees2[i][prop] = (dbployees2[i][prop]*100).toFixed(1)}
-				if (dbployees[i] != undefined) {
-				if (dbployees2[i][prop] != tempval) {
-					if (prop != "stats") {					
-					if (Number(dbployees2[i][prop]) != tempval) {
-					pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
-					//console.log(prop + " " + dbployees2[i][prop] + " " + tempval)
-					}
-					}
-				}
-				} else pushSmall.push("`" + prop + "` = '" + tempval /*e[prop]*/ + "'")
-				}
-			}
-			let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
-			pushBig.push(pushSmallStr)
-			if (pushSmallStr === ("UPDATE `employees` SET  WHERE `employees`.`userid` = '" + e.id + "';")) {pushBig.pop()}
-		})
-		pushBig.forEach(q => {
-			queryAndWait(q, connection)
-		})
-		console.log("Updated the database.")
-		console.log(pushBig)
-		})
-	}
-	
-	// Update the data in the database
-	client.setInterval(updData, 30000) 
-	
-	function databaseAbnos() {
-		abnos = []
-		dbnos = []
-		jn.abnWorkable.forEach(a => {
-		abnos.push({"id": abno(a).ego, "tag": a})
-		})
-		connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-		result.forEach(r => dbnos.push(r))
-		let abnodbpush = []
-		abnos.forEach(a => {
-		if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
-		else console.log(`${abn.abn.find(a1 => a1.ego === a.id).name} included!`)
-		})
-		abnodbpush.forEach(e => {
-			let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
-			connection.query(sql, function (err, result) {
-			if (err) throw err;
-			console.log(`${abn.abn.find(a => a.ego === e).name} inserted!`)
-			})
-		})
-		})
-	}
-	
-	function databaseThing() {
-		employees = []
-		client.guilds.get("607318782624399361").members.forEach(m => {
-		if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
-		})
-		connection.query("SELECT * FROM `employees`", function (err, result) {
-			//console.log(result)
-			dbpush = []
-			dbployees = []
-			dbids = []
-			result.forEach(e => fdbPush(e))
-			result.forEach(e => dbids.push(e.userid))
-			employees.forEach(e => {
-				if (dbids.includes(e.id)) {console.log(`Employee ${employees[employees.indexOf(e)].tag} is included!`)}
-				else {dbpush.push({"id": e.id, "tag": e.tag})}
-			})
-			console.log("To push:")
-			console.log(dbpush)
-			dbpush.forEach(e => {
-			var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + "', '', '1700', '1700')";
-			connection.query(sql, function (err, result) {
-			if (err) throw err;
-			console.log(`${e.tag} inserted!`)
-			})
-			})
-			
-			dbployees.forEach(e => {
-				let bAbnos = []
-				let bBals = []
-				if (e.balancespecific != "") { 
-				let bGotten = e.balancespecific.split(" ")
-				bGotten.forEach(bg => {
-					bAbnos.push(bg.split("|")[0])
-					bBals.push(bg.split("|")[1])
-				})
-				jn.abnWorkable.forEach(a => {
-					if (bAbnos.includes(a) === false) {
-						bAbnos.push(a)
-						bBals.push("0")
-					}
-				})
-				}
-				else {
-				jn.abnWorkable.forEach(a => {
-					bAbnos.push(a)
-					bBals.push("0")
-				})
-				}
-				let bToSend = []
-				bAbnos.forEach(a => {
-					bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
-				})
-				//console.log("LOOK AT MY BALLS " + e.tag + " " + bToSend.join(" "))
-				e.balancespecific = bToSend.join(" ")
-			})
-			if (err) throw err
-
-
-	
-	})
-	}
-	
-	function healPulse() {
-		const DELTAS = client.guilds.get("607318782624399361");
-		if (dbvars[3] === 0) {
-			dbployees.forEach(e => {
-				if (e.working === 0) {
-				if (e.hp < e.fortL) {e.hp = Number(e.hp) + healCalc(e, "hp", Math.ceil(e.fortL/60) + e.fortL/60)}
-				if (e.hp > e.fortL) {e.hp = Number(e.fortL)}
-				if (e.hp < -0.5*e.fortL) {e.hp = -0.5*e.fortL}
-				let sp = e.sp
-				if (e.sp < e.prudL) {e.sp = Number(e.sp) + healCalc(e, "sp", Math.ceil(e.prudL/60) + e.prudL/60)}
-				if (e.sp > e.prudL) {e.sp = Number(e.prudL)}
-				if (e.sp < -0.5*e.prudLL) {e.hp = -0.5*e.prudL}
-				if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) {
-					e.dead = 0
-				}
-				} else {e.working = 0}
-				if (drFind(DELTAS.members.get(e.id))) {
-					bufflist = []
-					if (e.bufflist != undefined) {
-					bufflist = e.bufflist.split("|")
-					}
-					if (bufflist.every(eff => {return (eff.startsWith("team") === false)})) {
-						if (e.tjtime != undefined) {
-						if ((Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-							fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
-						} 
-						}
-					}
-					if ((e.tjtime === null) || (e.tjtime === undefined) || (e.tjtime === 'undefined') || (e.tjtime === 'null')) e.tjtime = Date.now()
-				}
-			})
-			console.log("Healed all.")
-		}
-	}
-	
-	client.on('guildMemberUpdate', () => {
-		const DELTAS = client.guilds.get("607318782624399361");
-		async function dipOut(member) {
-			await wait(1000)
-			await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH")).catch(console.error)
-			return true
-		}
-		async function dipIn(member) {
-			await wait(1000)
-			await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH")).catch(console.error)
-			return true
-		}
-		DELTAS.members.forEach(m => {
-			let cMember = m
-			let LVLRole
-			let ChRoles = []
-			cMember.roles.forEach(r => {
-				if (r.name.startsWith("Level")) LVLRole = {"name": r.name, "id": r.id}
-				if (jn.risk.includes(r.name)) ChRoles.push({"name": r.name, "id": r.id})
-			})
-			ChRoles.push({"name": "none", "id": "none"})
-			if (LVLRole === undefined) return
-			if (jn.levels.indexOf(LVLRole['name']) != jn.risk.indexOf(ChRoles[0]['name'])) {
-				if (ChRoles.length > 0) {
-				ChRoles.forEach(r => {
-					if (r['id'] != "none") cMember.removeRole(r['id'])
-												  .catch(console.error)
-				})
-				}
-				if (cMember.roles.some(r => r.name === "TO THE RANCH") === false) {
-				cMember.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(LVLRole['name'])]).id)
-					   .catch(console.error)
-				}
-			}
-			if (cMember.roles.some(r => r.name === "TO THE RANCH")) {
-			if (cMember.roles.some(r => jn.risk.includes(r.name))) {
-			cMember.removeRole(cMember.roles.find(r => jn.risk.includes(r.name)).id)
-				   .catch(console.error)
-			}
-			}
-			if (cMember.roles.some(r => r.name === "RANCHDIP")) {
-				if (cMember.roles.some(r => r.name === "TO THE RANCH")) dipOut(cMember)
-				else dipIn(cMember)
-			}
-		})
-	})
-
-	client.on('ready', () => {
-		
-	const DELTAS = client.guilds.get("607318782624399361");
-	const bch = DELTAS.channels.get("607558082381217851");
-	bch.send("Bot started.")
-		
-	// Bot readiness announcement, both in the log and in my DMs
-	console.log('I am ready!');
-	client.users.get('143261987575562240').send('Bot started up succesfully.')
-	
-		// Setting the bot's current game to 'try !help'
-		client.user.setPresence({
-			game: {
-				name: 'try !help',
-				type: "Playing",
-				url: "https://tinyurl.com/rollntroll"
-			}
-    })	
-	
-	databaseThing()
-		
-		// Heal 1/60 of max HP and SP every 1 minute ( = full heal in an hour)
-	
-	async function healPulser() {
-		while(true) {
-		healPulse()
-		await wait(60000)
-		}
-	}
-	healPulser()
-	})
-
-	client.on('message', tempbigmessagevaluesoIneveruseitagain => {
-	
-	const DELTAS = client.guilds.get("607318782624399361")
-	const bch = DELTAS.channels.get("607558082381217851")
-	const ESERV = client.guilds.get('513660754633949208')
-	const bsch = ESERV.channels.get('653572131262693379')
-	
-	function getUser(getter) {
-		let id = ""
-		getter.split("").forEach(c => {
-			if (nmbrs.includes(c)) {id += c}
-		})
-		if (id.length === 18 && getter.length === 18) return client.users.get(id)
-		else if (client.guilds.get("607318782624399361").members.find(m => {
-			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
-					else return false
-				}) != undefined)
-			return client.guilds.get("607318782624399361").members.find(m => {
-			if (m.nickname != null) return m.nickname.toLowerCase().startsWith(getter)
-					else return false
-				}).user
-		else if (client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)}) != undefined)
-			return client.users.find(u => {return u.tag.toLowerCase().startsWith(getter)})
-		else return undefined
-	}
-	
-	let chPass = 0
-	let botPass = 0		
-	
-	// An array containing all digits, for convenience of comparing
-	const nmbrs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-	
-	let msg
-	const initmsg = tempbigmessagevaluesoIneveruseitagain
-	{
-		
-	tmpmsg = tempbigmessagevaluesoIneveruseitagain
-
-	function sudoCheck() {
-	if (tmpmsg.content.split(" ")[0] === "sudo") {
-		if (tmpmsg.author.id === '143261987575562240') {
-		let tcontent = tmpmsg.content.split(" ")
-		tcontent.shift()
-		tmpmsg.content = tcontent.join(" ")
-		chPass = 1
-		console.log(`Content: '${tcontent.join(" ")}'`)
-		} else (tmpmsg.channel.send(`**${tmpmsg.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
-	}
-	}
-	
-	sudoCheck()
-	
-	let content = tmpmsg.content
-	
-	while (content.split(" ")[0].slice(0,2) === ">!") {
-		content = content.slice(2)
-		let cArr = content.split(" ")
-		if (getUser(cArr[0]) === client.user || tmpmsg.author.id === '143261987575562240') {
-		if (getUser(cArr[0]) != undefined) {
-			tmpmsg.author = client.users.get(getUser(cArr[0]).id)
-			tmpmsg.member = DELTAS.members.get(getUser(cArr[0]).id)
-			botPass = 1
-		}} else {initmsg.channel.send(`**${initmsg.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
-		cArr.shift()
-		content = cArr.join(" ")
-		tmpmsg.content = content
-		msg = tmpmsg
-		sudoCheck()
-		console.log(content)
-	}
-	msg = tmpmsg
-	
-	}
-
-	if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return
-
-	var emojiid = DELTAS.emojis.map(e => e.id)
-	var emojiname = DELTAS.emojis.map(e => e.name)
-	const altemojiid = ESERV.emojis.map(e => e.id)
-	const altemojiname = ESERV.emojis.map(e => e.name)
-	
-	// Handy vars
-	var ch = msg.channel
-	var mesc = msg.content
-	
-	// Messages by the bot that will be deleted indefinitely (unused, probably)
-	const deletableReplies = [
-			"Debug command run, check logs."
-			]
-	
-	// The quote pool
-	
-	// Help command pool
-		
-	// was (frick puriora)
-	function wait(msc) {
-		return new Promise(resolve => {
-			setTimeout(() => {
-				resolve('resolved')
-			}, msc)
-		})
-	}	
-	
-	// Function for increasing the amount of Specific PE Boxes by val on abnormality with code abn for user with id id
-	function bumpBoxes(val = 0, abn = "O-03-03", empid) {
-		let emp = dbployees[dbids.indexOf(empid)]
-		let bAbnos = []
-		let bBals = []
-		let bGotten = emp.balancespecific.split(" ")
-		bGotten.forEach(bg => {
-			bAbnos.push(bg.split("|")[0])
-			bBals.push(bg.split("|")[1])
-		})
-		bBals[bAbnos.indexOf(abn)] = Number(bBals[bAbnos.indexOf(abn)]) + val
-		let bToSend = []
-		let bReturn = []
-		bAbnos.forEach(a => {
-			bToSend.push(a + "|" + bBals[bAbnos.indexOf(a)])
-			bReturn.push([a, bBals[bAbnos.indexOf(a)]])
-		})
-		dbployees[dbids.indexOf(empid)].balancespecific = bToSend.join(" ")
-		return bReturn
-	}
-	
-	// Function for checking if all the elements of arr are included in arr2
-	function checkArray(arr, arr2) {
-		return arr.every(i => arr2.includes(i));
-	}
-	
-		 // Function for getting an emoji by name
-	function emoji(nme, srv = DELTAS, a = false, id = false) {
-		if (nme === "none") {return ""}
-		if (id === true) {emvar = srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)]}
-		else {if (a === true) {emd = "<a:"} else {emd = "<:"}
-			emvar = emd + nme + ":" + srv.emojis.map(e => e.id)[srv.emojis.map(e => e.name).indexOf(nme)] + ">"}
-		return emvar
-	}
-	
-	function suit(id) {
-		let suit = gear.suits[id]
-		return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]} ${jn.dtype[0]} ${suit.resistance[1]} ${jn.dtype[1]} ${suit.resistance[2]} ${jn.dtype[2]} ${suit.resistance[3]} ${jn.dtype[3]}`)
-	}
-	
-	function weapon(id) {
-		let weapon = gear.weapons[id]
-		let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
-		for (i = 0; i < 4; i++) {
-			if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
-		}
-		return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
-	}
-	
-	// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
-	exports.rDamage = function rDamageEX(rec, dea, res = 1) {
-		let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
-		if (rec.toUpperCase() === "LUL") levelDifference = 5
-		if (dea.toUpperCase() === "LUL") levelDifference = -5
-		let dMult = 1
-		//console.log(levelDifference)
-		//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
-		switch (levelDifference) {
-			case 5: dMult = 0; break;
-			case 4: dMult = 0.4; break;
-			case 3: dMult = 0.6; break;
-			case 2: dMult = 0.7; break;
-			case 1: dMult = 0.8; break;
-			case 0:
-			case -1: dMult = 1; break;
-			case -2: dMult = 1.2; break;
-			case -3: dMult = 1.5; break;
-			case -4: dMult = 2; break;
-			case -5: dMult = 69; break;
-			default: dMult = 1; break;
-		}
-		return (dMult * res)
-	}
-	function rDamage(rec, dea, res) {return exports.rDamage(rec, dea, res)}
-
-	// Function for checking if all the symbols of a given string are included in an array
-	function checkSymbols(str, arr) {
-		return str.split("").every(i => arr.includes(i))
-	}
-	
-	// Function for checking if all the symbols of a given string are the same as compoint
-	function checkStringSame(str, compoint) {
-		return str.split("").every(i => i === compoint)
-	}
-	
-	// Function for checking if all the elements of arr are are the same as compoint
-	function checkSame(arr, compoint) {
-		if (arr.length === 0) {return false} else {return arr.every(i => i === compoint)}
-	}
-	
-	// Function for checking if the given amount of arguments is valid
-	function argCheck(arr, argcount) {
-		return arr.length >= argcount
-	}
-	
-	// Just a function that times the message out in x seconds
-	function yeet(sec) {
-		setTimeout(function(){msg.delete().catch(console.error)}, sec * 1000)
-	}
-	
-	// Function for getting a box by array explaining its contents
-	function box(arr) {// 1 = 1, -1 = 3, 0 = 7
-		let a = 0
-		if (arr[0] === 1) {a = a + 1}
-		else if (arr[0] === -1) {a = a + 3}
-		else {a = a + 7}
-		//console.log("A1 " + a) 
-		if (arr[1] === 1) {a = a + 1}
-		else if (arr[0] === -1) {a = a + 3}
-		else {a = a + 7}
-		//console.log("A2 " + a) 
-		return jn.boxes[jn.boxcodes.indexOf(a)]
-	}
-	
-	// Roll an x-sided die, even if that makes absolutely no sense in practice
-	function roll(sides) {
-		return Math.floor(Math.random() * sides) + 1
-	}
-	
-	// Stand-in function for cleaning inventories
-	function invClean() {
 		dbployees.forEach(e => {
-			let bxd = e.inventorys.split("|")
-			let bxdNew = []
-			for (i = 0; i < bxd.length; i++) {
-				if (bxd[i] != "undefined" && bxd[i] != "") {
-					bxdNew.push(bxd[i])
-				}
-			}
-			e.inventorys = bxdNew.join("|")
-			let bxdw = e.inventoryw.split("|")
-			let bxdwNew = []
-			for (i = 0; i < bxdw.length; i++) {
-				if (bxdw[i] != "undefined" && bxdw[i] != "") {
-					bxdwNew.push(bxdw[i])
-				}
-			}
-			e.inventoryw = bxdwNew.join("|")
-		})
-	}
-	
-	// Add an item id to suit/weapon inventory
-	function addItemID(emp, inv, id) {
-		if ((emp[inv] === undefined) || (emp[inv] === 'undefined') || (emp[inv] === '')) emp[inv] = id
-		else if (emp[inv].length === 1) emp[inv] += "|" + id 
-		else {
-			let splitInv = emp[inv].split("|")
-			splitInv.push(id)
-			emp[inv] = splitInv.join("|")
-		}
-	}
-	
-	// Remove an item id from suit/weapon inventory
-	function removeItemID(emp, inv, id) {
-		if ((emp[inv] === undefined) || (emp[inv] === 'undefined')) return
-		else {
-		let bxd = emp[inv].split("|")
-		let bxdNew = []
-		for (i = 0; i < bxd.length; i++) {
-			if (bxd[i] != id) {
-				bxdNew.push(bxd[i])
-			}
-		}
-		emp[inv] = bxdNew.join("|")
-		}
-		invClean()
-	}
-	
-
-	
-	// Function for getting a role by name 
-	function getRole(nme) {
-		if (msg.guild.roles.map(r => r.name).includes(nme)) {
-			return msg.guild.roles.find(role => role.name === nme)
-		} else {return void(0)}
-	}
-	
-	// Function for checking whether an emoji (found by name) is animated
-	function emanim(name, srv = msg.guild) {
-		return srv.emojis.get("650293931791089684").animated
-	}
-	
-	// Evil logger so I can see everything that goes on at the sever >:Dc
-	if (ch.type != 'dm') {
-	var log11 = msg.guild.name + " " + msg.createdAt + " " + ch.type + " " + msg.channel.name + " " + msg.author.username + ": " + msg.content
-	console.log(log11);
-	}
-
-	//if ((msg.author.id === client.user.id) && (msg.embeds.length > 0)) {
-	//	yeet(600)
-	//}
-	
-	// If it's the bot's message about starting up fine then delete it in 6 seconds
-	if (msg.author.id === '607520778178527246' && deletableReplies.includes(mesc)) {
-		yeet(8)
-	}
-	
-	// Work stuff
-	function work(arrg, channel) {
-		
-		let respectiveStat = jn.stats[jn.workOrders.indexOf(arrg[2])]
-		fn.effectApplication['fatigue'](dbployees[dbids.indexOf(arrg[0])], (jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk) + 1))
-		fn.effectApplication['workCD'](dbployees[dbids.indexOf(arrg[0])], abn.abn[abn.lista.indexOf(arrg[1])].peoutput)
-		dbployees[dbids.indexOf(arrg[0])].working = 1
-		let statIndex = jn.workOrders.indexOf(arrg[2])
-		let userStat = dbployees[dbids.indexOf(arrg[0])].stats[jn.stats.indexOf(respectiveStat)]
-		let userTemp = dbployees[dbids.indexOf(arrg[0])].temperance
-		let userStatLevelText = statLVL(userStat)
-		let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/3) + dbployees[dbids.indexOf(arrg[0])].luck
-		let userStatLevel = jn.statLevels.indexOf(userStatLevelText)
-		if (userStatLevel > 4) {userStatLevel = 4} 
-		let successChance = 0
-		let successChancet = (userTemp * 0.002 + abn.abn[abn.lista.indexOf(arrg[1])].workPreferences[statIndex][userStatLevel])*100
-		let buffs = dbployees.find(e => e.id === arrg[0]).bufflist.split("|").map(i => i.split("/"))
-		if (buffs.some(b => b[0] === arrg[1])) {
-			let b = buffs.find(b => b[0] === arrg[1])
-			if (b[1] === "schance") successChancet += Number(b[2])
-		}
-		if (successChancet > 95) {successChance = 95} else {successChance = successChancet}
-		console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
-		if (abn.abn[abn.lista.indexOf(arrg[1])].affstat[0] === true) {
-			console.log("Pre-affstat success chance: " + successChance + "%")
-			successChance = successChance - fn.affstat(arrg[1], respectiveStat, dbployees[dbids.indexOf(arrg[0])])
-			console.log("Post-affstat success chance: " + successChance + "%")
-		}
-		/*succtext = ("Success chance: " + `${Math.floor(successChance)}%`)
-		//msg.edit("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `\n	${succtext}`)
-		let progressBar = ""
-		let progressBarOld = ""
-		let progressArray = []
-		let progressArrayComplex = []
-		let progressBarStorage = []*/
-		let damageArray = []
-		/*for (i = 0; i < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2); i++) {
-			progressBar += box([0, 0])
-			progressArrayComplex.push([0, 0])
-		}*/
-			let neboxes = 0
-			let peboxes = 0
-			let ppeboxes = 0
-			let rollArr = []
-			i = 0
-			for (i = 0; i < abn.abn[abn.lista.indexOf(arrg[1])].peoutput; i++) {
-				if ((dbployees[dbids.indexOf(arrg[0])].hp > 0) && (dbployees[dbids.indexOf(arrg[0])].sp > 0)) {
-				let cRoll = roll(100)
-				let luckRoll = roll(1000)
-				if (cRoll > successChance) {
-				if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
-				else rollArr.push([cRoll, cRoll > successChance])
-				} 
-				else rollArr.push([cRoll, cRoll > successChance])
-				if (cRoll > successChance && luckRoll > luck) {neboxes++; 
-					let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
-					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[0] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[0]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[0])
-						dbployees[dbids.indexOf(arrg[0])].hp = dbployees[dbids.indexOf(arrg[0])].hp - dmg
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[0])
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[1] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[1]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[1])
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[1])
-						dbployees[dbids.indexOf(arrg[0])].sp = dbployees[dbids.indexOf(arrg[0])].sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[2] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[2]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[2])
-						damageArray.push(dmg.toFixed(2) + " " + jn.dtype[2])
-						dbployees[dbids.indexOf(arrg[0])].hp = dbployees[dbids.indexOf(arrg[0])].hp - dmg
-						dbployees[dbids.indexOf(arrg[0])].sp = dbployees[dbids.indexOf(arrg[0])].sp - dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					if (abn.abn[abn.lista.indexOf(arrg[1])].dtype[3] === 1) {
-						dmg = dmg * rDamage(gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].level, abn.abn[abn.lista.indexOf(arrg[1])].risk, gear.suits[Number(dbployees[dbids.indexOf(arrg[0])].suit)].resistance[3]*dbployees[dbids.indexOf(arrg[0])].defensebuffs.split("|")[3])
-						damageArray.push(dmg.toFixed(1) + "% " + `(${((dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg).toFixed(1)}) ` + jn.dtype[3])
-						dbployees[dbids.indexOf(arrg[0])].hp -= (dbployees[dbids.indexOf(arrg[0])].fortL/100)*dmg
-						//console.log("DAMAGE:" + dmg)
-					}
-					
-				}
-				else {
-					if (roll(15) === 15) {ppeboxes++; console.log("Rolled a PPE box!")}
-					else {peboxes++}
-				}
-
-				/*progressArray = []
-				for (j = 0; j < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput - (i+1)); j++) {
-					progressArray.push(0)
-				}
-				for (j = 0; j < peboxes; j++) {
-					progressArray.unshift(1)
-				}
-				for (j = 0; j < neboxes; j++) {
-					progressArray.push(-1)
-				}
-				console.log("Progress array normal: " + progressArray)
-				j = 0
-				start_position: while(true) {
-					progressBar += box([progressArray[j*2], progressArray[j*2+1]])
-					progressArrayComplex[j] = [progressArray[j*2], progressArray[j*2+1]]
-					//console.log("Progress array " + j + " " + progressArrayComplex)
-					if (j < (abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2 - 1)) {j++; continue start_position}
-							break
-					}
-				progressBarStorage.push(progressBar)*/
-				} else {dbployees[dbids.indexOf(arrg[0])].dead = 1}
-				}
-				
-				async function asyncEdit(mssage) {
-					let mood = ""
-					let moodResult = 0
-					let moodEffectResult = ""
-					if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[2]) {mood = jn.goodresult; moodResult = 2}
-					else if ((peboxes + ppeboxes) >= abn.abn[abn.lista.indexOf(arrg[1])].mood[1]) {mood = jn.normalresult; moodResult = 1}
-					else {mood = jn.badresult; moodResult = 0}
-					if (abn.abn[abn.lista.indexOf(arrg[1])].effect[0] === true) {
-						let effe = fn.effectApplication[abn.abn[abn.lista.indexOf(arrg[1])].ego](dbployees[dbids.indexOf(arrg[0])], moodResult, arrg[2])
-						if (effe[0] === true) {
-							moodEffectResult = effe[1]
-						}
-					}
-					if (damageArray.length === 0) {damageArray.push("none")}
-						let wtime = Math.floor((abn.abn[abn.lista.indexOf(arrg[1])].peoutput/2)*10)/10
-						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
-						await wait(wtime*500)
-						//console.log("ARR length: " + arr.length)
-						if ((Number(dbployees[dbids.indexOf(arrg[0])].hp) <= 0) || (Number(dbployees[dbids.indexOf(arrg[0])].sp) <= 0))
-						{dbployees[dbids.indexOf(arrg[0])].dead = 1; dbployees[dbids.indexOf(arrg[0])].dead = 1}
-						if (dbployees[dbids.indexOf(arrg[0])].dead === 0) {
-						ppe = ""
-						if (ppeboxes > 0) {ppe = `\n	Pure (wild card) PE boxes: ${ppeboxes}`}
-						mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp).toFixed(1)} / ${dbployees[dbids.indexOf(arrg[0])].fortL} ${jn.health}\n	Remaining SP:	${Number(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp).toFixed(1)} / ${dbployees[dbids.indexOf(arrg[0])].prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
-						connection.query("UPDATE `employees` SET `balance` = '" + (Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes) + "' WHERE `employees`.`userid` = '" + dbployees[dbids.indexOf(arrg[0])].id + "';", function (err, result) {if (err) throw err})
-						bumpBoxes(peboxes, arrg[1], dbployees[dbids.indexOf(arrg[0])].id)
-						let subPtToBump = 0
-						let boxTotal = peboxes + ppeboxes
-						let aRisk = jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)
-						if (boxTotal >= aRisk + 2) {
-							if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk)
-							else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk)
-							else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk)
-							else subPtToBump = 4*Math.pow(2, aRisk)
-						}
-						bumpSubpoint(arrg[0], respectiveStat, subPtToBump)
-						dbployees[dbids.indexOf(arrg[0])].balance = Number(dbployees[dbids.indexOf(arrg[0])].balance) + ppeboxes
-						if (abno(arrg[1]).gift === "true") {
-							let gifttxt = ""
-							let gift = gear.gifts.find(g => g.id === abno(arrg[1]).ego)
-							let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
-							if (giftRoll[0] === true) {
-								gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
-								if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
-							}
-							else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
-							console.log("Gift Roll: " + giftRoll.join(", "))
-							if (gifttxt != "") channel.send(gifttxt)
-						}
-						}
-						else {mssage.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(dbployees[dbids.indexOf(dbployees[dbids.indexOf(arrg[0])].id)].sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)}	
-						dbployees[dbids.indexOf(arrg[0])].working = 0
-				}
-				channel.send("\n```mb\n ⚙️ | User " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```").then(mesg => {
-				asyncEdit(mesg)})
-				console.log(rollArr)
-		
-						
-	}
-	
-	
-	// Vote stuff
-	if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
-		voting = 1
-		voteeid = ""
-		mesc.split(" ")[3].split("").forEach(c => {
-			if (nmbrs.includes(c)) {voteeid += c}
-		})
-		voteeuser = DELTAS.members.find("id", voteeid)
-		console.log("THIS SHIT " + voteeid)
-		cptxt = drFind(voteeuser)
-		dbvars[2] = 0
-		timeout = 1
-		vtd = [] 
-		yee = 0
-		boo = 0
-		if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-			reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-		} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
-		msg.react('✅')
-		msg.react('🚫')
-		override = 0
-		const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
-		const collector = msg.createReactionCollector(filter, { time: 15000 })
-		collector.on('collect', rct => {//${rct.emoji.name}
-			lru = rct.users.map(u => u.id).pop()
-			lrn = client.users.find("id", lru)
-			if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
-			if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
-			vtd.push(lru)
-			if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; console.log("Ducktest"); boo = 0; override = 1}
-			if (vtd.length >= reqv || override === 1) {
-			timeout = 0
-			collector.stop()
-			} 
-		})
-		collector.on('end', collected => {
-			voting = 0
-			if (timeout === 1) {
-				ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
-		} else {
-			if (yee > boo) {
-				voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
-				voteeuser.removeRole(getRole(votingteam))
-				voteeuser.addRole(getRole(votingteam + " (C)"))
-				let bufflist = []
-				if (dbployees[dbids.indexOf(voteeuser.id)].bufflist != undefined) {
-				bufflist = dbployees[dbids.indexOf(voteeuser.id)].bufflist.split("|")
-				}
-				if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
-				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "take")
-				}
-				fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)
-			}
-			
-			if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
-				ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
-		
-				console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
-		}
-		})
-	}
-	
-	// If the message's author is a bot, just ignore it
-	if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
-	
-	// Command check
-	if (mesc.startsWith("!")) {
-	
-		// Make an array with values equal to the command name and arguments
-		var cmd = mesc.toLowerCase().split(" ")
-		var cmd1 = mesc.split(" ")
-		var cmdClean = msg.cleanContent.split(" ")
-		
-		// Check if the command even exists (if it is in the right guild)
-		if (cmds.indexOf(cmd[0]) === -1 && msg.guild === DELTAS) {
-			ch.send("**" + msg.author.tag + "**, " + "Unrecognized command. Type in !help to get the list of all available commands.")
-			
-		}
-		
-		// Quote command
-		if (cmd[0] === '!quote') 
-		{
-			// If the command includes an argument, the standart randomization is overridden
-			if (cmd[1]) { 
-			if (checkSymbols(cmd[1], nmbrs)) {
-				x1 = cmd[1]
-				// If the argument is beyond the amount of quotes currently available, apologise and stop.
-				if (x1 > qte.length) {
-					ch.send("**" + msg.author.tag + "**, " + "Sorry, only " + qte.length + " quotes are currently available.")
-					return
-				} 
-				var txt = qte[x1-1]
-				x = x1
-				ch.send(qte2 + x1 + ": " + txt)
-			}}
-			else {
-				x = Math.floor((Math.random() * qte.length))
-				while (quotelog.indexOf(x) > -1) {
-					x = Math.floor((Math.random() * qte.length))
-				}
-				var txt = qte[x]
-				x2 = x + 1
-				
-				if(quotelog.length > Math.ceil((qte.length * 4) / 5)) {
-					quotelog.shift()
-				}
-				quotelog.push(x)
-				
-				ch.send(qte2 + x2 + ": " + txt)
-				
-			}
-		}  
-		
-		// Emoji command
-		if (cmd[0] === '!em') {
-			if (emoji(cmd1[1], DELTAS, false, true) != undefined) {
-			ia = 1
-			emtx = ""
-			if (cmd[2]) {
-			if (checkSymbols(cmd[2], nmbrs)) {ia = cmd[2]}}
-			if (ia > 27) {ia = 27}
-			if (animojis.includes(cmd1[1])) {
-					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += emoji(cmd1[1], DELTAS, true)
-					}
-					ch.send(emtx)
-					.catch(console.error)
-					yeet(0)
-					return
-				} else {
-					for (var ia2 = 0; ia2 < ia; ia2++) {
-						emtx += emoji(cmd1[1], DELTAS, false)
-					}
-					ch.send(emtx)
-					.catch(console.error)
-					yeet(0)
-					return 
-				}
-				yeet(0)
-			} else {ch.send("**" + msg.author.tag + "**, " + "Emoji not found.")}
-		}
-		
-		if (cmd[0] === '!ban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240' || msg.author.id === '389226857679159336')) {
-			let amt
-			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
-			else amt = 60
-			if (amt > 120) {
-				ch.send(`Can't ban for longer than 120 seconds :P.`)
-				return
-			}
-			if (amt < 0) {
-				ch.send(`Can't ban for less than 0 seconds :P.`)
-				return
-			}
-			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles.filter(r => r.name != "PINK BOY")
-			let mem = DELTAS.members.get(getUser(cmd[1]).id)
-			if (mem.user.bot === true) {
-				ch.send(`Can't ban bots :P.`)
-				return
-			}
-			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
-				.then(() => {ch.send(`Banned **${getUser(cmdClean[1]).tag}**! Hope you feel great about yourself.`); 
-				DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214')
-				})
-				.catch(console.error)
-			wait(amt*1000).then(() => {
-				let mem = DELTAS.members.get(getUser(cmd[1]).id)
-				let memr = mem.roles.array().map(r => r.id)
-				let backr = []
-				roles.forEach(r => {
-					if (memr.some(mr => mr === r.id) === false) backr.push(r)
-				})
-				if (backr != []) mem.addRoles(backr).then(() => 
-				DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214'))
-								.catch(console.error)
-				
+			zeroBalanceArray.forEach(b => {
+			if (e.balanceSpecificArray.some(bs => bs[0].toLowerCase() === b[0].toLowerCase()) === false)
+				e.balancespecific += ` ${b.join("|")}`
 			})
+		})
+	})
+	})
+}
+
+// The heal pulse in regenerator rooms
+function healPulse() {
+	if (dbvars.heal_pulser === 1) {
+		dbployees.forEach(e => {
+			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
+			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
+			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
+			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
+			e.dead = 0
+			else e.working = 0
+		})
+		if (e.drFind) {
+			if (exists(e.tjtime) === false) e.tjtime = Date.now()
+			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
+			if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+			fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
+			}
+			}
+		}
+	}
+}
+
+// Responsible for all regular time-based things
+async function globalTicker() {
+	let tick = 0
+	while (true) {
+		tick++
+		await wait(1000)
+		globalEffectTick()
+		switch (true) {
+			case tick === 1:
+				healPulse()
+				break
+			case tick === 30:
+				updateData()
+				break
+			case tick === 60:
+				updateData()
+				tick = 1
+				break
+		}
+	}
+}
+
+// I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
+function getUser(getter) {
+	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (/\b<@!/.test(getter) && /\d{18}/.test(getter)))
+		return client.users.get(getter)
+	else {
+		let regAmazingText = `\b`
+		let getterArray = getter.split("").map((c, i) => {
+			if (i < 3) regAmazing += `${c.toLowerCase()}`
+			else regAmazing += `${c.toLowerCase()}*`
+		})
+		let regAmazing = new RegExp(regAmazingText, "i")
+		if (DELTAS.members.some(m => regAmazing.test(" " + m.nickname.toLowerCase())))
+			return DELTAS.members.find(m => regAmazing.test(" " + m.nickname.toLowerCase())).user
+		else if (DELTAS.members.some(m => regAmazing.test(" " + m.tag.toLowerCase())))
+			return DELTAS.members.find(m => regAmazing.test(" " + m.tag.toLowerCase())).user
+	}
+	return undefined
+}
+
+// Returns an emoji by name
+function emoji(nme, srv = DELTAS, a = false, id = false) {
+	let e
+	let emd
+	if (nme === "none") {return ""}
+	if (id === true) e = srv.emojis.find(em => em.name.toLowerCase() === nme.toLowerCase()).id
+	else {if (a === true) emd = "<a:" else {emd = "<:"}
+	let eObj = srv.emojis.find(em => em.name.toLowerCase() === nme.toLowerCase())
+		emvar = emd + eObj.name + ":" + eObj.id + ">"}
+	return emvar
+}
+
+// A text resentation of a suit (non-technical)
+function suit(id, d = [1, 1, 1, 1]) {
+	let suit = gear.suits.find(s => Number(s.id) === Number(id))
+	return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]*d[0]} ${jn.dtype[0]} ${suit.resistance[1]*d[1]} ${jn.dtype[1]} ${suit.resistance[2]*d[2]} ${jn.dtype[2]} ${suit.resistance[3]*d[3]} ${jn.dtype[3]}`)
+}
+
+// A text resentation of a weapon (non-technical)
+function weapon(id) {
+	let weapon = gear.weapons.find(w => Number(w.id) === Number(id))
+	let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
+	for (i = 0; i < 4; i++) {
+		if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
+	}
+	return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
+}
+
+// Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
+exports.rDamage = function rDamageEX(rec, dea, res = 1) {
+	let levelDifference = jn.risk.indexOf(rec.toUpperCase()) - jn.risk.indexOf(dea.toUpperCase())
+	if (rec.toUpperCase() === "LUL") levelDifference = 5
+	if (dea.toUpperCase() === "LUL") levelDifference = -5
+	let dMult = 1
+	//console.log(levelDifference)
+	//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
+	switch (levelDifference) {
+		case 5: dMult = 0; break;
+		case 4: dMult = 0.4; break;
+		case 3: dMult = 0.6; break;
+		case 2: dMult = 0.7; break;
+		case 1: dMult = 0.8; break;
+		case 0:
+		case -1: dMult = 1; break;
+		case -2: dMult = 1.2; break;
+		case -3: dMult = 1.5; break;
+		case -4: dMult = 2; break;
+		case -5: dMult = 69; break;
+		default: dMult = 1; break;
+	}
+	return (dMult * res)
+}
+function rDamage(rec, dea, res) {return exports.rDamage(rec, dea, res)}
+
+// Just a function that times the message out in x seconds
+function yeet(sec) {
+	setTimeout(function(){msg.delete().catch(console.error)}, sec * 1000)
+}
+
+// Roll an x-sided die, even if that makes absolutely no sense in practice
+function roll(sides) {
+	return Math.floor(Math.random() * sides) + 1
+}
+
+// Add an item id to suit/weapon inventory
+function addItemID(emp, inv, id) {
+	if (exists(emp[inv]) === false) emp[inv] = id
+	else emp[inv] += "|" + id
+}
+
+// Remove an item id from suit/weapon inventory
+function removeItemID(emp, inv, id) {
+	if (exist(emp[inv]) === false) return
+	newInv = emp[inv].split("|").filter(i => Number(i) != Number(id)).join("|")
+	if (exists(newInv)) emp[inv] = newInv
+	else emp[inv] = ""
+	let ws
+	if (inv === "inventorys") ws = "weapon"
+	else ws = "suit"
+	if (Number(emp[ws]) === Number(id)) emp[ws] = "0"
+}
+
+// Function for getting a role by name 
+function getRole(nme) {
+	if (msg.guild.roles.some(role => role.name.toLowerCase() === nme.toLowerCase()))
+		return msg.guild.roles.find(role => role.name.toLowerCase() === nme.toLowerCase())
+	else return undefined
+}
+
+// Returns a suit object found by id
+function suitObj(id) {
+	if (gear.suits.some(s => Number(s.id) === Number(id)))
+		return gear.suits.find(s => Number(s.id) === Number(id)))
+	else return undefined
+}
+
+// Returns a weapon object found by id
+function weapObj(id) {
+	if (gear.weapons.some(s => Number(s.id) === Number(id)))
+		return gear.weapons.find(s => Number(s.id) === Number(id)))
+	else return undefined
+}
+
+// Returns the number value of a stat level
+function statLVN(stat) {
+	if (stat < 30) {return 1}
+	else if (stat < 45) {return 2}
+	else if (stat < 65) {return 3}
+	else if (stat < 85) {return 4}
+	else {return 5}
+}
+
+// The new (and hopefully improved) work function
+function work(employee1, abno1, order1, channel) {
+	
+	const employee = employee1
+	const cAbno = abno(abno1)
+	const order = order1
+	let statIndex = jn.workOrders.indexOf(order)
+	let respectiveStat = jn.stats[statIndex]
+	let userStat = employee.stats[statIndex]
+	let userTemp = employee.tempL
+	let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/2) + employee.luck
+	let userStatLevel = employee.statLevels()[statIndex]
+	
+	let successChance = 0
+	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel])*100
+	if (employee.buffListArray.some(b => b[0] === cAbno.code)) {
+		let b = employee.buffListArray.find(b => b[0] === cAbno.code)
+		if (b[1] === "schance") successChancet += Number(b[2])
+	}
+	if (successChancet > 95) successChance = 95 else successChance = successChancet
+	console.log(`Success chance for ${dbployees[dbids.indexOf(arrg[0])].tag} on ${arrg[1]}: ${successChance}%`)
+	let damageArray = []
+	let neboxes = 0
+	let peboxes = 0
+	let ppeboxes = 0
+	let rollArr = []
+	
+	for (i = 0; i < cAbno.peoutput; i++) {
+	if (e.hp > 0 && e.sp > 0) {
+		let cRoll = roll(100)
+		let luckRoll = roll(1000)
+		if (cRoll > luck) {}
+		if (cRoll > successChance) {
+		if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
+		else rollArr.push([cRoll, cRoll > successChance])
+		} 
+		else rollArr.push([cRoll, cRoll > successChance])
+		if (cRoll > successChance && luckRoll > luck) {
+			neboxes++
+			let dmg = (roll(abn.abn[abn.lista.indexOf(arrg[1])].damage[1] - abn.abn[abn.lista.indexOf(arrg[1])].damage[0] + 1) - 1) + abn.abn[abn.lista.indexOf(arrg[1])].damage[0]
+			let dIndex = cAbno.dtype.indexOf(1)
+			let aDmg = e.damage(cAbno.risk, jn.damageTypes[dIndex], dmg)
+			let aDmgStr
+			if (dIndex === 3) aDmgStr = `${aDmg.toFixed(1)} (${(aDmg/e.fortL*100).toFixed(1)}%) ${jn.dtype[3]}`
+			else aDmgStr = `${aDmg.toFixed(1)} ${jn.dtype[dIndex]}`
+			damageArray.push(aDmgStr)
+		}
+		else if (roll(15) === 15) ppeboxes++
+		else peboxes++
+	} else e.dead = 1
+	}
+	async function asyncEdit(rMsg) {
+		let mood = ""
+		let moodResult = 0
+		let moodEffectResult = ""
+		let boxTotal = peboxes + ppeboxes
+		if (boxTotal >= cAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
+		else if (boxTotal >= cAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
+		else {mood = jn.badresult; moodResult = 0}
+		if (cAbno.effect[0] === true) {
+			let moodEffect = fn.effectApplication[cAbno.id](e, moodResult, order)
+			if (moodEffect[0] === true) moodEffectResult = moodEffect[1]
+		}
+		if (damageArray.length === 0) damageArray.push("none")
+		let wTime = Math.floor((cAbno.peoutput/2)*10)/10
+		mssage.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+		await wait(wTime*500)
+		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
+			dbployees[dbids.indexOf(arrg[0])].dead = 1
+		if (e.dead === 0) {
+		ppe = ""
+		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
+		mssage.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		e.bumpBox(cAbno.code, peboxes)
+		let subPointIncrease = 0
+		if (boxTotal >= aRisk + 2) {
+			if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk)
+			else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk)
+			else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk)
+			else subPtToBump = 4*Math.pow(2, aRisk)
+		}
+		e.bumpSubpoint(respectiveStat.toLowerCase(), subPointIncrease)
+		e.balance = Number(e.balance) + ppeboxes
+		if (abno(arrg[1]).gift === "true") {
+			let gifttxt = ""
+			let gift = gear.gifts.find(g => g.id === abno(arrg[1]).ego)
+			let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
+			if (giftRoll[0] === true) {
+				gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
+				if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
+			}
+			else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
+			console.log("Gift Roll: " + giftRoll.join(", "))
+			if (gifttxt != "") channel.send(gifttxt)
+		}
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		dbployees[dbids.indexOf(arrg[0])].working = 0
+	}
+	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
+	asyncEdit(m)})
+	console.log(rollArr)
+}
+
+// Vote stuff - I positively cannot be arsed to rewrite this shite
+if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
+	voting = 1
+	voteeid = ""
+	mesc.split(" ")[3].split("").forEach(c => {
+		if (nmbrs.includes(c)) {voteeid += c}
+	})
+	voteeuser = DELTAS.members.find("id", voteeid)
+	console.log("THIS SHIT " + voteeid)
+	cptxt = drFind(voteeuser)
+	dbvars[2] = 0
+	timeout = 1
+	vtd = [] 
+	yee = 0
+	boo = 0
+	if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+		reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+	} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
+	msg.react('✅')
+	msg.react('🚫')
+	override = 0
+	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
+	const collector = msg.createReactionCollector(filter, { time: 15000 })
+	collector.on('collect', rct => {//${rct.emoji.name}
+		lru = rct.users.map(u => u.id).pop()
+		lrn = client.users.find("id", lru)
+		if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
+		if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
+		vtd.push(lru)
+		if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; console.log("Ducktest"); boo = 0; override = 1}
+		if (vtd.length >= reqv || override === 1) {
+		timeout = 0
+		collector.stop()
+		} 
+	})
+	collector.on('end', collected => {
+		voting = 0
+		if (timeout === 1) {
+			ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
+	} else {
+		if (yee > boo) {
+			voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
+			voteeuser.removeRole(getRole(votingteam))
+			voteeuser.addRole(getRole(votingteam + " (C)"))
+			let bufflist = []
+			if (dbployees[dbids.indexOf(voteeuser.id)].bufflist != undefined) {
+			bufflist = dbployees[dbids.indexOf(voteeuser.id)].bufflist.split("|")
+			}
+			if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
+			fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "take")
+			}
+			fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)
 		}
 		
-		if (cmd[0] === '!silentban' && (msg.author.id === '556890472141029376' || msg.author.id === '143261987575562240' || msg.author.id === '389226857679159336')) {
-			let amt
-			if (cmd[2] != undefined && Number.isInteger(Number(cmd[2]))) amt = Number(cmd[2])
-			else amt = 60
-			if (amt > 120) {
-				ch.send(`Can't ban for longer than 120 seconds :P.`)
-				return
-			}
-			if (amt < 0) {
-				ch.send(`Can't ban for less than 0 seconds :P.`)
-				return
-			}
-			let roles = DELTAS.members.get(getUser(cmd[1]).id).roles
-			let mem = DELTAS.members.get(getUser(cmd[1]).id)
-			if (mem.user.bot === true) {
-				ch.send(`Can't ban bots :P.`)
-				return
-			}
-			DELTAS.members.get(getUser(cmdClean[1]).id).removeRoles(roles)
-				.then(() => DELTAS.members.get(getUser(cmdClean[1]).id).addRole('673218574101512214'))
-				.catch(console.error)
-			wait(amt*1000).then(() => {
-				let mem = DELTAS.members.get(getUser(cmd[1]).id)
-				let memr = mem.roles.array().map(r => r.id)
-				let backr = []
-				roles.forEach(r => {
-					if (memr.some(mr => mr === r.id) === false) backr.push(r)
-				})
-				if (backr != []) mem.addRoles(backr).then(() => 
-				DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214'))
-								.catch(console.error)
-				
-			})
-		}
-		
-		// Debug commands
-		if (cmd[0] === '!debug') {
-			if (msg.author.id === process.env.BOT_AUTHOR) {
-			ch.send("Debug command run, check logs.")
-			switch (cmd[1]) {
-				case "quotelog":
-					console.log(quotelog)
-					break
-				case "roles":
-					console.log(derolenm)
-					console.log(deroleid)
-					break
-				case "rolesraw":
-					console.log(DELTAS.roles)
-					break
-				case "sendem":
-					ch.send(emoji(cmd1[2], DELTAS, true))
-					.catch(console.error)
-					break
-				case "ids":
-					console.log(msg.guild.id + " " + msg.channel.id) 
-					console.log("Debug command !debug ids noticed.")
-					break
-				//case "return":
-				//	if (cmd[2] > -1 && cmd[2] < 2) {
-				//		dbg1 = cmd[2]
-				//		console.log("dbg1 set to " + dbg1)
-				//	} else {console.log("dbg1 change failed. cmd[2] value:" + cmd[2])}
-				//	console.log("Debug command !debug return noticed.")
-				//	break
-				case "hook":
-					lambHook.send("test")
-					console.log("Debug command !debug hook noticed.")
-					break
-				case "dbnotest":
-					databaseAbnos()
-					break
-				case "roletest":
-					cdeproles.forEach(r => {
-						rtemp = getRole(r)
-						console.log(rtemp.id)
-					})
-					break
-				case "atthem":
-					ch.send("@everyone") 
-					break
-				case "upd":
-					updData()
-					break
-				case "upvote":
-					DELTAS.channels.find(c => c.name === cmd[2]).fetchMessage(cmd[3])
-						.then(m => {
-							if (m.reactions.has('upvote:663458914851094588')) m.clearReactions()
-							else m.react('663458914851094588')
-								.catch(console.error)
-						}).catch(console.error)
-					break
-				case "roleraw":
-					var rtmp = ""
-					for (i = 2; i < cmd1.length; i++) {
-						rtmp += cmd1[i]
-						if (i < (cmd1.length - 1)) {rtmp += " "}
-					}
-					console.log(getRole(rtmp))
-					break
-				case "bullettest":
-					fn.effectApplication["hpbullet"](employee(getUser("quack").id), "hpbullet")
-					break
-				case "embed":
-					var embed = new Discord.RichEmbed()
-					.setTitle(abn.abn[0].number)
-					.setThumbnail('https://images2.imgbox.com/cc/7f/DWHKASNe_o.png')
-					.addField("The Dapper Duck")
-					ch.send({embed})
-					break
-				case "employee":
-					let uid2 = ""
-					if (getUser(cmd[2]) != undefined) {uid2 = getUser(cmd[2]).id} else {uid2 = "143261987575562240"}
-					console.log(dbployees[dbids.indexOf(uid2)])
-					break
-				case "msg":
-					let tempch = DELTAS.channels.get(cmd[2])
-					var tempmsg = ""
-					var i
-					for (i = 3; i < cmd.length; i++) { 
-						tempmsg += cmd1[i] + " ";
-					} 
-					tempch.send(tempmsg)
-					.catch(console.error)
-					break
-				case "extest":
-					console.log(rDamage("LUL", "LUL", 1))
-					console.log(simpleCombat.rDamage("LUL", "LUL", 1))
-					break
-				case "healpulse":
-					healPulse()
-					break
-				case "altertable":
-					connection.query("ALTER TABLE `employees` ADD `defensebuffs` VARCHAR(64) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL DEFAULT '0|0|0|0' AFTER `buffs`;", function(err, result){if (err) throw err})
-					break
-				case "dropme":
-					connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = '143261987575562240'", function(err, result){if (err) throw err})
-					break
-				case "bals":
-					console.log(dbployees.map(e => [e.tag, e.balance]))
-					break
-				case "nut":
-					var embed = new Discord.RichEmbed()
-					.setTitle("The (late) No Nut November Alert")
-					.setThumbnail('')
-					.setDescription("Everyone is welcome to participate in the annual No Nut November event. Yes, it's now annual. Don't ask me why. Everyone willing to participate should react with a <:yeahboy:608361227130896384>, everyone that has already failed - react with <:angelaTits2:608813572662755338><:angelaTits1:608813588228079626>.")
-					ch.send({embed})
-					.catch(console.error)
-					break
-				case "gifttest1":
-					fn.debug(employee(getUser("quack").id), 3, "add")
-					break
-				case "gifttest2":
-					fn.debug(employee(getUser("quack").id), 3, "remove")
-					break
-				case "emojis":
-					var emarr = emojiid
-					emojiname.forEach(x => {
-						emarr[emojiname.indexOf(x)] = emojiname[emojiname.indexOf(x)] + " " + emarr[emojiname.indexOf(x)]
-					})
-					console.log(emarr)
-					break
-				case "boxes":
-					dbployees.forEach(e => {
-						console.log(e.tag + " " + e.balancespecific)
-					})
-					break
-				case "bigbroke":
-					dbployees.forEach(e => {
-						let bxd = e.inventorys.split("|")
-						let bxdNew = []
-						for (i = 0; i < bxd.length; i++) {
-							if (bxd[i] != "undefined" && bxd[i] != "") {
-								bxdNew.push(bxd[i])
-							}
-						}
-						e.inventorys = bxdNew.join("|")
-						let bxdw = e.inventoryw.split("|")
-						let bxdwNew = []
-						for (i = 0; i < bxdw.length; i++) {
-							if (bxdw[i] != "undefined" && bxdw[i] != "") {
-								bxdwNew.push(bxdw[i])
-							}
-						}
-						e.inventoryw = bxdwNew.join("|")
-					})
-					break
-				case "clearbase":
-					dbployees.forEach((e, i) => {
-						let suits = e.inventorys.split("|")
-						let weapons = e.inventoryw.split("|")
-						console.log(e.tag + " " + e.inventorys + " " + e.inventoryw)
-						console.log(e.tag + " " + suits + " " + suits[0] + " " + weapons)
-						if (suits[0] === "0") {suits.shift()}
-						if (weapons[0] === "0") {weapons.shift()}
-						dbployees[i].inventorys = suits.join("|")
-						dbployees[i].inventoryw = weapons.join("|")
-					})
-					break
-				case "emojisraw":
-					console.log(DELTAS.emojis)
-					break
-				case "dbase1":
-
-						connection.query("SELECT * FROM users", function (err, result) {
-
-							console.log(result)
-							if (err) throw err;
-
-					})
-					
-					break
-				case "forcecaptain":
-					
-				case "dbase2":
-
-						connection.query(`SELECT ${cmd[2]} FROM users`, function (err, result) {
-
-							console.log(result)
-							if (err) throw err
-					})
-				case "boxbroke":
-					dbployees[dbids.indexOf('312299633474928642')].balancespecific = dbployees[0].balancespecific
-					break
-				case "boxbump":
-					bumpBoxes(Number(cmd[2]), cmd[3], getUser(cmd[4]).id)
-					break
-				case "crash":
-					updData()
-					client.destroy(process.env.BOT_TOKEN)
-					break
-				case "emps":
-					console.log(dbployees.map(e => [e.tag, e.id]))
-					break
-				case "var":
-					console.log("Debug command !debug var noticed.")
-					switch (cmd[2]) { 
-					case "set": 
-						dbvars[dbvnames.indexOf(cmd[3])] = Number(cmd[4])
-						break
-					case "get":
-						ch.send(`Debug variable "` + cmd[3] + `" is equal to ` + dbvars[dbvnames.indexOf(cmd[3])])
-						break
-					default:
-						ch.send("Incorrect usage.")
-						break
-					}
-					break
-				case "profile":
-				let uid = "" //
-				if ((cmd[4] != undefined) && (getUser(cmd[4]) != undefined)) {uid = getUser(cmd[4]).id} else {uid = "143261987575562240"}
-					let tempval = cmd[3]
-					if ((cmd[2] === "hp") || (cmd[2] === "sp")) {tempval = Number(cmd[3]).toFixed(1)}
-					if ((cmd[2] === "dead") || (cmd[2] === "working")) {tempval = Number(cmd[3])}
-					let keys = Object.keys(dbployees[dbids.indexOf(uid)])
-					let val = Object.values(dbployees[dbids.indexOf(uid)])
-					dbployees[dbids.indexOf(uid)][cmd[2]] = tempval
-					updData()
-					break
-				case "revive":
-					function revive(cmd) {
-					let uid = "" //
-					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {uid = getUser(cmd[2]).id} else {uid = "143261987575562240"}
-						dbployees[dbids.indexOf(uid)].hp = dbployees[dbids.indexOf(uid)].fortL
-						dbployees[dbids.indexOf(uid)].sp = dbployees[dbids.indexOf(uid)].prudL
-						dbployees[dbids.indexOf(uid)].dead = 0
-						updData()
-					}
-					revive(cmd)
-					break
-				case "localstats":
-					uid = "143261987575562240"
-					console.log(dbployees[dbids.indexOf(uid)]['fortL'] + " " + dbployees[dbids.indexOf(uid)]['prudL'] + " " + dbployees[dbids.indexOf(uid)]['tempL'] + " " + dbployees[dbids.indexOf(uid)]['justL'])
-					break
-				default:
-					console.log("Unrecognized debug command noticed.")
-					break
-			} 	
-		} else {ch.send("**" + msg.author.tag + "**, " + "Sorry, but only the bot's author can use the debug commands.")}
-		yeet(2)
-		}
+		if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
+			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
 	
-	// For making the bot say whatever, but only if the debug variable debugsay is 1
-	if (cmd[0] === "!say") {
-		if (cmd.length < 2) {
-			ch.send("**" + msg.author.tag + "**, " + "Cannot send empty messages.")
-			return }
-		if ((dbvars[1] === 1) || (dbvars[1] === '1')) {
-			var tempmsg = ""
-			var i
-			for (i = 1; i < cmd.length; i++) { 
-				tempmsg += cmd1[i] + " ";
-			} 
-			ch.send(tempmsg)
-			.catch(console.error)
-			yeet(0)
-		} else {ch.send("**" + msg.author.tag + "**, " + "The command !say is currently disabled.")}
+			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 	}
+	})
+}
+
+client.on('guildMemberUpdate', () => {
 	
-	if ((cmd[0] === "!lc") || (cmd[0] === "!lobcorp")) {
-	if ((ch === DELTAS.channels.get('653538398681825300')) || (ch === DELTAS.channels.get('654361755857846303')) || (ch === DELTAS.channels.get('655509126612385812')) || (chPass === 1)) {
-		if ((deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) || (cmd[1] === "info") || (cmd[1] === "assign")) {
-			switch (cmd[1]) {
-				case "list":
-					if (cmd[2]) {
-					if (nccideproles.includes(cmd[2])) {
-					currdep = getRole(ncdeproles[nccideproles.indexOf(cmd[2])])
-					currdepm = getRole(ncdeproles[nccideproles.indexOf(cmd[2])]).members.map(m=>m.user.tag)
-					depm = ""
-					cpt = "none."
-					if ((currdepm[0] === undefined) === false) {
-					currdepm.forEach(m => {
-						depm += m
-						if (currdepm.indexOf(m) < (currdepm.length - 1)) {depm += ", "} else {depm += "."}
-					})
-					} else {depm = "The department is empty... *crickets*"}
-					if (getRole(ncdeproles[nccideproles.indexOf(cmd[2])] + " (C)").members.map(m=>m.user.tag)[0] != undefined) {
-						cpt = getRole(ncdeproles[nccideproles.indexOf(cmd[2])] + " (C)").members.map(m=>m.user.tag)[0]
-					}
-					ch.send("\n```md\n" + `[${ncdeproles[nccideproles.indexOf(cmd[2])]}]\n>	Captain: ${cpt}\n#	Employees: ${depm}` + "\n```")
-					
-					break
-					} else {ch.send("**" + msg.author.tag + "**, " + "incorrect department name."); break}
-					} else {
-						
-					var cpts = ""
-					cdeproles.forEach(r => {
-						empcount = 0
-						empcounts = ""
-						emps = "s"
-						empcount = empcount + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag).length + DELTAS.roles.get(getRole(ncdeproles[cdeproles.indexOf(r)]).id).members.map(m=>m.user.tag).length
-						if (empcount.toString().split("")[empcount.toString().split("").length - 1] === "1") {emps = ""}
-						if (empcount === 0) {empcounts = "no"} else {empcounts = empcount.toString()}
-						if ((DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0] === undefined) === false) {	
-							cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n#		` + DELTAS.roles.get(getRole(r).id).members.map(m=>m.user.tag)[0]
-						} else {cpts += "[" + ncdeproles[cdeproles.indexOf(r)] + `] (${empcounts} employee${emps}) \n#		none`}
-						if (cdeproles.indexOf(r) < (cdeproles.length - 1)) {cpts += ", \n"} else {cpts += ".```"}
-					})
-					ch.send("List of departments and the respective captains: \n```md\n" + cpts)
-					
-					break
-					}
-					break
-				case "w":
-				case "work": 
-				if (cmd[2] != "list") {
-					if (abn.lista.includes(cmd[2])) {
-					if (jn.abnWorkable.includes(cmd[2])) {
-					if (jn.workOrders.includes(cmd[3])) {
-					if (dbployees[dbids.indexOf(msg.author.id)].working === 0) {
-					if (dbployees[dbids.indexOf(msg.author.id)].dead === 0) {
-						let effects = dbployees[dbids.indexOf(msg.author.id)].effects.split("|")
-						let effectDead = false
-						let effectDeathCause = ""
-						let onCooldown = false
-						let cdVal = 0
-						effects.forEach(e => {
-							if (fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[0] === true) {
-								effectDead = true
-								effectDeathCause = fn.effects.deathOnWork(dbployees[dbids.indexOf(msg.author.id)], cmd[2].toLowerCase())[2]
-							}
-							if (fn.effects.workCD(dbployees[dbids.indexOf(msg.author.id)]) === true) {
-								onCooldown = true
-								if (e.startsWith("2/")) {
-								cdVal = Number(e.split("/")[1])
-								}
-							}
-						})
-					if (onCooldown === false) {
-					if (effectDead === false) {
-						//ch.send("abnworkrequest " + msg.author.id + " " + cmd[2] + " " + cmd[3])
-						work([msg.author.id, cmd[2], cmd[3]], msg.channel)
-					} else {
-						dbployees[dbids.indexOf(msg.author.id)].dead = 1
-						dbployees[dbids.indexOf(msg.author.id)].hp = 0
-						dbployees[dbids.indexOf(msg.author.id)].sp = 0
-						dbployees[dbids.indexOf(msg.author.id)].effects = "null"
-						ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
-					}
-					} else ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${cdVal + 1} second(s))`)
-					} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
-					} else {
-						let baseStr = " List of currently workable abnormalities:```\n		"
-						let workableIDs = jn.abnWorkable
-						workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
-						workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
-						let workableArr = []
-						let workableCpx = []
-						let index = 0
-						workableIDs.forEach(aID => {
-							if (aID != "o-01-01")
-							workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
-						})
-						for (i = 0; i < workableArr.length; i++) {
-							if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
-							workableCpx[Math.floor(i/10)].push(workableArr[i])
-						}
-						ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
-							l.react('👈').then(l.react('👉'))
-							const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
-							const collector = l.createReactionCollector(filter, { time: 120000 })
-							collector.on('collect', rct => {
-								if (rct.emoji.name === '👈') {
-									index -= 1
-									if (index < 0) index = workableCpx.length - 1
-									l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-								}
-									
-								if (rct.emoji.name === '👉') {
-									index += 1
-									if (index > (workableCpx.length - 1)) index = 0
-									l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-								}
-								
-								
-							})
-						})
-					}
-					break
-				case "p":
-				case "profile": {
-					let curruser
-					if ((cmd[2] != undefined) && (getUser(cmd[2]) != undefined)) {cuid = getUser(cmd[2]).id
-					curruser = dbployees[dbids.indexOf(cuid)]}
-					 else {curruser = dbployees[dbids.indexOf(msg.author.id)]}
-								
-								if (curruser.tjtime === undefined || curruser.tjtime === "undefined")
-									curruser.tjtime === Date.now()
-								let expmod = 0
-								if (curruser.bufflist != undefined) {
-								if (curruser.bufflist.length != undefined && curruser.bufflist.length > 0) {
-								if (curruser.bufflist.split("|").some(b => b.startsWith("teamtr"))) {
-									let trainBuff = curruser.bufflist.split("|").find(b => b.startsWith("teamtr")).split("/")
-									if (trainBuff[1] === '0') {expmod = 2}
-									else {expmod = 4}
-								}}}
-								
-								let effectArr = ["none"]
-								if ((curruser.effects != "null") && (curruser.effects != "") && (curruser.effects != undefined)) {
-									effectArr = []
-								curruser.effects.split("|").forEach(eff => {
-									let waittime = ""
-									let effspecial = ""
-									if (eff.split("/")[1] != "inf") {
-									if (Number(eff.split("/")[1]) > 60) {
-										waittime = ((Number(eff.split("/")[1]))/60).toFixed(1) + " minute(s)"
-									} else {waittime = "~" + (Number(eff.split("/")[1]) + 1) + " second(s)"}
-									if (eff.split("/")[2] === "fatigue") {effspecial = " [+" + Math.floor(Number(eff.split("/")[3])/3) +" second(s) to work CD]"}
-									} else waittime = "???"
-									effectArr.push(eff.split("/")[2] + `${effspecial} <${waittime}>`)
-								})
-								}
-								//console.log("Curruser ID (profile): " + curruser.id)
-								tTime = "0"
-								if (curruser.tjtime != undefined) {
-								tTime = ((Date.now() - (curruser.tjtime - 0))/(1000*60*60*24)).toFixed(1)
-								}
-								let deathArr = ["alive", "dead"] 
-								let ssp = bumpSubpoint(curruser.id)
-								eqct = [curruser.suit, curruser.weapon]
-								// [Suit, Weapon]
-								gearc = [gear.suits[eqct[0]], gear.weapons[eqct[1]]]
-								stats = [Number(curruser.fortitude), Number(curruser.prudence), Number(curruser.temperance), Number(curruser.justice)]
-								statsL = [curruser.fortL, curruser.prudL, curruser.tempL, curruser.justL, curruser.stats[4]]
-								statB = [statsL[0]-stats[0], statsL[1]-stats[1], statsL[2]-stats[2], statsL[3]-stats[3]]
-								statB.forEach((s, i) => {if (s >= 0) {statB[i] = `+${s}`}})
-								console.log(`F${stats[0]} P${stats[1]} T${stats[2]} J${stats[3]}`)
-								wepd = `${gearc[1].damage[0]}-${gearc[1].damage[1]} `
-								for (i = 0; i < 4; i++) {
-									if (gearc[1].dtype[i] > 0) {wepd += jn.dtype[i]}
-								}
-								ch.send("\n```mb\n 📋 | Showing stats for employee " + curruser.tag + "\n```" + `		LV ${statLVL(statsL[0])} ${jn.fortitude} ${stats[0]}${statB[0]}			LV ${statLVL(statsL[1])} ${jn.prudence} ${stats[1]}${statB[1]}\n		LV ${statLVL(statsL[2])} ${jn.temperance} ${stats[2]}${statB[2]}			LV ${statLVL(statsL[3])} ${jn.justice} ${stats[3]}${statB[3]}\nEmployee Level ${jn.statLevels[statsL[4]-1]}\nProgress towards the next stat points:\n		${jn.fortitude} ${ssp[0]} / ${(jn.statLevels.indexOf(statLVL(stats[0]))+1)*(14-expmod)}		${jn.prudence} ${ssp[1]} / ${(jn.statLevels.indexOf(statLVL(stats[1]))+1)*(14-expmod)}\n		${jn.temperance} ${ssp[2]} / ${(jn.statLevels.indexOf(statLVL(stats[2]))+1)*(14-expmod)}		${jn.justice} ${ssp[3]} / ${(jn.statLevels.indexOf(statLVL(stats[3]))+1)*(14-expmod)*3}\n\n	Days in the department: ${tTime}\n	Current effects: \n	${effectArr.join(",\n	")}.\n		Currently:	${deathArr[Number(curruser.dead)]}.\n		HP: ${Number(curruser.hp).toFixed(1)}${jn.health}		SP: ${Number(curruser.sp).toFixed(1)}${jn.sanity}\n\n		Suit: ${emoji(gearc[0].level.toLowerCase(), ESERV)} ${gearc[0].name}   -   ${(gearc[0].resistance[0]*curruser.defensebuffs.split("|")[0]).toFixed(2)} ${jn.dtype[0]}	${(gearc[0].resistance[1]*curruser.defensebuffs.split("|")[1]).toFixed(2)} ${jn.dtype[1]}	${(gearc[0].resistance[2]*curruser.defensebuffs.split("|")[2]).toFixed(2)} ${jn.dtype[2]}	${(gearc[0].resistance[3]*curruser.defensebuffs.split("|")[3]).toFixed(2)} ${jn.dtype[3]}\n		Weapon: ${emoji(gearc[1].level.toLowerCase(), ESERV)} ${gearc[1].name}   -   ${wepd}`)
-								if (err) throw err
-				}
-				break 
-				case "i":
-				case "inv":
-				case "inventory": {
-					invClean()
-					function inv(emp, channel) {
-					cUser = emp
-					const cCh = channel
-					const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
-					const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'bullet' to open the bullet menu, 'exit' to leave.`
-					let menuIndex = "main"
-					let uSuitIds = []
-					let uWeapIds = []
-					let uSuitText = ""
-					let uWeapText = ""
-					let r = 0
-					function instInvS() {
-						uSuitText = ""
-						if ((cUser.inventorys != undefined) && (cUser.inventorys != 'undefined') && (cUser.inventorys != '')) {
-						uSuitIds = ["0"].concat(cUser.inventorys.split("|")).filter(s => gear.suits[s] != undefined)
-						uSuitText += uSuitIds.map(s => gear.suits[s].name).join(", ") + "."
-						} else {uSuitIds = ["0"]; uSuitText += "Suit."}
-					}
-					instInvS()
-					function instInvW() {
-						uWeapText = ""
-						if ((cUser.inventoryw != undefined) && (cUser.inventoryw != 'undefined') && (cUser.inventoryw != '')) {
-							console.log(cUser.inventoryw)
-						uWeapIds = ["0"].concat(cUser.inventoryw.split("|")).filter(w => gear.weapons[w] != undefined)
-						uWeapText += uWeapIds.map(w => gear.weapons[w].name).join(", ") + "."
-						} else {uWeapIds = ["0"]; uWeapText += "Riot Stick."}
-					}
-					instInvW()
-					cCh.send(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
-					.then(menumsg => {
-						
-				/*func*/async function menuNavigationInventory() {
-							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
-							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
-							instInvS()
-							instInvW()
-							let rp = r.first()
-				/*========*/if (rp != undefined) {
-							let mr = rp.content.toLowerCase()
-							
-							if (mr.startsWith("!lc") === false) {
-							if (mr != "exit") {
-							if (mr === "cancel") {
-								menuIndex = "main"
-							}
-								let k = 0
-								let ki = 0
-								while (k === 0 && ki < 6) {
-								switch (menuIndex) {
-									case "main":
-										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
-										if (r === 1) {r = 0; k = 1; break}
-										switch (mr) {
-											case "equip":
-											menuIndex = "equip"
-											break
-											case "discard":
-											menuIndex = "discard"
-											break
-											case "bullet":
-											menuIndex = "bullet"
-											break
-										}
-									break
-									
-									case "bullet":
-									if (menuIndex === "bullet" && r != 1) {
-									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
-									let hpbullet = 0
-									let spbullet = 0
-									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-									if ((mr.split(" ")[0] === "sp") || (mr.split(" ")[0] === "hp")) {
-									if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]] > 0) {
-										if (cUser.dead === 1 || cUser.dead === "1") {
-											cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-											return
-											}
-										if (Number.isInteger(Number(mr.split(" ")[1]))) {
-											if (Number(mr.split(" ")[1]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[0].toUpperCase()} bullets.`); return}
-											else if (Number(mr.split(" ")[1] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
-											else {
-											for (i = 0; i < Number(mr.split(" ")[1]); i++) 
-											{fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)}
-											cCh.send(`**${cUser.tag}** used ${mr.split(" ")[1]} ${mr.split(" ")[0].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[1]))} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
-											}
-										}
-										else {
-										fn.effectApplication[mr.split(" ")[0] + "bullet"](cUser)
-										cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[0].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15)} ${jn[mr.split(" ")[0]+"heal"]}, ${cUser[mr.split(" ")[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[0])]} ${jn[mr.split(" ")[0]]} currently)`)
-										}										
-									}
-									else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[0].toUpperCase()} bullets.`)
-									}
-									k = 1
-									if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-									if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-									menumsg.edit(header + `\n	Bullet inventory:\n		${jn.hpheal} HP Bullets: ${hpbullet}\n		${jn.spheal} SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
-									}
-									break
-									
-									case "equip":
-									if (menuIndex === "equip" && r != 1) {
-									let indInv = uSuitIds.map((s, i) => {return {"i": i+1, "id": s, "type": "suit"}}).concat(uWeapIds.map((w, i) => {return {"i": i+uSuitIds.length+1, "id": w, "type": "weapon"}}))
-									let suitChArr = indInv.map(i => {if (i["type"] === "suit") return `${gear.suits[i.id].name} (${i.i})`}).filter(s => s != undefined)
-									let weapChArr = indInv.map(i => {if (i["type"] === "weapon") return `${gear.weapons[i.id].name} (${i.i})`}).filter(s => s != undefined)
-									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
-									if (indInv.some(i => {return i["i"] === Number(mr)})) {
-										let eqItem
-										let eqRaw
-										let level
-										let eqID = indInv.find(i => {return i["i"] === Number(mr)}).id
-										if (indInv.find(i => {return i["i"] === Number(mr)}).type === "suit") {
-											eqItem = suit(eqID)
-											level = gear.suits[eqID].level
-											eqRaw = gear.suits[eqID]
-										}
-										else {
-											eqItem = weapon(eqID)
-											level = gear.weapons[eqID].level
-											eqRaw = gear.weapons[eqID]
-										}
-										if (cUser.stats.every((s, i) => s >= eqRaw.requirements[i])) {
-											cCh.send(`**${cUser.tag}**, ` + "Equipped " + eqItem)
-											fn.effectApplication.egoChange(cUser, jn.risk.indexOf(level))
-											cUser[indInv.find(i => {return i["i"] === Number(mr)}).type] = eqID
-										} 
-										else cCh.send(`**${cUser.tag}**, error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${eqRaw.reqString}**)`)
-										menuIndex = "main"
-										r = 1
-										break
-									}
-									/*else if (mr === "cancel") {
-										menuIndex = "main"
-										k = 1
-										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
-										break
-									}*/
-									k = 1
-									}
-									break
-									
-									case "discard": 
-									if (menuIndex === "discard" && r != 1) {
-									let indInv
-									let dsSTemp = uSuitIds.map((s, i) => {return {"i": i+1, "id": s, "type": "suit"}})
-									dsSTemp.shift()
-									if (dsSTemp === []) dsSTemp = ["None"]
-									let dsWTemp = uWeapIds.map((w, i) => {return {"i": i+uSuitIds.length+1, "id": w, "type": "weapon"}})
-									dsWTemp.shift()
-									if (dsWTemp === []) dsWTemp = ["None"]
-									indInv = dsSTemp.concat(dsWTemp)
-									
-									let suitChArr = indInv.map(i => {
-										if (i === "None") return `None`
-										if (i["type"] === "suit") return `${gear.suits[i.id].name} (${i.i})`
-										}).filter(s => s != undefined)
-										if (suitChArr.length === 0) suitChArr = ["None"]
-										
-									let weapChArr = indInv.map(i => {
-										if (i === "None") return `None`
-										if (i["type"] === "weapon") return `${gear.weapons[i.id].name} (${i.i})`
-										}).filter(s => s != undefined)
-										if (weapChArr.length === 0) weapChArr = ["None"]
-										
-									menumsg.edit(header + `\n		Suits:	${suitChArr.join(", ")}.\n		Weapons:	${weapChArr.join(", ")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
-									if (indInv.some(i => {return i["i"] === Number(mr)})) {
-										let dsItem = indInv.find(i => {return i["i"] === Number(mr)})
-										let dsID = indInv.find(i => {return i["i"] === Number(mr)}).id
-										let dsText
-										let inv
-										if (dsItem.type === "suit") {inv = "inventorys"; dsText = suit(dsID)}
-										else {inv = "inventoryw"; dsText = weapon(dsID)}
-										removeItemID(cUser, inv, dsID)
-										rp.reply("Discarded " + dsText)
-										if (cUser[dsItem.type] === dsID) cUser[dsItem.type] = "0"
-										instInvS()
-										instInvW()
-										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
-										menuIndex = "main"
-										break
-									} 
-									/*else if (mr === "cancel") {
-										menuIndex = "main"
-										k = 1
-										menumsg.edit(header + `\n		Suits:	${uSuitText}\n		Weapons:	${uWeapText}\n\n` + acts)
-										break
-									}*/
-									k = 1
-									}
-									break
-									
-									
-									default:
-									k = 1
-									menuIndex = "fail"
-									break
-								}// [/switch]
-								ki++
-								}
-								if (ki > 5) menuIndex = "fail"
-							} else menuIndex = "exit"
-							} else menuIndex = "interExit"
-				/*========*/} else menuIndex = "timeout"
-
-							}).catch(console.error)
-						}
-						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
-						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
-						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
-						else if (menuIndex === "test") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Testing concluded.`)
-						else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
-						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
-						
-				/*func*/}
-				
-						menuNavigationInventory()
-					})
-				}
-				inv(dbployees.find(d => d.id === msg.author.id), msg.channel)
-				}
-				break
-				case "b": {
-					let cUser = employee(msg.author.id)
-					let cCh = msg.channel
-					let mr = msg.content.toLowerCase()
-					let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
-					let hpbullet = 0
-					let spbullet = 0
-					if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-					if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-					if ((mr.split(" ")[2] === "sp") || (mr.split(" ")[2] === "hp")) {
-					if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]] > 0) {
-						if (cUser.dead === 1 || cUser.dead === "1") {
-							cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-							return
-							}
-						if (Number.isInteger(Number(mr.split(" ")[3]))) {
-							if (Number(mr.split(" ")[3]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[2].toUpperCase()} bullets.`); return}
-							else if (Number(mr.split(" ")[3] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
-							else {
-							for (i = 0; i < Number(mr.split(" ")[3]); i++) 
-							{fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)}
-							cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[3]))} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
-							}
-						}
-						else {
-						fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
-						cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15)} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
-						}										
-					}
-					else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
-					}
-				}
-				break
-				case "help":
-					if (drFind(msg.member) === "") {
-						ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name).")
-						
-					} else {
-						let helpArr = [
-							"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work, arguments in {curly brackets} are options and only one needs to be specified.\n",
-							"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
-							"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
-							"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
-							"	`!lc debuff {apply/remove} (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
-							"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
-							"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
-							"	`!lc captain`:",
-							"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
-							"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
-						]
-						ch.send(helpArr.join("\n"))
-						}
-					
-					break
-				case "assign":
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-						var rtmp = cmd[2]
-						if (jn.nccideproles.includes(rtmp)) {
-							msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
-							employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
-							ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
-							async function thisshit() {
-								await wait(200)
-								connection.query("SELECT * FROM `employees`", function (err, result) {
-								dbployees = []
-								dbids = []
-								result.forEach(e => fdbPush(e))
-								result.forEach(e => dbids.push(e.userid))
-								})
-								updData()
-								await wait(200)
-								databaseThing()
-								await wait(200)
-								updData()
-								await wait(200)
-								databaseThing()
-							}
-							thisshit()
-							if (employee(msg.author.id))
-								employee(msg.author.id).tjtime = Date.now()
-							else dbployees.push(new emp(msg.author.id, msg.author.tag))
-						} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
-					} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
-					break
-				case "leave":
-					if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-					if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						ch.send("**" + msg.author.tag + "**, " + "do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
-						const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
-						collector.on('collect', cmsg => {
-						if (cmsg.content.toLowerCase() === "y") {
-							ch.send("**" + msg.author.tag + "**, " + "you have left the " + drFind(msg.member) + ".") 
-							let bufflist = []
-							if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
-							bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
-							}
-							if (bufflist.every(eff => {return (eff.startsWith("team") === false)}) === false) {
-							fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 0)	
-							}
-							employee(msg.author.id).tjtime = 'undefined'
-							msg.member.removeRole(getRole(drFind(msg.member)))
-							collector.stop()
-						}
-						if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
-						})
-					} else {ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to any team.")}
-					} else {ch.send("**" + msg.author.tag + "**, " + "captains cannot simply leave their team! (!lc captain resign)")}
-					break
-				case "debuff":
-					if (cmd[2]) {
-						if (cmd[2] === "apply") {
-						if (jn.stats.includes(cmd[3])) {
-						if (checkSymbols(cmd[4], nmbrs)) {
-						if (Number(cmd[4]) > 0) {	
-						if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
-							if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
-								ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
-								break
-								return
-							}
-						}
-						if ((employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]) < 17) {
-							ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]} with the specified argument)`)
-							return
-						} 
-							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
-							ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
-						} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
-						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
-						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
-						}
-						else if (cmd[2] === "remove") {
-						if (employee(msg.author.id).bufflist != undefined) {
-						if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
-						if (jn.stats.includes(cmd[3])) {
-							let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3]))
-							fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
-							ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV)} debuff.`)
-						} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
-						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
-						} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
-						}
-						else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
-					} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove temperance")
-				break
-				case "ex":
-				case "extraction":
-				if (cmd[2] != "list") {
-				invClean()
-				function ext(emp, channel) {
-					cUser = emp
-					const cCh = DELTAS.channels.get(channel)
-					let currentAbno
-					let currentAbnoCode
-					let currentShop
-					let cPurchase
-					let cInv
-					let item
-					let objItem
-					let menuIndex = "main"
-					let instAbno = 0
-					if (jn.abnWorkable.includes(cmd[2])) {
-						menuIndex = "shop"
-						currentAbnoCode = cmd[2]
-						currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
-						instAbno = 1
-					}
-					let prices
-					let totalBalance
-					let price
-					let k
-					function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete(3000))}
-					function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete(4000))}
-					
-					cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)
-					.then(menumsg => {
-					if (instAbno === 1) {
-						currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
-						menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
-						instAbno = 0
-					}
-						
-				/*func*/async function menuNavigationExtraction() {
-							while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
-							await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
-							
-							
-							let rp = r.first()
-				/*========*/if (rp != undefined) {
-							let mr = rp.content.toLowerCase()
-							
-							if (rp.content.toLowerCase().startsWith("!lc") === false) {
-							if (rp.content.toLowerCase() != "exit") {
-							if (rp.content.toLowerCase() != "return") {
-								let k = 0
-								let ki = 0
-								while (k === 0 && ki < 4) {
-								switch (menuIndex) {
-									
-									// Main menu of extraction 
-									case "main": 
-									if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
-										currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
-										currentAbnoCode = rp.content.toLowerCase()
-										menuIndex = "shop"
-									} else if (mr === "bullet" || mr === "bullets") menuIndex = "bulletshop"
-									else {invResponse(rp); k = 1}
-									break
-									
-									case "bulletshop":
-										let hpCost = gear.items.find(i => i.name === "hpbullet").cost
-										let spCost = gear.items.find(i => i.name === "spbullet").cost
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${hpCost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${spCost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
-										if (["hp", "sp"].includes(mr.split(" ")[0])) {
-										mr0 = mr.split(" ")[0]
-										let amt
-										let price = {"hp": hpCost, "sp": spCost}[mr0]
-										if (mr.split(" ")[1] === undefined || Number.isInteger(Number(mr.split(" ")[1])) === false) amt = 1
-										else amt = Number(mr.split(" ")[1])
-										
-										if (amt*price > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
-										else {
-										let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
-										if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
-										else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
-										cUser.balance -= amt*price
-										inv = inv.map(i => {return i.join("|")})
-										cUser.inventory = inv.join("/")
-										cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
-										}}
-										k = 1
-									break
-										
-									case "shop":
-										currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
-										if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
-										else k = 1
-									break
-									
-									case "purchase":
-										switch (rp.content.toLowerCase()) {
-											case "suit":
-												cInv = "inventorys"
-												objItem = gear.suits[currentAbno.ego]
-												item = suit(currentAbno.ego)
-												break
-											case "weapon":
-												cInv = "inventoryw"
-												objItem = gear.weapons[currentAbno.ego]
-												item = weapon(currentAbno.ego)
-												break
-										}
-										
-										price = objItem.cost
-										totalBalance = Number(currentShop.boxes) + cUser.balance
-										if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
-										prices = []
-										if (Number(currentShop.boxes) >= price) prices = [price, 0]
-										else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
-										if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); menuIndex = "shop"; k = 1; break}
-										let tmptxt = ""
-											if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
-										//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
-										
-										if (invFullness(cUser) > 3) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); menuIndex = "shop"; k = 1; break}
-										menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
-										menuIndex = "purChoice"
-										k = 1
-									break
-									
-									case "purChoice":
-										if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
-										if (rp.content.toLowerCase() === "y") {
-											rp.reply("Successfully purchased " + item)
-											bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
-											cUser.balance -= prices[1]
-											addItemID(cUser, cInv, currentAbno.ego)
-											menuIndex = "shop"
-											break
-										}
-										else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; break}
-									default:
-									k = 1
-									menuIndex = "fail"
-									break
-								}// [/switch]
-								ki++
-								}
-							} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)}
-							} else menuIndex = "exit"
-							} else menuIndex = "interExit"
-				/*========*/} else menuIndex = "timeout"
-
-							}).catch(console.error)
-						}
-						if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
-						else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
-						else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
-						else if (menuIndex === "test") wait(200).then(() => {menumsg.edit(menumsg.content + `\n\n Testing concluded.`)})
-						else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
-						else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
-						
-				/*func*/}
-				
-						menuNavigationExtraction()
-					})
-				}
-				ext(dbployees[dbids.indexOf(msg.author.id)], msg.channel.id)
-				} else {
-				let cUser = employee(msg.author.id)
-				let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":```\n		"
-				let workableIDs = jn.abnWorkable
-				workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
-				workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
-				let workableArr = []
-				let workableCpx = []
-				let index = 0
-				workableIDs.forEach(aID => {
-					if (aID != "o-01-01") {
-					let cBal = cUser.balancespecific.split(" ").find(b => b.startsWith(aID)).split("|")
-					workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
-					}
-				})
-				for (i = 0; i < workableArr.length; i++) {
-					if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
-					workableCpx[Math.floor(i/10)].push(workableArr[i])
-				}
-				ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
-					l.react('👈').then(l.react('👉'))
-					const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
-					const collector = l.createReactionCollector(filter, { time: 120000 })
-					collector.on('collect', rct => {
-						if (rct.emoji.name === '👈') {
-							index -= 1
-							if (index < 0) index = workableCpx.length - 1
-							l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-						}
-							
-						if (rct.emoji.name === '👉') {
-							index += 1
-							if (index > (workableCpx.length - 1)) index = 0
-							l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-						}
-						
-						
-					})
-				})
-				}
-				//==[/extraction]==
-				break
-				
-				case "captain": {
-					
-					// Non-captain commands
-					if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						switch (cmd[2]) {
-							case "vote":
-							if (cmd[3]) {
-							if (voting != 1) {
-								voteeid = ""
-								cmd[3].split("").forEach(c => {
-									if (nmbrs.includes(c)) {voteeid += c}
-								})
-								if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
-								if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
-								if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
-										dbvars[2] = 1
-										votingteam = drFind(msg.member)
-										console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
-										setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
-
-								} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-								} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
-								break
-								} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
-						} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
-						} else {ch.send("**" + msg.author.tag + "**, " + "error: no employee specified."); break}
-						}
-					// Captain commands
-					} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-						switch (cmd[2]) {
-							case "vote":
-								ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
-								break
-							case "resign":
-								if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-									ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
-									const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
-									collector.on('collect', cmsg => {
-									if (cmsg.content.toLowerCase() === "y") {
-										ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
-										var cptxt = drFind(msg.member)
-										msg.member.removeRole(getRole(cptxt + " (C)"))
-										msg.member.addRole(getRole(cptxt))
-										collector.stop()
-										let bufflist = []
-										if (dbployees[dbids.indexOf(msg.author.id)].bufflist != undefined) {
-										bufflist = dbployees[dbids.indexOf(msg.author.id)].bufflist.split("|")
-										}
-										fn.effectApplication['department'](dbployees[dbids.indexOf(msg.author.id)], drFind(msg.member), "take", 1)	
-									}
-									if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
-									})
-								} else {ch.send("**" + msg.author.tag + "**, " + "you are not the captain of the " + drFind(msg.member) + "!")}
-								break
-							default:
-								ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
-								break
-						}
-					} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
-				break
-				}
-
-				default:
-					ch.send("**" + msg.author.tag + "**, " + "error: unrecognized command. Type in !help lc to get info on the command.")
-					break
-			}
-		} else {ch.send("**" + msg.author.tag + "**, " + "You are not currently assigned to a team. Contact a Sephirah to get assigned (!lc help).")}
-	} else ch.send("**" + msg.author.tag + "**, " + "the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
-	}
-
-	if (cmd[0] === "!help") {
-		if (cmd.length > 1) {
-		ch.send("**" + msg.author.tag + "**, " + help1[cmds.indexOf("!" + cmd[1].toLowerCase())+1])
-		} else {ch.send("**" + msg.author.tag + "**, " + help1[0])}
-	}
-	
-	// Math command. Adds two numbers or substracts the second one from the first one based on the input.
-	if (cmd[0] === "!math")  {
-		if (cmd.length < 4) {ch.send("Incorrect usage. Use !help math.")
-				    return}
-		if (checkArray(cmd[1].split(""), nmbrs) && checkArray(cmd[3].split(""), nmbrs)) {
-			switch (cmd[2]) {
-			case "+":
-				var c = Number(cmd[1]) + Number(cmd[3])
-				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-				break
-			case "-":
-				var c = Number(cmd[1]) - Number(cmd[3])
-				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-				break
-			case "/":
-				var c = Number(cmd[1]) / Number(cmd[3])
-				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-				break
-			case "*":
-				var c = Number(cmd[1]) * Number(cmd[3])
-				msg.channel.send(cmd[1] + " " + cmd[2] + " " + cmd[3] + " = " + c)
-				break	
-			default:
-				ch.send("**" + msg.author.tag + "**, " + "I can't do that!")
-				break
-			}
-		} else {ch.send("**" + msg.author.tag + "**, " + "I can't do that!")}
-	}
-	
-	if (cmd[0] === "!abn") {
-		ch.send("`abn` command is currently disabled.")
-		return
-		if (!argCheck(cmd, 2)) {
-			ch.send("**" + msg.author.tag + "**, " + "Invalid command usage. Try !help abn.")
-			return
-		}
-		if (abn.lista.indexOf(cmd[1]) != -1) {
-			let n = abn.lista.indexOf(cmd[1])
-			let embed = new Discord.RichEmbed()
-				.setColor(abn.abn[n].color)
-				.setTitle(abn.abn[n].name + "\n<:" + abn.abn[n].risk.toLowerCase() + ":" + emoji(abn.abn[n].risk.toLowerCase(), ESERV, false, true) + "> " + abn.abn[n].risk)
-				.setThumbnail(abn.abn[n].thumbnail)
-				.setDescription(abn.abn[n].description)
-				.setFooter("EGO: " + "this doesn't work currently")
-			ch.send({embed})
+async function dip(member, action = 0) {
+	await wait(1000)
+	if (action === 1)
+	await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-		} else {ch.send("**" + msg.author.tag + "**, " + "Sorry, info on the specified abnormality is unavailable. Perhaps you should help us add it? If so, post your suggestion in the suggestion-box according to the rules stated in a pinned message.")}
-		yeet(5)
+	else await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+		.catch(console.error)
+	return true
+}
+let regLevel = new RegExp(`\\bLevel`)
+DELTAS.members.forEach(m => {
+	if (m.roles.some(r => regLevel.test(" " + r.name))) {
+	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
+		if (m.roles.some(r => jn.risk.includes(r.name))) {
+			if (m.roles.some(r => r.name === "TO THE RANCH"))
+				m.removeRole(m.roles.find(r => jn.risk.includes(r.name)))
+				.catch(console.error)
+		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
+			m.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
+			.catch(console.error)
 	}
-	
-	if (cmd[0] === "!menacing") {
-		men = emoji("animenacing", DELTAS, true)
-		ch.send(men + men + men + men + men + men + men)
-		yeet(0.01)
-	}
-		
-		
-	// Commands end here 
-	}	
-	
-	// Reactions
-	// Reacts with :thonk: to any message starting with "hm" with any number of m's after that.
-	if (mesc.length > 1) {
-	var hm1 = mesc.toLowerCase().split("")
-	hm1.shift()
-	var hm2 = []
-	hm1.forEach(i => {if (i != " ") {hm2.push(i)}})
-	if (mesc.toLowerCase().startsWith("h") && checkSame(hm2, "m")) {
-			msg.react("607330826052698114") 
-
-	}}
-	if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
-		if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
-		else {ch.send('UwU')}
+	if (cMember.roles.some(r => r.name === "RANCHDIP")) {
+		if (cMember.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+		else dip(m)
 	}
 })
 	
+})
+
+client.on('ready', () => {
+	
+const bch = DELTAS.channels.get("607558082381217851");
+// Bot readiness announcement, both in the log, #botspam and in my DMs
+console.log('I am ready!')
+bch.send("Bot started.")
+client.users.get('143261987575562240').send('Bot started up succesfully.')
+// Setting the bot's current game to 'try !help'
+client.user.setPresence({
+	game: {
+		name: 'try !help',
+		type: "Playing",
+		url: "https://tinyurl.com/rollntroll"
+	}
+})	
+// Get employee data from the database
+databaseEmployees()
+// Global ticker function, responsible for the heal pulser, data updating and effect ticking
+globalTicker()
+	
+})
+
+client.on('message', initialMessage => {
+
+if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
+let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
+let botPass = 0 // Normally, the bot ignores messages from bots
+
+let msg
+{
+let tempMessage = initialMessage
+function sudoCheck() {
+if (tempMessage.content.split(" ")[0] === "sudo") {
+	if (tempMessage.author.id === '143261987575562240') {
+	let tcontent = tempMessage.content.split(" ")
+	tcontent.shift()
+	tempMessage.content = tcontent.join(" ")
+	chPass = 1
+	console.log(`Content: '${tcontent.join(" ")}'`)
+	} else (tempMessage.channel.send(`**${tempMessage.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
+}}
+sudoCheck()
+let content = tempMessage.content
+while (content.split(" ")[0].slice(0,2) === ">!") {
+	content = content.slice(2)
+	let cArr = content.split(" ")
+	if (getUser(cArr[0]) === client.user || tempMessage.author.id === '143261987575562240') {
+	if (getUser(cArr[0]) != undefined) {
+		tempMessage.author = client.users.get(getUser(cArr[0]).id)
+		tempMessage.member = DELTAS.members.get(getUser(cArr[0]).id)
+		botPass = 1
+	}} else {initialMessage.channel.send(`**${initialMessage.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
+	cArr.shift()
+	content = cArr.join(" ")
+	tempMessage.content = content
+	msg = tempMessage
+	sudoCheck()
+}
+msg = tempMessage
+}
+
+// If the message's author is a bot, just ignore it
+if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
+
+// Evil logger so I can see everything that goes on at the sever >:Dc
+if (ch.type != 'dm') {
+let log = msg.createdAt + msg.channel.name + " " + msg.author.username + ": " + msg.content
+console.log(log);
+}
+
+// Handy vars
+const ch = msg.channel
+const mesc = msg.content
+
+// Command check
+if (mesc[0] === "!") {
+	
+// Make an array with values equal to the command name and arguments
+var ciCmd = mesc.slice(1).toLowerCase().split(" ")
+var csCmd = mesc.slice(1).split(" ")
+
+// Check if the command even exists (if it is in the right guild)
+if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS) {
+	ch.send("**" + msg.author.tag + "**, " + "Unrecognized command. Type in !help to get the list of all available commands.")
+	return
+	}
+
+switch (ciCmd[0]) {
+	
+	case "quote": {
+	if (/\D/.test(ciCmd[1]) === false) {
+		let qIndex = Number(ciCmd[1])
+		if (qIndex > qte.length) {
+			ch.send("**" + msg.author.tag + "**, " + "Sorry, only " + qte.length + " quotes are currently available.")
+			return
+		}
+		ch.send(qte2 + qIndex + ": " + qte[qIndex-1])
+	}
+	else {
+		let qRoll = roll(qte.length) - 1
+		while (quotelog.includes(qRoll)) {qRoll = roll(qte.length) - 1}
+		quotelog.push(qRoll)
+		if (quotelog.length > Math.ceil((qte.length * 4) / 5)) quotelog.shift()
+		ch.send(qte2 + (qIndex + 1) + ": " + qte[qIndex])
+	}
+	} break
+	
+	case "em": {
+	yeet(0)
+	if (DELTAS.emojis.some(e => e.name.toLowerCase() === ciCmd[1]) {
+		if (/\D/.test(ciCmd[2]) === false) {
+			let eCount = Number(ciCmd[2])
+			if (eCount > 27) eCount = 27
+			ch.send(new Array(eCount).fill(emoji(ciCmd[1])).join(""))
+		}
+	}
+	} break
+	
+	case "ban": {
+	
+	if (admins.includes(msg.author.id) === false) {
+		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
+		return
+	}
+	
+	let amount
+	if (/\D/.test(ciCmd[2])) amount = 60
+	else amount = Number(ciCmd[2])
+	if (amount < 0 || amount > 120) {
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 120 seconds.")
+		return
+	}
+	let roles = DELTAS.members.get(getUser(ciCmd[1]).id).roles.filter(r => r.managed === false)
+	let member = DELTAS.members.get(getUser(cmd[1]).id)
+	if (member.user.bot === true) {
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots.")
+		return
+	}
+	member.removeRoles(roles)
+		.then(() => {
+		ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`); 
+		member.addRole('673218574101512214')
+		})
+		.catch(console.error)
+	wait(amt*1000).then(() => {
+		let backRoles = roles.filter(r => member.roles.includes(r) === false)
+		if (backRoles != []) mem.addRoles(backRoles).then(() => 
+		DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
+		.catch(console.error)
+		)
+		.catch(console.error)
+	})
+	} break
+	
+	case "debug": {
+		
+	if (msg.author.id != '143261987575562240') {
+		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use debug commands.")
+		return
+	}
+	
+	switch (csCmd[1]) {
+		case "upd":
+			updData()
+		break
+		case "e":
+		case "employee":
+			let uid2 = ""
+			if (exists(getUser(ciCmd[2]))) uid2 = getUser(cmd[2]).id else uid2 = '143261987575562240'
+			console.log(dbployees.e(uid2))
+		break
+		case "msg":
+			let tempch = DELTAS.channels.get(cmd[2])
+			let tempmsg = ""
+			let i
+			for (i = 3; i < cmd.length; i++) { 
+				tempmsg += cmd1[i] + " ";
+			} 
+			tempch.send(tempmsg)
+			.catch(console.error)
+		break
+		case "healpulse":
+			healPulse()
+		break
+		case "var":
+			if (exists(ciCmd[2]) && exists(ciCmd[3]) && exists(debugVariables[ciCmd[2]])) debugVariables[ciCmd[2]] = Number(ciCmd[3])
+			else ch.send("Error: incorrect usage.")
+		break
+		case "p":
+		case "profile": // !debug[0] profile[1] hp[2] 100[3] quack[4]
+			let uid
+			let lValue
+			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id else uid = '143261987575562240'
+			if (/\D/.test(ciCmd[3]) === false) lValue = Number(ciCmd[3])
+			else lValue = ciCmd[3]
+			dbployees.e(uid)[ciCmd(2)] = lValue
+			updateData()
+		break
+		case "revive":
+			let uid
+			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id else uid = '143261987575562240'
+			dbployees.e(uid).hp = dbployees.e(uid).fortL
+			dbployees.e(uid).sp = dbployees.e(uid).prudL
+			dbployees.e(uid).dead = 0
+			dbployees.e(uid).working = 0
+		break
+	}
+	
+	} break
+	
+	case "lobcorp":
+	case "lc": {
+	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
+		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
+		switch (ciCmd[1]) {
+				
+			case "list": {
+				if (exists(ciCmd[2]) && ncdeproles.some(r => r.toLowerCase().startsWith(ciCmd[2]))) {
+					let cDepartment = getRole(ncdeproles.find(r => r.toLowerCase().startsWith(ciCmd[2])))
+					let cDepMembers = cDepartment.members.map(m => m.user.tag)
+					let cDMText = cDepartment.members.map(m => m.user.tag).join(", ")
+					if (cDMText = "") cDMText = "The department is empty... *crickets*"
+					let cDepCaptain = "none."
+					let cDCRole = getRole(cDepartment.name + " (C)")
+					if (cDCRole.members.array != []) cDepCaptain = cDCRole.members.first().user.tag
+					ch.send("\n```md\n" + `[${cDepartment.name}]\n>	Captain: ${cDepCaptain}\n#	Employees: ${cDMText}` + "\n```")
+				} else {
+					let depArray = []
+					ncdeproles.forEach(r => {
+						let cDepECount = 0
+						let cDECS
+						let ifNone // If no emplyees
+						let ifEIO = "s" // If ends in one
+						cDepECount += getRole(r).members.array().length + getRole(r + " (C)").members.array().length
+						if (cDepECount.toString().split("")[cDepECount.toString().length - 1] === "1") ifEIO = ""
+						if (cDepECount === 0) cDECS = "no" else cDECS = cDepECount.toString()
+						let cDepCaptain = getRole(r + " (C)").members.first()
+						if (cDepCaptain) cDepCaptain = cDepCaptain.user.tag else cDepCaptain = "none"
+						depArray.push(`[${r}] (${empcounts} employee${ifEIO}) \n		Captain:\n#		${cDepCaptain}`)
+					})
+					ch.send("List of departments and the respective captains: \n```md\n" + depArray.join(", \n") + ".```")
+				}
+				
+			} break
+			
+			case "w":
+			case "work": {
+			if (ciCmd[2] != "list") {
+				if (abno(ciCmd[2])) {
+				if (jn.abnWorkable.includes(ciCmd[2])) {
+				if (jn.workOrders.includes(ciCmd[3])) {
+				if (dbployees.e(msg.author.id).working === 0) {
+				if (dbployees.e(msg.author.id).dead === 0) {
+				let effectDead = false
+				let effectDeathCause = ""
+				let onCooldown = false
+				let cdVal = 0
+				if (fn.effects.deathOnWork(dbployees.e(msg.author.id), ciCmd[2])[0] === true) {
+					effectDead = true
+					effectDeathCause = fn.effects.deathOnWork(dbployees.e(msg.author.id), ciCmd[2])[2]
+				}
+				if (dbployees.e(msg.author.id).effectArray.some(e => Number(e[0]) === 2)) {
+					onCooldown = true
+					cdVal = dbployees.e(msg.author.id).effectArray.find(e => Number(e[0]) === 2)[1]
+				}
+				if (onCooldown === false) {
+				if (effectDead === false) {
+					work(dbployees.e(msg.author.id), ciCmd[2], ciCmd[3], msg.channel)
+				} else {
+					dbployees.e(msg.author.id).dead = 1
+					dbployees.e(msg.author.id).hp = 0
+					dbployees.e(msg.author.id).sp = 0
+					dbployees.e(msg.author.id).effects = "null"
+					ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
+				}
+				} else ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${cdVal + 1} second(s))`)
+				} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
+				} else { // Else it is the list
+					let baseStr = " List of currently workable abnormalities:```\n		"
+					let workableIDs = jn.abnWorkable
+					workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
+					workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
+					let workableArr = []
+					let workableCpx = []
+					let index = 0
+					workableIDs.forEach(aID => {
+						if (aID != "o-01-01")
+						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
+					})
+					for (i = 0; i < workableArr.length; i++) {
+						if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
+						workableCpx[Math.floor(i/10)].push(workableArr[i])
+					}
+					ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
+						l.react('👈').then(l.react('👉'))
+						const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
+						const collector = l.createReactionCollector(filter, { time: 120000 })
+						collector.on('collect', rct => {
+							if (rct.emoji.name === '👈') {
+								index -= 1
+								if (index < 0) index = workableCpx.length - 1
+								l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+							}
+							if (rct.emoji.name === '👉') {
+								index += 1
+								if (index > (workableCpx.length - 1)) index = 0
+								l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+							}
+						})
+					})
+				}
+			} break
+			
+			case "p":
+			case "profile": {
+			let cUser
+			if (exists(getUser(ciCmd[2]))) {
+			if (dbployees.ids.includes(getUser(ciCmd[2]).id)) {
+				cUser = dbployees.e(getUser(ciCmd[2]).id)
+			} else cUser = dbployees.e(msg.author.id)
+			} else cUser = dbployees.e(msg.author.id)
+			if (exists(cUser.tjtime) === false) cUser.tjtime === Date.now()
+			if (cUser.buffListArray.some(b => b[0] === teamtr)) 
+				expMod = Math.pow(2, Number(cUser.buffListArray.find(b => b[0] === teamtr)[1])
+			let effectArray
+			if (exists(cUser.effectArray)) {
+				cUser.effectArray.forEach(e => {
+					let effectTime
+					let effectSpecialString
+					if (e[1] === "inf") 
+						effectTime = `???`
+					else {
+						if (Number(e[1]) > 60) effectTime = (Number(e[1])/60).toFixed(1) + " minute(s)"
+						else effectTime = e[1] + " second(s)"
+					}
+					if (e[2] === "fatigue")
+						effectSpecialString = ` [+${Math.floor(Number(e[3])/3)} second(s) to work CD]`
+					effectArray.push(`{\n + e[2]} ${effspecial} <${waittime}>`)
+				})
+			} else effectArray = ["none"]
+			let dead = ["alive", "dead"][Number(cUser.dead)]
+			let statsString = new Array(4).fill('null')
+			statsString .forEach((l, i) => {
+				let statLV = `LV ${cUser.statLevels(1)[i]}`
+				let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
+				if (statLV.length < 6)
+				statLV = new Array(6 - statLV.length).fill(" ").join("") + statLV
+				if (statCount.length < 6)
+				statCount += new Array(6 - statCount.length).fill(" ").join("")
+				l = "		`" statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`"
+			})
+			statsString[1] += "\n"
+			let subPointString = new Array(4).fill('null')
+			subPointString.forEach((p, i) => {
+				let mult = 1
+				let subStatIncrement = 14 - expMod
+				if (i = 3) mult = 3
+				let requiredSubpoints = statLVN(cUser.statsReal[i])*subStatIncrement*mult
+				let subPointCount = cUser.subPointArray[i] + "/" + requiredSubpoints
+				if (subPointCount.length < 7)
+				subPointCount += new Array(7 - subPointCount.length).fill(" ").join("")
+				p = "	" + jn[jn.stats[i]] + " `" + subPointCount + "`"
+			})
+			subPointString[0] = "	" + subPointString[0]
+			subPointString[1] += "\n	"
+			let messageArray = [
+"\n```mb\n 📋 | Showing stats for employee " + cUser.tag + "\n```",
+statsString.join(""),
+`\nEmployee Level ${jn.statLevels[cUser.stats[4]-1]}`,
+`\nProgress towards the next stat points:\n${subPointString.join("")}`,
+`\n\n	Days in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
+`\n	Current effects: ${effectArray.join("")}.`,
+`\n	Currently:	${dead}.`,
+`\n		HP: ${Number(cUser.hp).toFixed(1)} ${jn.health}		SP: ${Number(cUser.sp).toFixed(1)} ${jn.sanity}`,
+`\n\n		Suit: ${suit(Number(cUser.suit), cUser.defenseBuffArray)}`,
+`\n		Weapon: ${weapon(Number(cUser.weapon))}`
+			]
+			ch.send(messageArray.join(""))
+			} break 
+			
+			case "i":
+			case "inv":
+			case "inventory": {
+			
+			function inv(emp, channel) {
+			cUser = emp
+			const cCh = channel
+			const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
+			const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'bullet' to open the bullet menu, 'exit' to leave.`
+			
+			let inventoryS // Local suit object inventory
+			let inventoryW // Local weapon object inventory
+			let inventorySW // Concatted previous two
+			let suits // Suit text objects
+			let weapons // Weapon text objects
+	
+			function updateInventories(d = 0) {
+				if d = 0 {
+				inventoryS = cUser.inventorys.split("|").unshift("0").map((s, i) => 
+				{"id": Number(s), "index": i+1, "type": "suit"})
+				inventoryW = cUser.inventoryw.split("|").unshift("0").map((w, i) => 
+				{"id": Number(w), "index": i+inventoryS.length, "type": "weapon"})
+				} else {
+				inventoryS = cUser.inventorys.split("|").map((s, i) => 
+				{"id": Number(s), "index": i+1, "type": "suit"})
+				inventoryW = cUser.inventoryw.split("|").map((w, i) => 
+				{"id": Number(w), "index": i+inventoryS.length, "type": "weapon"})
+				}
+				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
+			}
+			updateInventories()
+			
+			let menuIndex = "main"
+				
+				async function menuNavigationInventory() {
+					while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "interExit")) {
+					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
+					let rp = r.first()
+					if (rp != undefined) {
+					let mr = rp.content.toLowerCase().split(" ")
+					
+					if (mr[0] != "!lc") {
+					if (mr[0] != "exit") {
+					if (mr[0] === "cancel") {
+						menuIndex = "main"
+					}
+						let k = 0
+						let ki = 0
+						while (k === 0 && ki < 6) {
+						switch (menuIndex) {
+							case "main":
+								updateInventories()
+								suits = inventoryS.map(s => `${suit(s.id)}`)
+								weapons = inventoryW.map(w => `${weapon(w.id)}`)
+								menumsg.edit(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts)
+								if (ret === 1) {ret = 0; k = 1; break}
+								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
+							break
+							
+							case "bullet":
+							if (menuIndex === "bullet" && ret != 1 && k != 1) {
+							let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => exists(i[0]))
+							let hpbullet = 0
+							let spbullet = 0
+							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
+							if ((mr[0] === "sp") || (mr[0] === "hp")) {
+							if ({"hp": hpbullet, "sp": spbullet}[mr[0]] > 0) {
+								if (cUser.dead === 1 || cUser.dead === "1") {
+									cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
+									return
+									}
+								if (Number.isInteger(Number(mr[1]))) {
+									if (Number(mr[1]) > {"hp": hpbullet, "sp": spbullet}[mr[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr[0].toUpperCase()} bullets.`); return}
+									else if (Number(mr[1] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
+									else {
+									for (i = 0; i < Number(mr[1]); i++) 
+									{fn.effectApplication[mr[0] + "bullet"](cUser)}
+									cCh.send(`**${cUser.tag}** used ${mr[1]} ${mr[0].toUpperCase()} bullets. (${healCalc(cUser, mr[2], 15*Number(mr[1]))} ${jn[mr[0]+"heal"]}, ${cUser[mr[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr[0])]} ${jn[mr[0]]} currently)`)
+									}
+								}
+								else {
+								fn.effectApplication[mr[0] + "bullet"](cUser)
+								cCh.send(`**${cUser.tag}** used an ${mr[0].toUpperCase()} bullet. (${healCalc(cUser, mr[2], 15)} ${jn[mr[0]+"heal"]}, ${cUser[mr[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr[0])]} ${jn[mr[0]]} currently)`)
+								}										
+							}
+							else cCh.send(`**${cUser.tag}**, you do not have any ${mr[0].toUpperCase()} bullets.`)
+							}
+							k = 1
+							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
+							menumsg.edit(header + `\n	Bullet inventory:\n		${jn.hpheal} HP Bullets: ${hpbullet}\n		${jn.spheal} SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
+							}
+							break
+							
+							case "equip":
+							if (menuIndex === "equip" && ret != 1 && k != 1) {
+							if (cUser.effectArray.some(e => Number(e[0]) === 1)) {
+								ch.send(`**${cUser.tag}**, you are still on an E.G.O. change cooldown.`)
+								ret = 1
+							}
+							else {
+							updateInventories()
+							suits = inventoryS.map(s => `${s.index}) ${suit(s.id)}`)
+							weapons = inventoryW.map(w => `${w.index}) ${weapon(w.id)}`)
+							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
+							if (inventorySW.some(i => i.index === Number(mr[0]))) {
+								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
+								let choiceItem = gear[choiceLocal.type+"s"].find(i => Number(i.id) === choiceLocal.id)
+								let choiceText
+								if (choiceLocal.type === "suit")
+									choiceText = suit(choiceLocal.id)
+								else choiceText = weapon(choiceLocal.id)
+								if (cUser.stats.every((s, i) => s >= choiceItem.requirements[i])) {
+									cCh.send(`**${cUser.tag}** equipped ${choiceText}`)
+									fn.effectApplication.egoChange(cUser, jn.risk.indexOf(choiceItem.level)+1)
+									cUser[choiceLocal.type] = mr[0]
+								} else {cCh.send(`**${cUser.tag}**, error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${choiceItem.reqString}**)`); ret = 1}
+							}
+							k = 1
+							}} break
+							case "discard": 
+							if (menuIndex === "discard" && ret != 1 && k != 1) {
+							updateInventories(1)
+							suits = inventoryS.map(s => `${s.index}) ${suit(s.id)}`)
+							weapons = inventoryW.map(w => `${w.index}) ${weapon(w.id)}`)
+							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
+							if (inventorySW.some(i => i.index === Number(mr[0]))) {
+								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
+								let choiceItem = gear[choiceLocal.type+"s"].find(i => Number(i.id) === choiceLocal.id)
+								let choiceText
+								if (choiceLocal.type === "suit")
+									choiceText = suit(choiceLocal.id)
+								else choiceText = weapon(choiceLocal.id)
+								cCh.send(`**${cUser.tag}** discarded ${choiceText}`)
+								removeItemID(cUser, "inventory"+choiceLocal.type[0], mr[0])
+								ret = 1
+							}
+							updateInventories()
+							menuIndex = "main"
+							k = 1
+							} break
+							
+							default:
+							k = 1
+							menuIndex = "fail"
+							break
+						}
+						ki++
+						}
+						if (ki > 5) menuIndex = "fail"
+					} else menuIndex = "exit"
+					} else menuIndex = "interExit"
+					} else menuIndex = "timeout"
+
+					}).catch(console.error)
+				}
+				if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
+				else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
+				else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+				else if (menuIndex === "test") menumsg.edit(menumsg.content + `\n\n	Testing concluded.`)
+				else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+				else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
+				
+			}
+		
+			menuNavigationInventory()
+			}
+			inv(dbployees.e(msg.author.id), msg.channel)
+			} break
+			
+			case "b": {
+			let cUser = dbployees.e(msg.author.id)
+			let cCh = msg.channel
+			let mr = msg.content.toLowerCase()
+			let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
+			let hpbullet = 0
+			let spbullet = 0
+			if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
+			if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
+			if ((mr.split(" ")[2] === "sp") || (mr.split(" ")[2] === "hp")) {
+			if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]] > 0) {
+				if (cUser.dead === 1 || cUser.dead === "1") {
+					cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
+					return
+					}
+				if (Number.isInteger(Number(mr.split(" ")[3]))) {
+					if (Number(mr.split(" ")[3]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[2].toUpperCase()} bullets.`); return}
+					else if (Number(mr.split(" ")[3] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
+					else {
+					for (i = 0; i < Number(mr.split(" ")[3]); i++) 
+					{fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)}
+					cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[3]))} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+					}
+				}
+				else {
+				fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
+				cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15)} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
+				}										
+			}
+			else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
+			}
+			} break
+			
+			case "help": {
+			if (drFind(msg.member) === "") {
+				ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name).")
+				
+			} else {
+				let helpArr = [
+					"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work, arguments in {curly brackets} are options and only one needs to be specified.\n",
+					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
+					"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
+					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
+					"	`!lc debuff {apply/remove} (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
+					"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
+					"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
+					"	`!lc captain`:",
+					"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
+					"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
+				]
+				ch.send(helpArr.join("\n"))
+			}} break
+			
+			case "assign": {
+			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+				var rtmp = cmd[2]
+				if (jn.nccideproles.includes(rtmp)) {
+					msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
+					employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
+					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
+					async function thisshit() {
+						await wait(200)
+						databaseEmployees()
+						await wait(200)
+						databaseEmployees()
+						dbployees.e(msg.author.id).tjtime = Date.now()
+					}
+					thisshit()
+				} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
+			} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
+			} break
+			
+			case "leave": {
+			if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
+			if (deproles.some(t => msg.member.roles.map(r => r.name).includes(t))) {
+				ch.send("**" + msg.author.tag + "**, " + "do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
+				const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+				collector.on('collect', cmsg => {
+				if (cmsg.content.toLowerCase() === "y") {
+					ch.send("**" + msg.author.tag + "**, " + "you have left the " + drFind(msg.member) + ".") 
+					if (dbployees.e(msg.author.id).buffListArray.some(b => b[0].startsWith("team"))) {
+					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
+					}
+					employee(msg.author.id).tjtime = 'undefined'
+					msg.member.removeRole(getRole(drFind(msg.member)))
+					collector.stop()
+				}
+				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
+				})
+			} else {ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to any team.")}
+			} else {ch.send("**" + msg.author.tag + "**, " + "captains cannot simply leave their team! (!lc captain resign)")}
+			} break
+			case "debuff": {
+			if (cmd[2]) {
+				if (cmd[2] === "apply") {
+				if (jn.stats.includes(cmd[3])) {
+				if (checkSymbols(cmd[4], nmbrs)) {
+				if (Number(cmd[4]) > 0) {	
+				if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
+					if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
+						ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
+						break
+						return
+					}
+				}
+				if ((employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]) < 17) {
+					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]} with the specified argument)`)
+					return
+				} 
+					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
+					ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
+				} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
+				}
+				else if (cmd[2] === "remove") {
+				if (employee(msg.author.id).bufflist != undefined) {
+				if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
+				if (jn.stats.includes(cmd[3])) {
+					let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3]))
+					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
+					ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV)} debuff.`)
+				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
+				}
+				else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove")
+			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Example 1: !lc debuff apply fortitude 30; Example 2: !lc debuff remove temperance")
+			} break
+			
+			case "ex":
+			case "extraction": {
+			if (cmd[2] != "list") {
+			function ext(emp, channel) {
+				cUser = emp
+				const cCh = DELTAS.channels.get(channel)
+				let currentAbno
+				let currentAbnoCode
+				let currentShop
+				let cPurchase
+				let cInv
+				let item
+				let objItem
+				let menuIndex = "main"
+				let instAbno = 0
+				if (jn.abnWorkable.includes(cmd[2])) {
+					menuIndex = "shop"
+					currentAbnoCode = cmd[2]
+					currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+					instAbno = 1
+				}
+				let prices
+				let totalBalance
+				let price
+				let k
+				function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete(3000))}
+				function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete(4000))}
+				
+				cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)
+				.then(menumsg => {
+				if (instAbno === 1) {
+					currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+					menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
+					instAbno = 0
+				}
+					
+			/*func*/async function menuNavigationExtraction() {
+						while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "silentexit") && (menuIndex != "interExit")) {
+						await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
+						
+						
+						let rp = r.first()
+			/*========*/if (rp != undefined) {
+						let mr = rp.content.toLowerCase()
+						
+						if (rp.content.toLowerCase().startsWith("!lc") === false) {
+						if (rp.content.toLowerCase() != "exit") {
+						if (rp.content.toLowerCase() != "return") {
+							let k = 0
+							let ki = 0
+							while (k === 0 && ki < 4) {
+							switch (menuIndex) {
+								
+								// Main menu of extraction 
+								case "main": 
+								if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
+									currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
+									currentAbnoCode = rp.content.toLowerCase()
+									menuIndex = "shop"
+								} else if (mr === "bullet" || mr === "bullets") menuIndex = "bulletshop"
+								else {invResponse(rp); k = 1}
+								break
+								
+								case "bulletshop":
+									let hpCost = gear.items.find(i => i.name === "hpbullet").cost
+									let spCost = gear.items.find(i => i.name === "spbullet").cost
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${hpCost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${spCost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
+									if (["hp", "sp"].includes(mr.split(" ")[0])) {
+									mr0 = mr.split(" ")[0]
+									let amt
+									let price = {"hp": hpCost, "sp": spCost}[mr0]
+									if (mr.split(" ")[1] === undefined || Number.isInteger(Number(mr.split(" ")[1])) === false) amt = 1
+									else amt = Number(mr.split(" ")[1])
+									
+									if (amt*price > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
+									else {
+									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
+									if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
+									else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
+									cUser.balance -= amt*price
+									inv = inv.map(i => {return i.join("|")})
+									cUser.inventory = inv.join("/")
+									cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
+									}}
+									k = 1
+								break
+									
+								case "shop":
+									currentShop = {"boxes": Number(getBox(cUser, currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
+									if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
+									else k = 1
+								break
+								
+								case "purchase":
+									switch (rp.content.toLowerCase()) {
+										case "suit":
+											cInv = "inventorys"
+											objItem = gear.suits[currentAbno.ego]
+											item = suit(currentAbno.ego)
+											break
+										case "weapon":
+											cInv = "inventoryw"
+											objItem = gear.weapons[currentAbno.ego]
+											item = weapon(currentAbno.ego)
+											break
+									}
+									
+									price = objItem.cost
+									totalBalance = Number(currentShop.boxes) + cUser.balance
+									if (totalBalance < Number(price)) {forceReturn(rp, "you do not have enough PE boxes to make this purchase."); menuIndex = "shop"; k = 1; break}
+									prices = []
+									if (Number(currentShop.boxes) >= price) prices = [price, 0]
+									else prices = [Number(currentShop.boxes), price - Number(currentShop.boxes)]
+									if (prices[1] > price/4) {forceReturn(rp, "you can only use PPE boxes to pay a quarter of the price."); menuIndex = "shop"; k = 1; break}
+									let tmptxt = ""
+										if (prices[1] > 0) {tmptxt = ` and ${prices[1]} PPE boxes`}
+									//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
+									
+									if (invFullness(cUser) > 3) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); menuIndex = "shop"; k = 1; break}
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
+									menuIndex = "purChoice"
+									k = 1
+								break
+								
+								case "purChoice":
+									if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
+									if (rp.content.toLowerCase() === "y") {
+										rp.reply("Successfully purchased " + item)
+										bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
+										cUser.balance -= prices[1]
+										addItemID(cUser, cInv, currentAbno.ego)
+										menuIndex = "shop"
+										break
+									}
+									else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; break}
+								default:
+								k = 1
+								menuIndex = "fail"
+								break
+							}// [/switch]
+							ki++
+							}
+						} else {menuIndex = "main"; menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)}
+						} else menuIndex = "exit"
+						} else menuIndex = "interExit"
+			/*========*/} else menuIndex = "timeout"
+
+						}).catch(console.error)
+					}
+					if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
+					else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
+					else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+					else if (menuIndex === "test") wait(200).then(() => {menumsg.edit(menumsg.content + `\n\n Testing concluded.`)})
+					else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+					else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
+					
+			/*func*/}
+			
+					menuNavigationExtraction()
+				})
+			}
+			ext(dbployees.e(msg.author.id), msg.channel.id)
+			} else {
+			let cUser = employee(msg.author.id)
+			let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":```\n		"
+			let workableIDs = jn.abnWorkable
+			workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
+			workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
+			let workableArr = []
+			let workableCpx = []
+			let index = 0
+			workableIDs.forEach(aID => {
+				if (aID != "o-01-01") {
+				let cBal = cUser.balancespecific.split(" ").find(b => b.startsWith(aID)).split("|")
+				workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
+				}
+			})
+			for (i = 0; i < workableArr.length; i++) {
+				if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
+				workableCpx[Math.floor(i/10)].push(workableArr[i])
+			}
+			ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
+				l.react('👈').then(l.react('👉'))
+				const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
+				const collector = l.createReactionCollector(filter, { time: 120000 })
+				collector.on('collect', rct => {
+					if (rct.emoji.name === '👈') {
+						index -= 1
+						if (index < 0) index = workableCpx.length - 1
+						l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+					}
+						
+					if (rct.emoji.name === '👉') {
+						index += 1
+						if (index > (workableCpx.length - 1)) index = 0
+						l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
+					}
+					
+					
+				})
+			})
+			}
+			//==[/extraction]==
+			} break
+			
+			case "captain": {
+			// Non-captain commands
+			if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+				switch (cmd[2]) {
+					case "vote":
+					if (cmd[3]) {
+					if (voting != 1) {
+						voteeid = ""
+						cmd[3].split("").forEach(c => {
+							if (nmbrs.includes(c)) {voteeid += c}
+						})
+						if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
+						if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
+						if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+								dbvars[2] = 1
+								votingteam = drFind(msg.member)
+								console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
+								setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
+
+						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+						} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
+						break
+						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
+				} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
+				} else {ch.send("**" + msg.author.tag + "**, " + "error: no employee specified."); break}
+				}
+				// Captain commands
+				} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+					switch (cmd[2]) {
+						case "vote":
+							ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
+							break
+						case "resign":
+							if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+								ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
+								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+								collector.on('collect', cmsg => {
+								if (cmsg.content.toLowerCase() === "y") {
+									ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
+									var cptxt = drFind(msg.member)
+									msg.member.removeRole(getRole(cptxt + " (C)"))
+									msg.member.addRole(getRole(cptxt))
+									collector.stop()
+									let bufflist = []
+									if (dbployees.e(msg.author.id).bufflist != undefined) {
+									bufflist = dbployees.e(msg.author.id).bufflist.split("|")
+									}
+									fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 1)	
+								}
+								if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
+								})
+							} else {ch.send("**" + msg.author.tag + "**, " + "you are not the captain of the " + drFind(msg.member) + "!")}
+							break
+						default:
+							ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
+							break
+					}
+				} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+			} break
+		}
+		}
+		
+		
+	} else ch.send("**" + msg.author.tag + "**, " + "the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
+	
+	} break
+	
+	case "": {
 	
 	
+	
+	} break
+	
+} // [/Command switch]
+
+} // Commands end here
+
+if (/hmmm*/i.test(mesc.split("").filter(c => c != " ").join("")))
+	msg.react("607330826052698114") 
+
+if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().split(" ").indexOf('owo') > -1)) {
+	if (mesc.toLowerCase().split(" ").indexOf('uwu') > mesc.toLowerCase().split(" ").indexOf('owo')) {ch.send('OwO')}
+	else {ch.send('UwU')}
+}
+
+})
 
 // THIS  MUST  BE  THIS  WAY
 // NO TOUCHING
 //______________________________\\/
-	client.login(process.env.BOT_TOKEN)})
+client.login(process.env.BOT_TOKEN)
+}) // End

@@ -72,18 +72,18 @@
 			":)"
 			],
 	"cmds": [
-			"!quote",
-			"!math",
-			"!help",
-			"!duckclub",
-			"!abn",
-			"!say",
-			"!debug",
-			"!menacing",
-			"!em",
-			"!lobcorp",
-			"!lc",
-			"!ban"
+			"quote",
+			"math",
+			"help",
+			"duckclub",
+			"abn",
+			"say",
+			"debug",
+			"menacing",
+			"em",
+			"lobcorp",
+			"lc",
+			"ban"
 			],
 	"qte": [
 			"It's not cheating if you make the rules!", 
