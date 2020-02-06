@@ -1165,7 +1165,7 @@ switch (ciCmd[0]) {
 				let subStatIncrement = 14 - expMod
 				if (i = 3) mult = 3
 				let requiredSubpoints = statLVN(cUser.statsReal[i])*subStatIncrement*mult
-				let subPointCount = cUser.subPointArray[i] + "/" + requiredSubpoints
+				let subPointCount = cUser.subPointsArray[i] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 				subPointCount += new Array(7 - subPointCount.length).fill(" ").join("")
 				p = "	" + jn[jn.stats[i]] + " `" + subPointCount + "`"
