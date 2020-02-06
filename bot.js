@@ -1154,7 +1154,8 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
 				if (statCount.length < 6)
 				statCount += new Array(6 - statCount.length).fill(" ").join("")
-				statsString.push("		`" + statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`")
+				let stat = jn.stats[i]
+				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
 			}
 			statsString[1] += "\n"
 			let subPointString = []
@@ -1166,7 +1167,8 @@ switch (ciCmd[0]) {
 				let subPointCount = cUser.subPointsArray[i] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
-				subPointString.push("	" + jn[jn.stats[i]] + " `" + subPointCount + "`")
+				let stat = jn.stats[i]
+				subPointString.push("	" + stat + " `" + subPointCount + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
