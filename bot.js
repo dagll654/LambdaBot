@@ -651,6 +651,7 @@ function databaseEmployees() {
 	let dbpush = []
 	DELTAS().members.forEach(m => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+	})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
@@ -674,7 +675,6 @@ function databaseEmployees() {
 				e.balancespecific += ` ${b.join("|")}`
 			})
 		})
-	})
 	})
 }
 
@@ -708,18 +708,13 @@ async function globalTicker() {
 		tick++
 		await wait(1000)
 		globalEffectTick()
-		switch (true) {
-			case tick === 1:
-				healPulse()
-				break
-			case tick === 30:
-				updateData()
-				break
-			case tick === 60:
-				updateData()
-				tick = 1
-				break
+		if (tick === 30 || tick === 60)
+			updateData()
+		if (tick === 60) {
+			tick = 1
+			healPulse()
 		}
+			
 	}
 }
 
