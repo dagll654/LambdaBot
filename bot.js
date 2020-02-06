@@ -417,11 +417,11 @@ function weapObj(id) {
 
 // Returns the number value of a stat level
 function statLVN(stat) {
-	if (stat < 30) {return 1}
-	else if (stat < 45) {return 2}
-	else if (stat < 65) {return 3}
-	else if (stat < 85) {return 4}
-	else {return 5}
+	if (stat < 30) return 1
+	else if (stat < 45) return 2
+	else if (stat < 65) return 3
+	else if (stat < 85) return 4
+	else return 5
 }
 
 // The new (and hopefully improved) work function
@@ -1149,7 +1149,7 @@ switch (ciCmd[0]) {
 			let statsString = []
 			for (i = 0; i < 4; i++) {
 				console.log(cUser.stats)
-				let statLV = `LV ${statLVN(cUser.stats[i])}`
+				let statLV = `LV ${"ass"}`
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
