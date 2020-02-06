@@ -687,7 +687,7 @@ function healPulse() {
 		}
 		}
 		
-		}
+		})
 	}
 }
 
