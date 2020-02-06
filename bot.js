@@ -997,7 +997,7 @@ switch (ciCmd[0]) {
 		case "revive":
 			{
 			let uid
-			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id else uid = '143261987575562240'
+			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id; else uid = '143261987575562240'
 			dbployees.e(uid).hp = dbployees.e(uid).fortL
 			dbployees.e(uid).sp = dbployees.e(uid).prudL
 			dbployees.e(uid).dead = 0
