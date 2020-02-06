@@ -865,8 +865,8 @@ console.log(log);
 }
 
 // Handy vars
-const ch = msg.channel
-const mesc = msg.content
+ch = msg.channel
+mesc = msg.content
 
 // Command check
 if (mesc[0] === "!") {
