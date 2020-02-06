@@ -1149,7 +1149,7 @@ switch (ciCmd[0]) {
 			let statsString = []
 			for (i = 0; i < 4; i++) {
 				console.log(cUser.stats)
-				let statLV = `LV ${"ass"}`
+				let statLV = "LV "
 				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
