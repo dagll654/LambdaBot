@@ -174,7 +174,7 @@ class cEmp {
 		return statLevelsArray
 	}
 	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
-		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
+		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return undefined// If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
 		let buffs = this.buffListArray
 		let amt = Number(amount)
 		if (exists(buffs)) {
@@ -294,6 +294,7 @@ class clAbn {
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
+	if (exists(getter) === false) return undefined
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (/\b<@!/.test(getter) && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
