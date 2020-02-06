@@ -134,7 +134,7 @@ class cEmp {
 	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
 	get employeeLevel() {
-		statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
+		let statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
 		if (statcount < 6) return 1
 		else if (statcount < 9) return 2
 		else if (statcount < 12) return 3
