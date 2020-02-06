@@ -1164,6 +1164,9 @@ switch (ciCmd[0]) {
 				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
 				console.log(7)
 			}
+			let testArray = []
+			for (i = 0; i < 10; i++) {testArray.push(i)}
+			console.log(testArray)
 			statsString[1] += "\n"
 			let subPointString = []
 			for (i = 0; i < 4; i++) {
