@@ -18,9 +18,9 @@ var pool        = db.createPool({
 // Getting a connection
 pool.getConnection(function (err, connection) {
 const client = new Discord.Client()
-const DELTAS = client.guilds.get('607318782624399361') // Lambda's Deltas server
+function DELTAS() = {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
 var bch
-const ESERV = client.guilds.get('513660754633949208') // Emote server for the minigame stuff
+function ESERV() = {return client.guilds.get('513660754633949208')} // Emote server for the minigame stuff
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
@@ -155,8 +155,8 @@ class emp {
 	}
 	get drFind() { // Returns the department role's name
 		let reg = new RegExp(`\\s{1}Team`)
-		if (DELTAS.members.get(this.id).roles.some(r => reg.test(r.name)))
-		return DELTAS.members.get(this.id).roles.find(r => reg.test(r.name)).name
+		if (DELTAS().members.get(this.id).roles.some(r => reg.test(r.name)))
+		return DELTAS().members.get(this.id).roles.find(r => reg.test(r.name)).name
 		else return undefined
 	}
 	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
@@ -393,7 +393,7 @@ function databaseEmployees() {
 	employees = []
 	dbployees = []
 	let dbpush = []
-	DELTAS.members.forEach(m => {
+	DELTAS().members.forEach(m => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
@@ -438,7 +438,7 @@ function healPulse() {
 			if (exists(e.tjtime) === false) e.tjtime = Date.now()
 			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
 			if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-			fn.effectApplication['department'](e, drFind(DELTAS.members.get(e.id)), "give")
+			fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
 			}
 			}
 		}
@@ -478,16 +478,16 @@ function getUser(getter) {
 			else regAmazing += `${c.toLowerCase()}*`
 		})
 		let regAmazing = new RegExp(regAmazingText, "i")
-		if (DELTAS.members.some(m => regAmazing.test(" " + m.nickname.toLowerCase())))
-			return DELTAS.members.find(m => regAmazing.test(" " + m.nickname.toLowerCase())).user
-		else if (DELTAS.members.some(m => regAmazing.test(" " + m.tag.toLowerCase())))
-			return DELTAS.members.find(m => regAmazing.test(" " + m.tag.toLowerCase())).user
+		if (DELTAS().members.some(m => regAmazing.test(" " + m.nickname.toLowerCase())))
+			return DELTAS().members.find(m => regAmazing.test(" " + m.nickname.toLowerCase())).user
+		else if (DELTAS().members.some(m => regAmazing.test(" " + m.tag.toLowerCase())))
+			return DELTAS().members.find(m => regAmazing.test(" " + m.tag.toLowerCase())).user
 	}
 	return undefined
 }
 
 // Returns an emoji by name
-function emoji(nme, srv = DELTAS, a = false, id = false) {
+function emoji(nme, srv = DELTAS(), a = false, id = false) {
 	let e
 	let emd
 	if (nme === "none") {return ""}
@@ -501,7 +501,7 @@ function emoji(nme, srv = DELTAS, a = false, id = false) {
 // A text resentation of a suit (non-technical)
 function suit(id, d = [1, 1, 1, 1]) {
 	let suit = gear.suits.find(s => Number(s.id) === Number(id))
-	return (`${emoji(suit.level.toLowerCase(), ESERV)} ${suit.name}  -  ${suit.resistance[0]*d[0]} ${jn.dtype[0]} ${suit.resistance[1]*d[1]} ${jn.dtype[1]} ${suit.resistance[2]*d[2]} ${jn.dtype[2]} ${suit.resistance[3]*d[3]} ${jn.dtype[3]}`)
+	return (`${emoji(suit.level.toLowerCase(), ESERV())} ${suit.name}  -  ${suit.resistance[0]*d[0]} ${jn.dtype[0]} ${suit.resistance[1]*d[1]} ${jn.dtype[1]} ${suit.resistance[2]*d[2]} ${jn.dtype[2]} ${suit.resistance[3]*d[3]} ${jn.dtype[3]}`)
 }
 
 // A text resentation of a weapon (non-technical)
@@ -511,7 +511,7 @@ function weapon(id) {
 	for (i = 0; i < 4; i++) {
 		if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
 	}
-	return (`${emoji(weapon.level.toLowerCase(), ESERV)} ${weapon.name}  -  ${wepd}`)
+	return (`${emoji(weapon.level.toLowerCase(), ESERV())} ${weapon.name}  -  ${wepd}`)
 }
 
 // Function for getting the damage modifier of risk level 1 (receiving end) against risk level 2 (dealing end), with the receiving end having res resistance
@@ -708,14 +708,14 @@ client.on('guildMemberUpdate', () => {
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
-	await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+	await member.removeRole(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-	else await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+	else await member.addRole(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
 }
 let regLevel = new RegExp(`\\bLevel`)
-DELTAS.members.forEach(m => {
+DELTAS().members.forEach(m => {
 	if (m.roles.some(r => regLevel.test(" " + r.name))) {
 	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
 		if (m.roles.some(r => jn.risk.includes(r.name))) {
@@ -723,7 +723,7 @@ DELTAS.members.forEach(m => {
 				m.removeRole(m.roles.find(r => jn.risk.includes(r.name)))
 				.catch(console.error)
 		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
-			m.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
+			m.addRole(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
 			.catch(console.error)
 	}
 	if (cMember.roles.some(r => r.name === "RANCHDIP")) {
@@ -736,7 +736,7 @@ DELTAS.members.forEach(m => {
 
 client.on('ready', () => {
 	
-bch = DELTAS.channels.get("607558082381217851");
+bch = DELTAS().channels.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
 bch.send("Bot started.")
@@ -784,7 +784,7 @@ while (content.split(" ")[0].slice(0,2) === ">!") {
 	if (getUser(cArr[0]) === client.user || tempMessage.author.id === '143261987575562240') {
 	if (getUser(cArr[0]) != undefined) {
 		tempMessage.author = client.users.get(getUser(cArr[0]).id)
-		tempMessage.member = DELTAS.members.get(getUser(cArr[0]).id)
+		tempMessage.member = DELTAS().members.get(getUser(cArr[0]).id)
 		botPass = 1
 	}} else {initialMessage.channel.send(`**${initialMessage.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
 	cArr.shift()
@@ -816,7 +816,7 @@ if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.autho
 	mesc.split(" ")[3].split("").forEach(c => {
 		if (nmbrs.includes(c)) {voteeid += c}
 	})
-	voteeuser = DELTAS.members.find("id", voteeid)
+	voteeuser = DELTAS().members.find("id", voteeid)
 	console.log("THIS SHIT " + voteeid)
 	cptxt = drFind(voteeuser)
 	dbvars[2] = 0
@@ -824,13 +824,13 @@ if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.autho
 	vtd = [] 
 	yee = 0
 	boo = 0
-	if ((DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-		reqv = 5 + Math.floor(DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-	} else {reqv = DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
+	if ((DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+		reqv = 5 + Math.floor(DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+	} else {reqv = DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 	msg.react('✅')
 	msg.react('🚫')
 	override = 0
-	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS.roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
+	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
 	const collector = msg.createReactionCollector(filter, { time: 15000 })
 	collector.on('collect', rct => {//${rct.emoji.name}
 		lru = rct.users.map(u => u.id).pop()
@@ -879,7 +879,7 @@ var ciCmd = mesc.slice(1).toLowerCase().split(" ")
 var csCmd = mesc.slice(1).split(" ")
 
 // Check if the command even exists (if it is in the right guild)
-if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS) {
+if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS()) {
 	ch.send("**" + msg.author.tag + "**, " + "Unrecognized command. Type in !help to get the list of all available commands.")
 	return
 	}
@@ -906,7 +906,7 @@ switch (ciCmd[0]) {
 	
 	case "em": {
 	yeet(0)
-	if (DELTAS.emojis.some(e => e.name.toLowerCase() === ciCmd[1])) {
+	if (DELTAS().emojis.some(e => e.name.toLowerCase() === ciCmd[1])) {
 		if (/\D/.test(ciCmd[2]) === false) {
 			let eCount = Number(ciCmd[2])
 			if (eCount > 27) eCount = 27
@@ -929,8 +929,8 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 120 seconds.")
 		return
 	}
-	let roles = DELTAS.members.get(getUser(ciCmd[1]).id).roles.filter(r => r.managed === false)
-	let member = DELTAS.members.get(getUser(cmd[1]).id)
+	let roles = DELTAS().members.get(getUser(ciCmd[1]).id).roles.filter(r => r.managed === false)
+	let member = DELTAS().members.get(getUser(cmd[1]).id)
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots.")
 		return
@@ -944,7 +944,7 @@ switch (ciCmd[0]) {
 	wait(amt*1000).then(() => {
 		let backRoles = roles.filter(r => member.roles.includes(r) === false)
 		if (backRoles != []) mem.addRoles(backRoles).then(() => 
-		DELTAS.members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
+		DELTAS().members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
 		.catch(console.error)
 		)
 		.catch(console.error)
@@ -969,7 +969,7 @@ switch (ciCmd[0]) {
 			console.log(dbployees.e(uid2))
 		break
 		case "msg":
-			let tempch = DELTAS.channels.get(cmd[2])
+			let tempch = DELTAS().channels.get(cmd[2])
 			let tempmsg = ""
 			let i
 			for (i = 3; i < cmd.length; i++) { 
@@ -1092,7 +1092,7 @@ switch (ciCmd[0]) {
 					let index = 0
 					workableIDs.forEach(aID => {
 						if (aID != "o-01-01")
-						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "` ")
+						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "` ")
 					})
 					for (i = 0; i < workableArr.length; i++) {
 						if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
@@ -1466,7 +1466,7 @@ statsString.join(""),
 					return
 				} 
 					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
-					ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV)} debuff.`)
+					ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
@@ -1477,7 +1477,7 @@ statsString.join(""),
 				if (jn.stats.includes(cmd[3])) {
 					let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3]))
 					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
-					ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV)} debuff.`)
+					ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
@@ -1491,7 +1491,7 @@ statsString.join(""),
 			if (cmd[2] != "list") {
 			function ext(emp, channel) {
 				cUser = emp
-				const cCh = DELTAS.channels.get(channel)
+				const cCh = DELTAS().channels.get(channel)
 				let currentAbno
 				let currentAbnoCode
 				let currentShop
@@ -1661,7 +1661,7 @@ statsString.join(""),
 			workableIDs.forEach(aID => {
 				if (aID != "o-01-01") {
 				let cBal = cUser.balancespecific.split(" ").find(b => b.startsWith(aID)).split("|")
-				workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
+				workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
 				}
 			})
 			for (i = 0; i < workableArr.length; i++) {
@@ -1704,15 +1704,15 @@ statsString.join(""),
 							if (nmbrs.includes(c)) {voteeid += c}
 						})
 						if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
-						if (drFind(DELTAS.members.find("id", voteeid)) === drFind(msg.member)) {
-						if (DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
+						if (DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 								dbvars[2] = 1
 								votingteam = drFind(msg.member)
 								console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
 								setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS.roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-						} else if (deproles.every(t => DELTAS.members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
+						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+						} else if (deproles.every(t => DELTAS().members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
 						break
 						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 				} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
