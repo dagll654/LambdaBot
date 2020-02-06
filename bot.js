@@ -1361,7 +1361,7 @@ statsString.join(""),
 			}
 		
 			menuNavigationInventory()
-			}}
+			})}
 			inv(dbployees.e(msg.author.id), msg.channel)
 			} break
 			
