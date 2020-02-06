@@ -701,6 +701,114 @@ function work(employee1, abno1, order1, channel) {
 	console.log(rollArr)
 }
 
+
+
+client.on('guildMemberUpdate', () => {
+	
+async function dip(member, action = 0) {
+	await wait(1000)
+	if (action === 1)
+	await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+		.catch(console.error)
+	else await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
+		.catch(console.error)
+	return true
+}
+let regLevel = new RegExp(`\\bLevel`)
+DELTAS.members.forEach(m => {
+	if (m.roles.some(r => regLevel.test(" " + r.name))) {
+	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
+		if (m.roles.some(r => jn.risk.includes(r.name))) {
+			if (m.roles.some(r => r.name === "TO THE RANCH"))
+				m.removeRole(m.roles.find(r => jn.risk.includes(r.name)))
+				.catch(console.error)
+		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
+			m.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
+			.catch(console.error)
+	}
+	if (cMember.roles.some(r => r.name === "RANCHDIP")) {
+		if (cMember.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+		else dip(m)
+	}
+})
+	
+})
+
+client.on('ready', () => {
+	
+bch = DELTAS.channels.get("607558082381217851");
+// Bot readiness announcement, both in the log, #botspam and in my DMs
+console.log('I am ready!')
+bch.send("Bot started.")
+client.users.get('143261987575562240').send('Bot started up succesfully.')
+// Setting the bot's current game to 'try !help'
+client.user.setPresence({
+	game: {
+		name: 'try !help',
+		type: "Playing",
+		url: "https://tinyurl.com/rollntroll"
+	}
+})	
+// Get employee data from the database
+databaseEmployees()
+// Global ticker function, responsible for the heal pulser, data updating and effect ticking
+globalTicker()
+	
+})
+
+client.on('message', initialMessage => {
+	
+
+if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
+let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
+let botPass = 0 // Normally, the bot ignores messages from bots
+
+let msg
+{
+let tempMessage = initialMessage
+function sudoCheck() {
+if (tempMessage.content.split(" ")[0] === "sudo") {
+	if (tempMessage.author.id === '143261987575562240') {
+	let tcontent = tempMessage.content.split(" ")
+	tcontent.shift()
+	tempMessage.content = tcontent.join(" ")
+	chPass = 1
+	console.log(`Content: '${tcontent.join(" ")}'`)
+	} else (tempMessage.channel.send(`**${tempMessage.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
+}}
+sudoCheck()
+let content = tempMessage.content
+while (content.split(" ")[0].slice(0,2) === ">!") {
+	content = content.slice(2)
+	let cArr = content.split(" ")
+	if (getUser(cArr[0]) === client.user || tempMessage.author.id === '143261987575562240') {
+	if (getUser(cArr[0]) != undefined) {
+		tempMessage.author = client.users.get(getUser(cArr[0]).id)
+		tempMessage.member = DELTAS.members.get(getUser(cArr[0]).id)
+		botPass = 1
+	}} else {initialMessage.channel.send(`**${initialMessage.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
+	cArr.shift()
+	content = cArr.join(" ")
+	tempMessage.content = content
+	msg = tempMessage
+	sudoCheck()
+}
+msg = tempMessage
+}
+
+// If the message's author is a bot, just ignore it
+if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
+
+// Evil logger so I can see everything that goes on at the sever >:Dc
+if (ch.type != 'dm') {
+let log = msg.createdAt + msg.channel.name + " " + msg.author.username + ": " + msg.content
+console.log(log);
+}
+
+// Handy vars
+ch = msg.channel
+mesc = msg.content
+
 // Vote stuff - I positively cannot be arsed to rewrite this shite
 if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.author.id === '607520778178527246')) {
 	voting = 1
@@ -762,111 +870,6 @@ if ((mesc.startsWith("Initiating vote for ")) && (dbvars[2] === 1) && (msg.autho
 	}
 	})
 }
-
-client.on('guildMemberUpdate', () => {
-	
-async function dip(member, action = 0) {
-	await wait(1000)
-	if (action === 1)
-	await member.removeRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
-		.catch(console.error)
-	else await member.addRole(DELTAS.roles.find(r => r.name === "TO THE RANCH"))
-		.catch(console.error)
-	return true
-}
-let regLevel = new RegExp(`\\bLevel`)
-DELTAS.members.forEach(m => {
-	if (m.roles.some(r => regLevel.test(" " + r.name))) {
-	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
-		if (m.roles.some(r => jn.risk.includes(r.name))) {
-			if (m.roles.some(r => r.name === "TO THE RANCH"))
-				m.removeRole(m.roles.find(r => jn.risk.includes(r.name)))
-				.catch(console.error)
-		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
-			m.addRole(DELTAS.roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
-			.catch(console.error)
-	}
-	if (cMember.roles.some(r => r.name === "RANCHDIP")) {
-		if (cMember.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
-		else dip(m)
-	}
-})
-	
-})
-
-client.on('ready', () => {
-	
-bch = DELTAS.channels.get("607558082381217851");
-// Bot readiness announcement, both in the log, #botspam and in my DMs
-console.log('I am ready!')
-bch.send("Bot started.")
-client.users.get('143261987575562240').send('Bot started up succesfully.')
-// Setting the bot's current game to 'try !help'
-client.user.setPresence({
-	game: {
-		name: 'try !help',
-		type: "Playing",
-		url: "https://tinyurl.com/rollntroll"
-	}
-})	
-// Get employee data from the database
-databaseEmployees()
-// Global ticker function, responsible for the heal pulser, data updating and effect ticking
-globalTicker()
-	
-})
-
-client.on('message', initialMessage => {
-
-if ((dbvars[4] === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
-let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
-let botPass = 0 // Normally, the bot ignores messages from bots
-
-let msg
-{
-let tempMessage = initialMessage
-function sudoCheck() {
-if (tempMessage.content.split(" ")[0] === "sudo") {
-	if (tempMessage.author.id === '143261987575562240') {
-	let tcontent = tempMessage.content.split(" ")
-	tcontent.shift()
-	tempMessage.content = tcontent.join(" ")
-	chPass = 1
-	console.log(`Content: '${tcontent.join(" ")}'`)
-	} else (tempMessage.channel.send(`**${tempMessage.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
-}}
-sudoCheck()
-let content = tempMessage.content
-while (content.split(" ")[0].slice(0,2) === ">!") {
-	content = content.slice(2)
-	let cArr = content.split(" ")
-	if (getUser(cArr[0]) === client.user || tempMessage.author.id === '143261987575562240') {
-	if (getUser(cArr[0]) != undefined) {
-		tempMessage.author = client.users.get(getUser(cArr[0]).id)
-		tempMessage.member = DELTAS.members.get(getUser(cArr[0]).id)
-		botPass = 1
-	}} else {initialMessage.channel.send(`**${initialMessage.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
-	cArr.shift()
-	content = cArr.join(" ")
-	tempMessage.content = content
-	msg = tempMessage
-	sudoCheck()
-}
-msg = tempMessage
-}
-
-// If the message's author is a bot, just ignore it
-if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
-
-// Evil logger so I can see everything that goes on at the sever >:Dc
-if (ch.type != 'dm') {
-let log = msg.createdAt + msg.channel.name + " " + msg.author.username + ": " + msg.content
-console.log(log);
-}
-
-// Handy vars
-ch = msg.channel
-mesc = msg.content
 
 // Command check
 if (mesc[0] === "!") {
