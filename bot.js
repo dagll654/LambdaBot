@@ -135,7 +135,7 @@ class emp {
 	get prudL() {return Number(this.prudence) + Number(this.statBuffArray[1])}
 	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
-	statLevels: function (textForm = 0) { // Stat level
+	function statLevels(textForm = 0) { // Stat level
 	let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
 	let statLevelsArray = []
 	for (i = 0; i < 4; i++) {
@@ -160,12 +160,12 @@ class emp {
 		else return undefined
 	}
 	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
-	getBox: function (abno) {
+	function getBox(abno) {
 		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
 	}
 	get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, this.employeeLevel]}
 	get statsReal() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}
-	heal: function (points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
+	function heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
 		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
 		let buffs = this.buffListArray
 		let amt = Number(amount)
@@ -178,7 +178,7 @@ class emp {
 		employee[points.toLowerCase()] += Number(amt)
 		return Number(amt)
 	}
-	damage: function (risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
+	function damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
 		let amt = amount
 		let type = typeL
 		if (Array.isArray(type)) type = type[roll(type.length)] 
@@ -203,7 +203,7 @@ class emp {
 		}
 		return Number(amt)
 	}
-	bumpSubpoint: function (stat = "fortitude", amount = 0) {
+	function bumpSubpoint(stat = "fortitude", amount = 0) {
 		let expMod = 0
 		let subStatArr = this.subPointsArray
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
@@ -227,7 +227,7 @@ class emp {
 		}
 		}
 	}
-	bumpBox: function (abno, amount) {
+	function bumpBox(abno, amount) {
 		if (this.balanceSpecificArray.some(b => b[0].toLowerCase() === abno.toLowerCase()) === false) return undefined
 		else {
 			let newBSA = this.balanceSpecificArray
