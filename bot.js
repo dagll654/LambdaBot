@@ -283,11 +283,6 @@ async function queryAndWait(q, connection) {
 	})
 }
 
-// Push an employee into an array
-function eArrPush(e, arr = dbployees) {
-	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
-}
-
 // Abnormality class (unfinished)
 class clAbn {
 	constructor (id, state = 0, qcounter = 'und') {
@@ -297,175 +292,7 @@ class clAbn {
 	}
 }
 
-// Ticks all employees' effects
-function globalEffectTick() {
-	efflog = efflog + 1 // efflog is responsible for effect logging
-	dbployees.forEach(e => {
-	if (exists(e) === false) return // If the employee doesn't exist, don't bother
-	let effects = []
-	let effectsNew = []
-	let persistentEffects = ["1"] // Effects that don't get removed on death
-	if (exists(e.effectArray)) { // If the effect array has anything in it
-		effects = e.effectArray.filter(e => exists(e[0])) // Filter out any effects that are null or otherwise nonexistent
-		effects.forEach(eff => {
-		if (eff[0] === "0") e.heal("hp", 0.1) // Fairies' effect heals 0.1 hp per tick (second)
-		if (Number(e.dead) === 1 && persistentEffects.includes(eff[0]) === false) eff = 'null' // If the effect is EGO change cooldown then it doesn't get removed on death
-		if (eff[1] != "inf") { // We don't touch inf effects
-		if (Number(e.dead) === 1) {
-			if (eff[0] === "1") {eff[1] -= 1; effectsNew.push(eff)}
-			else eff[1] = 0
-		} else {eff[1] -= 1; effectsNew.push(eff)}
-		} else effectsNew.push(eff)
-		}) //.map(e => e.join("/")).join("|")
-		effectsNew.filter(eff => exists(eff) && exists(eff[0]))
-		if (exists(effectsNew)) {
-		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
-		} else e.effects = 'null'
-		if (efflog >= debugVariables[5] && e.effects != "null") {
-		console.log(e.tag + " " + e.effects)
-		console.log(e.tag + " " + effectsNew)
-		}
-		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
-	}
-	})
-	if (efflog >= debugVariables["effect_log"]) efflog = 0
-}
 
-// Updates the data to the database
-function updateData() {
-	let dbployeesActual = []
-	let pushBig = []
-	connection.query("SELECT * FROM `employees`", function (err, result) {
-	result.forEach(r => {
-	eArrPush(r, dbployeesActual)
-	})
-	if (err) throw err
-	dbployees.forEach((e, i) => {
-		let eActual = dbployeesActual.find(d => d.id === e.id)
-		if (exists(e) === false) return
-		let pushSmall = []
-		for (const prop in e) {
-		if (eActual[prop] != undefined) {
-			let lValue = e[prop]
-			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
-			if (eActual[prop] != lValue && Number(eActual[prop]) != lValue) {					
-			pushSmall.push("`" + prop + "` = '" + tempval + "'")
-			}
-		}
-		}
-		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
-		if (exists(pushSmall)) pushBig.push(pushSmallStr)
-	})
-	pushBig.forEach(q => {
-	queryAndWait(q, connection)
-	})
-	console.log("Updated the database.")
-	//console.log(pushBig)
-	})
-}
-
-// Functions like databaseEmployees()
-function databaseAbnos() {
-	abnos = []
-	dbnos = []
-	jn.abnWorkable.forEach(a => {
-	abnos.push({"id": abno(a).id, "tag": a})
-	})
-	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	result.forEach(r => dbnos.push(r))
-	let abnodbpush = []
-	abnos.forEach(a => {
-	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
-	else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
-	})
-	abnodbpush.forEach(e => {
-		let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
-		connection.query(sql, function (err, result) {
-		if (err) throw err;
-		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
-		})
-	})
-	})
-}
-
-// Gets the employee data from the database
-function databaseEmployees() {
-	employees = []
-	dbployees = []
-	let dbpush = []
-	DELTAS().members.forEach(m => {
-	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
-	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) throw err
-		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"]).join(" ")
-		result.forEach(e => eArrPush(e))
-		employees.forEach(e => {
-			if (dbployees.ids().includes(e.id)) {console.log(`Employee ${e.tag} is included!`)}
-			else {dbpush.push({"id": e.id, "tag": e.tag})}
-		})
-		console.log("To push:")
-		console.log(dbpush)
-		dbpush.forEach(e => {
-		var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
-		queryAndWait(sql, connection)
-		console.log(`${e.tag} inserted!`)
-		eArrPush(new cEmp(e.id, e.tag))
-		})
-		
-		dbployees.forEach(e => {
-			zeroBalanceArray.forEach(b => {
-			if (e.balanceSpecificArray.some(bs => bs[0].toLowerCase() === b[0].toLowerCase()) === false)
-				e.balancespecific += ` ${b.join("|")}`
-			})
-		})
-	})
-	})
-}
-
-// The heal pulse in regenerator rooms
-function healPulse() {
-	if (debugVariables.heal_pulser === 1) {
-		dbployees.forEach(e => {
-			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
-			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
-			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
-			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
-			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
-			e.dead = 0
-			else e.working = 0
-		})
-		if (e.drFind) {
-			if (exists(e.tjtime) === false) e.tjtime = Date.now()
-			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
-			if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-			fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
-			}
-			}
-		}
-	}
-}
-
-// Responsible for all regular time-based things
-async function globalTicker() {
-	let tick = 0
-	while (true) {
-		tick++
-		await wait(1000)
-		globalEffectTick()
-		switch (true) {
-			case tick === 1:
-				healPulse()
-				break
-			case tick === 30:
-				updateData()
-				break
-			case tick === 60:
-				updateData()
-				tick = 1
-				break
-		}
-	}
-}
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
@@ -703,6 +530,206 @@ function work(employee1, abno1, order1, channel) {
 
 
 
+
+
+client.on('ready', () => {
+	
+bch = DELTAS().channels.get("607558082381217851");
+// Bot readiness announcement, both in the log, #botspam and in my DMs
+console.log('I am ready!')
+bch.send("Bot started.")
+client.users.get('143261987575562240').send('Bot started up succesfully.')
+// Setting the bot's current game to 'try !help'
+client.user.setPresence({
+	game: {
+		name: 'try !help',
+		type: "Playing",
+		url: "https://tinyurl.com/rollntroll"
+	}
+})	
+
+// Push an employee into an array
+function eArrPush(e, arr = dbployees) {
+	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+}
+
+// Ticks all employees' effects
+function globalEffectTick() {
+	efflog = efflog + 1 // efflog is responsible for effect logging
+	dbployees.forEach(e => {
+	if (exists(e) === false) return // If the employee doesn't exist, don't bother
+	let effects = []
+	let effectsNew = []
+	let persistentEffects = ["1"] // Effects that don't get removed on death
+	if (exists(e.effectArray)) { // If the effect array has anything in it
+		effects = e.effectArray.filter(e => exists(e[0])) // Filter out any effects that are null or otherwise nonexistent
+		effects.forEach(eff => {
+		if (eff[0] === "0") e.heal("hp", 0.1) // Fairies' effect heals 0.1 hp per tick (second)
+		if (Number(e.dead) === 1 && persistentEffects.includes(eff[0]) === false) eff = 'null' // If the effect is EGO change cooldown then it doesn't get removed on death
+		if (eff[1] != "inf") { // We don't touch inf effects
+		if (Number(e.dead) === 1) {
+			if (eff[0] === "1") {eff[1] -= 1; effectsNew.push(eff)}
+			else eff[1] = 0
+		} else {eff[1] -= 1; effectsNew.push(eff)}
+		} else effectsNew.push(eff)
+		}) //.map(e => e.join("/")).join("|")
+		effectsNew.filter(eff => exists(eff) && exists(eff[0]))
+		if (exists(effectsNew)) {
+		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
+		} else e.effects = 'null'
+		if (efflog >= debugVariables[5] && e.effects != "null") {
+		console.log(e.tag + " " + e.effects)
+		console.log(e.tag + " " + effectsNew)
+		}
+		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
+	}
+	})
+	if (efflog >= debugVariables["effect_log"]) efflog = 0
+}
+
+// Updates the data to the database
+function updateData() {
+	let dbployeesActual = []
+	let pushBig = []
+	connection.query("SELECT * FROM `employees`", function (err, result) {
+	result.forEach(r => {
+	eArrPush(r, dbployeesActual)
+	})
+	if (err) throw err
+	dbployees.forEach((e, i) => {
+		let eActual = dbployeesActual.find(d => d.id === e.id)
+		if (exists(e) === false) return
+		let pushSmall = []
+		for (const prop in e) {
+		if (eActual[prop] != undefined) {
+			let lValue = e[prop]
+			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
+			if (eActual[prop] != lValue && Number(eActual[prop]) != lValue) {					
+			pushSmall.push("`" + prop + "` = '" + tempval + "'")
+			}
+		}
+		}
+		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
+		if (exists(pushSmall)) pushBig.push(pushSmallStr)
+	})
+	pushBig.forEach(q => {
+	queryAndWait(q, connection)
+	})
+	console.log("Updated the database.")
+	//console.log(pushBig)
+	})
+}
+
+// Functions like databaseEmployees()
+function databaseAbnos() {
+	abnos = []
+	dbnos = []
+	jn.abnWorkable.forEach(a => {
+	abnos.push({"id": abno(a).id, "tag": a})
+	})
+	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+	result.forEach(r => dbnos.push(r))
+	let abnodbpush = []
+	abnos.forEach(a => {
+	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
+	else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
+	})
+	abnodbpush.forEach(e => {
+		let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
+		connection.query(sql, function (err, result) {
+		if (err) throw err;
+		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
+		})
+	})
+	})
+}
+
+// Gets the employee data from the database
+function databaseEmployees() {
+	employees = []
+	dbployees = []
+	let dbpush = []
+	DELTAS().members.forEach(m => {
+	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
+	connection.query("SELECT * FROM `employees`", function (err, result) {
+		if (err) throw err
+		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"]).join(" ")
+		result.forEach(e => eArrPush(e))
+		employees.forEach(e => {
+			if (dbployees.ids().includes(e.id)) {console.log(`Employee ${e.tag} is included!`)}
+			else {dbpush.push({"id": e.id, "tag": e.tag})}
+		})
+		console.log("To push:")
+		console.log(dbpush)
+		dbpush.forEach(e => {
+		var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
+		queryAndWait(sql, connection)
+		console.log(`${e.tag} inserted!`)
+		eArrPush(new cEmp(e.id, e.tag))
+		})
+		
+		dbployees.forEach(e => {
+			zeroBalanceArray.forEach(b => {
+			if (e.balanceSpecificArray.some(bs => bs[0].toLowerCase() === b[0].toLowerCase()) === false)
+				e.balancespecific += ` ${b.join("|")}`
+			})
+		})
+	})
+	})
+}
+
+// The heal pulse in regenerator rooms
+function healPulse() {
+	if (debugVariables.heal_pulser === 1) {
+		dbployees.forEach(e => {
+			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
+			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
+			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
+			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
+			e.dead = 0
+			else e.working = 0
+		})
+		if (e.drFind) {
+			if (exists(e.tjtime) === false) e.tjtime = Date.now()
+			if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
+			if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+			fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
+			}
+			}
+		}
+	}
+}
+
+// Responsible for all regular time-based things
+async function globalTicker() {
+	let tick = 0
+	while (true) {
+		tick++
+		await wait(1000)
+		globalEffectTick()
+		switch (true) {
+			case tick === 1:
+				healPulse()
+				break
+			case tick === 30:
+				updateData()
+				break
+			case tick === 60:
+				updateData()
+				tick = 1
+				break
+		}
+	}
+}
+
+// Get employee data from the database
+databaseEmployees()
+// Global ticker function, responsible for the heal pulser, data updating and effect ticking
+globalTicker()
+	
+})
+
 client.on('guildMemberUpdate', () => {
 	
 async function dip(member, action = 0) {
@@ -731,196 +758,6 @@ DELTAS().members.forEach(m => {
 		else dip(m)
 	}
 })
-	
-})
-
-client.on('ready', () => {
-	
-	// Employee class
-class cEmp {
-	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
-		this.id = id
-		this.tag = tag
-		this.hp = hp/100
-		this.sp = sp/100
-		this.fortitude = fortitude
-		this.prudence = prudence
-		this.temperance = temperance
-		this.justice = justice
-		this.suit = suit
-		this.weapon = weapon
-		this.inventorys = inventorys
-		this.inventoryw = inventoryw
-		this.working = Number(working)
-		this.dead = Number(dead)
-		this.balance = Number(balance)
-		this.balancespecific = balancespecific
-		this.subpoints = subpoints
-		this.effects = effects
-		this.buffs = buffs
-		this.defensebuffs = defensebuffs
-		this.bufflist = bufflist
-		this.tjtime = tjtime
-		this.statlimit = statlimit
-		this.gifts = gifts
-		this.inventory = inventory
-		this.luck = roll(10)
-	}
-	get effectArray() {
-		if (exists(this.effects))
-		return this.effects.split("|").map(e => e.split("/"))
-		else return []
-	}
-	get subPointsArray() {return this.subpoints.split("|")}
-	get statBuffArray() {return this.buffs.split("|")}
-	get buffListArray() {
-		if (exists(this.bufflist)) return this.bufflist.split("|").map(i => i.split("/"))
-		else return []
-	}
-	get defenseBuffArray() {return this.defensebuffs.split("|").map(b => Number(b))}
-	get defenseArray() {
-		let arr = []
-		for (i = 0; i < 4; i++) {
-		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i])
-		}
-		return arr
-	}
-	get fortL() {return Number(this.fortitude) + Number(this.statBuffArray[0])} // L stands for "local" by the way
-	get prudL() {return Number(this.prudence) + Number(this.statBuffArray[1])}
-	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
-	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
-	statLevels(textForm = 0) { // Stat level
-	let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
-	let statLevelsArray = []
-	for (i = 0; i < 4; i++) {
-		if (statArray[i] > 29 && statArray[i] < 100) statLevelsArray.push(statLevelArray[textForm]) // If 29 < stat < 100 then it's not a fringe case, just get the value
-		else if (statArray[i] < 30) statLevelsArray.push([1, "I"][textForm]) // Fringe case of smol value
-		else statLevelsArray.push([5, "EX"][textForm]) // Fringe case of big value
-	}
-	return statLevelsArray
-	}
-	get employeeLevel() {
-		statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
-		if (statcount < 6) return 1
-		else if (statcount < 9) return 2
-		else if (statcount < 12) return 3
-		else if (statcount < 16) return 4
-		else return 5
-	}
-	get drFind() { // Returns the department role's name
-		let reg = new RegExp(`\\s{1}Team`)
-		if (DELTAS().members.get(this.id).roles.some(r => reg.test(r.name)))
-		return DELTAS().members.get(this.id).roles.find(r => reg.test(r.name)).name
-		else return undefined
-	}
-	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
-	getBox(abno) {
-		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
-	}
-	get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, this.employeeLevel]}
-	get statsReal() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}
-	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
-		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
-		let buffs = this.buffListArray
-		let amt = Number(amount)
-		if (exists(buffs)) {
-		let regBuff = new RegExp(`misc/healbuff/${points.toLowerCase()}`)
-		buffs.forEach(b => {
-			if (regBuff.test(b.join("/"))) amt += Number(b[3])*amount
-		})
-		}
-		employee[points.toLowerCase()] += Number(amt)
-		return Number(amt)
-	}
-	damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
-		let amt = amount
-		let type = typeL
-		if (Array.isArray(type)) type = type[roll(type.length)] 
-		switch (type.toLowerCase()) {
-			case "red":
-			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(suitObj(Number(this.suit)).level, risk)
-			this.hp -= amt
-			break
-			case "white":
-			amt = Number(amt)*Number(this.defenseArray[1])*rDamage(suitObj(Number(this.suit)).level, risk)
-			this.sp -= amt
-			break
-			case "black":
-			amt = Number(amt)*Number(this.defenseArray[3])*rDamage(suitObj(Number(this.suit)).level, risk)
-			this.hp -= amt
-			this.sp -= amt
-			break
-			case "pale":
-			amt = Number(this.defenseArray[3])*(this.hp/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
-			this.hp -= amt
-			break
-		}
-		return Number(amt)
-	}
-	bumpSubpoint(stat = "fortitude", amount = 0) {
-		let expMod = 0
-		let subStatArr = this.subPointsArray
-		let statIndex = jn.stats.indexOf(stat.toLowerCase())
-		let justiceMultiplier = 1
-		if (statIndex === 3) justiceMultiplier = 3
-		if (this.buffListArray.some(b => b[0] === "teamtr")) {
-		if (this.buffListArray.find(b => b[0] === "teamtr")[1] === 0) expMod = 2
-		else expMod = 4
-		}
-		subStatArr[statIndex] = Number(subStatArr[statIndex]) + amount
-		let subStatIncrement = 14 - expMod
-		let k = 0
-		while (k === 0) {
-		k = 1
-		if (subStatArr[statIndex] >= this.statLevels()[statIndex]*subStatIncrement*mult) {
-			subStatArr[statIndex] -= this.statLevels()[statIndex]*subStatIncrement*mult
-			if (this.stats[statIndex] < this.statlimit) {
-			this[stat]++
-			}
-		k = 0
-		}
-		}
-	}
-	bumpBox(abno, amount) {
-		if (this.balanceSpecificArray.some(b => b[0].toLowerCase() === abno.toLowerCase()) === false) return undefined
-		else {
-			let newBSA = this.balanceSpecificArray
-			let newAmount
-			newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1] -= -amount
-			newAmount = newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1]
-			this.balancespecific = newBSA.map(b => b.join("|")).join(" ")
-			return newAmount
-		}
-	}
-	get inventoryFullness() {
-		let iN = 0
-		if (exists(this.inventorys)) {
-			this.inventorys.split("|").forEach(s => {if (exists(s)) iN++})
-		}
-		if (exists(this.inventoryw)) {
-			this.inventoryw.split("|").forEach(w => {if (exists(w)) iN++})
-		}
-		return iN	
-	}
-}
-	
-bch = DELTAS().channels.get("607558082381217851");
-// Bot readiness announcement, both in the log, #botspam and in my DMs
-console.log('I am ready!')
-bch.send("Bot started.")
-client.users.get('143261987575562240').send('Bot started up succesfully.')
-// Setting the bot's current game to 'try !help'
-client.user.setPresence({
-	game: {
-		name: 'try !help',
-		type: "Playing",
-		url: "https://tinyurl.com/rollntroll"
-	}
-})	
-// Get employee data from the database
-databaseEmployees()
-// Global ticker function, responsible for the heal pulser, data updating and effect ticking
-globalTicker()
 	
 })
 
