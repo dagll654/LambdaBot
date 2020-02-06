@@ -736,6 +736,174 @@ DELTAS().members.forEach(m => {
 
 client.on('ready', () => {
 	
+	// Employee class
+class emp {
+	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
+		this.id = id
+		this.tag = tag
+		this.hp = hp/100
+		this.sp = sp/100
+		this.fortitude = fortitude
+		this.prudence = prudence
+		this.temperance = temperance
+		this.justice = justice
+		this.suit = suit
+		this.weapon = weapon
+		this.inventorys = inventorys
+		this.inventoryw = inventoryw
+		this.working = Number(working)
+		this.dead = Number(dead)
+		this.balance = Number(balance)
+		this.balancespecific = balancespecific
+		this.subpoints = subpoints
+		this.effects = effects
+		this.buffs = buffs
+		this.defensebuffs = defensebuffs
+		this.bufflist = bufflist
+		this.tjtime = tjtime
+		this.statlimit = statlimit
+		this.gifts = gifts
+		this.inventory = inventory
+		this.luck = roll(10)
+	}
+	get effectArray() {
+		if (exists(this.effects))
+		return this.effects.split("|").map(e => e.split("/"))
+		else return []
+	}
+	get subPointsArray() {return this.subpoints.split("|")}
+	get statBuffArray() {return this.buffs.split("|")}
+	get buffListArray() {
+		if (exists(this.bufflist)) return this.bufflist.split("|").map(i => i.split("/"))
+		else return []
+	}
+	get defenseBuffArray() {return this.defensebuffs.split("|").map(b => Number(b))}
+	get defenseArray() {
+		let arr = []
+		for (i = 0; i < 4; i++) {
+		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i])
+		}
+		return arr
+	}
+	get fortL() {return Number(this.fortitude) + Number(this.statBuffArray[0])} // L stands for "local" by the way
+	get prudL() {return Number(this.prudence) + Number(this.statBuffArray[1])}
+	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
+	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
+	statLevels(textForm = 0) { // Stat level
+	let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
+	let statLevelsArray = []
+	for (i = 0; i < 4; i++) {
+		if (statArray[i] > 29 && statArray[i] < 100) statLevelsArray.push(statLevelArray[textForm]) // If 29 < stat < 100 then it's not a fringe case, just get the value
+		else if (statArray[i] < 30) statLevelsArray.push([1, "I"][textForm]) // Fringe case of smol value
+		else statLevelsArray.push([5, "EX"][textForm]) // Fringe case of big value
+	}
+	return statLevelsArray
+	}
+	get employeeLevel() {
+		statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
+		if (statcount < 6) return 1
+		else if (statcount < 9) return 2
+		else if (statcount < 12) return 3
+		else if (statcount < 16) return 4
+		else return 5
+	}
+	get drFind() { // Returns the department role's name
+		let reg = new RegExp(`\\s{1}Team`)
+		if (DELTAS().members.get(this.id).roles.some(r => reg.test(r.name)))
+		return DELTAS().members.get(this.id).roles.find(r => reg.test(r.name)).name
+		else return undefined
+	}
+	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
+	getBox(abno) {
+		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
+	}
+	get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, this.employeeLevel]}
+	get statsReal() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}
+	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
+		if (["hp", "sp"].includes(points.toLowerCase()) === false || /\D/.test(amount)) return // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
+		let buffs = this.buffListArray
+		let amt = Number(amount)
+		if (exists(buffs)) {
+		let regBuff = new RegExp(`misc/healbuff/${points.toLowerCase()}`)
+		buffs.forEach(b => {
+			if (regBuff.test(b.join("/"))) amt += Number(b[3])*amount
+		})
+		}
+		employee[points.toLowerCase()] += Number(amt)
+		return Number(amt)
+	}
+	damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
+		let amt = amount
+		let type = typeL
+		if (Array.isArray(type)) type = type[roll(type.length)] 
+		switch (type.toLowerCase()) {
+			case "red":
+			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			break
+			case "white":
+			amt = Number(amt)*Number(this.defenseArray[1])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.sp -= amt
+			break
+			case "black":
+			amt = Number(amt)*Number(this.defenseArray[3])*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			this.sp -= amt
+			break
+			case "pale":
+			amt = Number(this.defenseArray[3])*(this.hp/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
+			this.hp -= amt
+			break
+		}
+		return Number(amt)
+	}
+	bumpSubpoint(stat = "fortitude", amount = 0) {
+		let expMod = 0
+		let subStatArr = this.subPointsArray
+		let statIndex = jn.stats.indexOf(stat.toLowerCase())
+		let justiceMultiplier = 1
+		if (statIndex === 3) justiceMultiplier = 3
+		if (this.buffListArray.some(b => b[0] === "teamtr")) {
+		if (this.buffListArray.find(b => b[0] === "teamtr")[1] === 0) expMod = 2
+		else expMod = 4
+		}
+		subStatArr[statIndex] = Number(subStatArr[statIndex]) + amount
+		let subStatIncrement = 14 - expMod
+		let k = 0
+		while (k === 0) {
+		k = 1
+		if (subStatArr[statIndex] >= this.statLevels()[statIndex]*subStatIncrement*mult) {
+			subStatArr[statIndex] -= this.statLevels()[statIndex]*subStatIncrement*mult
+			if (this.stats[statIndex] < this.statlimit) {
+			this[stat]++
+			}
+		k = 0
+		}
+		}
+	}
+	bumpBox(abno, amount) {
+		if (this.balanceSpecificArray.some(b => b[0].toLowerCase() === abno.toLowerCase()) === false) return undefined
+		else {
+			let newBSA = this.balanceSpecificArray
+			let newAmount
+			newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1] -= -amount
+			newAmount = newBSA.find(b => b[0].toLowerCase() === abno.toLowerCase())[1]
+			this.balancespecific = newBSA.map(b => b.join("|")).join(" ")
+			return newAmount
+		}
+	}
+	get inventoryFullness() {
+		let iN = 0
+		if (exists(this.inventorys)) {
+			this.inventorys.split("|").forEach(s => {if (exists(s)) iN++})
+		}
+		if (exists(this.inventoryw)) {
+			this.inventoryw.split("|").forEach(w => {if (exists(w)) iN++})
+		}
+		return iN	
+	}
+}
+	
 bch = DELTAS().channels.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
