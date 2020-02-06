@@ -427,24 +427,24 @@ function statLVN(stat) {
 // The new (and hopefully improved) work function
 function work(employee1, abno1, order1, channel) {
 	
-	const employee = employee1
+	const e = employee1
 	const cAbno = abno(abno1)
 	const order = order1
 	let statIndex = jn.workOrders.indexOf(order)
 	let respectiveStat = jn.stats[statIndex]
-	let userStat = employee.stats[statIndex]
-	let userTemp = employee.tempL
-	let luck = Math.ceil(jn.risk.indexOf(cAbno.risk)/2) + employee.luck
-	let userStatLevel = employee.statLevels()[statIndex]
+	let userStat = e.stats[statIndex]
+	let userTemp = e.tempL
+	let luck = Math.ceil(jn.risk.indexOf(cAbno.risk)/2) + e.luck
+	let userStatLevel = e.statLevels()[statIndex]
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel])*100
-	if (employee.buffListArray.some(b => b[0] === cAbno.code)) {
-		let b = employee.buffListArray.find(b => b[0] === cAbno.code)
+	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
+		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(`Success chance for ${employee.tag} on ${cAbno.code}: ${successChance}%`)
+	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
 	let peboxes = 0
@@ -452,7 +452,7 @@ function work(employee1, abno1, order1, channel) {
 	let rollArr = []
 	
 	for (i = 0; i < cAbno.peoutput; i++) {
-	if (employee.hp > 0 && employee.sp > 0) {
+	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
 		if (cRoll > luck) {}
