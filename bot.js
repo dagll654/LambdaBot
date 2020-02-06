@@ -83,7 +83,7 @@ function drFind(member) {
 }
 
 // Employee class
-class emp {
+class cEmp {
 	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
 		this.id = id
 		this.tag = tag
@@ -285,7 +285,7 @@ async function queryAndWait(q, connection) {
 
 // Push an employee into an array
 function eArrPush(e, arr = dbployees) {
-	arr.push(new emp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
 }
 
 // Abnormality class (unfinished)
@@ -409,7 +409,7 @@ function databaseEmployees() {
 		var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
 		queryAndWait(sql, connection)
 		console.log(`${e.tag} inserted!`)
-		eArrPush(new emp(e.id, e.tag))
+		eArrPush(new cEmp(e.id, e.tag))
 		})
 		
 		dbployees.forEach(e => {
@@ -737,7 +737,7 @@ DELTAS().members.forEach(m => {
 client.on('ready', () => {
 	
 	// Employee class
-class emp {
+class cEmp {
 	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
 		this.id = id
 		this.tag = tag
