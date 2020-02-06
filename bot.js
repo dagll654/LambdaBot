@@ -962,7 +962,7 @@ switch (ciCmd[0]) {
 		case "e":
 		case "employee":
 			let uid2 = ""
-			if (exists(getUser(ciCmd[2]))) uid2 = getUser(cmd[2]).id else uid2 = '143261987575562240'
+			if (exists(getUser(ciCmd[2]))) uid2 = getUser(cmd[2]).id; else uid2 = '143261987575562240'
 			console.log(dbployees.e(uid2))
 		break
 		case "msg":
