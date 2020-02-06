@@ -1148,7 +1148,7 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (i = 0; i < 4; i++) {
-				
+				console.log(i)
 				let statLV = `LV ${statLVN(cUser.stats[i])}`
 				let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
@@ -1162,6 +1162,7 @@ switch (ciCmd[0]) {
 			statsString[1] += "\n"
 			let subPointString = []
 			for (i = 0; i < 4; i++) {
+				console.log(i)
 				let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (i = 3) mult = 3
