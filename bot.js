@@ -680,7 +680,7 @@ function healPulse() {
 			else e.working = 0
 		if (e.drFind) {
 		if (exists(e.tjtime) === false) e.tjtime = Date.now()
-		if (e.buffListArray.some(eff => eff.startsWith("team")) === false) {
+		if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
 		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
 		fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
 		}
@@ -1181,7 +1181,7 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn.stats[i]
 				subPointString.push("	" + stat + " `" + subPointCount + "`") */
-				subPointString.push("	" + i + " `" + i + "`")
+				subPointString.push("	" + m + " `" + m + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
