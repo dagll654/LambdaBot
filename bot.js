@@ -585,7 +585,7 @@ function suitObj(id) {
 // Returns a weapon object found by id
 function weapObj(id) {
 	if (gear.weapons.some(s => Number(s.id) === Number(id)))
-		return gear.weapons.find(s => Number(s.id) === Number(id)))
+		return gear.weapons.find(s => Number(s.id) === Number(id))
 	else return undefined
 }
 
