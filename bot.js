@@ -1148,6 +1148,7 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (i = 0; i < 4; i++) {
+				
 				let statLV = `LV ${statLVN(cUser.stats[i])}`
 				let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
 				if (statLV.length < 6)
@@ -1155,6 +1156,7 @@ switch (ciCmd[0]) {
 				if (statCount.length < 6)
 				statCount += new Array(6 - statCount.length).fill(" ").join("")
 				let stat = jn.stats[i]
+				console.log(stat)
 				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
 			}
 			statsString[1] += "\n"
@@ -1174,11 +1176,11 @@ switch (ciCmd[0]) {
 			subPointString[1] += "\n	"
 			let messageArray = [
 "\n```mb\n 📋 | Showing stats for employee " + cUser.tag + "\n```",
-statsString.join(""),
+statsString.join(" "),
 `\nEmployee Level ${jn.statLevels[cUser.stats[4]-1]}`,
 `\nProgress towards the next stat points:\n${subPointString.join("")}`,
 `\n\n	Days in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
-`\n	Current effects: ${effectArray.join("")}.`,
+`\n	Current effects: ${effectArray.join(" ")}.`,
 `\n	Currently:	${dead}.`,
 `\n		HP: ${Number(cUser.hp).toFixed(1)} ${jn.health}		SP: ${Number(cUser.sp).toFixed(1)} ${jn.sanity}`,
 `\n\n		Suit: ${suit(Number(cUser.suit), cUser.defenseBuffArray)}`,
