@@ -489,14 +489,14 @@ function work(employee1, abno1, order1, channel) {
 		}
 		if (damageArray.length === 0) damageArray.push("none")
 		let wTime = Math.floor((cAbno.peoutput/2)*10)/10
-		mssage.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
 		await wait(wTime*500)
 		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
 			dbployees[dbids.indexOf(arrg[0])].dead = 1
 		if (e.dead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
-		mssage.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPointIncrease = 0
 		if (boxTotal >= aRisk + 2) {
