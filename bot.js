@@ -578,7 +578,7 @@ function getRole(nme) {
 // Returns a suit object found by id
 function suitObj(id) {
 	if (gear.suits.some(s => Number(s.id) === Number(id)))
-		return gear.suits.find(s => Number(s.id) === Number(id)))
+		return gear.suits.find(s => Number(s.id) === Number(id))
 	else return undefined
 }
 
