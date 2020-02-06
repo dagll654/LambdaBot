@@ -984,21 +984,25 @@ switch (ciCmd[0]) {
 		break
 		case "p":
 		case "profile": // !debug[0] profile[1] hp[2] 100[3] quack[4]
+			{
 			let uid
 			let lValue
 			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id; else uid = '143261987575562240'
 			if (/\D/.test(ciCmd[3]) === false) lValue = Number(ciCmd[3])
 			else lValue = ciCmd[3]
 			dbployees.e(uid)[ciCmd(2)] = lValue
-			updateData()
+			updateData() 
+			}
 		break
 		case "revive":
+			{
 			let uid
 			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id else uid = '143261987575562240'
 			dbployees.e(uid).hp = dbployees.e(uid).fortL
 			dbployees.e(uid).sp = dbployees.e(uid).prudL
 			dbployees.e(uid).dead = 0
 			dbployees.e(uid).working = 0
+			}
 		break
 	}
 	
