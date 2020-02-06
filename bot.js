@@ -685,7 +685,7 @@ function healPulse() {
 		fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
 		}
 		}
-		})
+		}
 		
 		}
 	}
