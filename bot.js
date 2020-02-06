@@ -1155,7 +1155,7 @@ switch (ciCmd[0]) {
 				if (statCount.length < 6)
 				statCount += new Array(6 - statCount.length).fill(" ").join("")
 				statsString.push("		`" + statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`")
-			})
+			}
 			statsString[1] += "\n"
 			let subPointString = []
 			for (i = 0; i < 4; i++) {
@@ -1167,7 +1167,7 @@ switch (ciCmd[0]) {
 				if (subPointCount.length < 7)
 				subPointCount += new Array(7 - subPointCount.length).fill(" ").join("")
 				subPointString.push("	" + jn[jn.stats[i]] + " `" + subPointCount + "`")
-			})
+			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
 			let messageArray = [
