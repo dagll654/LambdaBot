@@ -1201,14 +1201,14 @@ statsString.join(""),
 			function updateInventories(d = 0) {
 				if (d = 0) {
 				inventoryS = cUser.inventorys.split("|").unshift("0").map((s, i) => 
-				new Object {"id": Number(s), "index": i+1, "type": "suit"})
+				new Object("id": Number(s), "index": i+1, "type": "suit"))
 				inventoryW = cUser.inventoryw.split("|").unshift("0").map((w, i) => 
-				new Object {"id": Number(w), "index": i+inventoryS.length, "type": "weapon"})
+				new Object("id": Number(w), "index": i+inventoryS.length, "type": "weapon"))
 				} else {
 				inventoryS = cUser.inventorys.split("|").map((s, i) => 
-				new Object {"id": Number(s), "index": i+1, "type": "suit"})
+				new Object("id": Number(s), "index": i+1, "type": "suit"))
 				inventoryW = cUser.inventoryw.split("|").map((w, i) => 
-				new Object {"id": Number(w), "index": i+inventoryS.length, "type": "weapon"})
+				new Object("id": Number(w), "index": i+inventoryS.length, "type": "weapon"))
 				}
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
