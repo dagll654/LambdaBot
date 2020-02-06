@@ -903,7 +903,7 @@ switch (ciCmd[0]) {
 	
 	case "em": {
 	yeet(0)
-	if (DELTAS.emojis.some(e => e.name.toLowerCase() === ciCmd[1]) {
+	if (DELTAS.emojis.some(e => e.name.toLowerCase() === ciCmd[1])) {
 		if (/\D/.test(ciCmd[2]) === false) {
 			let eCount = Number(ciCmd[2])
 			if (eCount > 27) eCount = 27
