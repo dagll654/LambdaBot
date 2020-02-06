@@ -1162,12 +1162,9 @@ switch (ciCmd[0]) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
 				let statCount = `${cUser.statsReal[m]}+${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
-					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
-				let stat = jn.stats[m]
-				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
+					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
+				statsString.push("		`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
 			}
-			let testArray = []
-			for (i = 0; i < 10; i++) {testArray.push(i)}
 			console.log(testArray)
 			statsString[1] += "\n"
 			let subPointString = []
