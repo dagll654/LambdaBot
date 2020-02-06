@@ -1159,21 +1159,19 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (m = 0; m < 4; m++) {
-				
 				let statLV = "LV " + statLVL(cUser.stats[m])
-				/* let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
+				let statCount = `${cUser.statsReal[m]}+${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
-				let stat = jn.stats[i]
-				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`") */
-				statsString.push("		`" + statLV + "` " + m + " `" + m + "`")
+				let stat = jn.stats[m]
+				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
 			}
 			let testArray = []
 			for (i = 0; i < 10; i++) {testArray.push(i)}
 			console.log(testArray)
 			statsString[1] += "\n"
 			let subPointString = []
-			for (i = 0; i < 4; i++) {
+			for (m = 0; m < 4; m++) {
 				/* let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (i = 3) mult = 3
