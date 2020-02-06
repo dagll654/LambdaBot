@@ -424,6 +424,16 @@ function statLVN(stat) {
 	else return 5
 }
 
+// Return the level of a stat
+function statLVL(stat) {
+	if (stat < 30) {return "I"}
+	else if (stat < 45) {return "II"}
+	else if (stat < 65) {return "III"}
+	else if (stat < 85) {return "IV"}
+	else if (stat < 100) {return "V"}
+	else {return "EX"}
+}
+
 // The new (and hopefully improved) work function
 function work(employee1, abno1, order1, channel) {
 	
