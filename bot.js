@@ -19,7 +19,7 @@ var pool        = db.createPool({
 pool.getConnection(function (err, connection) {
 const client = new Discord.Client()
 const DELTAS = client.guilds.get('607318782624399361') // Lambda's Deltas server
-var bch = DELTAS.channels.get('607558082381217851') // #botspam
+var bch
 const ESERV = client.guilds.get('513660754633949208') // Emote server for the minigame stuff
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
