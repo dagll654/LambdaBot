@@ -653,7 +653,7 @@ function databaseEmployees() {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
-		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"]).join(" ")
+		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
 			if (dbployees.ids().includes(e.id)) {console.log(`Employee ${e.tag} is included!`)}
