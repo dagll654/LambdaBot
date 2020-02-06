@@ -1148,21 +1148,13 @@ switch (ciCmd[0]) {
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
 			for (i = 0; i < 4; i++) {
-				console.log(1)
-				let statLV = `LV ${statLVN(cUser.stats[i])}`
-				console.log(2)
+				/* let statLV = `LV ${statLVN(cUser.stats[i])}`
 				let statCount = `${cUser.statsReal[i]}+${cUser.statBuffArray[i]}`
-				console.log(3)
 				if (statLV.length < 6)
 					for (k = 0; k < (6 - statLV.length); k++) {statLV = " " + statLV}
-				console.log(4)
-				if (statCount.length < 6)
-				statCount += new Array(6 - statCount.length).fill(" ").join("")
-				console.log(5)
 				let stat = jn.stats[i]
-				console.log(6)
-				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`")
-				console.log(7)
+				statsString.push("		`" + statLV + "` " + stat + " `" + statCount + "`") */
+				statsString.push("		`" + i + "` " + i + " `" + i + "`")
 			}
 			let testArray = []
 			for (i = 0; i < 10; i++) {testArray.push(i)}
@@ -1170,8 +1162,7 @@ switch (ciCmd[0]) {
 			statsString[1] += "\n"
 			let subPointString = []
 			for (i = 0; i < 4; i++) {
-				console.log(i)
-				let mult = 1
+				/* let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (i = 3) mult = 3
 				let requiredSubpoints = statLVN(cUser.statsReal[i])*subStatIncrement*mult
@@ -1179,7 +1170,8 @@ switch (ciCmd[0]) {
 				if (subPointCount.length < 7)
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn.stats[i]
-				subPointString.push("	" + stat + " `" + subPointCount + "`")
+				subPointString.push("	" + stat + " `" + subPointCount + "`") */
+				subPointString.push("	" + i + " `" + i + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
