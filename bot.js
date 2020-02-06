@@ -452,7 +452,7 @@ function work(employee1, abno1, order1, channel) {
 	let rollArr = []
 	
 	for (i = 0; i < cAbno.peoutput; i++) {
-	if (e.hp > 0 && e.sp > 0) {
+	if (employee.hp > 0 && employee.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
 		if (cRoll > luck) {}
