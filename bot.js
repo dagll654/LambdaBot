@@ -1239,7 +1239,8 @@ statsString.join(""),
 					if (mr[0] != "exit") {
 					if (mr[0] === "cancel") {
 						menuIndex = "main"
-					}
+					}	
+						let ret = 0
 						let k = 0
 						let ki = 0
 						while (k === 0 && ki < 6) {
