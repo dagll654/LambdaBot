@@ -18,9 +18,9 @@ var pool        = db.createPool({
 // Getting a connection
 pool.getConnection(function (err, connection) {
 const client = new Discord.Client()
-function DELTAS() = {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
+function DELTAS() {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
 var bch
-function ESERV() = {return client.guilds.get('513660754633949208')} // Emote server for the minigame stuff
+function ESERV() {return client.guilds.get('513660754633949208')} // Emote server for the minigame stuff
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
