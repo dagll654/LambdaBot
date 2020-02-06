@@ -1033,7 +1033,7 @@ switch (ciCmd[0]) {
 						let ifEIO = "s" // If ends in one
 						cDepECount += getRole(r).members.array().length + getRole(r + " (C)").members.array().length
 						if (cDepECount.toString().split("")[cDepECount.toString().length - 1] === "1") ifEIO = ""
-						if (cDepECount === 0) cDECS = "no" else cDECS = cDepECount.toString()
+						if (cDepECount === 0) cDECS = "no"; else cDECS = cDepECount.toString()
 						let cDepCaptain = getRole(r + " (C)").members.first()
 						if (cDepCaptain) cDepCaptain = cDepCaptain.user.tag else cDepCaptain = "none"
 						depArray.push(`[${r}] (${empcounts} employee${ifEIO}) \n		Captain:\n#		${cDepCaptain}`)
