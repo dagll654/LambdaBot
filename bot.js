@@ -434,7 +434,7 @@ function work(employee1, abno1, order1, channel) {
 	let respectiveStat = jn.stats[statIndex]
 	let userStat = employee.stats[statIndex]
 	let userTemp = employee.tempL
-	let luck = Math.ceil(jn.risk.indexOf(abn.abn[abn.lista.indexOf(arrg[1])].risk)/2) + employee.luck
+	let luck = Math.ceil(jn.risk.indexOf(cAbno.risk)/2) + employee.luck
 	let userStatLevel = employee.statLevels()[statIndex]
 	
 	let successChance = 0
