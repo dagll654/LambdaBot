@@ -1151,7 +1151,7 @@ switch (ciCmd[0]) {
 				statLV = new Array(6 - statLV.length).fill(" ").join("") + statLV
 				if (statCount.length < 6)
 				statCount += new Array(6 - statCount.length).fill(" ").join("")
-				l = "		`" statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`"
+				l = "		`" + statLV + "` " + jn[jn.stats[i]] + " `" + statCount + "`"
 			})
 			statsString[1] += "\n"
 			let subPointString = new Array(4).fill('null')
