@@ -1003,7 +1003,7 @@ switch (ciCmd[0]) {
 			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id; else uid = '143261987575562240'
 			if (/\D/.test(ciCmd[3]) === false) lValue = Number(ciCmd[3])
 			else lValue = ciCmd[3]
-			dbployees.e(uid)[ciCmd(2)] = lValue
+			dbployees.e(uid)[ciCmd[2]] = lValue
 			updateData() 
 			}
 		break
