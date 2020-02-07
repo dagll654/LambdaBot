@@ -1153,8 +1153,8 @@ switch (ciCmd[0]) {
 			let effectArray = []
 			if (exists(cUser.effectArray)) {
 				cUser.effectArray.forEach(e => {
-					let effectTime
-					let effectSpecialString
+					let effectTime = ""
+					let effectSpecialString = ""
 					if (e[1] === "inf") 
 						effectTime = `???`
 					else {
