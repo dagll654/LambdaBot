@@ -459,9 +459,11 @@ function work(employee1, abno1, order1, channel) {
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel])*100
+	console.log("successChancet: " + successChancet)
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
+		console.log("successChancet: " + successChancet)
 	}
 	if (cAbno.affstat[0] === true) {
 		console.log("successChance: " + successChance)
