@@ -171,6 +171,7 @@ class cEmp {
 		for (i = 0; i < 4; i++) {
 			statLevelsArray.push([statLVN(statArray[i]), statLVL(statArray[i])][textForm])
 		}
+		console.log(statLevelsArray)
 		return statLevelsArray
 	}
 	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
