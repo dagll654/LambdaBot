@@ -298,7 +298,7 @@ function getUser(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (/\b<@!/.test(getter) && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
-		let regAmazingText = `\b`
+		let regAmazingText = ``
 		let getterArray = getter.split("").map((c, i) => {
 			if (i < 3) regAmazingText += `${c.toLowerCase()}`
 			else regAmazingText += `${c.toLowerCase()}*`
@@ -308,9 +308,9 @@ function getUser(getter) {
 			if (exists(m.nickname) === false) return false
 			return regAmazing.test(" " + m.nickname.toLowerCase())
 			}))
-			return DELTAS().members.find(m => regAmazing.test(" " + m.nickname.toLowerCase())).user
-		else if (DELTAS().members.some(m => regAmazing.test(" " + m.user.tag.toLowerCase())))
-			return DELTAS().members.find(m => regAmazing.test(" " + m.user.tag.toLowerCase())).user
+			return DELTAS().members.find(m => regAmazing.test(m.nickname.toLowerCase())).user
+		else if (DELTAS().members.some(m => regAmazing.test(m.user.tag.toLowerCase())))
+			return DELTAS().members.find(m => regAmazing.test("m.user.tag.toLowerCase())).user
 	}
 	return undefined
 }
