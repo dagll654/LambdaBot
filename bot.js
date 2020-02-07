@@ -1205,8 +1205,8 @@ switch (ciCmd[0]) {
 				if (n === 3) mult = 3
 				let requiredSubpoints = statLVN(cUser.statsReal[n])*subStatIncrement*mult
 				let subPointCount = cUser.subPointsArray[n] + "/" + requiredSubpoints
-				if (subPointCount.length < 7)
-					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
+				if (subPointCount.length < 8)
+					for (k = 0; k < (8 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn[jn.stats[n]]
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
 				n++
@@ -1262,8 +1262,6 @@ statsString.join(""),
 				}
 				inventoryS = inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
 				inventoryW = inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
-				
-			
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
