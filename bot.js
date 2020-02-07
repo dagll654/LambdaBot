@@ -940,7 +940,7 @@ switch (ciCmd[0]) {
 		return
 	}
 	let roles = DELTAS().members.get(getUser(ciCmd[1]).id).roles.filter(r => r.managed === false)
-	let member = DELTAS().members.get(getUser(cmd[1]).id)
+	let member = DELTAS().members.get(getUser(ciCmd[1]).id)
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots.")
 		return
@@ -975,11 +975,11 @@ switch (ciCmd[0]) {
 		case "e":
 		case "employee":
 			let uid2 = ""
-			if (exists(getUser(ciCmd[2]))) uid2 = getUser(cmd[2]).id; else uid2 = '143261987575562240'
+			if (exists(getUser(ciCmd[2]))) uid2 = getUser(ciCmd[2]).id; else uid2 = '143261987575562240'
 			console.log(dbployees.e(uid2))
 		break
 		case "msg":
-			let tempch = DELTAS().channels.get(cmd[2])
+			let tempch = DELTAS().channels.get(ciCmd[2])
 			let tempmsg = ""
 			let i
 			for (i = 3; i < cmd.length; i++) { 
@@ -1000,7 +1000,7 @@ switch (ciCmd[0]) {
 			{
 			let uid
 			let lValue
-			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id; else uid = '143261987575562240'
+			if (exists(getUser(ciCmd[4]))) uid = getUser(ciCmd[4]).id; else uid = '143261987575562240'
 			if (/\D/.test(ciCmd[3]) === false) lValue = Number(ciCmd[3])
 			else lValue = ciCmd[3]
 			dbployees.e(uid)[ciCmd[2]] = lValue
@@ -1010,7 +1010,7 @@ switch (ciCmd[0]) {
 		case "revive":
 			{
 			let uid
-			if (exists(getUser(ciCmd[4]))) uid = getUser(cmd[4]).id; else uid = '143261987575562240'
+			if (exists(getUser(ciCmd[4]))) uid = getUser(ciCmd[4]).id; else uid = '143261987575562240'
 			dbployees.e(uid).hp = dbployees.e(uid).fortL
 			dbployees.e(uid).sp = dbployees.e(uid).prudL
 			dbployees.e(uid).dead = 0
@@ -1170,15 +1170,15 @@ switch (ciCmd[0]) {
 			statsString[1] += "\n"
 			let subPointString = []
 			for (m = 0; m < 4; m++) {
-				/* let mult = 1
+				let mult = 1
 				let subStatIncrement = 14 - expMod
-				if (i = 3) mult = 3
-				let requiredSubpoints = statLVN(cUser.statsReal[i])*subStatIncrement*mult
-				let subPointCount = cUser.subPointsArray[i] + "/" + requiredSubpoints
+				if (m = 3) mult = 3
+				let requiredSubpoints = statLVN(cUser.statsReal[m])*subStatIncrement*mult
+				let subPointCount = cUser.subPointsArray[m] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
-				let stat = jn.stats[i]
-				subPointString.push("	" + stat + " `" + subPointCount + "`") */
+				let stat = jn.stats[m]
+				subPointString.push("	" + stat + " `" + subPointCount + "`")
 				subPointString.push("	" + m + " `" + m + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
@@ -1429,7 +1429,7 @@ statsString.join(""),
 			
 			case "assign": {
 			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-				var rtmp = cmd[2]
+				var rtmp = ciCmd[2]
 				if (jn.nccideproles.includes(rtmp)) {
 					msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
 					employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
@@ -1467,34 +1467,34 @@ statsString.join(""),
 			} else {ch.send("**" + msg.author.tag + "**, " + "captains cannot simply leave their team! (!lc captain resign)")}
 			} break
 			case "debuff": {
-			if (cmd[2]) {
-				if (cmd[2] === "apply") {
-				if (jn.stats.includes(cmd[3])) {
-				if (checkSymbols(cmd[4], nmbrs)) {
-				if (Number(cmd[4]) > 0) {	
+			if (ciCmd[2]) {
+				if (ciCmd[2] === "apply") {
+				if (jn.stats.includes(ciCmd[3])) {
+				if (checkSymbols(ciCmd[4], nmbrs)) {
+				if (Number(ciCmd[4]) > 0) {	
 				if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
-					if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + cmd[3]))) {
-						ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + cmd[3] + ". Remove and reapply it to change the value.")
+					if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + ciCmd[3]))) {
+						ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + ciCmd[3] + ". Remove and reapply it to change the value.")
 						break
 						return
 					}
 				}
-				if ((employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]) < 17) {
-					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(cmd[3])] - cmd[4]} with the specified argument)`)
+				if ((employee(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]) < 17) {
+					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]} with the specified argument)`)
 					return
 				} 
-					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], Number(cmd[4]), "apply")
-					ch.send("**" + msg.author.tag + "**, " + `applied a ${cmd[4]} ${emoji(cmd[3], ESERV())} debuff.`)
+					fn.effectApplication['manualDebuff'](employee(msg.author.id), ciCmd[3], Number(ciCmd[4]), "apply")
+					ch.send("**" + msg.author.tag + "**, " + `applied a ${ciCmd[4]} ${emoji(ciCmd[3], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 				}
-				else if (cmd[2] === "remove") {
+				else if (ciCmd[2] === "remove") {
 				if (employee(msg.author.id).bufflist != undefined) {
 				if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
-				if (jn.stats.includes(cmd[3])) {
-					let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + cmd[3]))
-					fn.effectApplication['manualDebuff'](employee(msg.author.id), cmd[3], 0, "remove")
+				if (jn.stats.includes(ciCmd[3])) {
+					let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + ciCmd[3]))
+					fn.effectApplication['manualDebuff'](employee(msg.author.id), ciCmd[3], 0, "remove")
 					ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
@@ -1506,7 +1506,7 @@ statsString.join(""),
 			
 			case "ex":
 			case "extraction": {
-			if (cmd[2] != "list") {
+			if (ciCmd[2] != "list") {
 			function ext(emp, channel) {
 				cUser = emp
 				const cCh = DELTAS().channels.get(channel)
@@ -1519,10 +1519,10 @@ statsString.join(""),
 				let objItem
 				let menuIndex = "main"
 				let instAbno = 0
-				if (jn.abnWorkable.includes(cmd[2])) {
+				if (jn.abnWorkable.includes(ciCmd[2])) {
 					menuIndex = "shop"
-					currentAbnoCode = cmd[2]
-					currentAbno = abn.abn[abn.lista.indexOf(cmd[2])]
+					currentAbnoCode = ciCmd[2]
+					currentAbno = abn.abn[abn.lista.indexOf(ciCmd[2])]
 					instAbno = 1
 				}
 				let prices
@@ -1713,21 +1713,21 @@ statsString.join(""),
 			case "captain": {
 			// Non-captain commands
 			if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-				switch (cmd[2]) {
+				switch (ciCmd[2]) {
 					case "vote":
-					if (cmd[3]) {
+					if (ciCmd[3]) {
 					if (voting != 1) {
 						voteeid = ""
-						cmd[3].split("").forEach(c => {
+						ciCmd[3].split("").forEach(c => {
 							if (nmbrs.includes(c)) {voteeid += c}
 						})
-						if (cmd[3].startsWith("<@") || cmd[3].startsWith("<!@>") || cmd[3].startsWith("<@!>")) {
+						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@>") || ciCmd[3].startsWith("<@!>")) {
 						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
 						if (DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 								debugVariables.voting = 1
 								votingteam = drFind(msg.member)
-								console.log(cmd[3].slice((cmd[3].length - 19), (cmd[3].length - 2)))							
-								setTimeout(function(){ch.send("Initiating vote for **" + cmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
+								console.log(ciCmd[3].slice((ciCmd[3].length - 19), (ciCmd[3].length - 2)))							
+								setTimeout(function(){ch.send("Initiating vote for **" + ciCmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
 						} else if (deproles.every(t => DELTAS().members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
@@ -1738,7 +1738,7 @@ statsString.join(""),
 				}
 				// Captain commands
 				} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
-					switch (cmd[2]) {
+					switch (ciCmd[2]) {
 						case "vote":
 							ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
 							break
