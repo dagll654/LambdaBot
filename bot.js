@@ -1172,6 +1172,7 @@ switch (ciCmd[0]) {
 			let subPointString = []
 			let n = 0
 			for (n = 0; n < 4; n++) {
+				console.log(n)
 				let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (n = 3) mult = 3
