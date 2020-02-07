@@ -685,7 +685,7 @@ function databaseEmployees() {
 function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
 		dbployees.forEach(e => {
-			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60).then(() =>
+			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60).then(() => {
 			e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
@@ -702,7 +702,7 @@ function healPulse() {
 		}
 		}
 		}
-		)
+			})
 		})
 	}
 }
