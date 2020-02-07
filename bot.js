@@ -526,7 +526,7 @@ function work(employee1, abno1, order1, channel) {
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
-		let aRisk = cAbno.risk
+		let aRisk = jn.risk.indexOf(cAbno.risk)
 		console.log(boxTotal)
 		if (boxTotal >= aRisk + 2) {
 			if (boxTotal <= 8) {subPtToBump = Math.pow(2, aRisk); console.log("Milestone 1: " + subPtToBump)}
