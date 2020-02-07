@@ -520,7 +520,7 @@ function work(employee1, abno1, order1, channel) {
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
-		let subPointIncrease = 0
+		let subPtToBump = 0
 		let aRisk = cAbno.risk
 		if (boxTotal >= aRisk + 2) {
 			if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk)
@@ -528,7 +528,7 @@ function work(employee1, abno1, order1, channel) {
 			else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk)
 			else subPtToBump = 4*Math.pow(2, aRisk)
 		}
-		e.bumpSubpoint(respectiveStat.toLowerCase(), subPointIncrease)
+		e.bumpSubpoint(respectiveStat.toLowerCase(), subPtToBump)
 		e.balance = Number(e.balance) + ppeboxes
 		if (cAbno.gift === "true") {
 			let gifttxt = ""
