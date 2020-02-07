@@ -300,8 +300,8 @@ function getUser(getter) {
 	else {
 		let regAmazingText = `\b`
 		let getterArray = getter.split("").map((c, i) => {
-			if (i < 3) regAmazing += `${c.toLowerCase()}`
-			else regAmazing += `${c.toLowerCase()}*`
+			if (i < 3) regAmazingText += `${c.toLowerCase()}`
+			else regAmazingText += `${c.toLowerCase()}*`
 		})
 		let regAmazing = new RegExp(regAmazingText, "i")
 		if (DELTAS().members.some(m => regAmazing.test(" " + m.nickname.toLowerCase())))
