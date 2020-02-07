@@ -1025,6 +1025,8 @@ switch (ciCmd[0]) {
 			updateData() 
 			}
 		break
+		case "healtest":
+			console.log("heal test: " + dbployees.e('143261987575562240').heal("hp", 100))
 		case "revive":
 			{
 			let uid
