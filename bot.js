@@ -173,7 +173,7 @@ class cEmp {
 		return statLevelsArray
 	}
 	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
-		if (["hp", "sp"].includes(points.toLowerCase()) === false) {console.log(points + " " + amount);return undefined}// If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
+		if (["hp", "sp"].includes(points.toLowerCase()) === false || /(\D|\x2E)/.test(amount)) {console.log(points + " " + amount); return undefined}// If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
 		let buffs = this.buffListArray
 		let amt = Number(amount)
 		if (exists(buffs)) {
