@@ -1027,6 +1027,7 @@ switch (ciCmd[0]) {
 		break
 		case "healtest":
 			console.log("heal test: " + dbployees.e('143261987575562240').heal("hp", 100))
+			break
 		case "revive":
 			{
 			let uid
