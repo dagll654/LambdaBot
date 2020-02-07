@@ -1170,18 +1170,18 @@ switch (ciCmd[0]) {
 			}
 			statsString[1] += "\n"
 			let subPointString = []
-			m = 0
-			for (m = 0; m < 4; m++) {
+			let n = 0
+			for (n = 0; n < 4; n++) {
 				let mult = 1
 				let subStatIncrement = 14 - expMod
-				if (m = 3) mult = 3
-				let requiredSubpoints = statLVN(cUser.statsReal[m])*subStatIncrement*mult
-				let subPointCount = cUser.subPointsArray[m] + "/" + requiredSubpoints
+				if (n = 3) mult = 3
+				let requiredSubpoints = statLVN(cUser.statsReal[n])*subStatIncrement*mult
+				let subPointCount = cUser.subPointsArray[n] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
-				let stat = jn.stats[m]
+				let stat = jn.stats[n]
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
-				subPointString.push("	" + m + " `" + m + "`")
+				subPointString.push("	" + n + " `" + n + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
