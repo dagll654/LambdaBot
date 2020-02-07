@@ -689,7 +689,7 @@ async function healPulse() {
 				else e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
 			await (wait(10))
 			if (e.id === '143261987575562240') console.log("Heal HP: " + e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
-				else e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
+				else e.heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
 			
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
