@@ -458,23 +458,15 @@ function work(employee1, abno1, order1, channel) {
 	let userStatLevel = e.statLevels()[statIndex]
 	
 	let successChance = 0
-	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel])*100
-	console.log("thing: " + cAbno.workPreferences + " " + statIndex + " " + userStatLevel)
-	console.log("userTemp: " + userTemp + "; preference: " + cAbno.workPreferences[statIndex][userStatLevel])
-	console.log("successChancet: " + successChancet)
+	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel - 1])*100
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
-		console.log("successChancet: " + successChancet)
 	}
 	if (cAbno.affstat[0] === true) {
-		console.log("successChance: " + successChance)
-		console.log("successChancet: " + successChancet)
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
-		console.log("successChancet (affstat'd): " + successChancet)
 	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
 	let peboxes = 0
