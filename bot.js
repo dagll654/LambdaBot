@@ -466,7 +466,7 @@ function work(employee1, abno1, order1, channel) {
 	let ppeboxes = 0
 	let rollArr = []
 	let asdf = 0
-	for (asdf = 0; asdf < cAbno.peoutput; adsf++) {
+	for (asdf = 0; asdf < cAbno.peoutput; asdf++) {
 		console.log(asdf)
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
