@@ -1210,7 +1210,7 @@ switch (ciCmd[0]) {
 			let messageArray = [
 "\n```mb\n 📋 | Showing stats for employee " + cUser.tag + "\n```",
 statsString.join(""),
-`\n		${bck}Employee Level${bck} ${jn.statLevels[cUser.stats[4]-1]}\n`,
+`\n		${bck}Employee Level ${jn.statLevels[cUser.stats[4]-1]}${bck}\n`,
 `\nProgress towards the next stat points:\n${subPointString.join("")}`,
 `\n\n	Days in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
 `\n	Current effects: ${effectArray.join("")}.`,
