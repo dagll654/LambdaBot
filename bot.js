@@ -1139,7 +1139,7 @@ switch (ciCmd[0]) {
 			case "profile": {
 			let cUser
 			if (exists(getUser(ciCmd[2]))) {
-			if (dbployees.ids.includes(getUser(ciCmd[2]).id)) {
+			if (dbployees.ids().includes(getUser(ciCmd[2]).id)) {
 				cUser = dbployees.e(getUser(ciCmd[2]).id)
 			} else cUser = dbployees.e(msg.author.id)
 			} else cUser = dbployees.e(msg.author.id)
