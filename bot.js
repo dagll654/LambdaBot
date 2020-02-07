@@ -1457,7 +1457,7 @@ statsString.join(""),
 					if (dbployees.e(msg.author.id).buffListArray.some(b => b[0].startsWith("team"))) {
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
 					}
-					employee(msg.author.id).tjtime = 'undefined'
+					dbployees.e(msg.author.id).tjtime = 'undefined'
 					msg.member.removeRole(getRole(drFind(msg.member)))
 					collector.stop()
 				}
@@ -1472,29 +1472,29 @@ statsString.join(""),
 				if (jn.stats.includes(ciCmd[3])) {
 				if (checkSymbols(ciCmd[4], nmbrs)) {
 				if (Number(ciCmd[4]) > 0) {	
-				if (employee(msg.author.id).bufflist != undefined && employee(msg.author.id).bufflist != '') {
-					if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + ciCmd[3]))) {
+				if (exists(dbployees.e(msg.author.id).bufflist)) {
+					if (dbployees.e(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + ciCmd[3]))) {
 						ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + ciCmd[3] + ". Remove and reapply it to change the value.")
 						break
 						return
 					}
 				}
-				if ((employee(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]) < 17) {
-					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${employee(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]} with the specified argument)`)
+				if ((dbployees.e(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]) < 17) {
+					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${dbployees.e(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]} with the specified argument)`)
 					return
 				} 
-					fn.effectApplication['manualDebuff'](employee(msg.author.id), ciCmd[3], Number(ciCmd[4]), "apply")
+					fn.effectApplication['manualDebuff'](dbployees.e(msg.author.id), ciCmd[3], Number(ciCmd[4]), "apply")
 					ch.send("**" + msg.author.tag + "**, " + `applied a ${ciCmd[4]} ${emoji(ciCmd[3], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect argument.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 				}
 				else if (ciCmd[2] === "remove") {
-				if (employee(msg.author.id).bufflist != undefined) {
-				if (employee(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
+				if (dbployees.e(msg.author.id).bufflist != undefined) {
+				if (dbployees.e(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff"))) {
 				if (jn.stats.includes(ciCmd[3])) {
-					let cbuff = employee(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + ciCmd[3]))
-					fn.effectApplication['manualDebuff'](employee(msg.author.id), ciCmd[3], 0, "remove")
+					let cbuff = dbployees.e(msg.author.id).bufflist.split("|").find(b => b.startsWith("manualDebuff/" + ciCmd[3]))
+					fn.effectApplication['manualDebuff'](dbployees.e(msg.author.id), ciCmd[3], 0, "remove")
 					ch.send("**" + msg.author.tag + "**, " + `removed the ${cbuff.split("/")[2]} ${emoji(cbuff.split("/")[1], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect stat specified.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you do not have any active removable debuffs.")
@@ -1668,7 +1668,7 @@ statsString.join(""),
 			}
 			ext(dbployees.e(msg.author.id), msg.channel.id)
 			} else {
-			let cUser = employee(msg.author.id)
+			let cUser = dbployees.e(msg.author.id)
 			let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":```\n		"
 			let workableIDs = jn.abnWorkable
 			workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
