@@ -471,7 +471,7 @@
 			"name": "Fourth Match Flame",
 			"slot": "mouth2",
 			"buff": 	{
-				"stat": "4|0|0|0",
+				"stat": "4|0|0|0"
 						},
 			"text": "+4 Fortitude"
 		},
@@ -482,7 +482,6 @@
 				"stat": "0|0|2|0"
 						},
 			"text": "+2 Temperance"
-			
 		},
 		{	"id": "6",
 			"name": "Somewhere Spear"
@@ -492,7 +491,7 @@
 			"name": "Regret",
 			"slot": "mouth1",
 			"buff": 	{
-				"stat": "2|2|0|0",
+				"stat": "2|2|0|0"
 						},
 			"text": "+2 Fortitude, +2 Prudence"
 		},
