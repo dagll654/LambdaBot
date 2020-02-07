@@ -225,8 +225,8 @@ class cEmp {
 		let k = 0
 		while (k === 0) {
 		k = 1
-		if (subStatArr[statIndex] >= this.statLevels()[statIndex]*subStatIncrement*mult) {
-			subStatArr[statIndex] -= this.statLevels()[statIndex]*subStatIncrement*mult
+		if (subStatArr[statIndex] >= this.statLevels()[statIndex]*subStatIncrement*justiceMultiplier) {
+			subStatArr[statIndex] -= this.statLevels()[statIndex]*subStatIncrement*justiceMultiplier
 			if (this.stats[statIndex] < this.statlimit) {
 			this[stat]++
 			}
