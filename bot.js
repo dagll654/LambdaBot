@@ -504,7 +504,7 @@ function work(employee1, abno1, order1, channel) {
 		}
 		if (damageArray.length === 0) damageArray.push("none")
 		let wTime = Math.floor((cAbno.peoutput/2)*10)/10
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wtime} seconds.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wTime} seconds.`)
 		await wait(wTime*500)
 		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
 			dbployees[dbids.indexOf(arrg[0])].dead = 1
