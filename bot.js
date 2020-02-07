@@ -1184,9 +1184,9 @@ switch (ciCmd[0]) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
 				let statCount = `${cUser.statsReal[m]}+${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
-					for (k = 0; k < (7 - statLV.length); k++) {statLV = "ᚐ" + statLV}
+					for (k = 0; k < (7 - statLV.length); k++) {statLV = "᚝" + statLV}
 				if (statCount.length < 6)
-					for (k = 0; k < (7 - statCount.length); k++) {statCount += "ᚐ"}
+					for (k = 0; k < (7 - statCount.length); k++) {statCount += "᚝"}
 				statsString.push("		`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
 			}
 			statsString[1] += "\n"
@@ -1199,7 +1199,7 @@ switch (ciCmd[0]) {
 				let requiredSubpoints = statLVN(cUser.statsReal[n])*subStatIncrement*mult
 				let subPointCount = cUser.subPointsArray[n] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
-					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += "ᚐ"}
+					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += "᚝"}
 				let stat = jn[jn.stats[n]]
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
 				n++
