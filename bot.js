@@ -509,7 +509,7 @@ function work(employee1, abno1, order1, channel) {
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wTime} seconds.`)
 		await wait(wTime*500)
 		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
-			dbployees[dbids.indexOf(arrg[0])].dead = 1
+			e.dead = 1
 		if (e.dead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
@@ -525,10 +525,10 @@ function work(employee1, abno1, order1, channel) {
 		}
 		e.bumpSubpoint(respectiveStat.toLowerCase(), subPointIncrease)
 		e.balance = Number(e.balance) + ppeboxes
-		if (abno(arrg[1]).gift === "true") {
+		if (cAbno.gift === "true") {
 			let gifttxt = ""
-			let gift = gear.gifts.find(g => g.id === abno(arrg[1]).ego)
-			let giftRoll = fn.gift(dbployees[dbids.indexOf(arrg[0])], abno(arrg[1]).ego, {"mood": moodResult})
+			let gift = gear.gifts.find(g => g.id === cAbno.id)
+			let giftRoll = fn.gift(e, cAbno.id, {"mood": moodResult})
 			if (giftRoll[0] === true) {
 				gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
 				if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
@@ -537,8 +537,8 @@ function work(employee1, abno1, order1, channel) {
 			console.log("Gift Roll: " + giftRoll.join(", "))
 			if (gifttxt != "") channel.send(gifttxt)
 		}
-		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + dbployees[dbids.indexOf(arrg[0])].tag + " is working " + arrg[2] + " on " + abn.abn[abn.lista.indexOf(arrg[1])].name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
-		dbployees[dbids.indexOf(arrg[0])].working = 0
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		e.working = 0
 	}
 	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
 	asyncEdit(m)})
@@ -1148,7 +1148,7 @@ switch (ciCmd[0]) {
 			let expMod = 0
 			if (cUser.buffListArray.some(b => b[0] === "teamtr")) 
 				expMod = Math.pow(2, Number(cUser.buffListArray.find(b => b[0] === teamtr)[1]))
-			let effectArray
+			let effectArray = []
 			if (exists(cUser.effectArray)) {
 				cUser.effectArray.forEach(e => {
 					let effectTime
