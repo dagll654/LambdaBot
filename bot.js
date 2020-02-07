@@ -168,7 +168,7 @@ class cEmp {
 		let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
 		let statLevelsArray = []
 		for (i = 0; i < 4; i++) {
-			statLevelsArray.push(statLVN(statArray[i]))
+			statLevelsArray.push([statLVN(statArray[i]), statLVL(statArray[i])][textForm])
 		}
 		return statLevelsArray
 	}
