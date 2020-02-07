@@ -135,6 +135,8 @@ class cEmp {
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
 	get employeeLevel() {
 		let statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
+		console.log(this.stats)
+		console.log(this.statcount)
 		if (statcount < 6) return 1
 		else if (statcount < 9) return 2
 		else if (statcount < 12) return 3
@@ -304,7 +306,6 @@ function getUser(getter) {
 			else regAmazingText += `${c.toLowerCase()}*`
 		})
 		let regAmazing = new RegExp(regAmazingText, "i")
-		console.log(regAmazing)
 		if (DELTAS().members.some(m => {
 			if (exists(m.nickname) === false) return false
 			return regAmazing.test(" " + m.nickname.toLowerCase())
