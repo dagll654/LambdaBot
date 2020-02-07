@@ -1158,7 +1158,6 @@ switch (ciCmd[0]) {
 			} else effectArray = ["none"]
 			let dead = ["alive", "dead"][Number(cUser.dead)]
 			let statsString = []
-			let m = 0
 			for (m = 0; m < 4; m++) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
 				let statCount = `${cUser.statsReal[m]}+${cUser.statBuffArray[m]}`
@@ -1171,7 +1170,7 @@ switch (ciCmd[0]) {
 			statsString[1] += "\n"
 			let subPointString = []
 			let n = 0
-			for (n = 0; n < 4; n++) {
+			while (n < 4) {
 				console.log(n)
 				let mult = 1
 				let subStatIncrement = 14 - expMod
@@ -1182,6 +1181,7 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn[jn.stats[n]]
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
+				n++
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
