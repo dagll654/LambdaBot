@@ -463,8 +463,12 @@ function work(employee1, abno1, order1, channel) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
-	if (cAbno.affstat[0] === true)
+	if (cAbno.affstat[0] === true) {
+		console.log("successChance: " + successChance)
+		console.log("successChancet: " + successChancet)
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
+		console.log("successChancet (affstat'd): " + successChancet)
+	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
 	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
