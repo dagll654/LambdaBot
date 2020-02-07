@@ -459,6 +459,7 @@ function work(employee1, abno1, order1, channel) {
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel])*100
+	console.log("thing: " + cAbno.workPreferences + " " + statIndex + " " + userStatLevel)
 	console.log("userTemp: " + userTemp + "; preference: " + cAbno.workPreferences[statIndex][userStatLevel])
 	console.log("successChancet: " + successChancet)
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
