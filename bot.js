@@ -168,9 +168,7 @@ class cEmp {
 		let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
 		let statLevelsArray = []
 		for (i = 0; i < 4; i++) {
-			if (statArray[i] > 29 && statArray[i] < 100) statLevelsArray.push(statLevelArray[textForm]) // If 29 < stat < 100 then it's not a fringe case, just get the value
-			else if (statArray[i] < 30) statLevelsArray.push([1, "I"][textForm]) // Fringe case of smol value
-			else statLevelsArray.push([5, "EX"][textForm]) // Fringe case of big value
+			statLevelsArray.push(statLVN(statArray[i]))
 		}
 		return statLevelsArray
 	}
