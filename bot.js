@@ -335,14 +335,14 @@ function emoji(nme, srv = DELTAS(), a = false, id = false) {
 }
 
 // A text resentation of a suit (non-technical)
-function suit(id, d = [1, 1, 1, 1]) {
-	let suit = gear.suits.find(s => Number(s.id) === Number(id))
+function suit(idS, d = [1, 1, 1, 1]) {
+	let suit = gear.suits.find(s => s.id === idS.toString())
 	return (`${emoji(suit.level.toLowerCase(), ESERV())} ${suit.name}  -  ${suit.resistance[0]*d[0]} ${jn.dtype[0]} ${suit.resistance[1]*d[1]} ${jn.dtype[1]} ${suit.resistance[2]*d[2]} ${jn.dtype[2]} ${suit.resistance[3]*d[3]} ${jn.dtype[3]}`)
 }
 
 // A text resentation of a weapon (non-technical)
-function weapon(id) {
-	let weapon = gear.weapons.find(w => Number(w.id) === Number(id))
+function weapon(idW) {
+	let weapon = gear.weapons.find(w => w.id === idW.toString())
 	let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
 	for (i = 0; i < 4; i++) {
 		if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
@@ -1253,8 +1253,7 @@ statsString.join(""),
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
-			console.log(inventoryS)
-			console.log(inventoryW)
+			inventoryS.forEach(s => console.log(s))
 			suits = inventoryS.map(s => `${suit(s.id)}`)
 			weapons = inventoryW.map(w => `${weapon(w.id)}`)
 			cCh.send(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts).then(menumsg => {
