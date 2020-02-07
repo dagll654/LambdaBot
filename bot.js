@@ -1253,8 +1253,8 @@ statsString.join(""),
 				inventoryS.unshift("0")
 				inventoryW.unshift("0")
 				}
-				inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
-				inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
+				inventoryS = inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
+				inventoryW = inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
 				
 			
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
