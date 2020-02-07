@@ -1240,12 +1240,10 @@ statsString.join(""),
 			function updateInventories(d = 0) {
 				inventoryS = cUser.inventorys.split("|")
 				inventoryW = cUser.inventoryw.split("|")
-				console.log(inventoryS)
 				if (d = 0) {
 				inventoryS.unshift("0")
 				inventoryW.unshift("0")
 				}
-				console.log(inventoryS)
 				inventoryS.map((s, i) => 
 				{return {"id": Number(s), "index": i+1, "type": "suit"}})
 				inventoryW.map((w, i) => 
@@ -1255,6 +1253,8 @@ statsString.join(""),
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
+			console.log(inventoryS)
+			console.log(inventoryW)
 			suits = inventoryS.map(s => `${suit(s.id)}`)
 			weapons = inventoryW.map(w => `${weapon(w.id)}`)
 			cCh.send(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts).then(menumsg => {
