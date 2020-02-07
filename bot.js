@@ -1179,9 +1179,8 @@ switch (ciCmd[0]) {
 				let subPointCount = cUser.subPointsArray[n] + "/" + requiredSubpoints
 				if (subPointCount.length < 7)
 					for (k = 0; k < (7 - subPointCount.length); k++) {subPointCount += " "}
-				let stat = jn.stats[n]
+				let stat = jn[jn.stats[n]]
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
-				subPointString.push("	" + n + " `" + n + "`")
 			}
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
