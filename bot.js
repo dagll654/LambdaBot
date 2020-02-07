@@ -1291,6 +1291,7 @@ statsString.join(""),
 								menumsg.edit(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts)
 								if (ret === 1) {ret = 0; k = 1; break}
 								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
+								else k = 1
 							break
 							
 							case "bullet":
