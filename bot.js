@@ -135,7 +135,6 @@ class cEmp {
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
 	get employeeLevel() {
 		let statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
-		console.log(this.stats)
 		console.log(this.statcount)
 		if (statcount < 6) return 1
 		else if (statcount < 9) return 2
@@ -1191,6 +1190,7 @@ switch (ciCmd[0]) {
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
 				n++
 			}
+			console.log(cUser.stats)
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
 			let messageArray = [
