@@ -109,7 +109,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 3, 6],
 				"effect": [true, ">1", "effect", "0"],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "O-03-60: 'Fragment of the Universe'",
@@ -151,7 +152,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 11],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "F-05-52: 'Opened can of Wellcheers'",
