@@ -565,9 +565,9 @@ function globalEffectTick() {
 		if (Number(e.dead) === 1 && persistentEffects.includes(eff[0]) === false) eff = 'null' // If the effect is EGO change cooldown then it doesn't get removed on death
 		if (eff[1] != "inf") { // We don't touch inf effects
 		if (Number(e.dead) === 1) {
-			if (eff[0] === "1") {eff[1] -= 1; effectsNew.push(eff)}
+			if (eff[0] === "1") {eff[1] -= 1; if (eff[1] > 0) effectsNew.push(eff)}
 			else eff[1] = 0
-		} else {eff[1] -= 1; effectsNew.push(eff)}
+		} else {eff[1] -= 1; if (eff[1] > 0) effectsNew.push(eff)}
 		} else effectsNew.push(eff)
 		}) //.map(e => e.join("/")).join("|")
 		effectsNew.filter(eff => exists(eff) && exists(eff[0]))
@@ -1161,7 +1161,7 @@ switch (ciCmd[0]) {
 					}
 					if (e[2] === "fatigue")
 						effectSpecialString = ` [+${Math.floor(Number(e[3])/3)} second(s) to work CD]`
-					effectArray.push(`{\n + e[2]} ${effectSpecialString} <${effectTime}>`)
+					effectArray.push(`${\n + e[2]} ${effectSpecialString} <${effectTime}>`)
 				})
 			} else effectArray = ["none"]
 			let dead = ["alive", "dead"][Number(cUser.dead)]
