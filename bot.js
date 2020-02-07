@@ -682,9 +682,10 @@ function databaseEmployees() {
 }
 
 // The heal pulse in regenerator rooms
-async function healPulse() {
+function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
-		dbployees.forEach(e => {
+		dbployees.forEach(em => {
+		async function healTick(e) {
 			if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
 				else dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
 			await wait(10)
@@ -706,6 +707,8 @@ async function healPulse() {
 		}
 		}
 		}
+		}
+		healTick(em)
 		})
 	}
 }
