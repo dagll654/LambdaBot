@@ -687,7 +687,7 @@ async function healPulse() {
 		dbployees.forEach(e => {
 			if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
 				else dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
-			await (wait(10))
+			await wait(10)
 			if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
 				else dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
 			
