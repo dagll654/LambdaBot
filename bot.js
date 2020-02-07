@@ -1039,8 +1039,12 @@ switch (ciCmd[0]) {
 			dbployees.e(uid).working = 0
 			}
 		break
+		default:
+		ch.send("Unknown debug command.")
+		return
+		break
 	}
-	
+	ch.send("Debug command executed.")
 	} break
 	
 	case "lobcorp":
