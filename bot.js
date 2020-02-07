@@ -32,6 +32,7 @@ const qte = jn.qte // All quotes
 const qte2 = "Lambdadelta Quote #"
 const cmds = jn.cmds // All commands
 const b3ck = '```'
+const bck = '`'
 Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
@@ -1209,7 +1210,7 @@ switch (ciCmd[0]) {
 			let messageArray = [
 "\n```mb\n 📋 | Showing stats for employee " + cUser.tag + "\n```",
 statsString.join(""),
-`\n	Employee Level ${jn.statLevels[cUser.stats[4]-1]}\n`,
+`\n		${bck}Employee Level${bck} ${jn.statLevels[cUser.stats[4]-1]}\n`,
 `\nProgress towards the next stat points:\n${subPointString.join("")}`,
 `\n\n	Days in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
 `\n	Current effects: ${effectArray.join("")}.`,
