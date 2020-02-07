@@ -683,10 +683,10 @@ function healPulse() {
 		async function healTick(e) {
 			/* if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
 				else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
-			await wait(10)
+			await wait(1)
 			/* if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
 				else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
-			
+			await wait(1)
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
 			if (e.hp > e.fortL) e.hp = e.fortL
