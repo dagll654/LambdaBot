@@ -258,9 +258,15 @@ function sSlotText(text) {
 	else return undefined
 }
 
-
-
-// To-do: Fix the fucking abnormalities. Make them have actual IDs instead of misusing EGO.
+function healCalc(employee, pts, amt) {
+		let buffs = employee.buffListArray
+		if (exists(buffs) === false) return amt
+		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
+			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
+			console.log("Heal Buff Test")
+			return amt * (1 + Number(b[3]))
+		} else return amt
+	}
 
 // Returns the abnormality by code
 function abno(code) {
