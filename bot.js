@@ -1194,7 +1194,7 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
 				if (statCount.length < 6)
 					for (k = 0; k < (7 - statCount.length); k++) {statCount += " "}
-				statsString.push("		`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
+				statsString.push("	`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
 			}
 			statsString[1] += "\n"
 			let subPointString = []
@@ -1216,14 +1216,14 @@ switch (ciCmd[0]) {
 			let messageArray = [
 "\n```mb\n 📋 | Showing stats for employee " + cUser.tag + "\n```",
 statsString.join(""),
-`\n		${bck}Employee Level ${jn.statLevels[cUser.stats[4]-1]}${bck}\n`,
+`\n	${bck}Employee Level ${jn.statLevels[cUser.stats[4]-1]}${bck}\n`,
 `\nProgress towards the next stat points:\n${subPointString.join("")}`,
-`\n\n	Days in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
-`\n	Current effects: ${effectArray.join("")}.`,
-`\n	Currently:	${dead}.`,
-`\n		HP: ${Number(cUser.hp).toFixed(1)} ${jn.health}		SP: ${Number(cUser.sp).toFixed(1)} ${jn.sanity}`,
-`\n\n		Suit: ${suit(Number(cUser.suit), cUser.defenseBuffArray)}`,
-`\n		Weapon: ${weapon(Number(cUser.weapon))}`
+`\n\nDays in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
+`\nCurrent effects: ${effectArray.join("")}.`,
+`\nCurrently:	${dead}.`,
+`\n	HP: ${Number(cUser.hp).toFixed(1)} ${jn.health}		SP: ${Number(cUser.sp).toFixed(1)} ${jn.sanity}`,
+`\n\n	Suit: ${suit(Number(cUser.suit), cUser.defenseBuffArray)}`,
+`\n	Weapon: ${weapon(Number(cUser.weapon))}`
 			]
 			ch.send(messageArray.join(""))
 			} break 
