@@ -527,10 +527,9 @@ function work(employee1, abno1, order1, channel) {
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
 		let aRisk = jn.risk.indexOf(cAbno.risk)
-		console.log(boxTotal)
 		if (boxTotal >= aRisk + 2) {
-			if (boxTotal <= 8) {subPtToBump = Math.pow(2, aRisk); console.log("Milestone 1: " + subPtToBump)}
-			else if (boxTotal <= 15) {subPtToBump = 2*Math.pow(2, aRisk); console.log("Milestone 2: " + subPtToBump)}
+			if (boxTotal <= 8) subPtToBump = Math.pow(2, aRisk)
+			else if (boxTotal <= 15) subPtToBump = 2*Math.pow(2, aRisk)
 			else if (boxTotal <= 24) subPtToBump = 3*Math.pow(2, aRisk)
 			else subPtToBump = 4*Math.pow(2, aRisk)
 		}
