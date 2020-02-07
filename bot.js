@@ -1163,7 +1163,7 @@ switch (ciCmd[0]) {
 					}
 					if (e[2] === "fatigue")
 						effectSpecialString = ` [+${Math.floor(Number(e[3])/3)} second(s) to work CD]`
-					effectArray.push(`${\n + e[2]} ${effectSpecialString} <${effectTime}>`)
+					effectArray.push(`${"\n" + e[2]} ${effectSpecialString} <${effectTime}>`)
 				})
 			} else effectArray = ["none"]
 			let dead = ["alive", "dead"][Number(cUser.dead)]
