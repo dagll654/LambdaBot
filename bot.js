@@ -714,11 +714,13 @@ async function globalTicker() {
 		tick++
 		await wait(1000)
 		globalEffectTick()
-		if (tick === 30 || tick === 60)
+		if (tick === 30)
 			updateData()
 		if (tick === 60) {
-			tick = 1
 			healPulse()
+			updateData()
+			console.log("Tick!")
+			tick = 1
 		}
 			
 	}
