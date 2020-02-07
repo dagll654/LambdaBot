@@ -465,8 +465,8 @@ function work(employee1, abno1, order1, channel) {
 	let peboxes = 0
 	let ppeboxes = 0
 	let rollArr = []
-	
-	for (i = 0; i < cAbno.peoutput; i++) {
+	let asdf = 0
+	for (asdf = 0; asdf < cAbno.peoutput; adsf++) {
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
