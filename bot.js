@@ -958,7 +958,7 @@ switch (ciCmd[0]) {
 		member.addRole('673218574101512214')
 		})
 		.catch(console.error)
-	wait(amt*1000).then(() => {
+	wait(amount*1000).then(() => {
 		let backRoles = roles.filter(r => member.roles.includes(r) === false)
 		if (backRoles != []) mem.addRoles(backRoles).then(() => 
 		DELTAS().members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
