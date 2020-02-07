@@ -173,7 +173,7 @@ class cEmp {
 		return statLevelsArray
 	}
 	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
-		if (["hp", "sp"].includes(points.toLowerCase()) === false || /(\D|\x2E)/.test(amount)) {console.log(points + " " + amount); return undefined}// If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
+		if (["hp", "sp"].includes(points.toLowerCase()) === false || /(\D|\x2E)/.test(amount)) {console.log(points + " " + amount); return undefined} // If the points aren't HP or SP, or if the amount has any characters besides digits in it, abandon ship
 		let buffs = this.buffListArray
 		let amt = Number(amount)
 		if (exists(buffs)) {
@@ -686,11 +686,11 @@ function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
 		dbployees.forEach(em => {
 		async function healTick(e) {
-			if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
-				else dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
+			/* if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
+				else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
 			await wait(10)
-			if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
-				else dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+			/* if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
+				else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
 			
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
