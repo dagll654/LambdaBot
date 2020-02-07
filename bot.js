@@ -1245,9 +1245,9 @@ statsString.join(""),
 				inventoryW.unshift("0")
 				}
 				inventoryS.map((s, i) => 
-				{return {"id": Number(s), "index": i+1, "type": "suit"}})
+				new Object("id": Number(s), "index": i+1, "type": "suit"))
 				inventoryW.map((w, i) => 
-				{return {"id": Number(w), "index": i+inventoryS.length+1, "type": "weapon"}})
+				new Object("id": Number(w), "index": i+inventoryS.length+1, "type": "weapon"))
 				
 			
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
