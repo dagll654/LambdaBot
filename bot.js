@@ -774,8 +774,8 @@ DELTAS().members.forEach(m => {
 			m.addRole(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
 			.catch(console.error)
 	}
-	if (cMember.roles.some(r => r.name === "RANCHDIP")) {
-		if (cMember.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+	if (m.roles.some(r => r.name === "RANCHDIP")) {
+		if (m.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
 })
