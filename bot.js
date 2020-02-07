@@ -304,7 +304,10 @@ function getUser(getter) {
 			else regAmazingText += `${c.toLowerCase()}*`
 		})
 		let regAmazing = new RegExp(regAmazingText, "i")
-		if (DELTAS().members.some(m => regAmazing.test(" " + m.nickname.toLowerCase())))
+		if (DELTAS().members.some(m => {
+			if (exists(m.nickname)) return false
+			return regAmazing.test(" " + m.nickname.toLowerCase())
+			}))
 			return DELTAS().members.find(m => regAmazing.test(" " + m.nickname.toLowerCase())).user
 		else if (DELTAS().members.some(m => regAmazing.test(" " + m.tag.toLowerCase())))
 			return DELTAS().members.find(m => regAmazing.test(" " + m.tag.toLowerCase())).user
