@@ -953,8 +953,8 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 120 seconds.")
 		return
 	}
-	let roles = DELTAS().members.get(getUser(ciCmd[1]).id).roles.filter(r => r.managed === false)
 	let member = DELTAS().members.get(getUser(ciCmd[1]).id)
+	let roles = member.roles.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots.")
 		return
@@ -966,9 +966,9 @@ switch (ciCmd[0]) {
 		})
 		.catch(console.error)
 	wait(amount*1000).then(() => {
-		let backRoles = roles.filter(r => member.roles.includes(r) === false)
+		let backRoles = roles.filter(r => member.roles.array().some(mr => mr.id === r) === false)
 		if (backRoles != []) mem.addRoles(backRoles).then(() => 
-		DELTAS().members.get(getUser(cmdClean[1]).id).removeRole('673218574101512214')
+		member.removeRole('673218574101512214')
 		.catch(console.error)
 		)
 		.catch(console.error)
