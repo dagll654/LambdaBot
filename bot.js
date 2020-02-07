@@ -967,7 +967,7 @@ switch (ciCmd[0]) {
 		.catch(console.error)
 	wait(amount*1000).then(() => {
 		let backRoles = roles.filter(r => member.roles.array().some(mr => mr.id === r) === false)
-		if (backRoles != []) mem.addRoles(backRoles).then(() => 
+		if (backRoles != []) member.addRoles(backRoles).then(() => 
 		member.removeRole('673218574101512214')
 		.catch(console.error)
 		)
