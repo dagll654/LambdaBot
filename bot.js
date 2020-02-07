@@ -134,6 +134,7 @@ class cEmp {
 	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
 	get employeeLevel() {
+		console.log(this.statLevels())
 		let statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
 		console.log(this.statLevels()[0][0] + " " + this.statLevels()[1][0] + " " + this.statLevels()[2][0] + " " + this.statLevels()[3][0])
 		console.log(this.statcount)
@@ -171,7 +172,6 @@ class cEmp {
 		for (i = 0; i < 4; i++) {
 			statLevelsArray.push([statLVN(statArray[i]), statLVL(statArray[i])][textForm])
 		}
-		console.log(statLevelsArray)
 		return statLevelsArray
 	}
 	heal(points, amount) { // Heal the points of employee by amount, calculated to include buffs and return the real amount of points healed
