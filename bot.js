@@ -221,6 +221,7 @@ class cEmp {
 		else expMod = 4
 		}
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + amount
+		this.subpoints = subStatArr.join("|")
 		let subStatIncrement = 14 - expMod
 		let k = 0
 		while (k === 0) {
