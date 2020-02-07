@@ -683,6 +683,8 @@ function healPulse() {
 			e.heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
 			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
+			if (e.hp > e.fortL) e.hp = e.fortL
+			if (e.sp > e.fortL) e.sp = e.prudL
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
