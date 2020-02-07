@@ -169,8 +169,13 @@ exports.gift = function(employee, abnoID, result) {
 		break
 		case 3:
 		let sinRoll = roll(20)
-		console.log("SINROLL " + sinRoll)
 		if (result["mood"] === 2 && sinRoll === 12) gRRes = [true, 0]
+		break
+		case 5:
+		if (result["fairyDeathCheck"] === 1) gRRes = [true, 0]
+		break
+		case 7:
+		if (employee.hp < 5 && roll(20) === 9) gRRes = [true, 0]
 		break
 		
 		default: return [false, 2]
@@ -217,6 +222,7 @@ exports.effects = {
 			if (deathEffect.length > 0 && deathCause === "fairies") {
 				if (abn.toUpperCase() != deathEffect[2]) {
 				ret = [true, deathEffect[2], "eaten by fairies."]}
+				exports.gift(employee, "5", {"fairyDeathCheck": 1})
 			}
 			if (deathEffect.length > 0 && deathCause === "bear") {
 				if (abn.toUpperCase() === "T-04-06") {
