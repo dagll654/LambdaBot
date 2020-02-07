@@ -134,10 +134,7 @@ class cEmp {
 	get tempL() {return Number(this.temperance) + Number(this.statBuffArray[2])}
 	get justL() {return Number(this.justice) + Number(this.statBuffArray[3])}
 	get employeeLevel() {
-		console.log(this.statLevels())
-		let statcount = this.statLevels()[0][0] + this.statLevels()[1][0] + this.statLevels()[2][0] + this.statLevels()[3][0]
-		console.log(this.statLevels()[0][0] + " " + this.statLevels()[1][0] + " " + this.statLevels()[2][0] + " " + this.statLevels()[3][0])
-		console.log(this.statcount)
+		let statcount = this.statLevels()[0] + this.statLevels()[1] + this.statLevels()[2] + this.statLevels()[3]
 		if (statcount < 6) return 1
 		else if (statcount < 9) return 2
 		else if (statcount < 12) return 3
@@ -265,7 +262,6 @@ function healCalc(employee, pts, amt) {
 		if (exists(buffs) === false) return amt
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
 			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
-			console.log("Heal Buff Test")
 			return amt * (1 + Number(b[3]))
 		} else return amt
 	}
@@ -478,7 +474,6 @@ function work(employee1, abno1, order1, channel) {
 	let rollArr = []
 	let asdf = 0
 	for (asdf = 0; asdf < cAbno.peoutput; asdf++) {
-		console.log(asdf)
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
@@ -584,10 +579,6 @@ function globalEffectTick() {
 		if (exists(effectsNew)) {
 		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
 		} else e.effects = 'null'
-		if (efflog >= debugVariables[5] && e.effects != "null") {
-		console.log(e.tag + " " + e.effects)
-		console.log(e.tag + " " + effectsNew)
-		}
 		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
 	}
 	})
@@ -729,7 +720,6 @@ async function globalTicker() {
 		if (tick === 60) {
 			healPulse()
 			updateData()
-			console.log("Tick!")
 			tick = 1
 		}
 			
@@ -737,8 +727,6 @@ async function globalTicker() {
 }
 
 client.on('ready', () => {
-
-console.log(cEmp)
 
 bch = DELTAS().channels.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
@@ -811,7 +799,6 @@ if (tempMessage.content.split(" ")[0] === "sudo") {
 	tcontent.shift()
 	tempMessage.content = tcontent.join(" ")
 	chPass = 1
-	console.log(`Content: '${tcontent.join(" ")}'`)
 	} else (tempMessage.channel.send(`**${tempMessage.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
 }}
 sudoCheck()
@@ -855,7 +842,6 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 		if (nmbrs.includes(c)) {voteeid += c}
 	})
 	voteeuser = DELTAS().members.find("id", voteeid)
-	console.log("THIS SHIT " + voteeid)
 	cptxt = drFind(voteeuser)
 	debugVariables.voting = 0
 	timeout = 1
@@ -1207,7 +1193,6 @@ switch (ciCmd[0]) {
 			let subPointString = []
 			let n = 0
 			while (n < 4) {
-				console.log(n)
 				let mult = 1
 				let subStatIncrement = 14 - expMod
 				if (n === 3) mult = 3
@@ -1219,7 +1204,6 @@ switch (ciCmd[0]) {
 				subPointString.push("	" + stat + " `" + subPointCount + "`")
 				n++
 			}
-			console.log(cUser.stats)
 			subPointString[0] = "	" + subPointString[0]
 			subPointString[1] += "\n	"
 			let messageArray = [
