@@ -154,7 +154,6 @@ exports.affstat = function(abn, stat, employee) {
 			case "temperance":
 			return (10*(5-statLVN(employee.fortL)))
 			default:
-			console.log("nothing")
 			return 0
 		}
 	}

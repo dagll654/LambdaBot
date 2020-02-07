@@ -447,7 +447,7 @@ function statLVL(stat) {
 	else {return "EX"}
 }
 
-// The new (and hopefully improved) work function
+// The new and (hopefully) improved work function
 function work(employee1, abno1, order1, channel) {
 	
 	const e = employee1
@@ -466,6 +466,8 @@ function work(employee1, abno1, order1, channel) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
+	if (cAbno.affstat[0] === true)
+		successChancet -= affstat(cAbno.code, respectiveStat, e)
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
 	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
