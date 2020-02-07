@@ -213,6 +213,8 @@ class cEmp {
 	bumpSubpoint(stat = "fortitude", amount = 0) {
 		let expMod = 0
 		let subStatArr = this.subPointsArray
+		console.log("SSA: " + subStatArr)
+		console.log("AMT: " + amount)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let justiceMultiplier = 1
 		if (statIndex === 3) justiceMultiplier = 3
@@ -221,7 +223,7 @@ class cEmp {
 		else expMod = 4
 		}
 		subStatArr[statIndex] = Number(subStatArr[statIndex]) + amount
-		this.subpoints = subStatArr.join("|")
+		
 		let subStatIncrement = 14 - expMod
 		let k = 0
 		while (k === 0) {
@@ -234,6 +236,8 @@ class cEmp {
 		k = 0
 		}
 		}
+		console.log("SSA: " + subStatArr)
+		this.subpoints = subStatArr.join("|")
 	}
 	bumpBox(abno, amount) {
 		if (this.balanceSpecificArray.some(b => b[0].toLowerCase() === abno.toLowerCase()) === false) return undefined
