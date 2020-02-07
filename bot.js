@@ -309,7 +309,10 @@ function getUser(getter) {
 			if (exists(m.nickname) === false) return false
 			return regAmazing.test(" " + m.nickname.toLowerCase())
 			}))
-			return DELTAS().members.find(m => regAmazing.test(m.nickname.toLowerCase())).user
+			return DELTAS().members.find(m => {
+			if (exists(m.nickname) === false) return false
+			return regAmazing.test(" " + m.nickname.toLowerCase())
+			}).user
 		else if (DELTAS().members.some(m => regAmazing.test(m.user.tag.toLowerCase())))
 			return DELTAS().members.find(m => regAmazing.test(m.user.tag.toLowerCase())).user
 	}
