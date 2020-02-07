@@ -1226,6 +1226,15 @@ statsString.join(""),
 			case "i": {
 			
 			function inv(emp, channel) {
+				
+			class localItem { // Because it fucking refuses to work without a class.
+				constructor(id, index, type) {
+					this.id = id
+					this.index = index
+					this.type = type
+				}
+			}
+			
 			cUser = emp
 			const cCh = channel
 			const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
@@ -1244,10 +1253,8 @@ statsString.join(""),
 				inventoryS.unshift("0")
 				inventoryW.unshift("0")
 				}
-				inventoryS.map((s, i) => 
-				{return new Object("id": Number(s), "index": i+1, "type": "suit")})
-				inventoryW.map((w, i) => 
-				{return new Object("id": Number(w), "index": i+inventoryS.length+1, "type": "weapon")})
+				inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
+				inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
 				
 			
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
