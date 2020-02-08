@@ -1362,7 +1362,7 @@ statsString.join(""),
 								if (cUser.stats.every((s, i) => s >= choiceItem.requirements[i])) {
 									cCh.send(`**${cUser.tag}** equipped ${choiceText}`)
 									fn.effectApplication.egoChange(cUser, jn.risk.indexOf(choiceItem.level)+1)
-									cUser[choiceLocal.type] = mr[0]
+									cUser[choiceLocal.type] = choiceItem.id
 								} else {cCh.send(`**${cUser.tag}**, error: you do not meet the requirements for equipping that piece of E.G.O. gear. (**${choiceItem.reqString}**)`); ret = 1}
 							}
 							k = 1
