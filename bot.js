@@ -33,6 +33,7 @@ const qte2 = "Lambdadelta Quote #"
 const cmds = jn.cmds // All commands
 const b3ck = '```'
 const bck = '`'
+Number.prototype.shortFixed(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
 Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
@@ -343,7 +344,7 @@ function emoji(nme, srv = DELTAS(), a = false, id = false) {
 // A text resentation of a suit (non-technical)
 function suit(idS, d = [1, 1, 1, 1]) {
 	let suit = gear.suits.find(s => s.id === Number(idS).toString())
-	return (`${emoji(suit.level.toLowerCase(), ESERV())} ${suit.name}  -  ${(suit.resistance[0]*d[0]).toFixed(2)} ${jn.dtype[0]} ${(suit.resistance[1]*d[1]).toFixed(2)} ${jn.dtype[1]} ${(suit.resistance[2]*d[2]).toFixed(2)} ${jn.dtype[2]} ${(suit.resistance[3]*d[3]).toFixed(2)} ${jn.dtype[3]}`)
+	return (`${emoji(suit.level.toLowerCase(), ESERV())} ${suit.name}  -  ${(suit.resistance[0]*d[0]).shortFixed(2)} ${jn.dtype[0]} ${(suit.resistance[1]*d[1]).shortFixed(2)} ${jn.dtype[1]} ${(suit.resistance[2]*d[2]).shortFixed(2)} ${jn.dtype[2]} ${(suit.resistance[3]*d[3]).shortFixed(2)} ${jn.dtype[3]}`)
 }
 
 // A text resentation of a weapon (non-technical)
