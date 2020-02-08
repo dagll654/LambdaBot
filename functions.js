@@ -7,6 +7,11 @@
 	const qte = jn.qte
 	const cmds = jn.cmds
 
+	// Check if something is not assigned a meaningful value
+	function exists(v) {
+		return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
+	}
+
 	function statLVN(stat) {
 		if (stat < 30) {return 1}
 		else if (stat < 45) {return 2}
@@ -423,45 +428,24 @@ exports.effectApplication = {
 	},
 	"workCD": function workCD (employee, boxes) {
 		if (employee.luck > 500) {employee.working = 0; return false}
-		let effects = employee.effects.split("|")
-		let CDEffect
-		let fatiguemod = 0
-		if (effects.some(e => e.startsWith("3/"))) {
-			let fArr = effects.find(e => e.startsWith("3/")).split("/")
-			fatiguemod = Math.floor(Number(fArr[3])/3)
-		}
-		let CDEArr = ["2"]
-		CDEArr.push(Math.round(Number(boxes)/1.7) + fatiguemod)
-		CDEArr.push("Work cooldown")
-		CDEffect = CDEArr.join("/")
-		if (employee.effects === 'null') employee.effects = CDEffect
-		else employee.effects += "|" + CDEffect
-		return false
+		let effects = employee.effectArray
+		let fatigueMod = 0
+		if effects.some(e => e[0] === "3") {
+			fatigueMod = Number(effects.find(e => e[0] === "3")[3])
+		} 
+		effects.push([2, Math.round(Number(boxes)/1.7) + fatigueMod, "Work cooldown"])
+		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
 	"fatigue": function fatigue (employee, risk) {
 		if (employee.luck > 500) return [false]
-		let effects = employee.effects.split("|")
-		if (employee.effects === 'null') effects = []
-		let fatigueEffect
-		if (effects.length > 0) {
-			if (effects.some(e => e.startsWith("3/"))) {
-				let fArr = effects.find(e => {return e.startsWith("3/")}).split("/")
-				let fMod = employee.stats[4] - risk + 1
-				console.log("FMOD: " + fMod)
-				fArr[3] = Number(fArr[3]) + fMod
-				fArr[1] = 40 + Number(fArr[3])
-				fatigueEffect = fArr.join("/")
-				if (effects.length === 1) employee.effects = fatigueEffect
-				else {
-					effects[effects.indexOf(effects.find(e => {return e.startsWith("3/")}))] = fatigueEffect
-					employee.effects = effects.join("|")
-				}
-			} else employee.effects += fatigueEffect
-		}
-		else {
-			employee.effects = "3/40/fatigue/0"
-		}
-		return [false]
+		let effects = employee.effectArray
+		if effects.some(e => e[0] === "3") {
+			let fatigue = effects.find(e => e[0] === "3")
+			let riskMod = employee.stats[4] - risk + 1
+			fatigue[3] = Number(fatigue[4]) + riskMod
+			fatigue[1] = 40 + Number(fatigue[4])
+		} else effects.push([3, 40, "Fatigue", 0])
+		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
 	"department": function department (employee, dep, action, level = 0) {
 		console.log("|" + employee.tag + "|" + dep + "|")
