@@ -407,6 +407,8 @@ function removeItemID(emp, inv, id) {
 	let ws
 	if (inv === "inventorys") ws = "weapon"
 	else ws = "suit"
+	console.log("WS: " + ws)
+	console.log("IDs: " + emp[ws] + " " + id)
 	if (Number(emp[ws]) === Number(id)) emp[ws] = ""
 }
 
