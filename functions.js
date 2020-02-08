@@ -48,7 +48,6 @@
 	
 	function useConsumable(employee, cns) {
 		let inv = employee.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]])
-		console.log(inv)
 		if (inv.some(i => cns === i[0])) {
 			cnsInv = inv.find(i => cns === i[0])
 			if (cnsInv[1] > 0) {
@@ -346,20 +345,6 @@ exports.effectApplication = {
 		}
 		console.log("14Test2: " + employee.tag + " " + effects)
 		return [false]
-		
-		
-		/*	effects = employee.effects.split("|")
-			function checkEffect14(eff) {
-				if (eff.startsWith("14/")) {return true}
-				else {return false}
-			}
-			console.log(employee.tag + " " + effects)
-			if (effects.every(eff => {
-				return (eff.startsWith("14/") === false)
-			})) {effects.push("14/inf/T-04-06"); effects.shift(); employee.effects = effects.join("|")}
-			else {effects[effects.findIndex(checkEffect14)] = "14/inf/T-04-06"; employee.effects = effects.join("|")}
-		return [false]*/
-		
 	},
 	"15": function a15 (employee, result, workorder) {
 		if (result === 0 || employee.fortL < 65) {
@@ -483,6 +468,5 @@ exports.effectApplication = {
 		employee.sp = Number(employee.sp) + healCalc(employee, "sp", 15) 
 		if (employee.sp > employee.stats[1]) employee.sp = employee.stats[1]
 		useConsumable(employee, "spbullet")
-		console.log("Used an SP bullet")
 	}
 }
