@@ -33,7 +33,7 @@ const qte2 = "Lambdadelta Quote #"
 const cmds = jn.cmds // All commands
 const b3ck = '```'
 const bck = '`'
-Number.prototype.shortFixed(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
+Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
 Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
