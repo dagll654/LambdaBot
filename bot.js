@@ -468,7 +468,7 @@ function work(employee1, abno1, order1, channel) {
 	console.log(successChance + " " + successChancet)
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
-		if (b[1] === "schance") successChancet += Number(b[2])
+		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
 	}
 	console.log(successChance + " " + successChancet)
 	if (cAbno.affstat[0] === true) {
