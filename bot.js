@@ -217,8 +217,6 @@ class cEmp {
 	bumpSubpoint(stat = "fortitude", amount = 0) {
 		let expMod = 0
 		let subStatArr = this.subPointsArray
-		console.log("SSA: " + subStatArr)
-		console.log("AMT: " + amount)
 		let statIndex = jn.stats.indexOf(stat.toLowerCase())
 		let justiceMultiplier = 1
 		if (statIndex === 3) justiceMultiplier = 3
@@ -240,7 +238,6 @@ class cEmp {
 		k = 0
 		}
 		}
-		console.log("SSA: " + subStatArr)
 		this.subpoints = subStatArr.join("|")
 	}
 	bumpBox(abno, amount) {
@@ -468,18 +465,18 @@ function work(employee1, abno1, order1, channel) {
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel - 1])*100
-	console.log(successChance + successChancet)
+	console.log(successChance + " " + successChancet)
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance") successChancet += Number(b[2])
 	}
-	console.log(successChance + successChancet)
+	console.log(successChance + " " + successChancet)
 	if (cAbno.affstat[0] === true) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
 	}
-	console.log(successChance + successChancet)
+	console.log(successChance + " " + successChancet)
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(successChance + successChancet)
+	console.log(successChance + " " + successChancet)
 	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
