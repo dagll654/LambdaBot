@@ -1381,7 +1381,7 @@ statsString.join(""),
 									choiceText = suit(choiceLocal.id)
 								else choiceText = weapon(choiceLocal.id)
 								cCh.send(`**${cUser.tag}** discarded ${choiceText}`)
-								removeItemID(cUser, "inventory"+choiceLocal.type[0], mr[0])
+								removeItemID(cUser, "inventory"+choiceLocal.type[0], choiceItem.id)
 								ret = 1
 							}
 							updateInventories()
