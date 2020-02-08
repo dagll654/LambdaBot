@@ -1193,7 +1193,10 @@ switch (ciCmd[0]) {
 			let statsString = []
 			for (m = 0; m < 4; m++) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
-				let statCount = `${cUser.statsReal[m]}+${cUser.statBuffArray[m]}`
+				let pn
+				if (cUser.statBuffArray[m] < 0) pn = "-"
+				else pn = "+"
+				let statCount = `${cUser.statsReal[m]}${pn}${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
 					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
 				if (statCount.length < 6)
