@@ -797,7 +797,7 @@ DELTAS().members.forEach(m => {
 client.on('message', initialMessage => {
 	
 
-if ((debugVariables.stop === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
+if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
 let botPass = 0 // Normally, the bot ignores messages from bots
 
