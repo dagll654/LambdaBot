@@ -476,6 +476,7 @@ function work(employee1, abno1, order1, channel) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
 	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
+	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
 	let peboxes = 0
