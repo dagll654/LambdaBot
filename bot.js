@@ -1633,8 +1633,8 @@ statsString.join(""),
 								break
 									
 								case "shop":
-									currentShop = {"boxes": Number(cUser.getBox(currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.ego], gear.weapons[currentAbno.ego]]}
-									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
+									currentShop = {"boxes": Number(cUser.getBox(currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.id], gear.weapons[currentAbno.id]]}
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.id)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.id)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
 									if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
 									else k = 1
 								break
@@ -1643,13 +1643,13 @@ statsString.join(""),
 									switch (rp.content.toLowerCase()) {
 										case "suit":
 											cInv = "inventorys"
-											objItem = gear.suits[currentAbno.ego]
-											item = suit(currentAbno.ego)
+											objItem = gear.suits[currentAbno.id]
+											item = suit(currentAbno.id)
 											break
 										case "weapon":
 											cInv = "inventoryw"
-											objItem = gear.weapons[currentAbno.ego]
-											item = weapon(currentAbno.ego)
+											objItem = gear.weapons[currentAbno.id]
+											item = weapon(currentAbno.id)
 											break
 									}
 									
@@ -1665,7 +1665,7 @@ statsString.join(""),
 									//menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + empex.tag + ".\n	Extraction of EGO:"  + `${currentShop.name}` + "```\n" + `	Are you sure? This will cost you ${prices[0]} PE boxes${tmptxt}. (*y*/*n*)`)
 									
 									if (invFullness(cUser) > 3) {forceReturn(rp, "your inventory is full. Discard an item in the inventory menu."); menuIndex = "shop"; k = 1; break}
-									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.ego)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.ego)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
+									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.id)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.id)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
 									menuIndex = "purChoice"
 									k = 1
 								break
@@ -1676,7 +1676,7 @@ statsString.join(""),
 										rp.reply("Successfully purchased " + item)
 										bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
 										cUser.balance -= prices[1]
-										addItemID(cUser, cInv, currentAbno.ego)
+										addItemID(cUser, cInv, currentAbno.id)
 										menuIndex = "shop"
 										break
 									}
