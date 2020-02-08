@@ -1264,8 +1264,10 @@ statsString.join(""),
 			let weapons // Weapon text objects
 	
 			function updateInventories(d = 0) {
-				inventoryS = cUser.inventorys.split("|")
-				inventoryW = cUser.inventoryw.split("|")
+				inventoryS = []
+				inventoryW = []
+				if (exists(cUser.inventorys)) inventoryS = cUser.inventorys.split("|")
+				if (exists(cUser.inventoryw)) inventoryW = cUser.inventoryw.split("|")
 				console.log(inventoryS)
 				console.log(inventoryW)
 				if (d === 0) {
