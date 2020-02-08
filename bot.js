@@ -553,6 +553,8 @@ function work(employee1, abno1, order1, channel) {
 			console.log("Gift Roll: " + giftRoll.join(", "))
 			if (gifttxt != "") channel.send(gifttxt)
 		}
+		fn.effectApplication['fatigue'](e, cAbno.risk)
+		fn.effectApplication['workCD'](e, cAbno.peoutput)
 		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
 		e.working = 0
 	}
