@@ -403,7 +403,7 @@ function addItemID(emp, inv, id) {
 
 // Remove an item id from suit/weapon inventory
 function removeItemID(emp, inv, id) {
-	if (exist(emp[inv]) === false) return
+	if (exists(emp[inv]) === false) return
 	newInv = emp[inv].split("|").filter(i => Number(i) != Number(id)).join("|")
 	if (exists(newInv)) emp[inv] = newInv
 	else emp[inv] = ""
