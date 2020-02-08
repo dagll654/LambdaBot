@@ -1266,9 +1266,13 @@ statsString.join(""),
 			function updateInventories(d = 0) {
 				inventoryS = cUser.inventorys.split("|")
 				inventoryW = cUser.inventoryw.split("|")
+				console.log(inventoryS)
+				console.log(inventoryW)
 				if (d === 0) {
 				inventoryS.unshift("0")
+				console.log(inventoryS)
 				inventoryW.unshift("0")
+				console.log(inventoryW)
 				}
 				inventoryS = inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
 				inventoryW = inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
