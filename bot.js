@@ -1268,18 +1268,13 @@ statsString.join(""),
 				inventoryW = []
 				if (exists(cUser.inventorys)) inventoryS = cUser.inventorys.split("|")
 				if (exists(cUser.inventoryw)) inventoryW = cUser.inventoryw.split("|")
-				console.log(inventoryS)
-				console.log(inventoryW)
 				if (d === 0) {
 				inventoryS.unshift("0")
-				console.log(inventoryS)
 				inventoryW.unshift("0")
-				console.log(inventoryW)
 				}
 				inventoryS = inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
 				inventoryW = inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
-				console.log(inventorySW)
 			}
 			updateInventories()
 			suits = inventoryS.map(s => suit(s.id))
@@ -1361,7 +1356,9 @@ statsString.join(""),
 							updateInventories()
 							suits = inventoryS.map(s => `${bck+s.index+bck}) ${suit(s.id)}`)
 							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
-							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
+							if (exists(suits) === false) suits = "None."
+							if (exists(weapons) === false) weapons = "None."
+							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}\n		Weapons:\n	${weapons.join("\n	")}\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
 								let choiceItem = gear[choiceLocal.type+"s"].find(i => Number(i.id) === choiceLocal.id)
@@ -1382,6 +1379,8 @@ statsString.join(""),
 							updateInventories(1)
 							suits = inventoryS.map(s => `${bck+s.index+bck}) ${suit(s.id)}`)
 							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
+							if (exists(suits) === false) suits = "None."
+							if (exists(weapons) === false) weapons = "None."
 							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
