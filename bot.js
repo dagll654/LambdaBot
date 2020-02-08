@@ -1388,7 +1388,7 @@ statsString.join(""),
 								cCh.send(`**${cUser.tag}** discarded ${choiceText}`)
 								removeItemID(cUser, "inventory"+choiceLocal.type[0], choiceItem.id)
 								ret = 1
-							}
+							} else console.log("Indexes: " + inventorySW.map(i => i.index).join(", ") + "; mr[0]: " + mr[0])
 							updateInventories()
 							menuIndex = "main"
 							k = 1
