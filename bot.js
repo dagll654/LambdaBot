@@ -1380,8 +1380,8 @@ statsString.join(""),
 							updateInventories(1)
 							suits = inventoryS.map(s => `${bck+s.index+bck}) ${suit(s.id)}`)
 							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
-							if (exists(suits) === false) suits = "None."
-							if (exists(weapons) === false) weapons = "None."
+							if (exists(suits) === false) suits = ["None."]
+							if (exists(weapons) === false) weapons = ["None."]
 							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
