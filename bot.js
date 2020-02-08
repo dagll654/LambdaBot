@@ -1269,7 +1269,6 @@ statsString.join(""),
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
 			}
 			updateInventories()
-			inventoryS.forEach(s => console.log(s))
 			suits = inventoryS.map(s => suit(s.id))
 			weapons = inventoryW.map(w => weapon(w.id))
 			cCh.send(header + `\n		Suits:	\n	${suits.join("\n	")}\n		Weapons:	\n	${weapons.join("\n	")}\n\n` + acts).then(menumsg => {
