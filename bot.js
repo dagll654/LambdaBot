@@ -161,6 +161,10 @@ class cEmp {
 		}
 		return iN	
 	}
+	get giftArray() {
+		if (exists(this.gifts)) return this.gifts.split("/").map(g => g.split("|"))
+		else return []
+	}
 	getBox(abno) {
 		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
 	}
@@ -619,7 +623,7 @@ function updateData() {
 	pushBig.forEach(q => {
 	queryAndWait(q, connection)
 	})
-	console.log("Updated the database.")
+	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})
 }

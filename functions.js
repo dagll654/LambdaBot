@@ -143,7 +143,7 @@ function giftManip(employee, giftID, action) {
 	}
 }
 
-exports.debug = function(employee, giftID, action) {giftManip(employee, giftID, action)}
+exports.giftManip = function(employee, giftID, action) {giftManip(employee, giftID, action)}
 
 exports.affstat = function(abn, stat, employee) {
 	if (abn.toLowerCase() === "o-06-20") {
