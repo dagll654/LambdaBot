@@ -1510,7 +1510,7 @@ statsString.join(""),
 			if (ciCmd[2]) {
 				if (ciCmd[2] === "apply") {
 				if (jn.stats.includes(ciCmd[3])) {
-				if (checkSymbols(ciCmd[4], nmbrs)) {
+				if (/\D/.test(ciCmd[4]) === false) {
 				if (Number(ciCmd[4]) > 0) {	
 				if (exists(dbployees.e(msg.author.id).bufflist)) {
 					if (dbployees.e(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + ciCmd[3]))) {
