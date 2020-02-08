@@ -430,7 +430,7 @@ exports.effectApplication = {
 		if (employee.luck > 500) {employee.working = 0; return false}
 		let effects = employee.effectArray
 		let fatigueMod = 0
-		if effects.some(e => e[0] === "3") {
+		if (effects.some(e => e[0] === "3")) {
 			fatigueMod = Number(effects.find(e => e[0] === "3")[3])
 		} 
 		effects.push([2, Math.round(Number(boxes)/1.7) + fatigueMod, "Work cooldown"])
@@ -439,7 +439,7 @@ exports.effectApplication = {
 	"fatigue": function fatigue (employee, risk) {
 		if (employee.luck > 500) return [false]
 		let effects = employee.effectArray
-		if effects.some(e => e[0] === "3") {
+		if (effects.some(e => e[0] === "3")) {
 			let fatigue = effects.find(e => e[0] === "3")
 			let riskMod = employee.stats[4] - risk + 1
 			fatigue[3] = Number(fatigue[4]) + riskMod
