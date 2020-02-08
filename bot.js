@@ -465,18 +465,16 @@ function work(employee1, abno1, order1, channel) {
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel - 1])*100
-	console.log(successChance + " " + successChancet)
+	//console.log(successChance + " " + successChancet)
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
+		if (b[1] === "schance") console.log(b)
 	}
-	console.log(successChance + " " + successChancet)
 	if (cAbno.affstat[0] === true) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
 	}
-	console.log(successChance + " " + successChancet)
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
-	console.log(successChance + " " + successChancet)
 	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
 	let neboxes = 0
