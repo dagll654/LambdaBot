@@ -1377,9 +1377,10 @@ statsString.join(""),
 							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
 							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
-								console.log(inventorySW)
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
 								let choiceItem = gear[choiceLocal.type+"s"].find(i => Number(i.id) === choiceLocal.id)
+								console.log(choiceLocal)
+								console.log(choiceItem)
 								let choiceText
 								if (choiceLocal.type === "suit")
 									choiceText = suit(choiceLocal.id)
@@ -1387,7 +1388,7 @@ statsString.join(""),
 								cCh.send(`**${cUser.tag}** discarded ${choiceText}`)
 								removeItemID(cUser, "inventory"+choiceLocal.type[0], choiceItem.id)
 								ret = 1
-							} else console.log(inventorySW)
+							}
 							updateInventories()
 							menuIndex = "main"
 							k = 1
