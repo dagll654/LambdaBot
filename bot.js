@@ -1347,8 +1347,8 @@ statsString.join(""),
 							}
 							else {
 							updateInventories()
-							suits = inventoryS.map(s => `${s.index}) ${suit(s.id)}`)
-							weapons = inventoryW.map(w => `${w.index}) ${weapon(w.id)}`)
+							suits = inventoryS.map(s => `${bck+s.index+bck}) ${suit(s.id)}`)
+							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
 							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to equip, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
@@ -1368,8 +1368,8 @@ statsString.join(""),
 							case "discard": 
 							if (menuIndex === "discard" && ret != 1 && k != 1) {
 							updateInventories(1)
-							suits = inventoryS.map(s => `${s.index}) ${suit(s.id)}`)
-							weapons = inventoryW.map(w => `${w.index}) ${weapon(w.id)}`)
+							suits = inventoryS.map(s => `${bck+s.index+bck}) ${suit(s.id)}`)
+							weapons = inventoryW.map(w => `${bck+w.index+bck}) ${weapon(w.id)}`)
 							menumsg.edit(header + `\n		Suits:\n	${suits.join("\n	")}.\n		Weapons:\n	${weapons.join("\n	")}.\n\n	Type in the number corresponding to the piece of E.G.O. gear you would like to **discard**, or go back with 'cancel'.`)
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
