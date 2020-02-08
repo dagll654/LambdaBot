@@ -1684,7 +1684,7 @@ statsString.join(""),
 									if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
 									if (rp.content.toLowerCase() === "y") {
 										rp.reply("Successfully purchased " + item)
-										bumpBoxes(-prices[0], currentAbnoCode, cUser.id)
+										cUser.bumpBox(currentAbnoCode, -prices[0])
 										cUser.balance -= prices[1]
 										addItemID(cUser, cInv, currentAbno.id)
 										menuIndex = "shop"
