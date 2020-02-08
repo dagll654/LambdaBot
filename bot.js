@@ -1001,7 +1001,7 @@ switch (ciCmd[0]) {
 	
 	switch (csCmd[1]) {
 		case "upd":
-			updData()
+			updateData()
 		break
 		case "e":
 		case "employee":
