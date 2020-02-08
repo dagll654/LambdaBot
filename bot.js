@@ -1273,6 +1273,7 @@ statsString.join(""),
 				inventoryS = inventoryS.map((s, i) => new localItem(Number(s), i+1, "suit"))
 				inventoryW = inventoryW.map((w, i) => new localItem(Number(w), i+inventoryS.length+1, "weapon"))
 				inventorySW = /*A franchise fucked in the ass by Mickey*/ inventoryS.concat(inventoryW)
+				console.log(inventorySW)
 			}
 			updateInventories()
 			suits = inventoryS.map(s => suit(s.id))
