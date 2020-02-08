@@ -43,7 +43,7 @@ var dbnos = [] // Later filled with all abno data from the database
 debugVariables = {
 	'debug_duck': 0, // /shrug
 	'debug_say': 0, // If 0, !say is off
-	'voting': 0, // No idea
+	'voting': 0, // Used in voting I guess
 	'heal_pulser': 1, // If 1, the heal pulser is on
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
 	'effect_log': 999 // Rules how often the effect on employees are logged
@@ -410,7 +410,7 @@ function removeItemID(emp, inv, id) {
 	let ws
 	if (inv === "inventorys") ws = "weapon"
 	else ws = "suit"
-	if (Number(emp[ws]) === Number(id)) emp[ws] = "0"
+	if (Number(emp[ws]) === Number(id)) emp[ws] = ""
 }
 
 // Function for getting a role by name 
