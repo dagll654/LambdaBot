@@ -1379,8 +1379,6 @@ statsString.join(""),
 							if (inventorySW.some(i => i.index === Number(mr[0]))) {
 								let choiceLocal = inventorySW.find(i => i.index === Number(mr[0]))
 								let choiceItem = gear[choiceLocal.type+"s"].find(i => Number(i.id) === choiceLocal.id)
-								console.log(choiceLocal)
-								console.log(choiceItem)
 								let choiceText
 								if (choiceLocal.type === "suit")
 									choiceText = suit(choiceLocal.id)
