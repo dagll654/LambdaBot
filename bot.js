@@ -1773,7 +1773,7 @@ statsString.join(""),
 						ciCmd[3].split("").forEach(c => {
 							if (/\D/.test(c) === false) {voteeid += c}
 						})
-						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@>") || ciCmd[3].startsWith("<@!>")) {
+						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@")) {
 						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
 						if (DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 								debugVariables.voting = 1
