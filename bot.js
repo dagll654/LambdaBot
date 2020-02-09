@@ -233,7 +233,7 @@ class cEmp {
 		k = 1
 		if (subStatArr[statIndex] >= statLVN(this.statsReal[statIndex])*subStatIncrement*justiceMultiplier) {
 			subStatArr[statIndex] -= statLVN(this.statsReal[statIndex])*subStatIncrement*justiceMultiplier
-			if (this.stats[statIndex] < this.statlimit) {
+			if (this.statsReal[statIndex] < this.statlimit) {
 			this[stat]++
 			}
 		k = 0
