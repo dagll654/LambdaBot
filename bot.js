@@ -414,7 +414,7 @@ function removeItemID(emp, inv, id) {
 // Function for getting a role by name 
 function getRole(nme) {
 	if (DELTAS().roles.some(role => role.name.toLowerCase() === nme.toLowerCase()))
-		return msg.guild.roles.find(role => role.name.toLowerCase() === nme.toLowerCase())
+		return DELTAS().roles.find(role => role.name.toLowerCase() === nme.toLowerCase())
 	else return undefined
 }
 
