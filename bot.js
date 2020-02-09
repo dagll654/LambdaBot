@@ -855,7 +855,7 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 	voting = 1
 	voteeid = ""
 	mesc.split(" ")[3].split("").forEach(c => {
-		if (nmbrs.includes(c)) {voteeid += c}
+		if (/\D/.test(c) === false) voteeid += c
 	})
 	voteeuser = DELTAS().members.find("id", voteeid)
 	cptxt = drFind(voteeuser)
