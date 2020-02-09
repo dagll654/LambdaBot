@@ -895,12 +895,12 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 			voteeuser.addRole(getRole(votingteam + " (C)"))
 			let bufflist = []
 			if (dbployees.e(voteeuser.id).bufflist != undefined) {
-			bufflist = dbployees[dbids.indexOf(voteeuser.id)].bufflist.split("|")
+			bufflist = dbployees.e(voteeuser.id).bufflist.split("|")
 			}
 			if (bufflist.some(eff => eff.startsWith("team"))) {
-			fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "take")
+			fn.effectApplication['department'](dbployees.e(voteeuser.id), drFind(voteeuser), "take")
 			}
-			fn.effectApplication['department'](dbployees[dbids.indexOf(voteeuser.user.id)], drFind(voteeuser), "give", 1)
+			fn.effectApplication['department'](dbployees.e(voteeuser.id), drFind(voteeuser), "give", 1)
 		}
 		
 		if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
