@@ -1189,7 +1189,7 @@ switch (ciCmd[0]) {
 						if (Number(e[1]) > 60) effectTime = (Number(e[1])/60).toFixed(1) + " minute(s)"
 						else effectTime = e[1] + " second(s)"
 					}
-					if (e[2] === "fatigue")
+					if (e[2] === "Fatigue")
 						effectSpecialString = ` [+${Math.floor(Number(e[3])/3)} second(s) to work CD]`
 					effectArray.push(`${"\n" + e[2]} ${effectSpecialString} <${effectTime}>`)
 				})
