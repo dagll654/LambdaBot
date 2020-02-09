@@ -1087,7 +1087,7 @@ switch (ciCmd[0]) {
 						if (cDepECount === 0) cDECS = "no"; else cDECS = cDepECount.toString()
 						let cDepCaptain = getRole(r + " (C)").members.first()
 						if (cDepCaptain) cDepCaptain = cDepCaptain.user.tag; else cDepCaptain = "none"
-						depArray.push(`[${r}] (${empcounts} employee${ifEIO}) \n		Captain:\n#		${cDepCaptain}`)
+						depArray.push(`[${r}] (${cDepECount} employee${ifEIO}) \n		Captain:\n#		${cDepCaptain}`)
 					})
 					ch.send("List of departments and the respective captains: \n```md\n" + depArray.join(", \n") + ".```")
 				}
