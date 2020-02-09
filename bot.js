@@ -1771,7 +1771,7 @@ statsString.join(""),
 					if (voting != 1) {
 						voteeid = ""
 						ciCmd[3].split("").forEach(c => {
-							if (nmbrs.includes(c)) {voteeid += c}
+							if (/\D/.test(c) === false) {voteeid += c}
 						})
 						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@>") || ciCmd[3].startsWith("<@!>")) {
 						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
