@@ -1478,8 +1478,8 @@ statsString.join(""),
 			let gifts
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0], g[2]))
-				if (l === 0) gifts = inventoryG.map(g => `${g.locked} <${g.abno}> [${g.slot}] ${g.raw.name} - ${g.raw.text}`).join("\n	")
-				else gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> [${g.slot}] ${g.raw.name} - ${g.raw.text}`)
+				if (l === 0) gifts = inventoryG.map(g => `${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text} [${sSlotText(g.slot)}]`).join("\n	")
+				else gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text} [${sSlotText(g.slot)}]`)
 				.join("\n	")
 			}
 			updateGifts()
