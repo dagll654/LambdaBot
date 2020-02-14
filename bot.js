@@ -660,7 +660,7 @@ function databaseAbnormalities() {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	result.forEach(r => aArrPush(r))
+	result.forEach(r => dbnos.push(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
