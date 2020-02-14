@@ -428,6 +428,7 @@ exports.effectApplication = {
 		let effects = employee.effectArray
 		if (effects.some(e => e[0] === "3")) {
 			let fatigue = effects.find(e => e[0] === "3")
+			console.log(`Fatigue (f): ${effects.find(e => e[0] === "3")}`)
 			let riskMod = employee.stats[4] - risk + 1
 			fatigue[3] = Number(fatigue[3]) + riskMod
 			fatigue[1] = 40 + Number(fatigue[3])
