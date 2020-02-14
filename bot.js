@@ -1461,8 +1461,8 @@ statsString.join(""),
 					this.id = Number(id)
 					this.index = index
 					this.slot = this.raw.slot
-					if (exists(this.locked) === false) this.locked = "🔒"
-					else this.locked = "🔓"
+					if (exists(this.locked) === false) this.locked = "🔓"
+					else this.locked = "🔒"
 					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
 				}
 			}
@@ -1479,14 +1479,8 @@ statsString.join(""),
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0], g[2]))
 				if (l === 0) gifts = inventoryG.map(g => `<${g.abno}> ${g.raw.name} - ${g.raw.text}`).join("\n	")
-				else {
-					gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text}`)
-					gifts.forEach(g => {})
-					
-					
-					
-					//.join("\n	")
-				}
+				else gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text}`)
+				.join("\n	")
 			}
 			updateGifts()
 			
