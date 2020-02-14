@@ -1461,7 +1461,7 @@ statsString.join(""),
 					this.id = Number(id)
 					this.index = index
 					this.slot = this.raw.slot
-					if (exists(this.locked) === false) this.locked = "🔓"
+					if (exists(locked) === false) this.locked = "🔓"
 					else this.locked = "🔒"
 					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
 				}
@@ -1520,7 +1520,9 @@ statsString.join(""),
 								if (inventoryG.some(g => g.index === Number(mr[0]))) {
 									let gift = inventoryG.find(g => g.index === Number(mr[0]))
 									let newGiftArray = cUser.giftArray
-									newGiftArray.find(g => Number(g[1]) === gift.id).push(1)
+									let arrayGift = newGiftArray.find(g => Number(g[1]) === gift.id)
+									if (exists(arrayGift[2])) arrayGift.pop()
+									else arrayGift.push(1)
 									cUser.gifts = newGiftArray.map(g => g.join("/")).join("|")
 									ret = 1
 								} else k = 1
