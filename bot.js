@@ -300,10 +300,16 @@ async function queryAndWait(q, connection) {
 
 // Abnormality class (unfinished)
 class clAbn {
-	constructor (id, state = 0, qcounter = 'und') {
+	constructor (id, state = 0, qcounter = 'und', effects = '') {
 		this.id = id
 		this.state = state
 		this.qcounter = qcounter
+		this.effects = effects
+	}
+	get effectArray() {
+		if (exists(this.effects))
+		return this.effects.split("|").map(e => e.split("/"))
+		else return []
 	}
 }
 
@@ -323,11 +329,11 @@ function getUser(getter) {
 		let regAmazing = new RegExp(regAmazingText, "i")
 		if (DELTAS().members.some(m => {
 			if (exists(m.nickname) === false) return false
-			return regAmazing.test(" " + m.nickname.toLowerCase())
+			return regAmazing.test(m.nickname.toLowerCase())
 			}))
 			return DELTAS().members.find(m => {
 			if (exists(m.nickname) === false) return false
-			return regAmazing.test(" " + m.nickname.toLowerCase())
+			return regAmazing.test(m.nickname.toLowerCase())
 			}).user
 		else if (DELTAS().members.some(m => regAmazing.test(m.user.tag.toLowerCase())))
 			return DELTAS().members.find(m => regAmazing.test(m.user.tag.toLowerCase())).user
@@ -602,6 +608,9 @@ function globalEffectTick() {
 		else if (efflog === debugVariables["effect_log"]) console.log(`${e.tag}: ${effectsNew}`)
 	}
 	})
+	/* dbnos.forEach(a => {
+		if (exists(a.effects))
+	}) */
 	if (efflog >= debugVariables["effect_log"]) efflog = 0
 }
 
@@ -630,6 +639,7 @@ function updateData() {
 		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 		if (exists(pushSmall)) pushBig.push(pushSmallStr)
 	})
+	dbnos.forEach(a => {})
 	pushBig.forEach(q => {
 	queryAndWait(q, connection)
 	})
@@ -639,7 +649,7 @@ function updateData() {
 }
 
 // Functions like databaseEmployees()
-function databaseAbnos() {
+function databaseAbnormalities() {
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -661,6 +671,7 @@ function databaseAbnos() {
 		})
 	})
 	})
+	console.log(dbnos)
 }
 
 // Gets the employee data from the database
@@ -765,8 +776,9 @@ client.user.setPresence({
 
 
 
-// Get employee data from the database
+// Get employee and abno data from the database
 databaseEmployees()
+databaseAbnormalities()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
 globalTicker()
 	
