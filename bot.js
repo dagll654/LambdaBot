@@ -1507,7 +1507,7 @@ statsString.join(""),
 						switch (menuIndex) {
 							case "main":
 								updateGifts()
-								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
+								menumsg.edit(header + `\n		Gifts:\n	${gifts}\n\n` + acts)
 								if (ret === 1) {ret = 0; k = 1; break}
 								if (mr[0] === "lock") menuIndex = "lock"
 								else k = 1
