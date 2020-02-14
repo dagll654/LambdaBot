@@ -1515,13 +1515,13 @@ statsString.join(""),
 							case "lock":
 							if (k != 1) {
 								updateGifts(1)
-								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
+								menumsg.edit(header + `\n		Gifts:\n	${gifts}\n\nType in the number corresponding to the gift you wish to lock or unlock.`)
 								if (inventoryG.some(g => g.id === Number(mr[0]))) {
 									let gift = inventoryG.find(g => g.id === Number(mr[0]))
 									let newGiftArray = cUser.giftArray
 									newGiftArray.find(g => Number(g[1]) === gift.id).push(1)
 									console.log(newGiftArray)
-								}
+								} else {console.log(inventoryG); console.log(mr[0])}
 								k = 1
 							}
 							break
