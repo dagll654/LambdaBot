@@ -660,7 +660,7 @@ function databaseAbnormalities() {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	result.forEach(r => console.log(r))
+	result.forEach(r => aArrPush(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
@@ -673,6 +673,7 @@ function databaseAbnormalities() {
 		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
 		})
 	})
+	console.log(dbnos)
 	})
 }
 
