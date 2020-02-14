@@ -1528,8 +1528,10 @@ statsString.join(""),
 							break
 							
 							default:
+							if (k != 1) {
 							k = 1
 							menuIndex = "fail"
+							}
 							break
 						}
 						ki++
