@@ -661,6 +661,7 @@ function databaseAbnormalities() {
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => dbnos.push(r))
+	console.log(result)
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
