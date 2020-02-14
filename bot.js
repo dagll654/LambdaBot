@@ -1071,7 +1071,7 @@ switch (ciCmd[0]) {
 			} 
 			break
 		case "abnoinit": 
-			databaseAbnos()
+			databaseAbnormalities()
 			break
 		case "healtest":
 			console.log("heal test: " + dbployees.e('143261987575562240').heal("sp", 100))
