@@ -1044,15 +1044,16 @@ switch (ciCmd[0]) {
 			updateData() 
 			}
 		break
-		case "gift":
+		case "gift": {
 			if (getUser(csCmd[2]).id) {
 			if (abn.abn.some(a => Number(a.id) === Number(csCmd[3]))) { 
-			if (abn.abn.find(a => Number(a.id) === Number(csCmd[3])).gift === "true")
+			if (abn.abn.find(a => Number(a.id) === Number(csCmd[3])).gift === "true") {
 			let cAbno = abn.abn.find(a => Number(a.id) === Number(csCmd[3]))
 			fn.gift(dbployees.e(getUser(csCmd[2]).id), cAbno.id, {"override": true})
 			} else ch.send("Incorrect abnormality specified. (that one doesn't have a gift yet)")
 			} else ch.send("Incorrect abnormality specified.")
 			} else ch.send("Incorrect user specified.")
+			} 
 			break
 		case "abnoinit": 
 			databaseAbnos()
