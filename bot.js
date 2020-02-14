@@ -47,7 +47,7 @@ debugVariables = {
 	'voting': 0, // Used in voting I guess
 	'heal_pulser': 1, // If 1, the heal pulser is on
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
-	'effect_log': 1 // Rules how often the effect on employees are logged
+	'effect_log': 999 // Rules how often the effect on employees are logged
 }
 quotelog = []
 votingteam = ""
