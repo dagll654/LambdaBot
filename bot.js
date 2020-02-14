@@ -1051,6 +1051,11 @@ switch (ciCmd[0]) {
 			console.log("heal test: " + dbployees.e('143261987575562240').heal("sp", 100))
 			
 			break
+		case "var":
+			if (exists(csCmd[2]) && exists(csCmd[3]) && exists(debugVariables[csCmd[2]])) {
+				debugVariables[csCmd[2]] = Number(csCmd[3])
+			}
+			break
 		case "revive":
 			{
 			let uid
