@@ -1517,7 +1517,7 @@ statsString.join(""),
 								updateGifts(1)
 								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
 								if (inventoryG.some(g => g.id === Number(mr[0]))) {
-									let gift = inventoryG.find(g => g.id === Number(mr[0])
+									let gift = inventoryG.find(g => g.id === Number(mr[0]))
 									let newGiftArray = cUser.giftArray
 									newGiftArray.find(g => Number(g[1]) === gift.id).push(1)
 									console.log(newGiftArray)
