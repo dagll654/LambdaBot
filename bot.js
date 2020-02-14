@@ -1473,7 +1473,7 @@ statsString.join(""),
 			}
 			updateGifts()
 			
-			cCh.send(header + `		Gifts:\n	\n\n` + acts).then(menumsg => {
+			cCh.send(header + `\n		Gifts: ${gifts}\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
@@ -1496,7 +1496,7 @@ statsString.join(""),
 						switch (menuIndex) {
 							case "main":
 								
-								menumsg.edit(menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts))
+								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
 								if (ret === 1) {ret = 0; k = 1; break}
 								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
 								else k = 1
