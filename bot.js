@@ -1479,8 +1479,8 @@ statsString.join(""),
 			
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
-				if (l === 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n	")
-				else gifts = inventoryG.map(g => `${bck}${g.index})${bck} (${g.abno}) ${g.raw.name} - ${g.raw.text}`)
+				if (l === 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n		")
+				else gifts = inventoryG.map(g => `${bck}${g.index})${bck} (${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n		")
 			}
 			updateGifts()
 			
@@ -1497,7 +1497,7 @@ statsString.join(""),
 					
 					if (mr[0] != "!lc") {
 					if (mr[0] != "exit") {
-					if (mr[0] === "cancel") {
+					if (mr[0] === "cancel" || mr[0] === "return") {
 						menuIndex = "main"
 					}	
 						let ret = 0
@@ -1506,11 +1506,19 @@ statsString.join(""),
 						while (k === 0 && ki < 6) {
 						switch (menuIndex) {
 							case "main":
-								
+								updateGifts()
 								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
 								if (ret === 1) {ret = 0; k = 1; break}
-								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
+								if (mr[0] === "lock") menuIndex = "lock"
 								else k = 1
+							break
+							
+							case "lock":
+							if (k != 1) {
+								updateGifts(1)
+								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
+								k = 1
+							}
 							break
 							
 							default:
