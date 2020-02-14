@@ -1478,8 +1478,8 @@ statsString.join(""),
 			let gifts
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0], g[2]))
-				if (l === 0) gifts = inventoryG.map(g => `${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text}`).join("\n	")
-				else gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text}`)
+				if (l === 0) gifts = inventoryG.map(g => `${g.locked} <${g.abno}> [${g.slot}] ${g.raw.name} - ${g.raw.text}`).join("\n	")
+				else gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> [${g.slot}] ${g.raw.name} - ${g.raw.text}`)
 				.join("\n	")
 			}
 			updateGifts()
@@ -1507,7 +1507,7 @@ statsString.join(""),
 						switch (menuIndex) {
 							case "main":
 								updateGifts()
-								menumsg.edit(header + `\n		Gifts:\n	${gifts}\n\n` + acts)
+								menumsg.edit(header + `		Gifts:\n	${gifts}\n\n` + acts)
 								if (ret === 1) {ret = 0; k = 1; break}
 								if (mr[0] === "lock") menuIndex = "lock"
 								else k = 1
@@ -1516,13 +1516,19 @@ statsString.join(""),
 							case "lock":
 							if (k != 1) {
 								updateGifts(1)
-								menumsg.edit(header + `\n		Gifts:\n	${gifts}\n\nType in the number corresponding to the gift you wish to lock or unlock.`)
+								menumsg.edit(header + `		Gifts:\n	${gifts}\n\nType in the number corresponding to the gift you wish to lock or unlock.`)
 								if (inventoryG.some(g => g.index === Number(mr[0]))) {
 									let gift = inventoryG.find(g => g.index === Number(mr[0]))
 									let newGiftArray = cUser.giftArray
 									let arrayGift = newGiftArray.find(g => Number(g[1]) === gift.id)
-									if (exists(arrayGift[2])) arrayGift.pop()
-									else arrayGift.push(1)
+									if (exists(arrayGift[2])) {
+										arrayGift.pop()
+										cCh.send(`Unlocked the ${sSlotText(gift.slot)} slot.`)
+										}
+									else {
+										arrayGift.push(1)
+										cCh.send(`Locked the ${sSlotText(gift.slot)} slot.`)
+										}
 									cUser.gifts = newGiftArray.map(g => g.join("/")).join("|")
 									menuIndex = "main"
 									ret = 1
