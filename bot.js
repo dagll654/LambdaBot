@@ -643,12 +643,37 @@ function updateData() {
 		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 		if (exists(pushSmall)) pushBig.push(pushSmallStr)
 	})
-	dbnos.forEach(a => {})
 	pushBig.forEach(q => {
 	queryAndWait(q, connection)
 	})
 	//console.log("Updated the database.")
 	//console.log(pushBig)
+	})
+	let dbnosActual = []
+	pushBig = []
+	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+	result.forEach(r => {
+	aArrPush(r, dbnosActual)
+	})
+	if (err) throw err
+	dbnos.forEach((a, i) => {
+		let aActual = dbnosActual.find(d => d.id === a.id)
+		if (exists(a) === false) return
+		let pushSmall = []
+		for (const prop in a) {
+		if (exists(aActual[prop]) && prop != "luck") {
+			let lValue = a[prop]
+			if (aActual[prop] != lValue && Number(aActual[prop]) != lValue) {					
+			pushSmall.push("`" + prop + "` = '" + lValue + "'")
+			}
+		}
+		}
+		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + a.id + "';"
+		if (exists(pushSmall)) pushBig.push(pushSmallStr)
+	})
+	pushBig.forEach(q => {
+	queryAndWait(q, connection)
+	})
 	})
 }
 
@@ -1057,6 +1082,16 @@ switch (ciCmd[0]) {
 			else lValue = ciCmd[3]
 			dbployees.e(uid)[ciCmd[2]] = lValue
 			updateData() 
+			}
+		break
+		case "a":
+			{
+			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
+			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
+			if (exists(cAbno[ciCmd[3]])) {
+				dbnos.find(a => Number(a.id) === Number(csCmd[2]))[ciCmd[3]] = ciCmd[4]
+			} else ch.send("Incorrect abnormality property.")
+			} else ch.send("Incorrect abnormality ID.")
 			}
 		break
 		case "gift": {
