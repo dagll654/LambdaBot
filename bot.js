@@ -640,7 +640,6 @@ function updateData() {
 
 // Functions like databaseEmployees()
 function databaseAbnos() {
-	return
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
