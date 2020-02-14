@@ -205,7 +205,7 @@ class cEmp {
 			this.sp -= amt
 			break
 			case "black":
-			amt = Number(amt)*Number(this.defenseArray[3])*rDamage(suitObj(Number(this.suit)).level, risk)
+			amt = Number(amt)*Number(this.defenseArray[2])*rDamage(suitObj(Number(this.suit)).level, risk)
 			this.hp -= amt
 			this.sp -= amt
 			break
