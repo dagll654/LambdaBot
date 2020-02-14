@@ -16,10 +16,10 @@ const simpleCombat = require("./simpleCombat.js") // The simple version of comba
 	database: "dagll_lambdabase"
 }) */
 var connection = db.createConnection({
-	host: "johnny.heliohost.org",
-	user: "dagll_bot",
+	host: "lacreme.heliohost.org",
+	user: "lacreme_bot",
 	password: process.env.DB_PASS,
-	database: "dagll_lambdabase"
+	database: "lacreme_bot"
 });
 // Getting a connection
 connection.connect(function(err2) {
