@@ -167,6 +167,7 @@ exports.affstat = function(abn, stat, employee) {
 
 exports.gift = function(employee, abnoID, result) {
 	let gRRes = [false, 0]
+	if (result["override"] != true) {
 	switch (Number(abnoID)) {
 		case 1:
 		if (result["mood"] === 2) gRRes = [true, 0]
@@ -187,6 +188,7 @@ exports.gift = function(employee, abnoID, result) {
 		
 		default: return [false, 2]
 	}
+	} else gRRes = [true, 0]
 	if (employee.luck > 1000) gRRes = [true, 0]
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
