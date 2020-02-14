@@ -1433,12 +1433,13 @@ statsString.join(""),
 			
 			class localGift { // Because it fucking refuses to work without a class.
 				constructor(id, index, slot, locked) {
+					this.raw = gear.gifts.find(g => Number(g.id) === Number(id))
 					this.id = Number(id)
 					this.index = index
-					this.slot = slot
+					this.slot = this.raw.slot
 					this.locked = locked
+					if (exists(this.locked) === false) this.locked = 0
 					this.abno = this.id
-					this.raw = gear.gifts.find(g => Number(g.id) === Number(id))
 				}
 			}
 			
