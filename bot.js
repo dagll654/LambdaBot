@@ -1454,14 +1454,12 @@ statsString.join(""),
 			
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
-				console.log(cUser.giftArray)
-				console.log(inventoryG)
-				if (l = 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`)
+				if (l === 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n	")
 				else gifts = inventoryG.map(g => `${bck}${g.index})${bck} (${g.abno}) ${g.raw.name} - ${g.raw.text}`)
 			}
 			updateGifts()
 			
-			cCh.send(header + `\n		Gifts:\n	\n\n` + acts).then(menumsg => {
+			cCh.send(header + `		Gifts:\n	\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
@@ -1484,7 +1482,7 @@ statsString.join(""),
 						switch (menuIndex) {
 							case "main":
 								
-								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
+								menumsg.edit(menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts))
 								if (ret === 1) {ret = 0; k = 1; break}
 								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
 								else k = 1
