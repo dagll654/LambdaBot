@@ -660,8 +660,7 @@ function databaseAbnormalities() {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	result.forEach(r => dbnos.push(r))
-	console.log(result)
+	result.forEach(r => console.log(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
@@ -675,7 +674,6 @@ function databaseAbnormalities() {
 		})
 	})
 	})
-	console.log(dbnos)
 }
 
 // Gets the employee data from the database
