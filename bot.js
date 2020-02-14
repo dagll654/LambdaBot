@@ -13,7 +13,7 @@ var pool = db.createPool({
 	host: "johnny.heliohost.org",
 	user: "dagll_bot",
 	password: process.env.DB_PASS,
-	database: "dagll_lambdabase"
+	database: "dagll_lambdabot1337"
 })
 // Getting a connection
 pool.getConnection(function (err, connection) {
