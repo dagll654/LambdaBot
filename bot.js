@@ -580,6 +580,9 @@ function eArrPush(e, arr = dbployees) {
 	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
 }
 // Push an abno into an array
+function aArrPush(a, arr = dbnos) {
+	arr.push(new clAbn(a.id, a.state, a.qcounter, a.effects))
+}
 
 // Ticks all employees' effects
 function globalEffectTick() {
@@ -657,7 +660,7 @@ function databaseAbnormalities() {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	result.forEach(r => dbnos.push(r))
+	result.forEach(r => aArrPush(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
@@ -671,6 +674,7 @@ function databaseAbnormalities() {
 		})
 	})
 	})
+	console.log(dbnos)
 }
 
 // Gets the employee data from the database
