@@ -1521,9 +1521,9 @@ statsString.join(""),
 									let gift = inventoryG.find(g => g.index === Number(mr[0]))
 									let newGiftArray = cUser.giftArray
 									newGiftArray.find(g => Number(g[1]) === gift.id).push(1)
-									console.log(newGiftArray)
-								} else {console.log(inventoryG); console.log(mr[0])}
-								k = 1
+									cUser.gifts = newGiftArray.map(g => g.join("/")).join("|")
+									ret = 1
+								} else k = 1
 							}
 							break
 							
