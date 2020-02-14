@@ -10,10 +10,10 @@ const simpleCombat = require("./simpleCombat.js") // The simple version of comba
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 var pool        = db.createPool({
 	connectionLimit : 10, // default = 10
-	host: "sql7.freesqldatabase.com",
-	user: "sql7314688",
+	host: "localhost",
+	user: "id12583885_dagll",
 	password: process.env.DB_PASS,
-	database: "sql7314688"
+	database: "id12583885_lambdabase"
 })
 // Getting a connection
 pool.getConnection(function (err, connection) {
@@ -634,6 +634,7 @@ function updateData() {
 
 // Functions like databaseEmployees()
 function databaseAbnos() {
+	return
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
