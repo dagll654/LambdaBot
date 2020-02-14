@@ -10,7 +10,7 @@ const simpleCombat = require("./simpleCombat.js") // The simple version of comba
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 var pool = db.createPool({
 	connectionLimit : 10, // default = 10
-	host: "heliohost.org",
+	host: "johnny.heliohost.org",
 	user: "dagll_bot",
 	password: process.env.DB_PASS,
 	database: "dagll_lambdabase"
