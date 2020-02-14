@@ -1455,7 +1455,6 @@ statsString.join(""),
 			case "g": {
 			
 			function giftInventory(emp, channel) {
-			
 			class localGift { // Because it fucking refuses to work without a class.
 				constructor(id, index, slot, locked) {
 					this.raw = gear.gifts.find(g => Number(g.id) === Number(id))
@@ -1464,19 +1463,15 @@ statsString.join(""),
 					this.slot = this.raw.slot
 					this.locked = locked
 					if (exists(this.locked) === false) this.locked = 0
-					this.abno = this.id
+					this.abno = this.raw.code.toUpperCase()
 				}
 			}
-			
 			cUser = emp
 			const cCh = channel
-			
 			const header = "\n```mb\n 📦 | Showing the gift inventory of employee " + cUser.tag + "```\n"
 			const acts = `Type in 'lock' to open the gift locking menu or 'exit' to leave.`
-			
 			let inventoryG
 			let gifts
-			
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
 				if (l === 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n		")
@@ -1484,7 +1479,7 @@ statsString.join(""),
 			}
 			updateGifts()
 			
-			cCh.send(header + `\n		Gifts: ${gifts}\n\n` + acts).then(menumsg => {
+			cCh.send(header + `\n		Gifts: \n${gifts}\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
