@@ -163,7 +163,7 @@ class cEmp {
 		return iN	
 	}
 	get giftArray() {
-		if (exists(this.gifts)) return this.gifts.split("/").map(g => g.split("|"))
+		if (exists(this.gifts)) return this.gifts.split("|").map(g => g.split("/"))
 		else return []
 	}
 	getBox(abno) {
