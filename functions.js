@@ -413,11 +413,13 @@ exports.effectApplication = {
 	},
 	"workCD": function workCD (employee, boxes) {
 		if (employee.luck > 500) {employee.working = 0; return false}
+		console.log(`Luck: ${employee.luck}`)
 		let effects = employee.effectArray
 		let fatigueMod = 0
 		if (effects.some(e => e[0] === "3")) {
 			fatigueMod = Number(effects.find(e => e[0] === "3")[3])
 		} 
+		console.log(`FMod: ${fatigueMod}`)
 		effects.push([2, Math.round(Number(boxes)/1.7) + fatigueMod, "Work cooldown"])
 		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
@@ -429,6 +431,8 @@ exports.effectApplication = {
 			let riskMod = employee.stats[4] - risk + 1
 			fatigue[3] = Number(fatigue[4]) + riskMod
 			fatigue[1] = 40 + Number(fatigue[4])
+			console.log(`Fatigue (l): ${fatigue}`)
+			console.log(`Fatigue (f): ${effects.find(e => e[0] === "3")}`)
 		} else effects.push([3, 40, "Fatigue", 0])
 		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
