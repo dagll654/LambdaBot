@@ -8,15 +8,21 @@ const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const simpleCombat = require("./simpleCombat.js") // The simple version of combat
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
-var pool = db.createPool({
+/* var pool = db.createPool({
 	connectionLimit : 10, // default = 10
-	host: "johnny.heliohost.org:2083",
+	host: "johnny.heliohost.org",
 	user: "dagll_bot",
 	password: process.env.DB_PASS,
-	database: "dagll_lambdabot1337"
-})
+	database: "dagll_lambdabase"
+}) */
+var connection = db.createConnection({
+	host: "johnny.heliohost.org",
+	user: "dagll_bot",
+	password: process.env.DB_PASS,
+	database: "dagll_lambdabase"
+});
 // Getting a connection
-pool.getConnection(function (err, connection) {
+connection.connect(function(err) {
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
 var bch
