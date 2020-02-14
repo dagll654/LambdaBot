@@ -1453,6 +1453,7 @@ statsString.join(""),
 			
 			function updateGifts(l = 0) {
 				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
+				console.log(inventoryG)
 				if (l = 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`)
 				else gifts = inventoryG.map(g => `${bck}${g.index})${bck} (${g.abno}) ${g.raw.name} - ${g.raw.text}`)
 			}
