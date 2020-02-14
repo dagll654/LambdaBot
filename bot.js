@@ -1427,6 +1427,94 @@ statsString.join(""),
 			inv(dbployees.e(msg.author.id), msg.channel)
 			} break
 			
+			case "g": {
+			
+			function giftInventory(emp, channel) {
+			
+			class localGift { // Because it fucking refuses to work without a class.
+				constructor(id, index, slot, locked) {
+					this.id = Number(id)
+					this.index = index
+					this.slot = slot
+					this.locked = locked
+					this.abno = abn.abn.find(a => Number(a.id) === this.id).code
+					this.raw = gear.gifts.find(g => Number(g.id) === this.id)
+				}
+			}
+			
+			cUser = emp
+			const cCh = channel
+			
+			const header = "\n```mb\n 📦 | Showing the gift inventory of employee " + cUser.tag + "```\n"
+			const acts = `Type in 'lock' to open the gift locking menu or 'exit' to leave.`
+			
+			let inventoryG
+			let gifts
+			
+			function updateGifts(l = 0) {
+				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
+				if (l = 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`)
+				else gifts = inventoryG.map(g => `${bck}${g.index})${bck} (${g.abno}) ${g.raw.name} - ${g.raw.text}`)
+			}
+			updateGifts()
+			
+			cCh.send(header + `\n		Gifts:\n	\n\n` + acts).then(menumsg => {
+			
+			let menuIndex = "main"
+				
+				async function menuNavigationGift() {
+					while ((menuIndex != "exit") && (menuIndex != "timeout") && (menuIndex != "fail") && (menuIndex != "test") && (menuIndex != "interExit")) {
+					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
+					let rp = r.first()
+					if (rp != undefined) {
+					let mr = rp.content.toLowerCase().split(" ")
+					
+					if (mr[0] != "!lc") {
+					if (mr[0] != "exit") {
+					if (mr[0] === "cancel") {
+						menuIndex = "main"
+					}	
+						let ret = 0
+						let k = 0
+						let ki = 0
+						while (k === 0 && ki < 6) {
+						switch (menuIndex) {
+							case "main":
+								
+								menumsg.edit(header + `\n		Gifts: ${gifts}\n\n` + acts)
+								if (ret === 1) {ret = 0; k = 1; break}
+								if (["bullet", "equip", "discard"].includes(mr[0])) menuIndex = mr[0]
+								else k = 1
+							break
+							
+							default:
+							k = 1
+							menuIndex = "fail"
+							break
+						}
+						ki++
+						}
+						if (ki > 5) menuIndex = "fail"
+					} else menuIndex = "exit"
+					} else menuIndex = "interExit"
+					} else menuIndex = "timeout"
+
+					}).catch(console.error)
+				}
+				if (menuIndex === "exit") menumsg.edit(menumsg.content + `\n\n	You have exited the menu.`)
+				else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
+				else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
+				else if (menuIndex === "test") menumsg.edit(menumsg.content + `\n\n	Testing concluded.`)
+				else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+				else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
+				
+			}
+		
+			menuNavigationGift()
+			})}
+			giftInventory(dbployees.e(msg.author.id), msg.channel)
+			} break
+			
 			case "b": {
 			let cUser = dbployees.e(msg.author.id)
 			let cCh = msg.channel
