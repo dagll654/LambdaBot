@@ -194,7 +194,6 @@ class cEmp {
 		let amt = amount
 		let type = typeL
 		if (Array.isArray(type)) type = type[roll(type.length)]
-		console.log("TypeL: " + typeL + ", type: " + type + " " + amt)
 		switch (type.toLowerCase()) {
 			case "red":
 			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(suitObj(Number(this.suit)).level, risk)
