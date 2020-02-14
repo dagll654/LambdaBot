@@ -22,7 +22,7 @@ var connection = db.createConnection({
 	database: "dagll_lambdabase"
 });
 // Getting a connection
-connection.connect(function(err) {
+connection.connect(function(err2) {
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
 var bch
