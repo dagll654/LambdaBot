@@ -1463,7 +1463,7 @@ statsString.join(""),
 					this.slot = this.raw.slot
 					this.locked = locked
 					if (exists(this.locked) === false) this.locked = 0
-					this.abno = this.raw.code.toUpperCase()
+					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
 				}
 			}
 			cUser = emp
