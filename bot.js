@@ -1044,6 +1044,9 @@ switch (ciCmd[0]) {
 			updateData() 
 			}
 		break
+		case "abnoinit": 
+			databaseAbnos()
+			break
 		case "healtest":
 			console.log("heal test: " + dbployees.e('143261987575562240').heal("sp", 100))
 			
