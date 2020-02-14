@@ -1461,8 +1461,8 @@ statsString.join(""),
 					this.id = Number(id)
 					this.index = index
 					this.slot = this.raw.slot
-					this.locked = locked
-					if (exists(this.locked) === false) this.locked = 0
+					if (exists(this.locked) === false) this.locked = "🔒"
+					else this.locked = "🔓"
 					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
 				}
 			}
@@ -1477,13 +1477,20 @@ statsString.join(""),
 			let inventoryG
 			let gifts
 			function updateGifts(l = 0) {
-				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0]))
-				if (l === 0) gifts = inventoryG.map(g => `(${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n	")
-				else gifts = inventoryG.map(g => `${g.index}) (${g.abno}) ${g.raw.name} - ${g.raw.text}`).join("\n	")
+				inventoryG = cUser.giftArray.map((g, i) => new localGift(g[1], i+1, g[0], g[2]))
+				if (l === 0) gifts = inventoryG.map(g => `<${g.abno}> ${g.raw.name} - ${g.raw.text}`).join("\n	")
+				else {
+					gifts = inventoryG.map(g => `${g.index}) ${g.locked} <${g.abno}> ${g.raw.name} - ${g.raw.text}`)
+					gifts.forEach(g => {})
+					
+					
+					
+					//.join("\n	")
+				}
 			}
 			updateGifts()
 			
-			cCh.send(header + `\n		Gifts: \n${gifts}\n\n` + acts).then(menumsg => {
+			cCh.send(header + `\n		Gifts:\n	${gifts}\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
