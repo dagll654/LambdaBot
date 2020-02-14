@@ -193,7 +193,8 @@ class cEmp {
 	damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
 		let amt = amount
 		let type = typeL
-		if (Array.isArray(type)) type = type[roll(type.length)] 
+		if (Array.isArray(type)) type = type[roll(type.length)]
+		console.log("TypeL: " + typeL + ", type: " + type + " " + amt)
 		switch (type.toLowerCase()) {
 			case "red":
 			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(suitObj(Number(this.suit)).level, risk)
