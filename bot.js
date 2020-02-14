@@ -579,6 +579,7 @@ function work(employee1, abno1, order1, channel) {
 function eArrPush(e, arr = dbployees) {
 	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
 }
+// Push an abno into an array
 
 // Ticks all employees' effects
 function globalEffectTick() {
@@ -657,11 +658,10 @@ function databaseAbnormalities() {
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => dbnos.push(r))
-	console.log(dbnos)
 	let abnodbpush = []
 	abnos.forEach(a => {
 	if (dbnos.some(dbAbno => dbAbno.id === a.id) === false) abnodbpush.push(a.id)
-	else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
+	//else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
 	})
 	abnodbpush.forEach(e => {
 		let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
@@ -671,7 +671,6 @@ function databaseAbnormalities() {
 		})
 	})
 	})
-	console.log(dbnos)
 }
 
 // Gets the employee data from the database
@@ -687,7 +686,7 @@ function databaseEmployees() {
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
-			if (dbployees.ids().includes(e.id)) {console.log(`Employee ${e.tag} is included!`)}
+			if (dbployees.ids().includes(e.id)) {/*console.log(`Employee ${e.tag} is included!`)*/}
 			else {dbpush.push({"id": e.id, "tag": e.tag})}
 		})
 		console.log("To push:")
@@ -959,7 +958,7 @@ switch (ciCmd[0]) {
 		while (quotelog.includes(qRoll)) {qRoll = roll(qte.length) - 1}
 		quotelog.push(qRoll)
 		if (quotelog.length > Math.ceil((qte.length * 4) / 5)) quotelog.shift()
-		ch.send(qte2 + (qIndex + 1) + ": " + qte[qIndex])
+		ch.send(qte2 + (qRoll + 1) + ": " + qte[qRoll])
 	}
 	} break
 	
