@@ -1094,6 +1094,9 @@ switch (ciCmd[0]) {
 			} else ch.send("Incorrect abnormality ID.")
 			}
 		break
+		case "araw":
+			console.log(dbnos)
+		break
 		case "gift": {
 			if (getUser(csCmd[2]).id) {
 			if (abn.abn.some(a => Number(a.id) === Number(csCmd[3]))) { 
