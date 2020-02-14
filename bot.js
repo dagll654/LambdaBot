@@ -1437,7 +1437,7 @@ statsString.join(""),
 					this.index = index
 					this.slot = slot
 					this.locked = locked
-					this.abno = abn.abn.find(a => Number(a.id) === this.id).code
+					this.abno = this.id
 					this.raw = gear.gifts.find(g => Number(g.id) === this.id)
 				}
 			}
