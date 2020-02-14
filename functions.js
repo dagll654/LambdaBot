@@ -181,6 +181,9 @@ exports.gift = function(employee, abnoID, result) {
 		case 7:
 		if (employee.hp < 5 && roll(7) === 7) gRRes = [true, 0]
 		break
+		case 8:
+		if (["attachment", "repression"].includes(result["order"]) && roll(10) === 10) gRRes = [true, 0]
+		break
 		
 		default: return [false, 2]
 	}

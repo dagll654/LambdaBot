@@ -496,8 +496,12 @@
 			"text": "+2 Fortitude, +2 Prudence"
 		},
 		{	"id": "8",
-			"name": "Soda"
-			
+			"name": "Soda",
+			"slot": "mouth2",
+			"buff": 	{
+				"stat": "2|0|0|0"
+						},
+			"text": "+2 Fortitude"
 		}
 	],
 	"items":	

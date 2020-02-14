@@ -174,7 +174,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 5, 8],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "T-02-99: 'Void Dream'",
