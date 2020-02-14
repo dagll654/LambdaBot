@@ -593,6 +593,7 @@ function globalEffectTick() {
 		e.effects = effectsNew.map(eff => eff.join("/")).join("|") // Wraps the effects array up neatly and puts them on the employee
 		} else e.effects = 'null'
 		if (exists(e.effects) === false && e.effects != "null") e.effects = "null"
+		else console.log(`${e.tag}: ${effectsNew}`)
 	}
 	})
 	if (efflog >= debugVariables["effect_log"]) efflog = 0
