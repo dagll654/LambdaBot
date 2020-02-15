@@ -1084,6 +1084,18 @@ switch (ciCmd[0]) {
 			updateData() 
 			}
 		break
+		case "b":
+		case "box": // !debug[0] profile[1] hp[2] 100[3] quack[4]
+			{
+			let uid
+			let lValue
+			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
+			if (/\D/.test(ciCmd[4]) === false && jn.abnWorkable.includes(ciCmd[3])) {
+			lValue = Number(ciCmd[3])
+			dbployees.e(uid).bumpBox(ciCmd[3], lValue)
+			} else ch.send("Incorrect argument.")
+			}
+		break
 		case "a":
 			{
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
