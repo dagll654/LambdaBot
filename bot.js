@@ -1417,28 +1417,32 @@ statsString.join(""),
 							let spbullet = 0
 							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-							if ((mr[0] === "sp") || (mr[0] === "hp")) {
-							if ({"hp": hpbullet, "sp": spbullet}[mr[0]] > 0) {
-								if (cUser.dead === 1 || cUser.dead === "1") {
-									cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-									return
-									}
-								if (Number.isInteger(Number(mr[1]))) {
-									if (Number(mr[1]) > {"hp": hpbullet, "sp": spbullet}[mr[0]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr[0].toUpperCase()} bullets.`); return}
-									else if (Number(mr[1] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
-									else {
-									for (i = 0; i < Number(mr[1]); i++) 
-									{fn.effectApplication[mr[0] + "bullet"](cUser)}
-									cCh.send(`**${cUser.tag}** used ${mr[1]} ${mr[0].toUpperCase()} bullets. (${healCalc(cUser, mr[2], 15*Number(mr[1]))} ${jn[mr[0]+"heal"]}, ${cUser[mr[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr[0])]} ${jn[mr[0]]} currently)`)
-									}
-								}
-								else {
-								fn.effectApplication[mr[0] + "bullet"](cUser)
-								cCh.send(`**${cUser.tag}** used an ${mr[0].toUpperCase()} bullet. (${healCalc(cUser, mr[2], 15)} ${jn[mr[0]+"heal"]}, ${cUser[mr[0]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr[0])]} ${jn[mr[0]]} currently)`)
-								}										
+							
+							{
+							if (cUser.dead === 1) {
+							cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
+							return
 							}
-							else cCh.send(`**${cUser.tag}**, you do not have any ${mr[0].toUpperCase()} bullets.`)
+							let inventory = cUser.inventoryArray
+							if (exists(inventory)) {
+							let bullet = gear.items.find(i => i.shortcuts.includes(mr[0]))
+							if (exists(bullet)) {
+							if (bullet.usable === "true") {
+							if (inventory.some(i => i[0] === bullet.itemName)) {
+							let amount
+							if (exists(mr[1]) && /\D/.test(mr[1]) === false) {
+								amount = Number(mr[1])
+							} else amount = 1
+							if (inventory.find(i => i[0] === bullet.itemName)[1] >= amount) {
+							let effectApplied = fn.effectApplication[bullet.action](cUser, amount)
+							cCh.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
+							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
+							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
+							} else cCh.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
+							} else cCh.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
+							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
 							}
+							
 							k = 1
 							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
@@ -1658,12 +1662,12 @@ statsString.join(""),
 			} else amount = 1
 			if (inventory.find(i => i[0] === bullet.itemName)[1] >= amount) {
 			let effectApplied = fn.effectApplication[bullet.action](cUser, amount)
-			ch.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
-			} else ch.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
-			} else ch.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
-			} else ch.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
-			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
-			} else ch.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
+			cCh.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
+			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
+			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
+			} else cCh.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
+			} else cCh.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
+			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
 			} break
 			
 			case "help": {
