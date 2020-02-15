@@ -602,7 +602,7 @@ function globalEffectTick() {
 		effects.forEach(eff => {
 		if (eff[0] === "0") e.heal("hp", 0.1) // Fairies' effect heals 0.1 hp per tick (second)
 		if (Number(e.dead) === 1 && persistentEffects.includes(eff[0]) === false) eff = 'null' // If the effect is EGO change cooldown then it doesn't get removed on death
-		if (eff[1] != "inf") { // We don't touch inf effects
+		else if (eff[1] != "inf") { // We don't touch inf effects
 		if (Number(e.dead) === 1) {
 			if (eff[0] === "1") {eff[1] -= 1; if (eff[1] > 0) effectsNew.push(eff)}
 			else eff[1] = 0
@@ -617,9 +617,22 @@ function globalEffectTick() {
 		else if (efflog === debugVariables["effect_log"]) console.log(`${e.tag}: ${effectsNew}`)
 	}
 	})
-	/* dbnos.forEach(a => {
-		if (exists(a.effects))
-	}) */
+	dbnos.forEach(a => {
+	let effects = []
+	let effectsNew = []
+		if (exists(a.effects)) {
+		effects = a.effectArray.filter(e => exists(e[0])) // Filter out any effects that are null or otherwise nonexistent
+		effects.forEach(eff => {
+			if (exists(eff)) {
+			let effectNew = eff
+			effectNew[1] -= 1
+			if (effectNew[1] > 0) effectsNew.push(effectNew)
+			}
+		})
+		}
+		a.effects = effectsNew.map(eff => eff.join("/")).join("|")
+		if (exists(a.effects) === false) a.effects = 'null'
+	})
 	if (efflog >= debugVariables["effect_log"]) efflog = 0
 }
 
@@ -703,7 +716,6 @@ function databaseAbnormalities() {
 		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
 		})
 	})
-	console.log(dbnos)
 	})
 }
 
