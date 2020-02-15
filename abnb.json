@@ -217,7 +217,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 999],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "T-06-27: '1.76 MHz'",

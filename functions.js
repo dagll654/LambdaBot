@@ -324,7 +324,7 @@ exports.effectApplication = {
 			return [true, "\n	You have fallen asleep. Good night, sweet prince."]
 		} else return [false]
 	},
-	"10": function a10 (employee, result, workorder) {
+	"10": function a10 (employee, result, workorder, dbno) {
 		if (employee.prudL < 30 || workorder === "insight") {
 			employee.hp = 0
 			employee.sp = 0

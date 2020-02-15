@@ -60,14 +60,6 @@ votingteam = ""
 voting = 0	
 efflog = 0
 
-let statLevelArray = []// Yes, this is an ass-backwards way of doing this. I don't really care.
-for (i = 30; i < 100; i++) {
-	if (i < 45) statLevelArray.push([2, "II"])
-	else if (i < 65) statLevelArray.push([3, "III"])
-	else if (i < 85) statLevelArray.push([4, "IV"])
-	else if (i < 100) statLevelArray.push([5, "V"])
-}
-
 // Wait
 function wait(msc) {
 	return new Promise(resolve => {
@@ -533,7 +525,7 @@ function work(employee1, abno1, order1, channel) {
 		else if (boxTotal >= cAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
 		else {mood = jn.badresult; moodResult = 0}
 		if (cAbno.effect[0] === true) {
-			let moodEffect = fn.effectApplication[cAbno.id](e, moodResult, order)
+			let moodEffect = fn.effectApplication[cAbno.id](e, moodResult, order, dbnos.e(cAbno.id))
 			if (moodEffect[0] === true) moodEffectResult = moodEffect[1]
 		}
 		if (damageArray.length === 0) damageArray.push("none")
@@ -561,7 +553,7 @@ function work(employee1, abno1, order1, channel) {
 		if (cAbno.gift === "true") {
 			let gifttxt = ""
 			let gift = gear.gifts.find(g => g.id === cAbno.id)
-			let giftRoll = fn.gift(e, cAbno.id, {"mood": moodResult, "order": order})
+			let giftRoll = fn.gift(e, cAbno.id, {"mood": moodResult, "order": order, "dbno": dbnos.e(cAbno.id)})
 			if (giftRoll[0] === true) {
 				gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
 				if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
@@ -1128,7 +1120,7 @@ switch (ciCmd[0]) {
 		case "a":
 			{
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
-			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
+			let cAbno = dbnos.e(csCmd[2])
 			console.log(cAbno)
 			} else ch.send("Incorrect abnormality ID.")
 			}

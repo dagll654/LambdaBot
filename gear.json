@@ -502,6 +502,14 @@
 				"stat": "2|0|0|0"
 						},
 			"text": "+2 Fortitude"
+		},
+		{	"id": "10",
+			"name": "Red Eyes",
+			"slot": "eye",
+			"buff": 	{
+				"stat": "0|0|3|0"
+						},
+			"text": "+3 Temperance"
 		}
 	],
 	"items":	
