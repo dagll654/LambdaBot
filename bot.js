@@ -1073,12 +1073,12 @@ switch (ciCmd[0]) {
 			else ch.send("Error: incorrect usage.")
 		break
 		case "p":
-		case "profile": // !debug[0] profile[1] quack[4]2 hp[2]3 100[3]4 
+		case "profile": // !debug[0] profile[1] quack[2] hp[3] 100[4] 
 			{
 			let uid
 			let lValue
 			let i = 0
-			let argument = ciCmd[4]
+			let argument = ciCmd.slice(4).join(" ")
 			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
 			if (/\D/.test(argument) === false && dbployees.e(uid)[ciCmd[3]] === Number(dbployees.e(uid)[ciCmd[3]])) lValue = Number(argument)
 			else lValue = argument
