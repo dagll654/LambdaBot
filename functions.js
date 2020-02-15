@@ -195,6 +195,7 @@ exports.gift = function(employee, abnoID, result) {
 		default: return [false, 2]
 	}
 	} else gRRes = [true, 0]
+	console.log("Test Alpha")
 	if (employee.luck > 1000) gRRes = [true, 0]
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
@@ -203,6 +204,7 @@ exports.gift = function(employee, abnoID, result) {
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
 		giftManip(employee, abnoID, "add")
+		console.log("Test Beta")
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
@@ -241,7 +243,6 @@ exports.effects = {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]
 				exports.gift(employee, "14", {"override": true})
-				console.log("death bear moment")
 				}
 				else {
 					let newEffects = []
