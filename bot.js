@@ -1115,13 +1115,21 @@ switch (ciCmd[0]) {
 			} else ch.send("Incorrect argument.")
 			}
 		break
-		case "a":
+		case "ap":
 			{
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
 			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
 			if (cAbno[ciCmd[3]] != undefined) {
 				dbnos.find(a => Number(a.id) === Number(csCmd[2]))[ciCmd[3]] = ciCmd[4]
 			} else ch.send("Incorrect abnormality property.")
+			} else ch.send("Incorrect abnormality ID.")
+			}
+		break
+		case "a":
+			{
+			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
+			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
+			console.log(cAbno)
 			} else ch.send("Incorrect abnormality ID.")
 			}
 		break
