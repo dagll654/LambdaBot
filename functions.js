@@ -329,6 +329,15 @@ exports.effectApplication = {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
+			if (exists(dbno.effects) === false) dbno.effects = "cocoon/600"
+			else {
+				let newEffects = dbno.effectArray
+				if newEffects.some(e => e[0] === "cocoon") {
+					let eff = newEffects.find(e => e[0] === "cocoon")
+					eff[1] = Number(eff[1]) + 600
+					dbno.effects = newEffects.map(a => a.join("/")).join("|")
+				} else dbno.effects += "|cocoon/600"
+			}
 			return [true, "\n	You have been cocooned. I hope you like getting digested."]
 		} else return [false]
 	},
