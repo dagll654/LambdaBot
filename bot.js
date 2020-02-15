@@ -1073,25 +1073,34 @@ switch (ciCmd[0]) {
 			else ch.send("Error: incorrect usage.")
 		break
 		case "p":
-		case "profile": // !debug[0] profile[1] hp[2] 100[3] quack[4]
+		case "profile": // !debug[0] profile[1] quack[4]2 hp[2]3 100[3]4 
 			{
 			let uid
 			let lValue
-			if (exists(getUser(ciCmd[4]))) uid = getUser(ciCmd[4]).id; else uid = '143261987575562240'
-			if (/\D/.test(ciCmd[3]) === false && dbployees.e(uid)[ciCmd[2]] === Number(dbployees.e(uid)[ciCmd[2]])) lValue = Number(ciCmd[3])
-			else lValue = ciCmd[3]
-			dbployees.e(uid)[ciCmd[2]] = lValue
+			let i = 0
+			let argument = []
+			if (ciCmd.length > 5) {
+				for (i = 5; i < ciCmd; i++) {
+				argument.push(ciCmd[i])
+				}
+				argument = argument.join(" ")
+			}
+			else argument = ciCmd[4]
+			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
+			if (/\D/.test(argument) === false && dbployees.e(uid)[ciCmd[3]] === Number(dbployees.e(uid)[ciCmd[3]])) lValue = Number(argument)
+			else lValue = argument
+			dbployees.e(uid)[ciCmd[3]] = lValue
 			updateData() 
 			}
 		break
 		case "b":
-		case "box": // !debug[0] profile[1] hp[2] 100[3] quack[4]
+		case "box": // !debug[0] box hp[2] 100[3] quack[4]
 			{
 			let uid
 			let lValue
 			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
 			if (/\D/.test(ciCmd[4]) === false && jn.abnWorkable.includes(ciCmd[3])) {
-			lValue = Number(ciCmd[3])
+			lValue = Number(ciCmd[4])
 			dbployees.e(uid).bumpBox(ciCmd[3], lValue)
 			} else ch.send("Incorrect argument.")
 			}
