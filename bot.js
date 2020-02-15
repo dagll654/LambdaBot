@@ -1245,6 +1245,8 @@ switch (ciCmd[0]) {
 				if (dbployees.e(msg.author.id).effectArray.some(e => Number(e[0]) === 2)) {
 					onCooldown = true
 					cdVal = dbployees.e(msg.author.id).effectArray.find(e => Number(e[0]) === 2)[1]
+					ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${Number(cdVal) + 1} second(s))`)
+					return
 				}
 				if (onCooldown === false) {
 				if (effectDead === false) {
@@ -1256,7 +1258,7 @@ switch (ciCmd[0]) {
 					dbployees.e(msg.author.id).effects = "null"
 					ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
 				}
-				} else ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${Number(cdVal) + 1} second(s))`)
+				}
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
