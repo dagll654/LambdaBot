@@ -1439,8 +1439,8 @@ statsString.join(""),
 							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
 							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
 							} else cCh.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
-							} else cCh.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
-							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
+							}
+							}
 							}
 							
 							k = 1
