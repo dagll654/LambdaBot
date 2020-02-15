@@ -502,7 +502,7 @@ exports.effectApplication = {
 	}
 }
 
-exports.effectSCInfluence = function effectSCInfluence(dbno) {
+exports.effectSCInfluence = function (dbno) {
 	switch (Number(dbno.id)) {
 		case 10:
 			if (dbno.effectArray.some(e => e[0] === "cocoon")) 
