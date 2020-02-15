@@ -332,7 +332,7 @@ exports.effectApplication = {
 			if (exists(dbno.effects) === false) dbno.effects = "cocoon/600"
 			else {
 				let newEffects = dbno.effectArray
-				if newEffects.some(e => e[0] === "cocoon") {
+				if (newEffects.some(e => e[0] === "cocoon")) {
 					let eff = newEffects.find(e => e[0] === "cocoon")
 					eff[1] = Number(eff[1]) + 600
 					dbno.effects = newEffects.map(a => a.join("/")).join("|")
