@@ -185,7 +185,10 @@ exports.gift = function(employee, abnoID, result) {
 		if (employee.hp < 5 && roll(7) === 7) gRRes = [true, 0]
 		break
 		case 8:
-		if (["attachment", "repression"].includes(result["order"]) && roll(10) === 10) gRRes = [true, 0]
+		if (["attachment", "repression"].includes(result["order"]) && roll(7) === 7) gRRes = [true, 0]
+		break
+		case 10:
+		if (result["dbno"].effectArray.some(e => e[0] === "cocoon") && roll(5) === 5) gRRes = [true, 0]
 		break
 		
 		default: return [false, 2]
