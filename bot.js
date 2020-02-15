@@ -1237,9 +1237,10 @@ switch (ciCmd[0]) {
 				let effectDeathCause = ""
 				let onCooldown = false
 				let cdVal = 0
-				if (fn.effects.deathOnWork(dbployees.e(msg.author.id), ciCmd[2])[0] === true) {
+				let deathOnWork = fn.effects.deathOnWork(dbployees.e(msg.author.id), ciCmd[2])
+				if (deathOnWork[0] === true) {
 					effectDead = true
-					effectDeathCause = fn.effects.deathOnWork(dbployees.e(msg.author.id), ciCmd[2])[2]
+					effectDeathCause = deathOnWork[2]
 				}
 				if (dbployees.e(msg.author.id).effectArray.some(e => Number(e[0]) === 2)) {
 					onCooldown = true
