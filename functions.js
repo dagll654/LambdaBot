@@ -444,7 +444,7 @@ exports.effectApplication = {
 			fatigueMod = Number(effects.find(e => e[0] === "3")[3])
 		} 
 		console.log(`FMod: ${fatigueMod}`)
-		effects.push([2, Math.round(Number(boxes)/1.7) + Math.floor(fatigueMod/3), "Work cooldown"])
+		effects.push([2, Math.round((Math.round(Number(boxes)/1.7) + Math.floor(fatigueMod/3))/1.5), "Work cooldown"])
 		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
 	"fatigue": function fatigue (employee, risk) {
