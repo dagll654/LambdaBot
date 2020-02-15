@@ -195,8 +195,6 @@ exports.gift = function(employee, abnoID, result) {
 		default: return [false, 2]
 	}
 	} else gRRes = [true, 0]
-	console.log("Test Alpha")
-	console.log(gRRes)
 	if (employee.luck > 1000) gRRes = [true, 0]
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
@@ -205,16 +203,13 @@ exports.gift = function(employee, abnoID, result) {
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
 		giftManip(employee, abnoID, "add")
-		console.log("Test Beta")
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
-		console.log("Test Gamma")
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
 	giftManip(employee, abnoID, "add")
 	gRRes = [true, 1]
 	} else gRRes = [false, 1]
 	}
-	console.log(gRRes)
 	return gRRes
 }
 
