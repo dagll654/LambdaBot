@@ -1723,9 +1723,21 @@ statsString.join(""),
 			if (jn.abnWorkable.includes(ciCmd[2])) {
 			let cAbno = abno(ciCmd[2])
 			let cDbno = dbnos.e(cAbno.id)
-			const header = "\n```mb\n **ℹ️** | Showing information about the abnormality " + cAbno.name + "```\n"
-			
-			ch.send(header + `${jn['qliphothcounter']} Qliphoth Counter: ${cDbno.qcounter}\nState: ${cDbno.state}`)
+			const header = "\n```mb\n ℹ️ | Showing information about the abnormality " + cAbno.name + "```\n"
+			let special = []
+			switch (cAbno.code) {
+				case "t-02-43": {
+				let cocoons = 0
+				if (exists(cDbno.effectArray)) {
+				if (cDbno.effectArray.some(e => e[0] === "cocoon")) {
+					cocoons = Math.ceil(Number(cDbno.effectArray.find(e => e[0] === "cocoon")[1])/600)
+				}}
+				special.push("\n Cocoons: " + cocoons)
+				} break
+				default:
+				break
+			}
+			ch.send(header + `${jn['qliphothcounter']} Qliphoth Counter: ${cDbno.qcounter}\nState: ${cDbno.state}${special.join("")}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
