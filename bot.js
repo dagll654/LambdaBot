@@ -1136,6 +1136,9 @@ switch (ciCmd[0]) {
 		case "araw":
 			console.log(dbnos)
 		break
+		case "afix":
+			dbnos.forEach(d => {d.qcounter = "X"; d.state = "normal"})
+		break
 		case "gift": {
 			if (getUser(csCmd[2]).id) {
 			if (abn.abn.some(a => Number(a.id) === Number(csCmd[3]))) { 
@@ -1722,7 +1725,7 @@ statsString.join(""),
 			let cDbno = dbnos.e(cAbno.id)
 			const header = "\n```mb\n **ℹ️** | Showing information about the abnormality " + cAbno.name + "```\n"
 			
-			ch.send(header + `qcounter: ${cDbno.qcounter} effects: ${cDbno.effects} state: ${cDbno.state}`)
+			ch.send(header + `${jn['qliphothcounter']} Qliphoth Counter: ${cDbno.qcounter}\nState: ${cDbno.state}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
