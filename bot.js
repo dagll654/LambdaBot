@@ -668,7 +668,7 @@ function updateData() {
 	//console.log(pushBig)
 	})
 	let dbnosActual = []
-	pushBig = []
+	pushBigA = []
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => {
 	aArrPush(r, dbnosActual)
@@ -688,12 +688,12 @@ function updateData() {
 		}
 		}
 		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + a.id + "';"
-		if (exists(pushSmall)) pushBig.push(pushSmallStr)
+		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
 	})
-	pushBig.forEach(q => {
+	console.log(pushBigA)
+	pushBigA.forEach(q => {
 	queryAndWait(q, connection)
 	})
-	console.log(pushBig)
 	})
 }
 
