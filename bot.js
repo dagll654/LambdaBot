@@ -1412,7 +1412,7 @@ statsString.join(""),
 							
 							case "bullet":
 							if (menuIndex === "bullet" && ret != 1 && k != 1) {
-							let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => exists(i[0]))
+							let inv = cUser.inventoryArray
 							let hpbullet = 0
 							let spbullet = 0
 							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
@@ -1444,9 +1444,11 @@ statsString.join(""),
 							}
 							
 							k = 1
+							wait(10).then(() => {
 							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
 							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
 							menumsg.edit(header + `\n	Bullet inventory:\n		${jn.hpheal} HP Bullets: ${hpbullet}\n		${jn.spheal} SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
+							})
 							}
 							break
 							
