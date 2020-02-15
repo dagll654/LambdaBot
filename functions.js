@@ -134,7 +134,6 @@ function giftManip(employee, giftID, action) {
 			else employee.gifts = gifts[0]
 		buffs.buff(employee, gift.buff, "give")
 	} else employee.gifts = gift.slot + "/" + giftID
-	console.log("Test: ADD")
 	}
 	else if (action === "remove") {
 	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') {
@@ -144,7 +143,6 @@ function giftManip(employee, giftID, action) {
 		if (gifts != "") employee.gifts = gifts.join("|")
 		else employee.gifts = ""
 		buffs.buff(employee, gift.buff, "take")
-		console.log("Test: TAKE")
 	}
 	}
 }
@@ -179,7 +177,7 @@ exports.gift = function(employee, abnoID, result) {
 		if (result["mood"] === 2 && sinRoll === 12) gRRes = [true, 0]
 		break
 		case 5:
-		if (result["fairyDeathCheck"] === 1) gRRes = [true, 0]
+		gRRes = [false, 0]
 		break
 		case 7:
 		if (employee.hp < 5 && roll(7) === 7) gRRes = [true, 0]
@@ -191,8 +189,7 @@ exports.gift = function(employee, abnoID, result) {
 		if (result["dbno"].effectArray.some(e => e[0] === "cocoon") && roll(5) === 5) gRRes = [true, 0]
 		break
 		case 14:
-		if (result["bearDeathCheck"] === 1) gRRes = [true, 0]
-		console.log(result)
+		gRRes = [false, 0]
 		break
 		
 		default: return [false, 2]
@@ -205,9 +202,7 @@ exports.gift = function(employee, abnoID, result) {
 	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') gifts = employee.gifts.split("|")
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
-		console.log(gifts)
 		giftManip(employee, abnoID, "add")
-		console.log(gifts)
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
@@ -240,12 +235,12 @@ exports.effects = {
 			if (deathEffect.length > 0 && deathCause === "fairies") {
 				if (abn.toUpperCase() != deathEffect[2]) {
 				ret = [true, deathEffect[2], "eaten by fairies."]}
-				exports.gift(employee, "5", {"fairyDeathCheck": 1})
+				exports.gift(employee, "5", {"override": true})
 			}
 			if (deathEffect.length > 0 && deathCause === "bear") {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]
-				exports.gift(employee, "14", {"bearDeathCheck": 1})
+				exports.gift(employee, "14", {"override": true})
 				console.log("death bear moment")
 				}
 				else {
