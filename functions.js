@@ -405,6 +405,7 @@ exports.effectApplication = {
 			dbno.qcounter = 1
 			return [true, "\n	You have been made a bit *heart*-ier."]
 			}
+			console.log(result + " " + employee.tempL)
 		if (result === 0 || employee.tempL > 44) {
 			dbno.qcounter = 0
 			console.log("Test Beta")
