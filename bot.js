@@ -1715,6 +1715,18 @@ statsString.join(""),
 				ch.send(helpArr.join("\n"))
 			}} break
 			
+			case "a":
+			case "abno": { // !lc a o-03-03
+			if (jn.abnWorkable.includes(ciCmd[2])) {
+			let cAbno = abno(ciCmd[2])
+			let cDbno = dbnos.e(cAbno.id)
+			const header = "\n```mb\n **ℹ️** | Showing information about the abnormality " + cAbno.name + "```\n"
+			
+			ch.send(header + `qcounter: ${cDbno.qcounter} effects: ${cDbno.effects} state: ${cDbno.state}`)
+			
+			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
+			}
+			
 			case "assign": {
 			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 				var rtmp = ciCmd[2]
