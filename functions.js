@@ -397,7 +397,6 @@ exports.effectApplication = {
 		} else return [false]
 	},
 	"20": function a20 (employee, result, workorder, dbno) {
-		console.log("Test Alpha")
 		if (Number(dbno.qcounter) === 0) {
 			employee.hp = 0
 			employee.sp = 0
@@ -405,10 +404,8 @@ exports.effectApplication = {
 			dbno.qcounter = 1
 			return [true, "\n	You have been made a bit *heart*-ier."]
 			}
-			console.log(result + " " + employee.tempL)
 		if (result === 0 || employee.tempL > 44) {
 			dbno.qcounter = 0
-			console.log("Test Beta")
 		}
 		return [false]
 	},
