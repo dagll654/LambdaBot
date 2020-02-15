@@ -123,6 +123,11 @@ class cEmp {
 		return this.effects.split("|").map(e => e.split("/"))
 		else return []
 	}
+	get inventoryArray() {
+		if (exists(this.inventory))
+		return this.inventory.split("/").map(t => t.split("|"))
+		else return []
+	}
 	get subPointsArray() {return this.subpoints.split("|")}
 	get statBuffArray() {return this.buffs.split("|")}
 	get buffListArray() {
@@ -1636,39 +1641,30 @@ statsString.join(""),
 			case "b": {
 			let cUser = dbployees.e(msg.author.id)
 			let cCh = msg.channel
-			let mr = msg.content.toLowerCase()
-			let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
-			let hpbullet = 0
-			let spbullet = 0
-			if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-			if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-			if ((mr.split(" ")[2] === "sp") || (mr.split(" ")[2] === "hp")) {
-			if ({"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]] > 0) {
-				if (cUser.dead === 1 || cUser.dead === "1") {
-					cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-					return
-					}
-				if (Number.isInteger(Number(mr.split(" ")[3]))) {
-					if (Number(mr.split(" ")[3]) > {"hp": hpbullet, "sp": spbullet}[mr.split(" ")[2]]) {cCh.send(`**${cUser.tag}**, you do not have that many ${mr.split(" ")[2].toUpperCase()} bullets.`); return}
-					else if (Number(mr.split(" ")[3] <= 0)) {cCh.send(`**${cUser.tag}**, incorrect argument.`); return}
-					else {
-					for (i = 0; i < Number(mr.split(" ")[3]); i++) 
-					{fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)}
-					cCh.send(`**${cUser.tag}** used ${mr.split(" ")[3]} ${mr.split(" ")[2].toUpperCase()} bullets. (${healCalc(cUser, mr.split(" ")[2], 15*Number(mr.split(" ")[3]))} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
-					}
-				}
-				else {
-				fn.effectApplication[mr.split(" ")[2] + "bullet"](cUser)
-				cCh.send(`**${cUser.tag}** used an ${mr.split(" ")[2].toUpperCase()} bullet. (${healCalc(cUser, mr.split(" ")[2], 15)} ${jn[mr.split(" ")[2]+"heal"]}, ${cUser[mr.split(" ")[2]] + "/" + cUser.stats[["hp", "sp"].indexOf(mr.split(" ")[2])]} ${jn[mr.split(" ")[2]]} currently)`)
-				}										
-			}
-			else cCh.send(`**${cUser.tag}**, you do not have any ${mr.split(" ")[2].toUpperCase()} bullets.`)
-			}
+			// !lc[0] b[1] hp[2] 1[3]
+			let inventory = cUser.inventoryArray
+			if (exists(inventory)) {
+			let bullet = gear.items.find(i => i.shortcuts.includes(ciCmd[2]))
+			if (exists(bullet)) {
+			if (bullet.usable === "true") {
+			if (inventory.some(i => i[0] === bullet.itemName)) {
+			let amount
+			if (exists(ciCmd[3]) && /\D/.test(ciCmd[3]) === false) {
+				amount = Number(ciCmd[3])
+			} else amount = 1
+			if (inventory.find(i => i[0] === bullet.itemName)[1] >= amount) {
+			let effectApplied = fn.effectApplication[bullet.action](cUser, amount)
+			ch.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
+			} else ch.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
+			} else ch.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
+			} else ch.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
+			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
+			} else ch.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
 			} break
 			
 			case "help": {
 			if (drFind(msg.member) === "") {
-				ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name).")
+				ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name), e. g. !lc assign training")
 				
 			} else {
 				let helpArr = [
@@ -1734,14 +1730,18 @@ statsString.join(""),
 				if (exists(dbployees.e(msg.author.id).bufflist)) {
 					if (dbployees.e(msg.author.id).bufflist.split("|").some(b => b.startsWith("manualDebuff/" + ciCmd[3]))) {
 						ch.send("**" + msg.author.tag + "**, " + "you already have a debuff on " + ciCmd[3] + ". Remove and reapply it to change the value.")
-						break
+						return
+					}
+					if (dbployees.e(msg.author.id).buffListArray.some(b => b[0] === "manualDebuffCD")) {
+						ch.send("**" + msg.author.tag + "**, " + "you are currently on a manual debuff application cooldown. Wait until it wears off to apply another debuff.")
 						return
 					}
 				}
 				if ((dbployees.e(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]) < 17) {
 					ch.send("**" + msg.author.tag + "**, " + `the value of a stat cannot go below 17 (would be ${dbployees.e(msg.author.id).stats[jn.stats.indexOf(ciCmd[3])] - ciCmd[4]} with the specified argument)`)
 					return
-				} 
+				}	
+					fn.effectApplication['manualDebuffCD'](dbployees.e(msg.author.id))
 					fn.effectApplication['manualDebuff'](dbployees.e(msg.author.id), ciCmd[3], Number(ciCmd[4]), "apply")
 					ch.send("**" + msg.author.tag + "**, " + `applied a ${ciCmd[4]} ${emoji(ciCmd[3], ESERV())} debuff.`)
 				} else ch.send("**" + msg.author.tag + "**, " + "error: cannot give debuffs for 0 or less.")

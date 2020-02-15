@@ -507,14 +507,24 @@
 	"items":	
 	[
 		{
-		"name": "hpbullet",
+		"name": "Small HP Bullet",
 		"usable": "true",
-		"cost": 10
+		"cost": 10,
+		"shortcuts": ["hp", "hpbullet", "shp", "shpbullet"],
+		"action": "hpbullet",
+		"itemName": "hpbullet",
+		"emoji": "hpheal",
+		"affectedStat": ["hp", "fortL"]
 		},
 		{
-		"name": "spbullet",
+		"name": "Small SP Bullet",
 		"usable": "true",
-		"cost": 10
+		"cost": 10,
+		"shortcuts": ["sp", "spbullet", "ssp", "sspbullet"],
+		"action": "spbullet",
+		"itemName": "spbullet",
+		"emoji": "spheal",
+		"affectedStat": ["sp", "prudL"]
 		}
 	]
 		

@@ -7,6 +7,8 @@
 	const qte = jn.qte
 	const cmds = jn.cmds
 
+	Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
+	
 	// Check if something is not assigned a meaningful value
 	function exists(v) {
 		return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
@@ -416,6 +418,11 @@ exports.effectApplication = {
 		employee.effects = effects.join("|")
 		return [false]
 	},
+	"manualDebuffCD": function manualDebuffCD (e) {
+		if (exists(e.effectArray)) e.effects += "|manualDebuffCD/150/Manual debuff cooldown"
+		else e.effects = "manualDebuffCD/150/Manual debuff cooldown"
+		return [false]
+	},
 	"workCD": function workCD (employee, boxes) {
 		if (employee.luck > 500) {employee.working = 0; return false}
 		console.log(`Luck: ${employee.luck}`)
@@ -440,14 +447,13 @@ exports.effectApplication = {
 		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
 	"department": function department (employee, dep, action, level = 0) {
-		console.log("|" + employee.tag + "|" + dep + "|")
 		buffs['buff'](employee, jn.bufflist['department'][dep][level], action)
 		return [false]
 	},
 	"manualDebuff": function manualDebuff (employee, stat, amount, action) {
 		if (action === "apply") {
 			let bufflist = employee.bufflist
-			if (bufflist === undefined || bufflist === '' || bufflist === null) employee.bufflist = "manualDebuff/" + stat + "/" + amount
+			if (exists(bufflist) === false) employee.bufflist = "manualDebuff/" + stat + "/" + amount
 			else employee.bufflist += "|manualDebuff/" + stat + "/" + amount
 			let currentBuffs = employee.buffs.split("|")
 			currentBuffs[jn.stats.indexOf(stat)] -= amount
@@ -458,7 +464,7 @@ exports.effectApplication = {
 			let buff = employee.bufflist.split("|").find(b => {return b.startsWith("manualDebuff")}).split("/")
 			if (bufflist.length <= 1) employee.bufflist = ''
 			else {
-				employee.bufflist = employee.bufflist.split("|").filter(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => b != undefined).filter(b => b != 'null')
+				employee.bufflist = employee.bufflist.split("|").filter(b => {return (b.startsWith("manualDebuff/" + stat) === false)}).filter(b => exists(b))
 				employee.bufflist = employee.bufflist.join("|")
 			}
 			let currentBuffs = employee.buffs.split("|")
@@ -466,14 +472,22 @@ exports.effectApplication = {
 			employee.buffs = currentBuffs.join("|")
 		}
 	},
-	"hpbullet": function hpbullet (employee) {
-		employee.hp = Number(employee.hp) + healCalc(employee, "hp", 15) 
+	"hpbullet": function hpbullet (employee, amount = 1) {
+		let ret = employee.heal("hp", 20*amount)
 		if (employee.hp > employee.stats[0]) employee.hp = employee.stats[0]
+		let i = 0
+		for (i = 0; i < amount; i++) {
 		useConsumable(employee, "hpbullet")
+		}
+		return ret.shortFixed(1)
 	},
-	"spbullet": function spbullet (employee) {
-		employee.sp = Number(employee.sp) + healCalc(employee, "sp", 15) 
+	"spbullet": function spbullet (employee, amount = 1) {
+		let ret = employee.heal("sp", 20*amount)
 		if (employee.sp > employee.stats[1]) employee.sp = employee.stats[1]
+		let i = 0
+		for (i = 0; i < amount; i++) {
 		useConsumable(employee, "spbullet")
+		}
+		return ret.shortFixed(1)
 	}
 }
