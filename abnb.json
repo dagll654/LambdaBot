@@ -216,7 +216,7 @@
 				"dtype": [1, 0, 0, 0],
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 999],
-				"effect": [true],
+				"effect": [true, true],
 				"affstat": [false],
 				"gift": "true"
 			},

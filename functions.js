@@ -335,6 +335,7 @@ exports.effectApplication = {
 				if (newEffects.some(e => e[0] === "cocoon")) {
 					let eff = newEffects.find(e => e[0] === "cocoon")
 					eff[1] = Number(eff[1]) + 600
+					if (eff[1] > 2400) eff[1] = 2400
 					dbno.effects = newEffects.map(a => a.join("/")).join("|")
 				} else dbno.effects += "|cocoon/600"
 			}
@@ -498,5 +499,19 @@ exports.effectApplication = {
 		useConsumable(employee, "spbullet")
 		}
 		return ret.shortFixed(1)
+	}
+}
+
+exports.effectSCInfluence = function effectSCInfluence(dbno) {
+	switch (Number(dbno.id)) {
+		case 10:
+			if (dbno.effectArray.some(e => e[0] === "cocoon")) 
+			return Math.ceil(Number(dbno.effectArray.find(e => e[0] === "cocoon")[1])/600)*15
+			else return 0
+		break
+		
+		default:
+		return 0
+		break
 	}
 }

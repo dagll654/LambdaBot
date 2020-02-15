@@ -484,6 +484,11 @@ function work(employee1, abno1, order1, channel) {
 	if (cAbno.affstat[0] === true) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
 	}
+	if (cAbno.effect[1] === true) {
+		let sci = fn.effectApplication['effectSCInfluence'](dbnos.e(cAbno.id))
+		successChancet += sci
+		console.log("SCI: " + sci)
+	}
 	if (successChancet > 95) successChance = 95; else successChance = successChancet
 	console.log(`Success chance for ${e.tag} on ${cAbno.code}: ${successChance}%`)
 	let damageArray = []
