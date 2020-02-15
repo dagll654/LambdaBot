@@ -191,7 +191,7 @@ exports.gift = function(employee, abnoID, result) {
 		if (result["dbno"].effectArray.some(e => e[0] === "cocoon") && roll(5) === 5) gRRes = [true, 0]
 		break
 		case 14:
-		if (result["bearDeathCheck"] === 1) rRRes = [true, 0]
+		if (result["bearDeathCheck"] === 1) gRRes = [true, 0]
 		break
 		
 		default: return [false, 2]
