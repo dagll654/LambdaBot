@@ -1078,14 +1078,7 @@ switch (ciCmd[0]) {
 			let uid
 			let lValue
 			let i = 0
-			let argument = []
-			if (ciCmd.length > 5) {
-				for (i = 5; i < ciCmd; i++) {
-				argument.push(ciCmd[i])
-				}
-				argument = argument.join(" ")
-			}
-			else argument = ciCmd[4]
+			let argument = ciCmd[4]
 			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
 			if (/\D/.test(argument) === false && dbployees.e(uid)[ciCmd[3]] === Number(dbployees.e(uid)[ciCmd[3]])) lValue = Number(argument)
 			else lValue = argument
@@ -1094,7 +1087,7 @@ switch (ciCmd[0]) {
 			}
 		break
 		case "b":
-		case "box": // !debug[0] box hp[2] 100[3] quack[4]
+		case "box": // !debug[0] box[1] quack[2] o-03-03[3] 1[4]
 			{
 			let uid
 			let lValue
