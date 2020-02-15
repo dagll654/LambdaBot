@@ -486,7 +486,7 @@ function work(employee1, abno1, order1, channel) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
 	}
 	if (cAbno.effect[1] === true) {
-		let sci = fn.effectApplication['effectSCInfluence'](dbnos.e(cAbno.id))
+		let sci = fn['effectSCInfluence'](dbnos.e(cAbno.id))
 		successChancet += sci
 		console.log("SCI: " + sci)
 	}
