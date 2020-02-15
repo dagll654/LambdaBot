@@ -1119,7 +1119,7 @@ switch (ciCmd[0]) {
 			{
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
 			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
-			if (exists(cAbno[ciCmd[3]])) {
+			if (cAbno[ciCmd[3]] != undefined) {
 				dbnos.find(a => Number(a.id) === Number(csCmd[2]))[ciCmd[3]] = ciCmd[4]
 			} else ch.send("Incorrect abnormality property.")
 			} else ch.send("Incorrect abnormality ID.")
