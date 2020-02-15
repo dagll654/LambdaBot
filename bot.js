@@ -675,7 +675,6 @@ function updateData() {
 	})
 	if (err) throw err
 	dbnos.forEach((a, i) => {
-		console.log(a)
 		let aActual = dbnosActual.find(d => d.id === a.id)
 		if (exists(a) === false) return
 		let pushSmall = []
