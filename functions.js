@@ -192,6 +192,7 @@ exports.gift = function(employee, abnoID, result) {
 		break
 		case 14:
 		if (result["bearDeathCheck"] === 1) gRRes = [true, 0]
+		console.log(result)
 		break
 		
 		default: return [false, 2]
@@ -245,6 +246,7 @@ exports.effects = {
 				if (abn.toUpperCase() === "T-04-06") {
 				ret = [true, deathEffect[2], "given a big warm hug."]
 				exports.gift(employee, "14", {"bearDeathCheck": 1})
+				console.log("death bear moment")
 				}
 				else {
 					let newEffects = []
