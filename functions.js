@@ -196,6 +196,7 @@ exports.gift = function(employee, abnoID, result) {
 	}
 	} else gRRes = [true, 0]
 	console.log("Test Alpha")
+	console.log(gRRes)
 	if (employee.luck > 1000) gRRes = [true, 0]
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
