@@ -1137,7 +1137,12 @@ switch (ciCmd[0]) {
 			console.log(dbnos)
 		break
 		case "afix":
-			dbnos.forEach(d => {d.qcounter = "X"; d.state = "normal"})
+			dbnos.forEach(d => {
+				d.qcounter = "X"
+				d.state = "normal"
+				let cAbno = abn.abn.find(a => a.id === d.id)
+				if (cAbno.qcounter != undefined) d.qcounter = cAbno.qcounter
+				})
 		break
 		case "gift": {
 			if (getUser(csCmd[2]).id) {
