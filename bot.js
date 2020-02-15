@@ -129,6 +129,7 @@ class cEmp {
 	get defenseBuffArray() {return this.defensebuffs.split("|").map(b => Number(b))}
 	get defenseArray() {
 		let arr = []
+		let i = 0
 		for (i = 0; i < 4; i++) {
 		arr.push(Number(this.defenseBuffArray[i]) * suitObj(Number(this.suit)).resistance[i])
 		}
@@ -361,6 +362,7 @@ function suit(idS, d = [1, 1, 1, 1]) {
 function weapon(idW) {
 	let weapon = gear.weapons.find(w => w.id === idW.toString())
 	let wepd = `${weapon.damage[0]} - ${weapon.damage[1]} `
+	let i = 0
 	for (i = 0; i < 4; i++) {
 		if (weapon.dtype[i] > 0) {wepd += jn.dtype[i]}
 	}
@@ -1258,6 +1260,7 @@ switch (ciCmd[0]) {
 						if (aID != "o-01-01")
 						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "` ")
 					})
+					let i = 0
 					for (i = 0; i < workableArr.length; i++) {
 						if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 						workableCpx[Math.floor(i/10)].push(workableArr[i])
@@ -1972,6 +1975,7 @@ statsString.join(""),
 				workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "`  -  " + `${cBal[1] + " " + jn.pebox}`)
 				}
 			})
+			let i = 0
 			for (i = 0; i < workableArr.length; i++) {
 				if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 				workableCpx[Math.floor(i/10)].push(workableArr[i])
