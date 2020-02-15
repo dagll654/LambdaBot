@@ -679,7 +679,7 @@ function updateData() {
 		if (exists(a) === false) return
 		let pushSmall = []
 		for (const prop in a) {
-		if (exists(aActual[prop]) && prop != "luck") {
+		if (aActual[prop] != undefined && prop != "luck") {
 			let lValue = a[prop]
 			if (aActual[prop] != lValue && Number(aActual[prop]) != lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
