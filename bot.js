@@ -1725,8 +1725,7 @@ statsString.join(""),
 			ch.send(header + `qcounter: ${cDbno.qcounter} effects: ${cDbno.effects} state: ${cDbno.state}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
-			}
-			
+			} break
 			case "assign": {
 			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 				var rtmp = ciCmd[2]
