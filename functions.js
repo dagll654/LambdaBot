@@ -403,7 +403,7 @@ exports.effectApplication = {
 			employee.dead = 1
 			dbno.qcounter = 1
 			return [true, "\n	You have been made a bit *heart*-ier."]}
-		else if (result === 0 || employee.tempL > 44) {
+		if (result === 0 || employee.tempL > 44) {
 			dbno.qcounter = 0
 		}
 		return [false]
