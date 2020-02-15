@@ -190,6 +190,9 @@ exports.gift = function(employee, abnoID, result) {
 		case 10:
 		if (result["dbno"].effectArray.some(e => e[0] === "cocoon") && roll(5) === 5) gRRes = [true, 0]
 		break
+		case 14:
+		if (result["bearDeathCheck"] === 1) rRRes = [true, 0]
+		break
 		
 		default: return [false, 2]
 	}
@@ -240,7 +243,9 @@ exports.effects = {
 			}
 			if (deathEffect.length > 0 && deathCause === "bear") {
 				if (abn.toUpperCase() === "T-04-06") {
-				ret = [true, deathEffect[2], "given a big warm hug."]}
+				ret = [true, deathEffect[2], "given a big warm hug."]
+				exports.gift(employee, "14", {"bearDeathCheck": 1})
+				}
 				else {
 					let newEffects = []
 					effectArray.forEach(ef => {

@@ -302,7 +302,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 11],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "O-06-20: 'Nothing There'",

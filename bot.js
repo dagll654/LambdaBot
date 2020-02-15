@@ -482,7 +482,12 @@ function work(employee1, abno1, order1, channel) {
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
-		if (b[1] === "schance") console.log(b)
+		if (b[1] === "schance") console.log("Abno buff: " + b)
+	}
+	if (e.buffListArray.some(b => b[0] === order)) {
+		let b = e.buffListArray.find(b => b[0] === order)
+		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
+		if (b[1] === "schance") console.log("Order buff: " + b)
 	}
 	if (cAbno.affstat[0] === true) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
