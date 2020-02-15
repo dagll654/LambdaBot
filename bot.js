@@ -1641,6 +1641,10 @@ statsString.join(""),
 			case "b": {
 			let cUser = dbployees.e(msg.author.id)
 			let cCh = msg.channel
+			if (cUser.dead === 1) {
+			cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
+			return
+			}
 			// !lc[0] b[1] hp[2] 1[3]
 			let inventory = cUser.inventoryArray
 			if (exists(inventory)) {
