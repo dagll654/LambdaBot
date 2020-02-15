@@ -175,6 +175,7 @@ class cEmp {
 	statLevels(textForm = 0) { // Stat level
 		let statArray = [this.fortL, this.prudL, this.tempL, this.justL]
 		let statLevelsArray = []
+		let i = 0
 		for (i = 0; i < 4; i++) {
 			statLevelsArray.push([statLVN(statArray[i]), statLVL(statArray[i])][textForm])
 		}
