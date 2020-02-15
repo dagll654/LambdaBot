@@ -690,6 +690,7 @@ function updateData() {
 		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + a.id + "';"
 		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
 	})
+	console.log("PBA:")
 	console.log(pushBigA)
 	pushBigA.forEach(q => {
 	queryAndWait(q, connection)
