@@ -427,7 +427,7 @@
 				"damage": [3, 5],
 				"dtype": [0, 1, 0, 0],
 				"tips": ["bruh", "bruh2"],
-				"mood": [0, 9, 15]
+				"mood": [0, 9, 15],
 				"effect": [true],
 				"affstat": [false],
 				"qcounter": 1
