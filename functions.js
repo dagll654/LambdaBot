@@ -208,12 +208,13 @@ exports.gift = function(employee, abnoID, result) {
 		console.log("Test Beta")
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
+		console.log("Test Gamma")
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
 	giftManip(employee, abnoID, "add")
 	gRRes = [true, 1]
 	} else gRRes = [false, 1]
 	}
-	
+	console.log(gRRes)
 	return gRRes
 }
 
