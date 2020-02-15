@@ -396,19 +396,15 @@ exports.effectApplication = {
 				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
 		} else return [false]
 	},
-	"20": function a20 (employee, result, workorder) {
-		let effects = employee.effects.split("|")
-		if (effects.some(e => {return e.startsWith("20/")})) {
+	"20": function a20 (employee, result, workorder, dbno) {
+		if (Number(dbno.qcounter) === 0) {
 			employee.hp = 0
 			employee.sp = 0
 			employee.dead = 1
+			dbno.qcounter = 1
 			return [true, "\n	You have been made a bit *heart*-ier."]}
 		else if (result === 0 || employee.tempL > 44) {
-			if (effects.every(eff => {return (eff.startsWith("20/") === false)})) {
-				effects.push("20/inf/F-05-32")
-				effects.shift()
-				employee.effects = effects.join("|")
-				}
+			dbno.qcounter = 0
 		}
 		return [false]
 	},
