@@ -1732,12 +1732,13 @@ statsString.join(""),
 				if (cDbno.effectArray.some(e => e[0] === "cocoon")) {
 					cocoons = Math.ceil(Number(cDbno.effectArray.find(e => e[0] === "cocoon")[1])/600)
 				}}
-				special.push("\n Cocoons: " + cocoons)
+				special.push(";\n Cocoons: " + cocoons + ".")
 				} break
 				default:
+				special.push(".")
 				break
 			}
-			ch.send(header + `${jn['qliphothcounter']} Qliphoth Counter: ${cDbno.qcounter}\nState: ${cDbno.state}${special.join("")}`)
+			ch.send(header + ` ${jn['qliphothcounter']} Qliphoth Counter: (${cDbno.qcounter});\n State: ${cDbno.state}${special.join("")}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
