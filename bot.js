@@ -1142,7 +1142,7 @@ switch (ciCmd[0]) {
 			}
 		break
 		case "dbptest":
-			cs.dbptest()
+			sc.dbptest()
 		break
 		case "b":
 		case "box": // !debug[0] box[1] quack[2] o-03-03[3] 1[4]
