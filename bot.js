@@ -579,7 +579,7 @@ function work(employee1, abno1, order1, channel) {
 		console.log("WTR:" + wTimeReal)
 		if (cAbno.code === "o-01-01") {wTime = 10; wTimeReal = 10}
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Currently working, this will take approximately ${wTime} seconds.`)
-		await wait(wTimeReal)
+		await wait(Number(wTimeReal))
 		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
 			e.dead = 1
 		if (e.dead === 0) {
