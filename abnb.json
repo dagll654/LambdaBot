@@ -47,7 +47,7 @@
 				"qcounter": 2,
 				"entity": {
 					"type": "a",
-					"points": ["hp": 100],
+					"points": {"hp": 100},
 					"attack": {
 						"damage": [1, 2],
 						"dtype": [1, 0, 0, 0]
