@@ -179,6 +179,9 @@ exports.gift = function(employee, abnoID, result) {
 		case 5:
 		gRRes = [false, 0]
 		break
+		case 6:
+		if (result["pe"] === 12 && roll(3) === 3) gRRes = [true, 0]
+		break
 		case 7:
 		if (employee.hp < 5 && roll(7) === 7) gRRes = [true, 0]
 		break

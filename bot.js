@@ -566,7 +566,7 @@ function work(employee1, abno1, order1, channel) {
 		if (cAbno.gift === "true") {
 			let gifttxt = ""
 			let gift = gear.gifts.find(g => g.id === cAbno.id)
-			let giftRoll = fn.gift(e, cAbno.id, {"mood": moodResult, "order": order, "dbno": dbnos.e(cAbno.id)})
+			let giftRoll = fn.gift(e, cAbno.id, {"mood": moodResult, "order": order, "dbno": dbnos.e(cAbno.id), "pe": boxTotal})
 			if (giftRoll[0] === true) {
 				gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
 				if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 

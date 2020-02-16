@@ -131,7 +131,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 4, 8],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "T-01-54: 'Forsaken Murderer'",

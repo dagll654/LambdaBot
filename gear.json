@@ -484,8 +484,12 @@
 			"text": "+2 Temperance"
 		},
 		{	"id": "6",
-			"name": "Somewhere Spear"
-			
+			"name": "Somewhere Spear",
+			"slot": "brooch1",
+			"buff": 	{
+				"stat": "0|0|2|0"
+						},
+			"text": "+2 Temperance"
 		},
 		{	"id": "7",
 			"name": "Regret",
