@@ -575,8 +575,8 @@ function work(employee1, abno1, order1, channel) {
 		if (damageArray.length === 0) damageArray.push("none")
 		let wTime = Math.floor((cAbno.peoutput/2).shortFixed(1))
 		let wTimeReal = Math.floor(((boxTotal+neboxes)/2).shortFixed(1))
-		console.log("WT:" + wTime)
-		console.log("WTR:" + wTimeReal)
+		console.log("WT:" + wTime + " " + typeof(wTime) + " " + Number(wTime))
+		console.log("WTR:" + wTimeReal + " " + typeof(wTimeReal) + " " + Number(wTimeReal))
 		if (cAbno.code === "o-01-01") {wTime = 10; wTimeReal = 10}
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Currently working, this will take approximately ${wTime} seconds.`)
 		await wait(Number(wTimeReal))
