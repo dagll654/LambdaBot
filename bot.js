@@ -44,6 +44,7 @@ Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
 var dbployees = [] // Later filled with all employee data from the database and used everywhere
+exports.dbployees = dbployees
 var abnos = [] // Later filled with all workable abnormalities
 var dbnos = [] // Later filled with all abno data from the database
 // Debug variables
@@ -1139,6 +1140,9 @@ switch (ciCmd[0]) {
 			dbployees.e(uid)[ciCmd[3]] = lValue
 			updateData() 
 			}
+		break
+		case "dbptest":
+			cs.dbptest()
 		break
 		case "b":
 		case "box": // !debug[0] box[1] quack[2] o-03-03[3] 1[4]
