@@ -6,7 +6,7 @@ const abn = require("./abnb.json") // Abnormalities
 const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
-const simpleCombat = require("./simpleCombat.js") // The simple version of combat
+const sc = require("./simpleCombat.js") // The simple version of combat
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 /* var pool = db.createPool({
 	connectionLimit : 10, // default = 10
@@ -1191,6 +1191,12 @@ switch (ciCmd[0]) {
 			} else ch.send("Incorrect abnormality specified.")
 			} else ch.send("Incorrect user specified.")
 			} 
+			break
+		case "sudogift": {
+			if (getUser(csCmd[2]).id) {
+			fn.gift(dbployees.e(getUser(csCmd[2]).id), csCmd[3], {"override": true})
+			} else ch.send("Incorrect user specified.")
+			}
 			break
 		case "abnoinit": 
 			databaseAbnormalities()
