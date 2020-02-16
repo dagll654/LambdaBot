@@ -133,6 +133,15 @@
 			"ALEPH",
 			"LUL"
 			],
+	"panicLevels":
+			[
+			"<:calm:678543492208918538>",
+			"<:nervous:678543503776808980>",
+			"<:terrified:678543514975469570>",
+			"<:hopeless:678543532398477313>",
+			"<:overwhelmed:678543548282568715>",
+			"<:reverence:678543571682328596>"
+			],
 	"levels":	[
 				"Level I",
 				"Level II",

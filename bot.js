@@ -257,6 +257,36 @@ class cEmp {
 			return newAmount
 		}
 	}
+	panicResponse(abno) {
+		let risk = abno.risk
+		let levelDifference = (jn.risk.indexOf(risk) + 1) - this.employeeLevel
+		switch (levelDifference) {
+			case 7:
+			case 6:
+			case 5:
+				this.sp = 0
+				return 5
+			break
+			case 4:
+				this.sp = 0
+				return 4
+			break
+			case 3:
+				this.sp -= Math.round((this.prudL/100)*60)
+				return 3
+			break
+			case 2:
+				this.sp -= Math.round((this.prudL/100)*30)
+				return 2
+			break
+			case 1:
+				this.sp -= Math.round((this.prudL/100)*10)
+				return 1
+			break
+			default
+				return 0
+		}
+	}
 }
 
 // [/emp]
@@ -475,6 +505,7 @@ function work(employee1, abno1, order1, channel) {
 	let userTemp = e.tempL
 	let luck = Math.ceil(jn.risk.indexOf(cAbno.risk)/2) + e.luck
 	let userStatLevel = e.statLevels()[statIndex]
+	let panicResponse = jn.panicLevels[e.panicResponse(cAbno)]
 	
 	let successChance = 0
 	let successChancet = (userTemp * 0.002 + cAbno.workPreferences[statIndex][userStatLevel - 1])*100
@@ -542,16 +573,17 @@ function work(employee1, abno1, order1, channel) {
 			if (moodEffect[0] === true) moodEffectResult = moodEffect[1]
 		}
 		if (damageArray.length === 0) damageArray.push("none")
-		let wTime = Math.floor((cAbno.peoutput/2)*10)/10
+		let wTime = Math.floor((cAbno.peoutput/2).shortFixed(1))
+		let wTimeReal = Math.floor((boxTotal/2).shortFixed(1))
 		if (cAbno.code === "o-01-01") wTime = 20
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Currently working, this will take approximately ${wTime} seconds.`)
-		await wait(wTime*500)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Currently working, this will take approximately ${wTime} seconds.`)
+		await wait(wTimeReal*500)
 		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
 			e.dead = 1
 		if (e.dead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
 		let aRisk = jn.risk.indexOf(cAbno.risk)
@@ -577,7 +609,7 @@ function work(employee1, abno1, order1, channel) {
 		}
 		fn.effectApplication['fatigue'](e, cAbno.risk)
 		fn.effectApplication['workCD'](e, cAbno.peoutput)
-		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
 		e.working = 0
 	}
 	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
