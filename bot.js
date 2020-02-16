@@ -283,7 +283,7 @@ class cEmp {
 				this.sp -= Math.round((this.prudL/100)*10)
 				return 1
 			break
-			default
+			default:
 				return 0
 		}
 	}
