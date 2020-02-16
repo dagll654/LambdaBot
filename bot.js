@@ -1617,7 +1617,9 @@ statsString.join(""),
 					this.slot = this.raw.slot
 					if (exists(locked) === false) this.locked = "🔓"
 					else this.locked = "🔒"
+					if (abn.abn.find(a => Number(a.id) === Number(id)))
 					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
+					else this.abno = "???"
 				}
 			}
 			let cUser = emp
