@@ -765,6 +765,7 @@ function databaseEmployees() {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
+		if (err) throw err
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
@@ -786,7 +787,6 @@ function databaseEmployees() {
 				e.balancespecific += ` ${b.join("|")}`
 			})
 		})
-		if (err) throw err
 	})
 }
 
