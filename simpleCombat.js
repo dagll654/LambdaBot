@@ -54,4 +54,4 @@ let testEObject = encounter
 
 exports.testEncounter = function(channel) {initiateEncounter(testEObject, channel)}
 
-exports.dbptest = function() {console.log(main.dbployees)}
+exports.dbptest = function() {console.log(main.dbployees())}
