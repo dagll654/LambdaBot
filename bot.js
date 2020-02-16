@@ -1457,7 +1457,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-						rp.delete(250)
+					rp.delete(2000)
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -1641,7 +1641,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete(250)
+					rp.delete(2000)
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -1911,7 +1911,7 @@ statsString.join(""),
 						
 						let rp = r.first()
 			/*========*/if (rp != undefined) {
-						rp.delete(250)
+						rp.delete(2000)
 						let mr = rp.content.toLowerCase()
 						
 						if (rp.content.toLowerCase().startsWith("!lc") === false) {
