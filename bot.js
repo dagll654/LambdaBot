@@ -1366,7 +1366,7 @@ switch (ciCmd[0]) {
 			for (m = 0; m < 4; m++) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
 				let pn
-				if (cUser.statBuffArray[m] < 0) pn = "-"
+				if (cUser.statBuffArray[m] < 0) pn = ""
 				else pn = "+"
 				let statCount = `${cUser.statsReal[m]}${pn}${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
