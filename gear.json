@@ -446,6 +446,12 @@
 	"gifts": 
 	[
 		{	"id": "0"
+			"name": "Nothing",
+			"slot": "none",
+			"buff": 	{
+				"stat": "0|0|0|0"
+						},
+			"text": "Does nothing."
 		},
 		{	"id": "1",
 			"name": "The Charm",
@@ -455,7 +461,14 @@
 						},
 			"text": "+15 to all stats."
 		},
-		{	"id": "2"
+		{	"id": "2",
+			"name": "Debug",
+			"slot": "debug",
+			"buff": 	{
+				"stat": "100|100|100|100",
+				"list": "instinct/schance/100|insight/schance/100|attachment/schance/100|repression/schance/100"
+						},
+			"text": "+100 to all stats, +100% success rate to all work orders."
 		},
 		{	"id": "3",
 			"name": "Penitence",
@@ -530,6 +543,14 @@
 				"stat": "0|10|-6|0"
 						},
 			"text": "+10 Prudence, -6 Temperance"
+		},
+		{	"id": "20",
+			"name": "Logging",
+			"slot": "brooch1",
+			"buff": 	{
+				"stat": "2|0|2|0"
+						},
+			"text": "+2 Fortitude, +2 Temperance"
 		}
 	],
 	"items":	

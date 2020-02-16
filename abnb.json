@@ -440,6 +440,7 @@
 				"mood": [0, 9, 15],
 				"effect": [true],
 				"affstat": [false],
+				"gift": "true",
 				"qcounter": 1
 			},
 			{

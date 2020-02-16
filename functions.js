@@ -200,6 +200,9 @@ exports.gift = function(employee, abnoID, result) {
 			gRRes = [true, 0]
 		}
 		break
+		case 20:
+		if (employee.fortL > 44 && roll(5) === 5) gRRes = [true, 0]
+		break
 		
 		default: return [false, 2]
 	}
