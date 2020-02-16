@@ -28,7 +28,7 @@ class encounter {
 }
 
 class entity {
-	constructor(type = "a", points = ["hp": 100, "sp": 100], actionPoints = 10, id) {
+	constructor(type = "a", points = {"hp": 100, "sp": 100}, actionPoints = 10, id) {
 		this.type = type
 		this.points = points
 		this.actionPoints = actionPoints
