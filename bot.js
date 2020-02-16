@@ -296,7 +296,7 @@ function sSlotText(text) {
 	let normal = ['Brooch 1', 'Brooch 2', 'Head 1', 'Head 2', 'Mouth 1', 'Mouth 2', 'Hand 1', 'Hand 2', 'Eye', 'Face', 'Cheek', 'Back 1', 'Back 2']
 	if (technical.includes(text)) return normal[technical.indexOf(text)]
 	else if (normal.includes(text)) return technical[normal.indexOf(text)]
-	else return undefined
+	else return "idk lol"
 }
 
 function healCalc(employee, pts, amt) {

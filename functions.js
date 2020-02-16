@@ -194,6 +194,12 @@ exports.gift = function(employee, abnoID, result) {
 		case 14:
 		gRRes = [false, 0]
 		break
+		case 19:
+		if (employee.buffListArray.some(b => b[0] === "porccubusgiftcounter")) {
+		if (employee.buffListArray.find(b => b[0] === "porccubusgiftcounter")[1] > 4 && roll(5) === 5)
+			gRRes = [true, 0]
+		}
+		break
 		
 		default: return [false, 2]
 	}
@@ -397,7 +403,17 @@ exports.effectApplication = {
 				employee.sp = 0
 				employee.dead = 1
 				return [true, "\n	You just couldn't resist the pleasure and blew your load. Your brains all over the walls, that is."]
-		} else return [false]
+		} else {
+			if (exists(employee.buffListArray)) {
+				if (employee.buffListArray.some(b => b[0] === "porccubusgiftcounter")) {
+					let newBuffList = employee.buffListArray
+					newBuffList.find(b => b[0] === "porccubusgiftcounter")[1] -= -1
+					employee.bufflist = newBuffList.map(b => b.join("/")).join("|")
+				}
+				else employee.bufflist += "|porccubusgiftcounter/1"
+			} else employee.bufflist = "porccubusgiftcounter/1"
+			return [false]
+		}
 	},
 	"20": function a20 (employee, result, workorder, dbno) {
 		if (Number(dbno.qcounter) === 0) {

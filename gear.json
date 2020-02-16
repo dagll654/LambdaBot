@@ -449,7 +449,7 @@
 		},
 		{	"id": "1",
 			"name": "The Charm",
-			"slot": "brooch1",
+			"slot": "meme",
 			"buff": 	{
 				"stat": "15|15|15|15"
 						},
@@ -522,6 +522,14 @@
 				"list": "attachment/schance/3"
 						},
 			"text": "+4 Temperance, +3% Success Chance of attachment work"
+		},
+		{	"id": "19",
+			"name": "Pleasure",
+			"slot": "brooch2",
+			"buff": 	{
+				"stat": "0|10|-6|0"
+						},
+			"text": "+10 Prudence, -6 Temperance"
 		}
 	],
 	"items":	
