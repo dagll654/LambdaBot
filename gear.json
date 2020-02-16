@@ -445,7 +445,7 @@
 	
 	"gifts": 
 	[
-		{	"id": "0"
+		{	"id": "0",
 			"name": "Nothing",
 			"slot": "none",
 			"buff": 	{
