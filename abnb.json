@@ -197,7 +197,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 9],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "special"
 			},
 			{
 				"name": "T-02-43: 'Spider Bud'",
@@ -240,7 +241,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 10],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "special"
 			},
 			{
 				"name": "T-05-41: 'Little Helper'",
@@ -261,7 +263,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 10],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing requirements"
 			},
 			{
 				"name": "O-02-62: 'Bird of Judgement'",
@@ -282,7 +285,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 13],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing requirements"
 			},
 			{
 				"name": "T-04-06: 'Happy Teddy Bear'",
@@ -347,7 +351,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 9, 15],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing requirements"
 			},
 			{
 				"name": "O-03-88: 'Dimensional Refraction Variant'",
@@ -368,7 +373,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 9, 17],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing requirements"
 			},
 			{
 				"name": "T-02-71: 'The Dreaming Current'",
@@ -389,7 +395,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 6, 11],
 				"effect": [false],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing requirements"
 			},
 			{
 				"name": "O-02-98: 'Porccubus'",
@@ -410,7 +417,8 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 9, 15],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "true"
 			},
 			{
 				"name": "F-05-32: 'Warm-Hearted Woodsman'",
