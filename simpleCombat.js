@@ -35,7 +35,7 @@ class entity {
 		this.id = id
 		if (type === "a") this.combatAI = combatAIs[0]
 		if (this.type === "a") this.raw = abn.abn.find(a => a.id === id)
-		else this.raw === 
+		else this.raw === "poop"
 	}
 }
 
