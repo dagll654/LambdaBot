@@ -317,7 +317,7 @@ class clAbn {
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (/\b<@!/.test(getter) && /\d{18}/.test(getter)))
+	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@!") && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
 		let regAmazingText = ``
@@ -1600,7 +1600,7 @@ statsString.join(""),
 			}
 			updateGifts()
 			
-			cCh.send(header + `\n		Gifts:\n	${gifts}\n\n` + acts).then(menumsg => {
+			cCh.send(header + `		Gifts:\n	${gifts}\n\n` + acts).then(menumsg => {
 			
 			let menuIndex = "main"
 				
