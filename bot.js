@@ -1582,12 +1582,12 @@ statsString.join(""),
 					this.abno = abn.abn.find(a => Number(a.id) === Number(id)).code.toUpperCase()
 				}
 			}
-			cUser = emp
+			let cUser = emp
+			const cCh = channel
 			if (exists(cUser.giftArray) === false) {
 				cCh.send(`**${cUser.tag}**, you do not have any gifts.`) 
 				return
 			}
-			const cCh = channel
 			const header = "\n```mb\n 📦 | Showing the gift inventory of employee " + cUser.tag + "```\n"
 			const acts = `Type in 'lock' to open the gift locking menu or 'exit' to leave.`
 			let inventoryG
