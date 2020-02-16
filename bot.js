@@ -1590,7 +1590,7 @@ statsString.join(""),
 				else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
 				else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 				else if (menuIndex === "test") menumsg.edit(menumsg.content + `\n\n	Testing concluded.`)
-				else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+				else if (menuIndex === "interExit") menumsg.edit(menumsg.content + `	\n\nAnother command noticed, automatically exiting the menu.`)
 				else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 				
 			}
@@ -1705,7 +1705,7 @@ statsString.join(""),
 				else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
 				else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 				else if (menuIndex === "test") menumsg.edit(menumsg.content + `\n\n	Testing concluded.`)
-				else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+				else if (menuIndex === "interExit") menumsg.edit(menumsg.content + `	\n\nAnother command noticed, automatically exiting the menu.`)
 				else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 				
 			}
@@ -2023,7 +2023,7 @@ statsString.join(""),
 					else if (menuIndex === "timeout") menumsg.edit(menumsg.content + `\n\n	Menu timed out.`)
 					else if (menuIndex === "fail") menumsg.edit(menumsg.content + `\n\n	Something in the bot broke. Contact your local codemonkey to fix this issue.`)
 					else if (menuIndex === "test") wait(200).then(() => {menumsg.edit(menumsg.content + `\n\n Testing concluded.`)})
-					else if (menuIndex === "interExit") menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Another command noticed, automatically exiting the menu.`)
+					else if (menuIndex === "interExit") menumsg.edit(menumsg.content + `	\n\nAnother command noticed, automatically exiting the menu.`)
 					else if (menuIndex === "silentexit") console.log("Exited silently. Woosh!")
 					
 			/*func*/}
