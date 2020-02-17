@@ -345,6 +345,7 @@ class clAbn {
 
 function checkSimilarity(original, text1) {
 	if (text1 === undefined || original === undefined || text1 === '' || original === '') return 0
+	console.log(`O ${original} t ${text1}`)
 	let text = text1
 	if (text.length > original.length) text = text.slice(0, original.length)
 	let i = 1
