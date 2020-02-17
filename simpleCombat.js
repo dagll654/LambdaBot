@@ -49,7 +49,8 @@ function initiateEncounter(encounter, channel) {
 	
 }
 
-let testAbno = new entity(abn.abn[0].entity)
+
+let testAbno = new entity(abn.abn[0].entity.type, abn.abn[0].entity.points, abn.abn[0].entity.attack, abn.abn[0].entity.special)
 
 let testEObject = encounter
 
