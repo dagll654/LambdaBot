@@ -343,6 +343,7 @@ class clAbn {
 	}
 }
 
+// Checks how similar to original text1 is and returns a value between 0 and 1 representing the similarity (case-insensitive)
 function checkSimilarity(original, text1) {
 	if (text1 === undefined || original === undefined || text1 === '' || original === '' || text1 === null || original === null) return 0
 	console.log(`O ${original} t ${text1}`)
@@ -356,8 +357,6 @@ function checkSimilarity(original, text1) {
 	return similarity/original.length
 }
 
-
-
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
@@ -368,29 +367,8 @@ function getUser(getter) {
 		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
-		console.log(nicknames)
-		console.log(tags)
 		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
 			else return client.users.get(tags[0][0])
-		//nickname.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
-		
-		/*
-		let regAmazingText = ``
-		let getterArray = getter.split("").map((c, i) => {
-			if (i < 5) regAmazingText += `${c.toLowerCase()}`
-			else regAmazingText += `${c.toLowerCase()}*`
-		})
-		let regAmazing = new RegExp(regAmazingText, "i")
-		if (DELTAS().members.some(m => {
-			if (exists(m.nickname) === false) return false
-			return regAmazing.test(m.nickname.toLowerCase())
-			}))
-			return DELTAS().members.find(m => {
-			if (exists(m.nickname) === false) return false
-			return regAmazing.test(m.nickname.toLowerCase())
-			}).user
-		else if (DELTAS().members.some(m => regAmazing.test(m.user.tag.toLowerCase())))
-			return DELTAS().members.find(m => regAmazing.test(m.user.tag.toLowerCase())).user*/
 	}
 	return undefined
 }
