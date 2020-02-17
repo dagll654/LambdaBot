@@ -364,8 +364,8 @@ function getUser(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@!") && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
-		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
-		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
+		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname.toLowerCase(), getter)])
+		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag.toLowerCase(), getter)])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
 		console.log(nicknames)
