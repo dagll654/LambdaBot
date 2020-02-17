@@ -376,7 +376,7 @@ function getUser(getter) {
 // Like the previous one, but searches only among the employees, so it doesn't return undefined in some cases
 function getEmployee(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
+	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
 		return client.users.get(/\d{18}/.exec(getter)[0])
 	else {
 		let employeesTemp = employees.map(e => DELTAS().members.get(e.id))
