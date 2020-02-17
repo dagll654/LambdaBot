@@ -343,7 +343,10 @@ class clAbn {
 	}
 }
 
-
+function checkSimilarity(text, original) {
+	if (text === undefined || original === undefined) return 0
+	
+}
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
@@ -498,6 +501,7 @@ function statLVL(stat) {
 function work(employee1, abno1, order1, channel) {
 	
 	const e = employee1
+	e.working = 1
 	const cAbno = abno(abno1)
 	const order = order1
 	let statIndex = jn.workOrders.indexOf(order)
