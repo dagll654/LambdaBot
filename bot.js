@@ -346,7 +346,6 @@ class clAbn {
 // Checks how similar to original text1 is and returns a value between 0 and 1 representing the similarity (case-insensitive)
 function checkSimilarity(original, text1) {
 	if (text1 === undefined || original === undefined || text1 === '' || original === '' || text1 === null || original === null) return 0
-	console.log(`O ${original} t ${text1}`)
 	let text = text1.toLowerCase()
 	if (text.length > original.length) text = text.slice(0, original.length)
 	let i = 1
