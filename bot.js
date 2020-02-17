@@ -353,7 +353,7 @@ function getUser(getter) {
 	else {
 		let regAmazingText = ``
 		let getterArray = getter.split("").map((c, i) => {
-			if (i < 3) regAmazingText += `${c.toLowerCase()}`
+			if (i < 5) regAmazingText += `${c.toLowerCase()}`
 			else regAmazingText += `${c.toLowerCase()}*`
 		})
 		let regAmazing = new RegExp(regAmazingText, "i")
