@@ -343,9 +343,16 @@ class clAbn {
 	}
 }
 
-function checkSimilarity(text, original) {
-	if (text === undefined || original === undefined) return 0
-	
+function checkSimilarity(original, text1) {
+	if (text === undefined || original === undefined || text === '' || original === '') return 0
+	let text = text1
+	if (text.length > original.length) text = text.slice(0, original.length)
+	let i = 1
+	let similarity = 0
+	for (i = 1; i < original.length; i++) {
+	if (original.startsWith(text.slice(0, i))) similarity++
+	}
+	return similarity/original.length
 }
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
@@ -354,6 +361,15 @@ function getUser(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@!") && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
+		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
+		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
+		nicknames.sort((a, b) => {return b[1] - a[1]})
+		tags.sort((a, b) => {return b[1] - a[1]})
+		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
+			else return client.users.get(tags[0][0])
+		//nickname.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
+		
+		/*
 		let regAmazingText = ``
 		let getterArray = getter.split("").map((c, i) => {
 			if (i < 5) regAmazingText += `${c.toLowerCase()}`
@@ -369,7 +385,7 @@ function getUser(getter) {
 			return regAmazing.test(m.nickname.toLowerCase())
 			}).user
 		else if (DELTAS().members.some(m => regAmazing.test(m.user.tag.toLowerCase())))
-			return DELTAS().members.find(m => regAmazing.test(m.user.tag.toLowerCase())).user
+			return DELTAS().members.find(m => regAmazing.test(m.user.tag.toLowerCase())).user*/
 	}
 	return undefined
 }
