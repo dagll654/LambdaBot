@@ -350,11 +350,13 @@ function checkSimilarity(original, text1) {
 	if (text.length > original.length) text = text.slice(0, original.length)
 	let i = 1
 	let similarity = 0
-	for (i = 1; i < original.length; i++) {
-	if (original.startsWith(text.slice(0, i))) similarity++
+	for (i = 1; i <= text.length; i++) {
+	if (original.startsWith(text.slice(0, i))) similarity += 1
 	}
 	return similarity/original.length
 }
+
+
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
