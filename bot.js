@@ -346,12 +346,12 @@ class clAbn {
 function checkSimilarity(original, text1) {
 	if (text1 === undefined || original === undefined || text1 === '' || original === '' || text1 === null || original === null) return 0
 	console.log(`O ${original} t ${text1}`)
-	let text = text1
+	let text = text1.toLowerCase()
 	if (text.length > original.length) text = text.slice(0, original.length)
 	let i = 1
 	let similarity = 0
 	for (i = 1; i <= text.length; i++) {
-	if (original.startsWith(text.slice(0, i))) similarity += 1
+	if (original.toLowerCase().startsWith(text.slice(0, i))) similarity += 1
 	}
 	return similarity/original.length
 }
@@ -364,8 +364,8 @@ function getUser(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@!") && /\d{18}/.test(getter)))
 		return client.users.get(getter)
 	else {
-		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname.toLowerCase(), getter)])
-		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag.toLowerCase(), getter)])
+		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
+		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag), getter)])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
 		console.log(nicknames)
