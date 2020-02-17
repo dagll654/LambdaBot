@@ -29,10 +29,10 @@ class encounter {
 }
 
 class entity {
-	constructor(type = "a", points = {"hp": 100, "sp": 100}, attack, special, actionPoints = 10, id) {
+	constructor(type = "a", points = {"hp": 100, "sp": 100}, attack, special, /*actionPoints = 10,*/ id) {
 		this.type = type
 		this.points = points
-		this.actionPoints = actionPoints
+		this.actionPoints = 5
 		this.id = id
 		if (type === "a") this.combatAI = combatAIs[0]
 		if (this.type === "a") this.raw = abn.abn.find(a => a.id === id)
@@ -50,7 +50,7 @@ function initiateEncounter(encounter, channel) {
 }
 
 
-let testAbno = new entity(abn.abn[0].entity.type, abn.abn[0].entity.points, abn.abn[0].entity.attack, abn.abn[0].entity.special)
+let testAbno = new entity(abn.abn[0].entity.type, abn.abn[0].entity.points, abn.abn[0].entity.attack, abn.abn[0].entity.special, abn.abn[0].id)
 
 let testEObject = encounter
 
