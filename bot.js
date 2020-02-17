@@ -367,6 +367,7 @@ function getUser(getter) {
 		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
+		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
 		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
 			else return client.users.get(tags[0][0])
 	}
@@ -1223,7 +1224,7 @@ switch (ciCmd[0]) {
 		case "revive":
 			{
 			let uid
-			if (exists(getUser(ciCmd[4]))) uid = getUser(ciCmd[4]).id; else uid = '143261987575562240'
+			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
 			dbployees.e(uid).hp = dbployees.e(uid).fortL
 			dbployees.e(uid).sp = dbployees.e(uid).prudL
 			dbployees.e(uid).dead = 0
