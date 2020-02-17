@@ -28,7 +28,7 @@ class encounter {
 }
 
 class entity {
-	constructor(type = "a", points = {"hp": 100, "sp": 100}, actionPoints = 10, id) {
+	constructor(type = "a", points = {"hp": 100, "sp": 100}, attack, special, actionPoints = 10, id) {
 		this.type = type
 		this.points = points
 		this.actionPoints = actionPoints
@@ -48,10 +48,9 @@ function initiateEncounter(encounter, channel) {
 	
 }
 
-
+let testAbno = new entity(abn.abn[0].entity)
 
 let testEObject = encounter
 
+exports.entityTest = function() {console.log(testAbno)}
 exports.testEncounter = function(channel) {initiateEncounter(testEObject, channel)}
-
-exports.dbptest = function() {console.log(main.dbployees())}

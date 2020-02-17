@@ -1156,6 +1156,9 @@ switch (ciCmd[0]) {
 			} else ch.send("Incorrect argument.")
 			}
 		break
+		case "entitytest":
+			sc.entityTest()
+		break
 		case "ap":
 			{
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
