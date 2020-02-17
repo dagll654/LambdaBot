@@ -373,6 +373,23 @@ function getUser(getter) {
 	return undefined
 }
 
+function getEmployee(getter) {
+	if (exists(getter) === false) return undefined
+	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@!") && /\d{18}/.test(getter)))
+		return client.users.get(getter)
+	else {
+		let employeesTemp = employees.map(e => DELTAS().members.get(e.id))
+		let nicknames = employeesTemp.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
+		let tags = employeesTemp.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
+		nicknames.sort((a, b) => {return b[1] - a[1]})
+		tags.sort((a, b) => {return b[1] - a[1]})
+		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
+		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
+			else return client.users.get(tags[0][0])
+	}
+	return undefined
+}
+
 // Returns an emoji by name
 function emoji(nme, srv = DELTAS(), a = false, id = false) {
 	let e
@@ -1352,9 +1369,9 @@ switch (ciCmd[0]) {
 			case "p":
 			case "profile": {
 			let cUser
-			if (exists(getUser(ciCmd[2]))) {
-			if (dbployees.ids().includes(getUser(ciCmd[2]).id)) {
-				cUser = dbployees.e(getUser(ciCmd[2]).id)
+			if (exists(getEmployee(ciCmd[2]))) {
+			if (dbployees.ids().includes(getEmployee(ciCmd[2]).id)) {
+				cUser = dbployees.e(getEmployee(ciCmd[2]).id)
 			} else cUser = dbployees.e(msg.author.id)
 			} else cUser = dbployees.e(msg.author.id)
 			if (exists(cUser.tjtime) === false) cUser.tjtime === Date.now()
