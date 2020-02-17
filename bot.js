@@ -365,7 +365,7 @@ function getUser(getter) {
 		return client.users.get(getter)
 	else {
 		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter)])
-		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag), getter)])
+		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter)])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
 		console.log(nicknames)
