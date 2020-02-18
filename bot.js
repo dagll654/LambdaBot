@@ -54,7 +54,8 @@ debugVariables = {
 	'voting': 0, // Used in voting I guess
 	'heal_pulser': 1, // If 1, the heal pulser is on
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
-	'effect_log': 999 // Rules how often the effect on employees are logged
+	'effect_log': 999, // Rules how often the effect on employees are logged
+	'getLog': 0 // Logs stuff from getUser() and getEmployee()
 }
 quotelog = []
 votingteam = ""
@@ -368,6 +369,10 @@ function getUser(getter) {
 		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
+		if (debugVariables.getLog === 1) {
+			console.log(tags)
+			console.log(nicknames)
+		}
 		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
 		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
 			else return client.users.get(tags[0][0])
@@ -386,6 +391,10 @@ function getEmployee(getter) {
 		let tags = employeesTemp.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
+		if (debugVariables.getLog === 1) {
+			console.log(tags)
+			console.log(nicknames)
+		}
 		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
 		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
 			else return client.users.get(tags[0][0])
