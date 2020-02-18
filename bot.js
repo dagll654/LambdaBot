@@ -1237,6 +1237,12 @@ switch (ciCmd[0]) {
 			} else ch.send("Incorrect user specified.")
 			}
 			break
+		case "sudoungift": {
+			if (getUser(csCmd[2]).id) {
+			fn.giftManip(dbployees.e(getUser(csCmd[2]).id), csCmd[3], "remove")
+			} else ch.send("Incorrect user specified.")
+			}
+			break
 		case "abnoinit": 
 			databaseAbnormalities()
 			break
