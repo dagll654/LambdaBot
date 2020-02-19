@@ -35,8 +35,10 @@ class entity {
 		this.actionPoints = 5
 		this.id = id
 		if (type === "a") this.combatAI = combatAIs[0]
-		if (this.type === "a") this.raw = abn.abn.find(a => a.id === id)
-		else this.raw === "poop"
+	}
+	get raw() {
+		if (this.type === "a") return abn.abn.find(a => a.id === id)
+		else return main.dbployees.e(id)
 	}
 }
 
@@ -54,5 +56,8 @@ let testAbno = new entity(abn.abn[0].entity.type, abn.abn[0].entity.points, abn.
 
 let testEObject = encounter
 
-exports.entityTest = function() {console.log(testAbno)}
+exports.entityTest = function() {
+	console.log(testAbno)
+	console.log(testAbno.raw)
+}
 exports.testEncounter = function(channel) {initiateEncounter(testEObject, channel)}
