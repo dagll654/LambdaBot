@@ -593,6 +593,8 @@ function work(employee1, abno1, order1, channel) {
 		else peboxes++
 	} else e.dead = 1
 	}
+	let cHp = e.hp
+	let cSp = e.sp
 	async function asyncEdit(rMsg) {
 		let mood = ""
 		let moodResult = 0
@@ -616,7 +618,7 @@ function work(employee1, abno1, order1, channel) {
 		if (e.dead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(cHp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(cSp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
 		let aRisk = jn.risk.indexOf(cAbno.risk)
@@ -642,7 +644,7 @@ function work(employee1, abno1, order1, channel) {
 		}
 		fn.effectApplication['fatigue'](e, cAbno.risk)
 		fn.effectApplication['workCD'](e, cAbno.peoutput)
-		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Math.floor(e.hp*1000)/1000} ${jn.health}\n	Remaining SP:	${Math.floor(e.sp*1000)/1000} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Number(cHp).shortFixed(3)} ${jn.health}\n	Remaining SP:	${Number(cSp).shortFixed(3)} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
 		e.working = 0
 	}
 	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
