@@ -37,8 +37,8 @@ class entity {
 		if (type === "a") this.combatAI = combatAIs[0]
 	}
 	get raw() {
-		if (this.type === "a") return abn.abn.find(a => a.id === id)
-		else return main.dbployees.e(id)
+		if (this.type === "a") return abn.abn.find(a => a.id === this.id)
+		else return main.dbployees.e(this.id)
 	}
 }
 
