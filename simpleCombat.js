@@ -17,7 +17,7 @@ function roll(sides) {
 }
 
 combatAIs = {
-	"test": function testAI() {
+	"0": function testAI() {
 		return {"attack": 100, "special": 0}
 	}
 }
@@ -34,7 +34,8 @@ class entity {
 		this.points = points
 		this.actionPoints = 5
 		this.id = id
-		if (type === "a") this.combatAI = combatAIs[0]
+		if (type === "a") this.combatAI = combatAIs["0"]
+		else this.combatAI = "inapplicable"
 	}
 	get raw() {
 		if (this.type === "a") return abn.abn.find(a => a.id === this.id)
