@@ -17,10 +17,9 @@ function roll(sides) {
 }
 
 combatAIs = {
-	"0": function testAI() {
-		return {"attack": 100, "special": 0}
-	}
+	"0": {"attack": 100, "special": 0}
 }
+
 
 class encounter {
 	constructor(combatants) {
@@ -43,10 +42,10 @@ class entity {
 	}
 }
 
-function initiateEncounter(encounter, channel) {
+function initiateEncounter(encounter, cCh) {
 	let round = 1
 	let header = "\n```mb\n ⚔️ | Round " + round + " of some fight idk```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
-	
+	cCh.send(header)
 	
 	
 	
