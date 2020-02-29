@@ -346,6 +346,7 @@ class clAbn {
 }
 
 // Checks how similar to original text1 is and returns a value between 0 and 1 representing the similarity (case-insensitive)
+// (may be wonky)
 function checkSimilarity(original, text1) {
 	if (text1 === undefined || original === undefined || text1 === '' || original === '' || text1 === null || original === null) return 0
 	let text = text1.toLowerCase()
@@ -354,10 +355,10 @@ function checkSimilarity(original, text1) {
 	let similarity = 0
 	for (i = 1; i <= text.length; i++) {
 	if (original.toLowerCase().startsWith(text.slice(0, i))) similarity += 1
-	if (original.toLowerCase()[i-1] === text[i-1]) similarity += 1
+	if (original.toLowerCase()[i-1] === text[i-1]) similarity += 0.5
 	}
 	
-	return similarity/(text.length*2)
+	return similarity/(text.length*1.5)
 }
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
@@ -407,6 +408,8 @@ async function getUserAsync(getter) {
 			allCorrect.push(e)
 		})
 		console.log(allCorrect)
+		if (allCorrect.length > 1) ch.send("test")
+		else return client.users.get(allCorrect[0][0])
 	}
 	return undefined
 }
