@@ -1188,9 +1188,9 @@ switch (ciCmd[0]) {
 			healPulse()
 		break
 		case "var":
-			if (exists(ciCmd[2]) && exists(ciCmd[3]) && exists(debugVariables[csCmd[2]])) debugVariables[csCmd[2]] = Number(ciCmd[3])
+			if (exists(ciCmd[2]) && exists(ciCmd[3]) && debugVariables[csCmd[2]] != undefined) debugVariables[csCmd[2]] = Number(ciCmd[3])
 			else ch.send("Error: incorrect usage. " + `(${exists(ciCmd[2])} ${exists(ciCmd[3])} ${exists(debugVariables[csCmd[2]])})`)
-			console.log(debugVariables[csCmd[2]])
+			console.log(exists(0))
 		break
 		case "p":
 		case "profile": // !debug[0] profile[1] quack[2] hp[3] 100[4] 
