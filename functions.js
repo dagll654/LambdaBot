@@ -11,6 +11,7 @@
 	
 	// Check if something is not assigned a meaningful value
 	function exists(v) {
+		if (typeof(v) === 'number') return true
 		return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
 	}
 
