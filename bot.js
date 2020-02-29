@@ -402,7 +402,7 @@ async function getUserAsync(getter) {
 			else endArray = tags
 		let allCorrect = []
 		endArray.forEach(e => {
-			if e[1] === endArray[0][1]
+			if (e[1] === endArray[0][1])
 			allCorrect.push(e)
 		})
 		console.log(allCorrect)
