@@ -358,7 +358,7 @@ function checkSimilarity(original, text1) {
 	if (original.toLowerCase()[i-1] === text[i-1]) similarity += 0.5
 	}
 	
-	return similarity/(text.length*1.5)
+	return similarity/(original.length*1.5)
 }
 
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
