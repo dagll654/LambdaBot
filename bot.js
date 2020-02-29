@@ -71,7 +71,8 @@ setTimeout(() => {resolve('resolved')}, msc)
 
 // Check if something is not assigned a meaningful value
 function exists(v) {
-	return (v !== undefined) && (v !== 'undefined') && (v !== '') && (v !== null) && (v !== 'null') && (v !== [])
+	if (typeof(v) === 'number') return true
+	return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
 }
 
 // Function for finding the dep role among a member's roles
