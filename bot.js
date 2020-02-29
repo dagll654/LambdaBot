@@ -382,38 +382,6 @@ function getUser(getter) {
 	return undefined
 }
 
-// Improved, but improved getUser. Actually asks for a confirmation in some cases.
-async function getUserAsync(getter) {
-	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
-		return client.users.get(/\d{18}/.exec(getter)[0])
-	else {
-		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
-		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
-		let endArray = []
-		nicknames.sort((a, b) => {return b[1] - a[1]})
-		tags.sort((a, b) => {return b[1] - a[1]})
-		if (debugVariables.get_log === 1) {
-			console.log(tags)
-			console.log(nicknames)
-		}
-		
-		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
-		if (nicknames[0][1] > tags[0][1]) //return client.users.get(nicknames[0][0])
-			endArray = nicknames 
-			else endArray = tags
-		let allCorrect = []
-		endArray.forEach(e => {
-			if (e[1] === endArray[0][1])
-			allCorrect.push(e)
-		})
-		console.log(allCorrect)
-		if (allCorrect.length > 1) ch.send("test")
-		else return client.users.get(allCorrect[0][0])
-	}
-	return undefined
-}
-
 // Like the previous one, but searches only among the employees, so it doesn't return undefined in some cases
 function getEmployee(getter) {
 	if (exists(getter) === false) return undefined
@@ -1224,9 +1192,6 @@ switch (ciCmd[0]) {
 			dbployees.e(uid).bumpBox(ciCmd[3], lValue)
 			} else ch.send("Incorrect argument.")
 			}
-		break
-		case "guatest":
-			getUserAsync(ciCmd[2])
 		break
 		case "entitytest":
 			sc.entityTest()
