@@ -110,7 +110,7 @@
 			"resistance": [0.5, 0.5, 0.5, 0.5],
 			"level": "ALEPH",
 			"cost": 2400,
-			"requirements": [0, 0, 0, 85, 16],
+			"requirements": [0, 0, 0, 85, 5],
 			"reqString": "Justice V, Employee Level V"
 		},
 		{	"id": "14",
