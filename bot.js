@@ -1291,7 +1291,7 @@ switch (ciCmd[0]) {
 	
 	case "lobcorp":
 	case "lc": {
-	ch.send("Sorry, but the minigame's development is suspended indefinitely on account of me being cosmically stupid. As such, the `!lc` commands will no longer work.")
+	ch.send("Sorry, but the minigame's development is suspended indefinitely.")
 	return
 	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
 		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
