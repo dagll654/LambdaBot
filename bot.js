@@ -896,8 +896,8 @@ client.user.setPresence({
 
 
 // Get employee and abno data from the database
-//databaseEmployees()
-//databaseAbnormalities()
+databaseEmployees()
+databaseAbnormalities()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
 globalTicker()
 	
