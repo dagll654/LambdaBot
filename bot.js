@@ -22,7 +22,7 @@ var connection = db.createConnection({
 	database: "lacreme_bot"
 });
 // Getting a connection
-//connection.connect(function(err2) {
+connection.connect(function(err2) {
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.get('607318782624399361')} // Lambda's Deltas server
 var bch
@@ -899,7 +899,7 @@ client.user.setPresence({
 //databaseEmployees()
 //databaseAbnormalities()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
-//globalTicker()
+globalTicker()
 	
 })
 
@@ -1291,8 +1291,6 @@ switch (ciCmd[0]) {
 	
 	case "lobcorp":
 	case "lc": {
-	ch.send("Sorry, but the minigame's development is suspended indefinitely.")
-	return
 	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
 		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
 		switch (ciCmd[1]) {
@@ -2238,4 +2236,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-//}) // End
+}) // End
