@@ -150,12 +150,6 @@ class cEmp {
 		else if (statcount < 16) return 4
 		else return 5
 	}
-	get drFind() { // Returns the department role's name
-		let reg = new RegExp(`\\s{1}Team`)
-		if (DELTAS().members.get(this.id).roles.some(r => reg.test(r.name)))
-		return DELTAS().members.get(this.id).roles.find(r => reg.test(r.name)).name
-		else return undefined
-	}
 	get balanceSpecificArray() {return this.balancespecific.split(" ").map(b => b.split("|"))}
 	get stats() {return [this.fortL, this.prudL, this.tempL, this.justL, this.employeeLevel]}
 	get statsReal() {return [Number(this.fortitude), Number(this.prudence), Number(this.temperance), Number(this.justice)]}
@@ -845,7 +839,7 @@ function healPulse() {
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
-		if (e.drFind) {
+		if (drFind(e)) {
 		if (exists(e.tjtime) === false) e.tjtime = Date.now()
 		if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
 		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
@@ -877,6 +871,7 @@ async function globalTicker() {
 	}
 }
 
+// On ready
 client.on('ready', () => {
 
 bch = DELTAS().channels.get("607558082381217851");
@@ -916,6 +911,28 @@ async function dip(member, action = 0) {
 }
 let regLevel = new RegExp(`\\bLevel`)
 DELTAS().members.forEach(m => {
+	if (m.roles.some(r => r.name.split(" ")[0] === "Level")) {
+		let level = m.roles.find(r => r.name.split(" ")[0] === "Level").name
+		let index = jn.levels.indexOf(level)
+		let channelRole = DELTAS().roles.find(r => r.name === jn.risk[index])
+		let currentCRoles = m.roles.filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole)
+		if (currentCRoles.length > 0) {
+			for (const role in currentCRoles) {
+				m.removeRole(role)
+				.catch(console.error)
+			}
+		}
+		if (m.roles.array().some(r => r.id === channelRole.id) === false) {
+			m.addRole(channelRole)
+			.catch(console.error)
+		}
+	}
+	if (m.roles.some(r => r.name === "RANCHDIP")) {
+		if (m.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+		else dip(m)
+	}
+})
+/*DELTAS().members.forEach(m => {
 	if (m.roles.some(r => regLevel.test(" " + r.name))) {
 	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
 		if (m.roles.some(r => jn.risk.includes(r.name))) {
@@ -930,7 +947,7 @@ DELTAS().members.forEach(m => {
 		if (m.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
-})
+})*/
 	
 })
 
