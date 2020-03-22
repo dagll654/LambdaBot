@@ -808,7 +808,8 @@ function databaseAbnormalities() {
 }
 
 // Gets the employee data from the database
-function databaseEmployees() {
+async function databaseEmployees() {
+	return new Promise(resolve => {
 	employees = []
 	dbployees = []
 	let dbpush = []
@@ -829,7 +830,7 @@ function databaseEmployees() {
 		var sql = "INSERT INTO employees (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
 		queryAndWait(sql, connection)
 		console.log(`${e.tag} inserted!`)
-		eArrPush({e.id, e.tag})
+		eArrPush({"id": e.id, "tag": e.tag})
 		})
 		
 		dbployees.forEach(e => {
@@ -839,8 +840,8 @@ function databaseEmployees() {
 			})
 		})
 	})
-	return new Promise(resolve => {
-		setTimeout(() => {resolve('resolved')}, 1)
+	
+	resolve('resolved')
 	})
 }
 
