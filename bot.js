@@ -829,7 +829,7 @@ function databaseEmployees() {
 		var sql = "INSERT INTO employees (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
 		queryAndWait(sql, connection)
 		console.log(`${e.tag} inserted!`)
-		eArrPush(new cEmp(e.id, e.tag))
+		eArrPush({e.id, e.tag})
 		})
 		
 		dbployees.forEach(e => {
