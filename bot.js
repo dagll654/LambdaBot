@@ -1380,12 +1380,19 @@ switch (ciCmd[0]) {
 			
 			case "w":
 			case "work": {
+				console.log("0")
 			if (ciCmd[2] != "list") {
+				console.log("1")
 				if (abno(ciCmd[2])) {
+				console.log("2")
 				if (jn.abnWorkable.includes(ciCmd[2])) {
+				console.log("3")
 				if (jn.workOrders.includes(ciCmd[3])) {
+				console.log("4")
 				if (dbployees.e(msg.author.id).working === 0) {
+				console.log("5")
 				if (dbployees.e(msg.author.id).dead === 0) {
+				console.log("6")
 				let effectDead = false
 				let effectDeathCause = ""
 				let onCooldown = false
