@@ -570,12 +570,13 @@ function work(employee1, abno1, order1, channel) {
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
+		if (e.luckRollOverride == true) luckRoll = 0
 		if (cRoll > luck) {}
 		if (cRoll > successChance) {
 		if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
-		else rollArr.push([cRoll, cRoll > successChance])
+		else rollArr.push([cRoll, luckRoll + " lr/" + luck + " lrm"])
 		} 
-		else rollArr.push([cRoll, cRoll > successChance])
+		else rollArr.push([cRoll, luckRoll + " lr/" + luck + " lrm"])
 		if (cRoll > successChance && luckRoll > luck) {
 			neboxes++
 			let dmg = (roll(cAbno.damage[1] - cAbno.damage[0] + 1) - 1) + cAbno.damage[0]
