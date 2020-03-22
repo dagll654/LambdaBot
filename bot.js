@@ -1916,10 +1916,10 @@ statsString.join(""),
 			if (drFind(msg.member) === undefined) {
 			if (jn.nccideproles.includes(ciCmd[2])) {
 				async function assign(member) {
+					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
 					if (dbployees.e(msg.member.user.id) === undefined) {
 					updateData()
 					await wait(100)
-					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
 					msg.member.addRole(departmentRole)
 					await wait(100)
 					await databaseEmployees()
@@ -1927,7 +1927,6 @@ statsString.join(""),
 					console.log("New assign.")
 					}
 					else {
-					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
 					msg.member.addRole(departmentRole)
 					dbployees.e(msg.member.user.id).tjtime = Date.now()
 					console.log("Re-assign.")
