@@ -1910,27 +1910,10 @@ statsString.join(""),
 					await wait(100)
 					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + departmentRole.name + "!")
 				}
-			} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
-			} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
-			} else {ch.send("**" + msg.author.tag + "**, " + "something REALLY broke. I got nothing, dude. Report this shit.")}
-			/* This sucks, gotta rework it
-			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-				var rtmp = ciCmd[2]
-				if (jn.nccideproles.includes(rtmp)) {
-					msg.member.addRole(getRole(ncdeproles[jn.nccideproles.indexOf(rtmp)]))
-					employees.push({"id": msg.author.id, "tag": msg.author.tag, "team": drFind(msg.member), "tjtime": Date.now()})
-					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + ncdeproles[jn.nccideproles.indexOf(rtmp)] + "!")
-					async function thisshit() {
-						await wait(200)
-						databaseEmployees()
-						await wait(200)
-						databaseEmployees()
-						dbployees.e(msg.author.id).tjtime = Date.now()
-					}
-					thisshit()
-				} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
-			} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
-			*/
+				assign(msg.member)
+			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")
+			} else ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")
+			} else ch.send("**" + msg.author.tag + "**, " + "something REALLY broke. I got nothing, dude. Report this shit.")
 			} break
 			
 			case "leave": {
