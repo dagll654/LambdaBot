@@ -736,10 +736,10 @@ function updateData() {
 		}
 		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 		if (exists(pushSmall)) pushBig.push(pushSmallStr)
-		} else connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = \'" + e.id + "\'", function (err, result) {
+		} else {console.log("Deleted: "); console.log(e)}/* connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = \'" + e.id + "\'", function (err, result) {
 			if (err) throw err
 			console.log("Deleted " + e.tag + " from the database. Sad!")
-		})
+		}) */
 	})
 	pushBig.forEach(q => {
 	queryAndWait(q, connection)
