@@ -81,7 +81,7 @@ function drFind(member) {
 	if (member.roles.some(r => r.name.split(" ")[1] === "Team"))
 	return member.roles.find(r => r.name.split(" ")[1] === "Team").name
 	else return undefined
-	} else {console.log(member); return undefined}
+	} else return undefined
 }
 
 // Employee class
@@ -851,7 +851,7 @@ function healPulse() {
 		}
 		}
 		}
-		} else console.log(e)
+		}
 		}
 		healTick(em)
 		})
