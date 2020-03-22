@@ -719,7 +719,12 @@ function updateData() {
 		if (exists(e) === false) return
 		let pushSmall = []
 		for (const prop in e) {
-		if (prop == "tag") console.log(e[prop])
+		if (prop == "tag") {
+			if (DELTAS().members.get(e.id).user.tag !== e.tag) {
+			e.tag = DELTAS().members.get(e.id).user.tag
+			console.log(e.tag)
+			}
+		}
 		if (eActual[prop] != undefined && prop != "luck") {
 			let lValue = e[prop]
 			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
