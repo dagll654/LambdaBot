@@ -719,6 +719,7 @@ function updateData() {
 		if (exists(e) === false) return
 		let pushSmall = []
 		for (const prop in e) {
+		if (prop == "tag") console.log(e[prop])
 		if (eActual[prop] != undefined && prop != "luck") {
 			let lValue = e[prop]
 			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
