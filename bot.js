@@ -714,7 +714,8 @@ function updateData() {
 	eArrPush(r, dbployeesActual)
 	})
 	if (err) throw err
-	dbployees.forEach((e, i) => {
+	dbployees.forEach((e, i) => { //DELETE FROM `employees` WHERE `employees`.`userid` = \'308531879953563650\'
+		if (exists(DELTAS().members.get(e.id))) {
 		let eActual = dbployeesActual.find(d => d.id === e.id)
 		if (exists(e) === false) return
 		let pushSmall = []
@@ -735,6 +736,10 @@ function updateData() {
 		}
 		let pushSmallStr = "UPDATE `employees` SET " + pushSmall.join(", ") + " WHERE `employees`.`userid` = '" + e.id + "';"
 		if (exists(pushSmall)) pushBig.push(pushSmallStr)
+		} else connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = \'" + e.id + "\'", function (err, result) {
+			if (err) throw err
+			console.log("Deleted " + e.tag + " from the database. Sad!")
+		})
 	})
 	pushBig.forEach(q => {
 	queryAndWait(q, connection)
@@ -813,7 +818,7 @@ function databaseEmployees() {
 		console.log("To push:")
 		console.log(dbpush)
 		dbpush.forEach(e => {
-		var sql = "INSERT INTO employees (userid, usertag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
+		var sql = "INSERT INTO employees (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
 		queryAndWait(sql, connection)
 		console.log(`${e.tag} inserted!`)
 		eArrPush(new cEmp(e.id, e.tag))
