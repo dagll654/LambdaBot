@@ -230,7 +230,7 @@ exports.gift = function(employee, abnoID, result) {
 exports.effects = {
 	"deathOnWork": function(employee, abn) {
 		let ret = false
-		if (exists(employee.effects))
+		if (employee.effects !== null)
 		if (employee.effects.length > 0) {
 			let effectArray = employee.effects.split("|")
 			let deathEffect = []
