@@ -838,7 +838,8 @@ function healPulse() {
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
-		if (drFind(e)) {
+		if (drFind(DELTAS().members.get(em.id))) {
+		let e = DELTAS().members.get(em.id)
 		if (exists(e.tjtime) === false) e.tjtime = Date.now()
 		if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
 		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
