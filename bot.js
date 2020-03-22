@@ -723,7 +723,6 @@ function updateData() {
 			if (exists(DELTAS().members.get(e.id)))
 			if (DELTAS().members.get(e.id).user.tag !== e.tag) {
 			e.tag = DELTAS().members.get(e.id).user.tag
-			console.log(e.tag)
 			}
 		}
 		if (eActual[prop] != undefined && prop != "luck") {
