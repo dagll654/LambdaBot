@@ -77,9 +77,8 @@ function exists(v) {
 
 // Function for finding the dep role among a member's roles
 function drFind(member) {
-	let reg = new RegExp(`\\s{1}Team`)
-	if (member.roles.some(r => reg.test(r.name)))
-	return member.roles.find(r => reg.test(r.name)).name
+	if (member.roles.some(r => r.name.split(" ")[1] === "Team"))
+	return member.roles.find(r => r.name.split(" ")[1] === "Team").name
 	else return undefined
 }
 
