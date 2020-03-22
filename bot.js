@@ -952,6 +952,8 @@ DELTAS().members.forEach(m => {
 				m.removeRole(role)
 				.catch(console.error)
 			}
+			console.log(m.tag)
+			console.log(currentCRoles)
 		}
 		if (m.roles.array().some(r => r.id === channelRole.id) === false) {
 			m.addRole(channelRole)
@@ -1344,7 +1346,7 @@ switch (ciCmd[0]) {
 	case "lobcorp":
 	case "lc": {
 	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
-		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
+		if (dbployees.e(msg.member) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
 		switch (ciCmd[1]) {
 				
 			case "list": {
