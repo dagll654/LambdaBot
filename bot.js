@@ -727,6 +727,7 @@ function updateData() {
 			e.tag = DELTAS().members.get(e.id).user.tag
 			}
 		}
+		if (eActual)
 		if (eActual[prop] != undefined && prop != "luck") {
 			let lValue = e[prop]
 			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
