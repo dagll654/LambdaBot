@@ -108,7 +108,9 @@ class cEmp {
 		this.buffs = buffs
 		this.defensebuffs = defensebuffs
 		this.bufflist = bufflist
+		if (exists(tjtime))
 		this.tjtime = tjtime
+		else this.tjtime = Date.now()
 		this.statlimit = statlimit
 		this.gifts = gifts
 		this.inventory = inventory
@@ -819,10 +821,7 @@ async function databaseEmployees() {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
-		result.forEach(e => {
-			eArrPush(e);
-			if (e.tag === "quack#4873") console.log(e)
-			})
+		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
 			if (dbployees.ids().includes(e.id)) {/*console.log(`Employee ${e.tag} is included!`)*/}
 			else {dbpush.push({"id": e.id, "tag": e.tag})}
@@ -1915,6 +1914,7 @@ statsString.join(""),
 			if (drFind(msg.member) === undefined) {
 			if (jn.nccideproles.includes(ciCmd[2])) {
 				async function assign(member) {
+					if (dbployees.e(msg.member.user.id) === undefined) {
 					updateData()
 					await wait(100)
 					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
@@ -1922,6 +1922,14 @@ statsString.join(""),
 					await wait(100)
 					await databaseEmployees()
 					await wait(100)
+					console.log("New assign.")
+					}
+					else {
+					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
+					msg.member.addRole(departmentRole)
+					dbployees.e(msg.member.user.id).tjtime = Date.now()
+					console.log("Re-assign.")
+					}
 					dbployees.filter(e => exists(e))
 					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + departmentRole.name + "!")
 				}
@@ -1942,7 +1950,7 @@ statsString.join(""),
 					if (dbployees.e(msg.author.id).buffListArray.some(b => b[0].startsWith("team"))) {
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
 					}
-					dbployees.e(msg.author.id).tjtime = 'undefined'
+					dbployees.e(msg.author.id).tjtime = Date.now()
 					msg.member.removeRole(getRole(drFind(msg.member)))
 					collector.stop()
 				}
