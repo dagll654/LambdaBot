@@ -819,7 +819,10 @@ async function databaseEmployees() {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 		if (err) throw err
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
-		result.forEach(e => eArrPush(e))
+		result.forEach(e => {
+			eArrPush(e);
+			if (e.tag === "quack#4873") console.log(e)
+			})
 		employees.forEach(e => {
 			if (dbployees.ids().includes(e.id)) {/*console.log(`Employee ${e.tag} is included!`)*/}
 			else {dbpush.push({"id": e.id, "tag": e.tag})}
@@ -1208,6 +1211,10 @@ switch (ciCmd[0]) {
 			if (exists(ciCmd[2]) && exists(ciCmd[3]) && debugVariables[csCmd[2]] != undefined) debugVariables[csCmd[2]] = Number(ciCmd[3])
 			else ch.send("Error: incorrect usage. " + `(${exists(ciCmd[2])} ${exists(ciCmd[3])} ${exists(debugVariables[csCmd[2]])})`)
 			console.log(exists(0))
+		break
+		case "uc":
+			if (dbployees.some(d => exists(d.id) === false)) ch.send("Found one, chief.")
+			else ch.send("No anomalies in sight.")
 		break
 		case "p":
 		case "profile": // !debug[0] profile[1] quack[2] hp[3] 100[4] 
