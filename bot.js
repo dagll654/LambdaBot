@@ -744,7 +744,7 @@ function updateData() {
 			if (e.tag === undefined) {
 				console.log("What the fuck.")
 				console.log(e)
-				dbployees.filter(dbp => exists(dbp))
+				dbployees.filter(dbp => exists(dbp) && exists(dbp.id))
 			}
 			dbployees.filter(dbp => dbp.id !== e.id)
 		})
@@ -833,7 +833,8 @@ async function databaseEmployees() {
 		var sql = "INSERT INTO employees (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`;
 		queryAndWait(sql, connection)
 		console.log(`${e.tag} inserted!`)
-		eArrPush({"id": e.id, "tag": e.tag})
+		console.log(`cEmp'ing and simping: ${e.id} ${e.tag}`)
+		dbployees.push(new cEmp(e.id, e.tag))
 		})
 		
 		dbployees.forEach(e => {
