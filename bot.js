@@ -1903,12 +1903,15 @@ statsString.join(""),
 			if (jn.nccideproles.includes(ciCmd[2])) {
 				async function assign(member) {
 					updateData()
-					await wait(200)
+					await wait(100)
 					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
 					msg.member.addRole(departmentRole)
 					await wait(100)
 					databaseEmployees()
 					await wait(100)
+					databaseEmployees()
+					await wait(100)
+					dbployees.filter(e => exists(e))
 					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + departmentRole.name + "!")
 				}
 				assign(msg.member)
