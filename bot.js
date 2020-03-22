@@ -77,7 +77,7 @@ function exists(v) {
 
 // Function for finding the dep role among a member's roles
 function drFind(member) {
-	if (exists(member.roles)) {
+	if (exists(member)) {
 	if (member.roles.some(r => r.name.split(" ")[1] === "Team"))
 	return member.roles.find(r => r.name.split(" ")[1] === "Team").name
 	else return undefined
@@ -840,6 +840,7 @@ function healPulse() {
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
+		if (DELTAS().members.get(e.id) != undefined) {
 		if (drFind(DELTAS().members.get(e.id))) {
 		if (exists(e.tjtime) === false) e.tjtime = Date.now()
 		if (exists(e.buffListArray)) {
@@ -850,6 +851,7 @@ function healPulse() {
 		}
 		}
 		}
+		} else console.log(e)
 		}
 		healTick(em)
 		})
