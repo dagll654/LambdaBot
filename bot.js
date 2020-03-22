@@ -1897,6 +1897,22 @@ statsString.join(""),
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
 			case "assign": {
+			if (msg.member) {
+			if (drFind(msg.member) === undefined) {
+			if (jn.nccideproles.includes(ciCmd[2])) {
+				async function assign(member) {
+					updateData()
+					await wait(200)
+					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
+					msg.member.addRole(departmentRole)
+					await wait(100)
+					databaseEmployees()
+					await wait(100)
+					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + departmentRole.name + "!")
+				}
+			} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
+			} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
+			} else {ch.send("**" + msg.author.tag + "**, " + "something REALLY broke. I got nothing, dude. Report this shit.")}
 			/* This sucks, gotta rework it
 			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 				var rtmp = ciCmd[2]
