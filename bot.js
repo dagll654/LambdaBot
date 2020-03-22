@@ -570,7 +570,7 @@ function work(employee1, abno1, order1, channel) {
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
 		let luckRoll = roll(1000)
-		if (e.luckRollOverride == true) luckRoll = 0
+		if (e.luck_roll_override == true) luckRoll = 0
 		if (cRoll > luck) {}
 		if (cRoll > successChance) {
 		if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
