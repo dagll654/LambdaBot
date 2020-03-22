@@ -77,6 +77,7 @@ function exists(v) {
 
 // Function for finding the dep role among a member's roles
 function drFind(member) {
+	console.log("DR: " + member.user.id)
 	if (member.roles.some(r => r.name.split(" ")[1] === "Team"))
 	return member.roles.find(r => r.name.split(" ")[1] === "Team").name
 	else return undefined
