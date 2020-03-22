@@ -720,6 +720,7 @@ function updateData() {
 		let pushSmall = []
 		for (const prop in e) {
 		if (prop == "tag") {
+			if (exists(DELTAS().members.get(e.id)))
 			if (DELTAS().members.get(e.id).user.tag !== e.tag) {
 			e.tag = DELTAS().members.get(e.id).user.tag
 			console.log(e.tag)
