@@ -838,6 +838,9 @@ function databaseEmployees() {
 			})
 		})
 	})
+	return new Promise(resolve => {
+		setTimeout(() => {resolve('resolved')}, 1)
+	})
 }
 
 // The heal pulse in regenerator rooms
@@ -1907,9 +1910,7 @@ statsString.join(""),
 					let departmentRole = getRole(ncdeproles[jn.nccideproles.indexOf(ciCmd[2])])
 					msg.member.addRole(departmentRole)
 					await wait(100)
-					databaseEmployees()
-					await wait(100)
-					databaseEmployees()
+					await databaseEmployees()
 					await wait(100)
 					dbployees.filter(e => exists(e))
 					ch.send("**" + msg.author.tag + "**, " + "you have been successfully assigned to work in the " + departmentRole.name + "!")
