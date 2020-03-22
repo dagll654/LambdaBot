@@ -739,6 +739,11 @@ function updateData() {
 		} else connection.query("DELETE FROM `employees` WHERE `employees`.`userid` = \'" + e.id + "\'", function (err, result) {
 			if (err) throw err
 			console.log("Deleted " + e.tag + " from the database. Sad!")
+			if (e.tag === undefined) {
+				console.log("What the fuck.")
+				console.log(e)
+				dbployees.filter(dbp => exists(dbp))
+			}
 			dbployees.filter(dbp => dbp.id !== e.id)
 		})
 	})
@@ -1853,6 +1858,7 @@ statsString.join(""),
 			} else {
 				let helpArr = [
 					"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work, arguments in {curly brackets} are options and only one needs to be specified.\n",
+					"	`!lc assign {control/training/extraction etc}` - assigns you to the specified department.",
 					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
 					"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
@@ -1891,6 +1897,7 @@ statsString.join(""),
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
 			case "assign": {
+			/* This sucks, gotta rework it
 			if (deproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
 				var rtmp = ciCmd[2]
 				if (jn.nccideproles.includes(rtmp)) {
@@ -1907,6 +1914,7 @@ statsString.join(""),
 					thisshit()
 				} else {ch.send("**" + msg.author.tag + "**, " + "error: incorrect team name. Example: !lc assign extraction team")}
 			} else {ch.send("**" + msg.author.tag + "**, " + "you can only work in one team at a time. Leave your team (!lc leave) if you want to join another team.")}
+			*/
 			} break
 			
 			case "leave": {
