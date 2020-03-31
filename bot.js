@@ -1160,7 +1160,7 @@ switch (ciCmd[0]) {
 	let member = DELTAS().members.get(getUser(ciCmd[1]).id)
 	let roles = member.roles.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
-		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots.")
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
 		return
 	}
 	member.removeRoles(roles)
