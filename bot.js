@@ -1165,7 +1165,7 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
 		return
 	}
-	member.roles.set('673218574101512214')
+	member.roles.set(['673218574101512214'])
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
