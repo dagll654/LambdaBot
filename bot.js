@@ -934,9 +934,9 @@ client.on('guildMemberUpdate', () => {
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
-	await member.roles.remove(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	await member.roles.cache.remove(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-	else await member.roles.add(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	else await member.roles.cache.add(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
 }
@@ -1160,18 +1160,18 @@ switch (ciCmd[0]) {
 		return
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
-	let roles = member.roles.filter(r => r.managed === false).array().map(r => r.id)
+	let roles = member.roles.cache.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
 		return
 	}
-	member.roles.set('673218574101512214')
+	member.roles.cache.set('673218574101512214')
 		.then(() => {
 		ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 		})
 		.catch(console.error)
 	wait(amount*1000).then(() => {
-		member.roles.set(roles)
+		member.roles.cache.set(roles)
 	})
 	} else {/* 
 	async function incoming() {
@@ -1954,14 +1954,14 @@ statsString.join(""),
 					if (dbployees.e(msg.member.user.id) === undefined) {
 					updateData()
 					await wait(100)
-					msg.member.roles.add(departmentRole)
+					msg.member.roles.cache.add(departmentRole)
 					await wait(100)
 					await databaseEmployees()
 					await wait(100)
 					console.log("New assign.")
 					}
 					else {
-					msg.member.roles.add(departmentRole)
+					msg.member.roles.cache.add(departmentRole)
 					dbployees.e(msg.member.user.id).tjtime = Date.now()
 					console.log("Re-assign.")
 					}
@@ -1975,8 +1975,8 @@ statsString.join(""),
 			} break
 			
 			case "leave": {
-			if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false)) {
-			if (deproles.some(t => msg.member.roles.map(r => r.name).includes(t))) {
+			if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false)) {
+			if (deproles.some(t => msg.member.roles.cache.map(r => r.name).includes(t))) {
 				ch.send("**" + msg.author.tag + "**, " + "do you really want to leave the " + drFind(msg.member) + "? **y**/**n**")
 				const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 				collector.on('collect', cmsg => {
@@ -1986,7 +1986,7 @@ statsString.join(""),
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
 					}
 					dbployees.e(msg.author.id).tjtime = Date.now()
-					msg.member.roles.remove(getRole(drFind(msg.member)))
+					msg.member.roles.cache.remove(getRole(drFind(msg.member)))
 					collector.stop()
 				}
 				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
@@ -2246,7 +2246,7 @@ statsString.join(""),
 			
 			case "captain": {
 			// Non-captain commands
-			if (ncdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+			if (ncdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
 				switch (ciCmd[2]) {
 					case "vote":
 					if (ciCmd[3]) {
@@ -2271,21 +2271,21 @@ statsString.join(""),
 				} else {ch.send("**" + msg.author.tag + "**, " + "error: no employee specified."); break}
 				}
 				// Captain commands
-				} else if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+				} else if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
 					switch (ciCmd[2]) {
 						case "vote":
 							ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
 							break
 						case "resign":
-							if (cdeproles.every(t => msg.member.roles.map(r => r.name).includes(t) === false) === false) {
+							if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
 								ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
 								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
 								collector.on('collect', cmsg => {
 								if (cmsg.content.toLowerCase() === "y") {
 									ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
 									var cptxt = drFind(msg.member)
-									msg.member.roles.remove(getRole(cptxt + " (C)"))
-									msg.member.roles.add(getRole(cptxt))
+									msg.member.roles.cache.remove(getRole(cptxt + " (C)"))
+									msg.member.roles.cache.add(getRole(cptxt))
 									collector.stop()
 									let bufflist = []
 									if (dbployees.e(msg.author.id).bufflist != undefined) {
