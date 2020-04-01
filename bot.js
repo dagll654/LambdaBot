@@ -487,7 +487,7 @@ function removeItemID(emp, inv, id) {
 // Function for getting a role by name 
 function getRole(nme) {
 	if (DELTAS().roles.some(role => role.name.toLowerCase() === nme.toLowerCase()))
-		return DELTAS().roles.find(role => role.name.toLowerCase() === nme.toLowerCase())
+		return DELTAS().roles.cache.find(role => role.name.toLowerCase() === nme.toLowerCase())
 	else return undefined
 }
 
@@ -934,9 +934,9 @@ client.on('guildMemberUpdate', () => {
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
-	await member.roles.cache.remove(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	await member.roles.cache.remove(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-	else await member.roles.cache.add(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	else await member.roles.cache.add(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
 }
@@ -945,7 +945,7 @@ DELTAS().members.cache.forEach(m => {
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
-		let channelRole = DELTAS().roles.find(r => r.name === jn.risk[index])
+		let channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
 		let currentCRoles = m.roles.cache.filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole)
 		if (currentCRoles.length > 0) {
 			for (const role in currentCRoles) {
@@ -973,7 +973,7 @@ DELTAS().members.cache.forEach(m => {
 				m.roles.remove(m.roles.cache.find(r => jn.risk.includes(r.name)))
 				.catch(console.error)
 		} else if (m.roles.cache.some(r => r.name === "TO THE RANCH") === false) 
-			m.roles.add(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
+			m.roles.add(DELTAS().roles.cache.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
 			.catch(console.error)
 	}
 	if (m.roles.cache.some(r => r.name === "RANCHDIP")) {
@@ -2261,7 +2261,7 @@ statsString.join(""),
 								setTimeout(function(){ch.send("Initiating vote for **" + ciCmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-						} else if (deproles.every(t => DELTAS().members.cache.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
+						} else if (deproles.every(t => DELTAS().members.cache.find("id", voteeid).roles.cache.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
 						break
 						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 				} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
