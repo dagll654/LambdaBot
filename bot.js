@@ -942,7 +942,7 @@ async function dip(member, action = 0) {
 }
 let regLevel = new RegExp(`\\bLevel`)
 DELTAS().members.cache.forEach(m => {
-	if (m.roles.some(r => r.name.split(" ")[0] === "Level")) {
+	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
 		let channelRole = DELTAS().roles.find(r => r.name === jn.risk[index])
@@ -960,24 +960,24 @@ DELTAS().members.cache.forEach(m => {
 			.catch(console.error)
 		}
 	}
-	if (m.roles.some(r => r.name === "RANCHDIP")) {
-		if (m.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+	if (m.roles.cache.some(r => r.name === "RANCHDIP")) {
+		if (m.roles.cache.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
 })
 /*DELTAS().members.forEach(m => {
-	if (m.roles.some(r => regLevel.test(" " + r.name))) {
+	if (m.roles.cache.some(r => regLevel.test(" " + r.name))) {
 	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
-		if (m.roles.some(r => jn.risk.includes(r.name))) {
-			if (m.roles.some(r => r.name === "TO THE RANCH"))
+		if (m.roles.cache.some(r => jn.risk.includes(r.name))) {
+			if (m.roles.cache.some(r => r.name === "TO THE RANCH"))
 				m.roles.remove(m.roles.find(r => jn.risk.includes(r.name)))
 				.catch(console.error)
-		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
+		} else if (m.roles.cache.some(r => r.name === "TO THE RANCH") === false) 
 			m.roles.add(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
 			.catch(console.error)
 	}
-	if (m.roles.some(r => r.name === "RANCHDIP")) {
-		if (m.roles.some(r => r.name === "TO THE RANCH")) dip(m, 1)
+	if (m.roles.cache.some(r => r.name === "RANCHDIP")) {
+		if (m.roles.cache.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
 })*/
