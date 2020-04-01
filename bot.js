@@ -815,7 +815,7 @@ async function databaseEmployees() {
 	employees = []
 	dbployees = []
 	let dbpush = []
-	DELTAS().members.forEach(m => {
+	DELTAS().members.cache.forEach(m => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
