@@ -1258,6 +1258,18 @@ switch (ciCmd[0]) {
 		case "dbptest":
 			sc.dbptest()
 		break
+		case "role":
+			async function rtest() {
+			let m = DELTAS().members.get('610962908695887912')
+			let roles = m.roles.array().map(r => r.id)
+			m.roles.set([])
+			console.log("yeet")
+			await wait(3000)
+			m.roles.set(roles)
+			console.log("yort")
+			}
+			rtest()
+		break
 		case "b":
 		case "box": // !debug[0] box[1] quack[2] o-03-03[3] 1[4]
 			{
