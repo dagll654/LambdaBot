@@ -364,8 +364,8 @@ function getUser(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
 		return client.users.cache.get(/\d{18}/.exec(getter)[0])
 	else {
-		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
-		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
+		let nicknames = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
+		let tags = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
 		tags.sort((a, b) => {return b[1] - a[1]})
 		if (debugVariables.get_log === 1) {
@@ -1045,7 +1045,7 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 	mesc.split(" ")[3].split("").forEach(c => {
 		if (/\D/.test(c) === false) voteeid += c
 	})
-	voteeuser = DELTAS().members.find("id", voteeid)
+	voteeuser = DELTAS().members.cache.find("id", voteeid)
 	cptxt = drFind(voteeuser)
 	debugVariables.voting = 0
 	timeout = 1
@@ -1259,7 +1259,7 @@ switch (ciCmd[0]) {
 		break
 		case "role":
 			async function rtest() {
-			let m = DELTAS().members.get('610962908695887912')
+			let m = DELTAS().members.cache.get('610962908695887912')
 			let roles = m.roles.array().map(r => r.id)
 			m.roles.set([])
 			console.log("yeet")
@@ -2256,7 +2256,7 @@ statsString.join(""),
 							if (/\D/.test(c) === false) {voteeid += c}
 						})
 						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@")) {
-						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
+						if (drFind(DELTAS().members.cache.find("id", voteeid)) === drFind(msg.member)) {
 						if (DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 								debugVariables.voting = 1
 								votingteam = drFind(msg.member)
@@ -2264,7 +2264,7 @@ statsString.join(""),
 								setTimeout(function(){ch.send("Initiating vote for **" + ciCmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
 						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-						} else if (deproles.every(t => DELTAS().members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
+						} else if (deproles.every(t => DELTAS().members.cache.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
 						break
 						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
 				} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
