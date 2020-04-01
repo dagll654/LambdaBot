@@ -929,7 +929,7 @@ globalTicker()
 	
 })
 
-client.on('guildMemberUpdate', (m) => {
+client.on('guildMemberUpdate', (old, m) => {
 	
 async function dip(member, action = 0) {
 	await wait(1000)
