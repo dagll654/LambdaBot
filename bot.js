@@ -951,7 +951,7 @@ let regLevel = new RegExp(`\\bLevel`)
 				m.roles.remove(role)
 				.catch(console.error)
 		}}
-			console.log(m.tag)
+			console.log(m.user.tag)
 			console.log(currentCRoles)
 		
 		if (m.roles.cache.array().some(r => r.id === channelRole.id) === false) {
