@@ -362,7 +362,7 @@ function checkSimilarity(original, text1) {
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
-		return client.users.get(/\d{18}/.exec(getter)[0])
+		return client.users.cache.get(/\d{18}/.exec(getter)[0])
 	else {
 		let nicknames = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
 		let tags = DELTAS().members.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
@@ -383,7 +383,7 @@ function getUser(getter) {
 function getEmployee(getter) {
 	if (exists(getter) === false) return undefined
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
-		return client.users.get(/\d{18}/.exec(getter)[0])
+		return client.users.cache.get(/\d{18}/.exec(getter)[0])
 	else {
 		let employeesTemp = employees.map(e => DELTAS().members.cache.get(e.id))
 		let nicknames = employeesTemp.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
@@ -909,7 +909,7 @@ bch = DELTAS().channels.cache.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
 bch.send("Bot started.")
-client.users.get('143261987575562240').send('Bot started up succesfully.')
+client.users.cache.get('143261987575562240').send('Bot started up succesfully.')
 // Setting the bot's current game to 'try !help'
 client.user.setPresence({
 	game: {
