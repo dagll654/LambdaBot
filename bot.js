@@ -934,9 +934,9 @@ client.on('guildMemberUpdate', () => {
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
-	await member.roles.cache.remove(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
+	await member.roles.remove(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-	else await member.roles.cache.add(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
+	else await member.roles.add(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
 }
@@ -1954,14 +1954,14 @@ statsString.join(""),
 					if (dbployees.e(msg.member.user.id) === undefined) {
 					updateData()
 					await wait(100)
-					msg.member.roles.cache.add(departmentRole)
+					msg.member.roles.add(departmentRole)
 					await wait(100)
 					await databaseEmployees()
 					await wait(100)
 					console.log("New assign.")
 					}
 					else {
-					msg.member.roles.cache.add(departmentRole)
+					msg.member.roles.add(departmentRole)
 					dbployees.e(msg.member.user.id).tjtime = Date.now()
 					console.log("Re-assign.")
 					}
@@ -1986,7 +1986,7 @@ statsString.join(""),
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
 					}
 					dbployees.e(msg.author.id).tjtime = Date.now()
-					msg.member.roles.cache.remove(getRole(drFind(msg.member)))
+					msg.member.roles.remove(getRole(drFind(msg.member)))
 					collector.stop()
 				}
 				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
@@ -2284,8 +2284,8 @@ statsString.join(""),
 								if (cmsg.content.toLowerCase() === "y") {
 									ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
 									var cptxt = drFind(msg.member)
-									msg.member.roles.cache.remove(getRole(cptxt + " (C)"))
-									msg.member.roles.cache.add(getRole(cptxt))
+									msg.member.roles.remove(getRole(cptxt + " (C)"))
+									msg.member.roles.add(getRole(cptxt))
 									collector.stop()
 									let bufflist = []
 									if (dbployees.e(msg.author.id).bufflist != undefined) {
