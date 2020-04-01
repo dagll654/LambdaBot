@@ -1170,7 +1170,7 @@ switch (ciCmd[0]) {
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
 	})
-	} else {/* 
+	} else {
 	async function incoming() {
 	ch.send("5.")
 	await wait(1000)
@@ -1182,19 +1182,24 @@ switch (ciCmd[0]) {
 	await wait(1000)
 	ch.send("1.")
 	await wait(1000)
-	ch.send("0.")
+	ch.send("Commencing nuclear extinction.")
 	await wait(500)
 	async function nuke() {
-	DELTAS().members.array().forEach(m => {
-		DELTAS().members.cache.get(m.id).addRoles('652443814824247301', '652443876795088906')//'673218574101512214', '660224894189043723'
-		await wait(100)
+	DELTAS().members.cache.array().forEach(m => {
+		DELTAS().members.cache.get(m.id).roles.add(['652443814824247301', '652443876795088906'])//'673218574101512214', '660224894189043723'
+		await wait(10)
 	})
-	
+	console.log("Everyone's 'dead'. What now?")
+	await wait(1000)
+	DELTAS().members.cache.array().forEach(m => {
+		DELTAS().members.cache.get(m.id).roles.remove(['652443814824247301', '652443876795088906'])//'673218574101512214', '660224894189043723'
+		await wait(10)
+	})
+	console.log("Restored the natural order of things.")
 	}
 	nuke()
 	}
 	incoming()
-	 */
 	}
 	} break
 	
