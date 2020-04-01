@@ -945,7 +945,7 @@ let regLevel = new RegExp(`\\bLevel`)
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
 		let channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
-		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
+		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.slice(0, 4).includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
 		if (currentCRoles.length > 0) {
 			m.roles.remove(currentCRoles)
 			.catch(console.error)
