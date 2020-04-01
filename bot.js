@@ -1166,12 +1166,9 @@ switch (ciCmd[0]) {
 		return
 	}
 	member.roles.cache.set('673218574101512214')
-		.then(() => {
-		ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
-		})
-		.catch(console.error)
+	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 	wait(amount*1000).then(() => {
-		member.roles.cache.set(roles)
+	member.roles.cache.set(roles)
 	})
 	} else {/* 
 	async function incoming() {
