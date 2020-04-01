@@ -1150,6 +1150,8 @@ switch (ciCmd[0]) {
 		return
 	}
 	
+	if ((ciCmd[1] === "fucking" && ciCmd[2] === "everyone") === false) {
+	
 	let amount
 	if (/\D/.test(ciCmd[2])) amount = 60
 	else amount = Number(ciCmd[2])
@@ -1170,13 +1172,37 @@ switch (ciCmd[0]) {
 		})
 		.catch(console.error)
 	wait(amount*1000).then(() => {
-		let backRoles = roles.filter(r => member.roles.array().some(mr => mr.id === r) === false)
-		if (backRoles != []) member.addRoles(backRoles).then(() => 
-		member.removeRole('673218574101512214')
+		member.roles.set(roles)
 		.catch(console.error)
 		)
 		.catch(console.error)
 	})
+	} else {/* 
+	async function incoming() {
+	ch.send("5.")
+	await wait(1000)
+	ch.send("4.")
+	await wait(1000)
+	ch.send("3.")
+	await wait(1000)
+	ch.send("2.")
+	await wait(1000)
+	ch.send("1.")
+	await wait(1000)
+	ch.send("0.")
+	await wait(500)
+	async function nuke() {
+	DELTAS().members.array().forEach(m => {
+		DELTAS().members.get(m.id).addRoles('652443814824247301', '652443876795088906')//'673218574101512214', '660224894189043723'
+		await wait(100)
+	})
+	
+	}
+	nuke()
+	}
+	incoming()
+	 */
+	}
 	} break
 	
 	case "debug": {
