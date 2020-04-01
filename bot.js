@@ -929,7 +929,7 @@ globalTicker()
 	
 })
 
-client.on('guildMemberUpdate', () => {
+client.on('guildMemberUpdate', (m) => {
 	
 async function dip(member, action = 0) {
 	await wait(1000)
@@ -941,7 +941,6 @@ async function dip(member, action = 0) {
 	return true
 }
 let regLevel = new RegExp(`\\bLevel`)
-DELTAS().members.cache.forEach(m => {
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
@@ -964,7 +963,6 @@ DELTAS().members.cache.forEach(m => {
 		if (m.roles.cache.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
-})
 /*DELTAS().members.forEach(m => {
 	if (m.roles.cache.some(r => regLevel.test(" " + r.name))) {
 	let levelRole = m.roles.cache.find(r => regLevel.test(" " + r.name))
