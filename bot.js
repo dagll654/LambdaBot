@@ -947,10 +947,9 @@ let regLevel = new RegExp(`\\bLevel`)
 		let channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
 		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
 		if (currentCRoles.length > 0) {
-			for (const role in currentCRoles) {
-				m.roles.remove(role)
-				.catch(console.error)
-		}}
+			m.roles.remove(currentCRoles)
+			.catch(console.error)
+		}
 			console.log(m.user.tag)
 			console.log(currentCRoles)
 		
