@@ -373,8 +373,8 @@ function getUser(getter) {
 			console.log(nicknames)
 		}
 		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
-		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
-			else return client.users.get(tags[0][0])
+		if (nicknames[0][1] > tags[0][1]) return client.users.cache.get(nicknames[0][0])
+			else return client.users.cache.get(tags[0][0])
 	}
 	return undefined
 }
@@ -385,7 +385,7 @@ function getEmployee(getter) {
 	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
 		return client.users.get(/\d{18}/.exec(getter)[0])
 	else {
-		let employeesTemp = employees.map(e => DELTAS().members.get(e.id))
+		let employeesTemp = employees.map(e => DELTAS().members.cache.get(e.id))
 		let nicknames = employeesTemp.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
 		let tags = employeesTemp.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
 		nicknames.sort((a, b) => {return b[1] - a[1]})
@@ -395,8 +395,8 @@ function getEmployee(getter) {
 			console.log(nicknames)
 		}
 		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
-		if (nicknames[0][1] > tags[0][1]) return client.users.get(nicknames[0][0])
-			else return client.users.get(tags[0][0])
+		if (nicknames[0][1] > tags[0][1]) return client.users.cache.get(nicknames[0][0])
+			else return client.users.cache.get(tags[0][0])
 	}
 	return undefined
 }
@@ -718,15 +718,15 @@ function updateData() {
 	})
 	if (err) throw err
 	dbployees.forEach((e, i) => { //DELETE FROM `employees` WHERE `employees`.`userid` = \'308531879953563650\'
-		if (exists(DELTAS().members.get(e.id))) {
+		if (exists(DELTAS().members.cache.get(e.id))) {
 		let eActual = dbployeesActual.find(d => d.id === e.id)
 		if (exists(e) === false) return
 		let pushSmall = []
 		for (const prop in e) {
 		if (prop == "tag") {
-			if (exists(DELTAS().members.get(e.id)))
-			if (DELTAS().members.get(e.id).user.tag !== e.tag) {
-			e.tag = DELTAS().members.get(e.id).user.tag
+			if (exists(DELTAS().members.cache.get(e.id)))
+			if (DELTAS().members.cache.get(e.id).user.tag !== e.tag) {
+			e.tag = DELTAS().members.cache.get(e.id).user.tag
 			}
 		}
 		if (eActual)
@@ -866,13 +866,13 @@ function healPulse() {
 			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
 			e.dead = 0
 			else e.working = 0
-		if (DELTAS().members.get(e.id) != undefined) {
-		if (drFind(DELTAS().members.get(e.id))) {
+		if (DELTAS().members.cache.get(e.id) != undefined) {
+		if (drFind(DELTAS().members.cache.get(e.id))) {
 		if (exists(e.tjtime) === false) e.tjtime = Date.now()
 		if (exists(e.buffListArray)) {
 		if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
 		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-		fn.effectApplication['department'](e, drFind(DELTAS().members.get(e.id)), "give")
+		fn.effectApplication['department'](e, drFind(DELTAS().members.cache.get(e.id)), "give")
 		}
 		}
 		}
@@ -1010,8 +1010,8 @@ while (content.split(" ")[0].slice(0,2) === ">!") {
 	let cArr = content.split(" ")
 	if (getUser(cArr[0]) === client.user || tempMessage.author.id === '143261987575562240') {
 	if (getUser(cArr[0]) != undefined) {
-		tempMessage.author = client.users.get(getUser(cArr[0]).id)
-		tempMessage.member = DELTAS().members.get(getUser(cArr[0]).id)
+		tempMessage.author = client.users.cache.get(getUser(cArr[0]).id)
+		tempMessage.member = DELTAS().members.cache.get(getUser(cArr[0]).id)
 		botPass = 1
 	}} else {initialMessage.channel.send(`**${initialMessage.author.tag}**, ` + "you do not have permission to use `>!` on that user."); return}
 	cArr.shift()
@@ -1052,13 +1052,13 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 	vtd = [] 
 	yee = 0
 	boo = 0
-	if ((DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-		reqv = 5 + Math.floor(DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-	} else {reqv = DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
+	if ((DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
+		reqv = 5 + Math.floor(DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
+	} else {reqv = DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
 	msg.react('✅')
 	msg.react('🚫')
 	override = 0
-	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS().roles.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
+	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
 	const collector = msg.createReactionCollector(filter, { time: 15000 })
 	collector.on('collect', rct => {//${rct.emoji.name}
 		lru = rct.users.map(u => u.id).pop()
@@ -1159,7 +1159,7 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 120 seconds.")
 		return
 	}
-	let member = DELTAS().members.get(getUser(ciCmd[1]).id)
+	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
 	let roles = member.roles.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
@@ -1190,7 +1190,7 @@ switch (ciCmd[0]) {
 	await wait(500)
 	async function nuke() {
 	DELTAS().members.array().forEach(m => {
-		DELTAS().members.get(m.id).addRoles('652443814824247301', '652443876795088906')//'673218574101512214', '660224894189043723'
+		DELTAS().members.cache.get(m.id).addRoles('652443814824247301', '652443876795088906')//'673218574101512214', '660224894189043723'
 		await wait(100)
 	})
 	
@@ -1220,7 +1220,7 @@ switch (ciCmd[0]) {
 			console.log(dbployees.e(uid2))
 		break
 		case "msg":
-			let tempch = DELTAS().channels.get(ciCmd[2])
+			let tempch = DELTAS().channels.cache.get(ciCmd[2])
 			let tempmsg = ""
 			let i
 			for (i = 3; i < cmd.length; i++) { 
@@ -2042,7 +2042,7 @@ statsString.join(""),
 			if (ciCmd[2] != "list") {
 			function ext(emp, channel) {
 				cUser = emp
-				const cCh = DELTAS().channels.get(channel)
+				const cCh = DELTAS().channels.cache.get(channel)
 				let currentAbno
 				let currentAbnoCode
 				let currentShop
@@ -2258,13 +2258,13 @@ statsString.join(""),
 						})
 						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@")) {
 						if (drFind(DELTAS().members.find("id", voteeid)) === drFind(msg.member)) {
-						if (DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
+						if (DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
 								debugVariables.voting = 1
 								votingteam = drFind(msg.member)
 								console.log(ciCmd[3].slice((ciCmd[3].length - 19), (ciCmd[3].length - 2)))							
 								setTimeout(function(){ch.send("Initiating vote for **" + ciCmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
 
-						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
+						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
 						} else if (deproles.every(t => DELTAS().members.find("id", voteeid).roles.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
 						break
 						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
