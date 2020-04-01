@@ -934,9 +934,9 @@ client.on('guildMemberUpdate', () => {
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
-	await member.removeRole(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	await member.roles.remove(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
-	else await member.addRole(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
+	else await member.roles.add(DELTAS().roles.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
 }
@@ -949,14 +949,14 @@ DELTAS().members.forEach(m => {
 		let currentCRoles = m.roles.filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole)
 		if (currentCRoles.length > 0) {
 			for (const role in currentCRoles) {
-				m.removeRole(role)
+				m.roles.remove(role)
 				.catch(console.error)
 			}
 			console.log(m.tag)
 			console.log(currentCRoles)
 		}
 		if (m.roles.array().some(r => r.id === channelRole.id) === false) {
-			m.addRole(channelRole)
+			m.roles.add(channelRole)
 			.catch(console.error)
 		}
 	}
@@ -970,10 +970,10 @@ DELTAS().members.forEach(m => {
 	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
 		if (m.roles.some(r => jn.risk.includes(r.name))) {
 			if (m.roles.some(r => r.name === "TO THE RANCH"))
-				m.removeRole(m.roles.find(r => jn.risk.includes(r.name)))
+				m.roles.remove(m.roles.find(r => jn.risk.includes(r.name)))
 				.catch(console.error)
 		} else if (m.roles.some(r => r.name === "TO THE RANCH") === false) 
-			m.addRole(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
+			m.roles.add(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
 			.catch(console.error)
 	}
 	if (m.roles.some(r => r.name === "RANCHDIP")) {
@@ -1079,8 +1079,8 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 	} else {
 		if (yee > boo) {
 			voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
-			voteeuser.removeRole(getRole(votingteam))
-			voteeuser.addRole(getRole(votingteam + " (C)"))
+			voteeuser.roles.remove(getRole(votingteam))
+			voteeuser.roles.add(getRole(votingteam + " (C)"))
 			let bufflist = []
 			if (dbployees.e(voteeuser.id).bufflist != undefined) {
 			bufflist = dbployees.e(voteeuser.id).bufflist.split("|")
@@ -1165,10 +1165,9 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
 		return
 	}
-	member.removeRoles(roles)
+	member.roles.set('673218574101512214')
 		.then(() => {
-		ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`); 
-		member.addRole('673218574101512214')
+		ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 		})
 		.catch(console.error)
 	wait(amount*1000).then(() => {
@@ -1955,14 +1954,14 @@ statsString.join(""),
 					if (dbployees.e(msg.member.user.id) === undefined) {
 					updateData()
 					await wait(100)
-					msg.member.addRole(departmentRole)
+					msg.member.roles.add(departmentRole)
 					await wait(100)
 					await databaseEmployees()
 					await wait(100)
 					console.log("New assign.")
 					}
 					else {
-					msg.member.addRole(departmentRole)
+					msg.member.roles.add(departmentRole)
 					dbployees.e(msg.member.user.id).tjtime = Date.now()
 					console.log("Re-assign.")
 					}
@@ -1987,7 +1986,7 @@ statsString.join(""),
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 0)	
 					}
 					dbployees.e(msg.author.id).tjtime = Date.now()
-					msg.member.removeRole(getRole(drFind(msg.member)))
+					msg.member.roles.remove(getRole(drFind(msg.member)))
 					collector.stop()
 				}
 				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "team leave cancelled."); collector.stop()}
@@ -2285,8 +2284,8 @@ statsString.join(""),
 								if (cmsg.content.toLowerCase() === "y") {
 									ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
 									var cptxt = drFind(msg.member)
-									msg.member.removeRole(getRole(cptxt + " (C)"))
-									msg.member.addRole(getRole(cptxt))
+									msg.member.roles.remove(getRole(cptxt + " (C)"))
+									msg.member.roles.add(getRole(cptxt))
 									collector.stop()
 									let bufflist = []
 									if (dbployees.e(msg.author.id).bufflist != undefined) {
