@@ -941,7 +941,7 @@ async function dip(member, action = 0) {
 	return true
 }
 let regLevel = new RegExp(`\\bLevel`)
-DELTAS().members.forEach(m => {
+DELTAS().members.cache.forEach(m => {
 	if (m.roles.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
