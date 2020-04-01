@@ -905,7 +905,7 @@ async function globalTicker() {
 // On ready
 client.on('ready', () => {
 
-bch = DELTAS().channels.get("607558082381217851");
+bch = DELTAS().channels.cache.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
 bch.send("Bot started.")
