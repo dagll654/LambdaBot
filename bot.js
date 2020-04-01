@@ -1173,7 +1173,6 @@ switch (ciCmd[0]) {
 		.catch(console.error)
 	wait(amount*1000).then(() => {
 		member.roles.set(roles)
-		.catch(console.error)
 	})
 	} else {/* 
 	async function incoming() {
