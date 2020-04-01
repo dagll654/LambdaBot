@@ -943,10 +943,10 @@ async function dip(member, action = 0) {
 let regLevel = new RegExp(`\\bLevel`)
 DELTAS().members.cache.forEach(m => {
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
-		let level = m.roles.find(r => r.name.split(" ")[0] === "Level").name
+		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
 		let channelRole = DELTAS().roles.find(r => r.name === jn.risk[index])
-		let currentCRoles = m.roles.filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole)
+		let currentCRoles = m.roles.cache.filter(r => jn.risk.includes(r.name)).filter(r => r !== channelRole)
 		if (currentCRoles.length > 0) {
 			for (const role in currentCRoles) {
 				m.roles.remove(role)
@@ -955,7 +955,7 @@ DELTAS().members.cache.forEach(m => {
 			console.log(m.tag)
 			console.log(currentCRoles)
 		}
-		if (m.roles.array().some(r => r.id === channelRole.id) === false) {
+		if (m.roles.cache.array().some(r => r.id === channelRole.id) === false) {
 			m.roles.add(channelRole)
 			.catch(console.error)
 		}
@@ -967,10 +967,10 @@ DELTAS().members.cache.forEach(m => {
 })
 /*DELTAS().members.forEach(m => {
 	if (m.roles.cache.some(r => regLevel.test(" " + r.name))) {
-	let levelRole = m.roles.find(r => regLevel.test(" " + r.name))
+	let levelRole = m.roles.cache.find(r => regLevel.test(" " + r.name))
 		if (m.roles.cache.some(r => jn.risk.includes(r.name))) {
 			if (m.roles.cache.some(r => r.name === "TO THE RANCH"))
-				m.roles.remove(m.roles.find(r => jn.risk.includes(r.name)))
+				m.roles.remove(m.roles.cache.find(r => jn.risk.includes(r.name)))
 				.catch(console.error)
 		} else if (m.roles.cache.some(r => r.name === "TO THE RANCH") === false) 
 			m.roles.add(DELTAS().roles.find(r => r.name === jn.risk[jn.levels.indexOf(levelRole.name)]).id)
@@ -1257,7 +1257,7 @@ switch (ciCmd[0]) {
 		case "role":
 			async function rtest() {
 			let m = DELTAS().members.cache.get('610962908695887912')
-			let roles = m.roles.array().map(r => r.id)
+			let roles = m.roles.cache.array().map(r => r.id)
 			m.roles.set([])
 			console.log("yeet")
 			await wait(3000)
