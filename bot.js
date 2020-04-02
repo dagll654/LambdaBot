@@ -406,7 +406,7 @@ function emoji(nme, srv = DELTAS(), a = false, id = false) {
 	let e
 	let emd
 	if (nme === "none") {return ""}
-	if (id === true) e = srv.emojis.find(em => em.name.toLowerCase() === nme.toLowerCase()).id
+	if (id === true) e = srv.emojis.cache.find(em => em.name.toLowerCase() === nme.toLowerCase()).id
 	else {if (a === true) emd = "<a:"; else emd = "<:"}
 	let eObj = srv.emojis.find(em => em.name.toLowerCase() === nme.toLowerCase())
 		emvar = emd + eObj.name + ":" + eObj.id + ">"
