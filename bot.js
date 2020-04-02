@@ -1609,7 +1609,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete(2000)
+					rp.delete( {'timeout': 2000} )
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -1795,7 +1795,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete(2000)
+					rp.delete( {'timeout': 2000} )
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -2058,8 +2058,8 @@ statsString.join(""),
 				let totalBalance
 				let price
 				let k
-				function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete(3000))}
-				function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete(4000))}
+				function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete( {'timeout': 3000} ))}
+				function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete( {'timeout': 4000} ))}
 				
 				cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)
 				.then(menumsg => {
@@ -2076,7 +2076,7 @@ statsString.join(""),
 						
 						let rp = r.first()
 			/*========*/if (rp != undefined) {
-						rp.delete(2000)
+						rp.delete( {'timeout': 2000} )
 						let mr = rp.content.toLowerCase()
 						
 						if (rp.content.toLowerCase().startsWith("!lc") === false) {
