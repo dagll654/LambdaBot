@@ -361,8 +361,8 @@ function checkSimilarity(original, text1) {
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
-		return client.users.cache.get(/\d{18}/.exec(getter)[0])
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
+		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
 	else {
 		let nicknames = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
 		let tags = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
@@ -382,8 +382,8 @@ function getUser(getter) {
 // Like the previous one, but searches only among the employees, so it doesn't return undefined in some cases
 function getEmployee(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{18}/.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
-		return client.users.cache.get(/\d{18}/.exec(getter)[0])
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
+		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
 	else {
 		let employeesTemp = employees.map(e => DELTAS().members.cache.get(e.id))
 		let nicknames = employeesTemp.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
