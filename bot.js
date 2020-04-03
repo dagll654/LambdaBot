@@ -1753,6 +1753,8 @@ statsString.join(""),
 			} break
 			
 			case "g": {
+				
+			if (ciCmd[2] !== "list") {
 			
 			function giftInventory(emp, channel) {
 			class localGift { // Because it fucking refuses to work without a class.
@@ -1867,6 +1869,13 @@ statsString.join(""),
 			menuNavigationGift()
 			})}
 			giftInventory(dbployees.e(msg.author.id), msg.channel)
+			
+			} else {
+				let gifts = gear.gifts.map(g => abn.abn[Number(g.id)].name)
+				let giftsText = "The abnormalities that currently have gifts: " + gifts.join(", ") + "."
+				ch.send(giftsText)
+			}
+			
 			} break
 			
 			case "b": {
