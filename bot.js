@@ -1020,11 +1020,6 @@ while (content.split(" ")[0].slice(0,2) === ">!") {
 msg = tempMessage
 }
 
-if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
-
-// If the message's author is a bot, just ignore it
-if ((msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) || msg.channel.id === '695577286568837220') return;
-
 // Handy vars
 ch = msg.channel
 mesc = msg.content
@@ -1034,6 +1029,11 @@ if (ch.type != 'dm') {
 let log = msg.createdAt + msg.channel.name + " " + msg.author.username + ": " + msg.content
 console.log(log);
 }
+
+// If the message's author is a bot, just ignore it
+if ((msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) || msg.channel.id === '695577286568837220') return;
+
+if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 
 // Vote stuff - I positively cannot be arsed to rewrite this shite
 if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) && (msg.author.id === '607520778178527246')) {
