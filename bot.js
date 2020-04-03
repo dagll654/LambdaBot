@@ -214,7 +214,7 @@ class cEmp {
 			this.sp -= amt
 			break
 			case "pale":
-			amt = Number(this.defenseArray[3])*(this.hp/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
+			amt = Number(this.defenseArray[3])*(this.fortL/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
 			this.hp -= amt
 			break
 		}
@@ -361,7 +361,7 @@ function checkSimilarity(original, text1) {
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
 		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
 	else {
 		let nicknames = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
@@ -382,7 +382,7 @@ function getUser(getter) {
 // Like the previous one, but searches only among the employees, so it doesn't return undefined in some cases
 function getEmployee(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{18}/.test(getter)))
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
 		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
 	else {
 		let employeesTemp = employees.map(e => DELTAS().members.cache.get(e.id))
@@ -1609,7 +1609,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete( {'timeout': 2000} )
+					rp.delete({ 'timeout': 2000 })
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -1795,7 +1795,7 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete( {'timeout': 2000} )
+					rp.delete({ 'timeout': 2000 })
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -2058,8 +2058,8 @@ statsString.join(""),
 				let totalBalance
 				let price
 				let k
-				function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete( {'timeout': 3000} ))}
-				function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete( {'timeout': 4000} ))}
+				function invResponse(msg) {ch.send("**" + msg.author.tag + "**, " + "error: invalid response.").then(tmp => tmp.delete({ 'timeout': 3000 }))}
+				function forceReturn(msg, code) {ch.send("**" + msg.author.tag + "**, " + code).then(tmp => tmp.delete({ 'timeout': 4000 }))}
 				
 				cCh.send("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Please input the code of the abnormality, EGO equipment of which you wish to extract, or 'bullet' to view the buff bullet manufacturing menu.`)
 				.then(menumsg => {
@@ -2076,7 +2076,7 @@ statsString.join(""),
 						
 						let rp = r.first()
 			/*========*/if (rp != undefined) {
-						rp.delete( {'timeout': 2000} )
+						rp.delete({ 'timeout': 2000 })
 						let mr = rp.content.toLowerCase()
 						
 						if (rp.content.toLowerCase().startsWith("!lc") === false) {
