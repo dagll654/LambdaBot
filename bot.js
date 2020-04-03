@@ -1873,7 +1873,7 @@ statsString.join(""),
 			} else {
 				let gifts = []
 				gear.gifts.forEach(g => {
-					if (abn.abn.find(a => a.id === g.id).name) gifts.push(abn.abn.find(a => a.id === g.id).name)
+					if (abn.abn.find(a => a.id === g.id)) gifts.push(abn.abn.find(a => a.id === g.id).name)
 					else console.log(g.id)
 				})
 				let giftsText = "The abnormalities that currently have gifts: " + gifts.join(", ") + "."
