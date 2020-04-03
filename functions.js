@@ -434,7 +434,7 @@ exports.effectApplication = {
 		return [false]
 	},
 	"21": function a21 (employee, result) {
-		if ((result === 0) || (employee.fortL > 84) || (employee.tempL < 30)) {
+		if ((result === 0) || (employee.fortL > 64) || (employee.tempL < 30)) {
 				employee.hp = 0
 				employee.sp = 0
 				employee.dead = 1
