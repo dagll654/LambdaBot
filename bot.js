@@ -1871,7 +1871,11 @@ statsString.join(""),
 			giftInventory(dbployees.e(msg.author.id), msg.channel)
 			
 			} else {
-				let gifts = gear.gifts.map(g => abn.abn.find(a => a.id === g.id).name)
+				let gifts = []
+				gear.gifts.forEach(g => {
+					if (abn.abn.find(a => a.id === g.id).name) gifts.push(abn.abn.find(a => a.id === g.id).name)
+					else console.log(g.id)
+				})
 				let giftsText = "The abnormalities that currently have gifts: " + gifts.join(", ") + "."
 				ch.send(giftsText)
 			}
