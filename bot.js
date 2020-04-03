@@ -1023,7 +1023,7 @@ msg = tempMessage
 if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 
 // If the message's author is a bot, just ignore it
-if (msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) return;
+if ((msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) || msg.channel.id === '695577286568837220') return;
 
 // Handy vars
 ch = msg.channel
