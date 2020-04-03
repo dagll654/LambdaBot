@@ -531,10 +531,10 @@
 			"name": "Bear Paw",
 			"slot": "head1",
 			"buff": 	{
-				"stat": "0|0|4|0",
+				"stat": "0|4|0|0",
 				"list": "attachment/schance/3"
 						},
-			"text": "+4 Temperance, +3% Success Chance of attachment work"
+			"text": "+4 Prudence, +3% Success Chance of attachment work"
 		},
 		{	"id": "19",
 			"name": "Pleasure",
