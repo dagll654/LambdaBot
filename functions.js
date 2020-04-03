@@ -435,7 +435,10 @@ exports.effectApplication = {
 	},
 	"21": function a21 (employee, result) {
 		if ((result === 0) || (employee.fortL > 84) || (employee.tempL < 30)) {
-				return [false]
+				employee.hp = 0
+				employee.sp = 0
+				employee.dead = 1
+				return [true, "\n	You could not resist the allure..."]
 		} else return [false]
 	},
 	"22": function a22 (employee, result) {
