@@ -893,10 +893,10 @@ async function globalTicker() {
 		await wait(1000)
 		globalEffectTick()
 		if (tick === 30)
-			//updateData()
+			updateData()
 		if (tick === 60) {
 			healPulse()
-			//updateData()
+			updateData()
 			tick = 1
 		}
 			
