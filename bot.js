@@ -101,7 +101,7 @@ class cEmp {
 		this.inventoryw = inventoryw
 		this.working = Number(working)
 		this.dead = Number(dead)
-		this.panicked = panicked
+		this.panicked = Number(panicked)
 		this.balance = Number(balance)
 		this.balancespecific = balancespecific
 		this.subpoints = subpoints
