@@ -86,7 +86,7 @@ function drFind(member) {
 
 // Employee class
 class cEmp {
-	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
+	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, panicked = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
 		this.id = id
 		this.tag = tag
 		this.hp = hp/100
@@ -654,7 +654,7 @@ function work(employee1, abno1, order1, channel) {
 
 // Push an employee into an array
 function eArrPush(e, arr = dbployees) {
-	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.panicked, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
 }
 // Push an abno into an array
 function aArrPush(a, arr = dbnos) {
@@ -892,10 +892,10 @@ async function globalTicker() {
 		await wait(1000)
 		globalEffectTick()
 		if (tick === 30)
-			updateData()
+			//updateData()
 		if (tick === 60) {
 			healPulse()
-			updateData()
+			//updateData()
 			tick = 1
 		}
 			
