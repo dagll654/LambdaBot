@@ -300,7 +300,7 @@ function sSlotText(text) {
 	else return text
 }
 
-function healCalc(employee, pts, amt) {
+function healCalc(employee, pts, amt) { // Probably redundant?
 		let buffs = employee.buffListArray
 		if (exists(buffs) === false) return amt
 		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
@@ -912,13 +912,7 @@ console.log('I am ready!')
 bch.send("Bot started.")
 client.users.cache.get('143261987575562240').send('Bot started up succesfully.')
 // Setting the bot's current game to 'try !help'
-client.user.setPresence({
-	game: {
-		name: 'try !help',
-		type: "Playing",
-		url: "https://tinyurl.com/rollntroll"
-	}
-})	
+client.user.setActivity('to the sound of himself being played like a fiddle', { type: 'LISTENING' })
 
 
 
