@@ -912,7 +912,7 @@ console.log('I am ready!')
 bch.send("Bot started.")
 client.users.cache.get('143261987575562240').send('Bot started up succesfully.')
 // Setting the bot's current game to 'try !help'
-client.user.setActivity('to the sound of himself being played like a fiddle', { type: 'LISTENING' })
+client.user.setActivity('the sound of himself being played like a fiddle', { type: 'LISTENING' })
 
 
 
