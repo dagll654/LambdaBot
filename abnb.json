@@ -310,7 +310,7 @@
 			},
 			{
 				"name": "O-02-62: 'Bird of Judgement'",
-				"name": "Bird of Judgement",
+				"nameShort": "Bird of Judgement",
 				"code": "o-02-62",
 				"color": [0, 0, 0],
 				"risk": "WAW",
