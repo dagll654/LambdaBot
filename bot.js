@@ -330,10 +330,10 @@ async function queryAndWait(q, connection) {
 
 // Abno class
 class clAbn {
-	constructor(id, qcounter, hp = 20, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
+	constructor(id, qcounter, hp = 20, breaching = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
 		this.id = id
 		this.hp = Number(hp)
-		this.dead = Number(dead)
+		this.breaching = Number(breaching)
 		this.effects = effects
 		this.defensebuffs = defensebuffs
 		this.bufflist = bufflist
@@ -720,7 +720,7 @@ function eArrPush(e, arr = dbployees) {
 }
 // Push an abno into an array
 function aArrPush(a, arr = dbnos) {
-	arr.push(new clAbn(a.id, a.state, a.qcounter, a.effects))
+	arr.push(new clAbn(a.id, a.qcounter, a.hp, a.breaching, a.effects, a.defensebuffs, a.bufflist))
 }
 
 // Ticks all employees' effects
@@ -852,7 +852,8 @@ function databaseAbnormalities() {
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
-	abnos.push({"id": abno(a).id, "tag": a})
+	ab = abno(a)
+	abnos.push({"id": ab.id, "tag": a, "hp": ab.hpMax, "qcounter"})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => aArrPush(r))
