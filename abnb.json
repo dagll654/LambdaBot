@@ -97,7 +97,7 @@
 				"affstat": [false],
 				"gift": "combat",
 				"qcounter": 2,
-				"hpMax": 20,
+				"hpMax": 120,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
@@ -149,7 +149,7 @@
 				"affstat": [false],
 				"gift": "true",
 				"qcounter": 2,
-				"hpMax": 20,
+				"hpMax": 230,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
@@ -174,8 +174,8 @@
 				"effect": [false],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": 2,
-				"hpMax": 20,
+				"qcounter": 1,
+				"hpMax": 270,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
@@ -227,7 +227,7 @@
 				"affstat": [false],
 				"gift": "special",
 				"qcounter": 2,
-				"hpMax": 20,
+				"hpMax": 250,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
@@ -258,6 +258,7 @@
 			},
 			{
 				"name": "T-06-27: '1.76 MHz'",
+				"nameShort": "1.76 MHz",
 				"code": "t-06-27",
 				"color": [22, 22, 22],
 				"risk": "TETH",
@@ -276,10 +277,14 @@
 				"mood": [0, 6, 10],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "special"
+				"gift": "special",
+				"qcounter": 4,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-05-41: 'Little Helper'",
+				"nameShort": "Little Helper",
 				"code": "t-05-41",
 				"color": [244, 244, 244],
 				"risk": "HE",
@@ -298,10 +303,14 @@
 				"mood": [0, 6, 10],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "missing requirements"
+				"gift": "missing requirements",
+				"qcounter": "(X)",
+				"hpMax": 300,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-02-62: 'Bird of Judgement'",
+				"name": "Bird of Judgement",
 				"code": "o-02-62",
 				"color": [0, 0, 0],
 				"risk": "WAW",
@@ -320,10 +329,14 @@
 				"mood": [0, 7, 13],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "missing requirements"
+				"gift": "missing requirements",
+				"qcounter": 2,
+				"hpMax": 800,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-04-06: 'Happy Teddy Bear'",
+				"nameShort": "Happy Teddy Bear",
 				"code": "t-04-06",
 				"color": [0, 0, 0],
 				"risk": "HE",
@@ -342,10 +355,14 @@
 				"mood": [0, 6, 11],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "special"
+				"gift": "special",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-06-20: 'Nothing There'",
+				"nameShort": "Nothing There",
 				"code": "o-06-20",
 				"color": [0, 0, 0],
 				"risk": "ALEPH",
@@ -364,10 +381,14 @@
 				"mood": [0, 17, 27],
 				"effect": [true],
 				"affstat": [true, "fortitude", "down", 5, 10],
-				"gift": "false"
+				"gift": "false",
+				"qcounter": "1",
+				"hpMax": 2000,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-02-74: 'The Naked Nest'",
+				"nameShort": "The Naked Nest",
 				"code": "o-02-74",
 				"color": [0, 0, 0],
 				"risk": "WAW",
@@ -386,10 +407,14 @@
 				"mood": [0, 9, 15],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "missing requirements"
+				"gift": "missing requirements",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-03-88: 'Dimensional Refraction Variant'",
+				"nameShort": "Dimensional Refraction Variant",
 				"code": "o-03-88",
 				"color": [0, 0, 0],
 				"risk": "WAW",
@@ -408,10 +433,14 @@
 				"mood": [0, 9, 17],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "missing requirements"
+				"gift": "missing requirements",
+				"qcounter": 2,
+				"hpMax": 600,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-02-71: 'The Dreaming Current'",
+				"nameShort": "The Dreaming Current",
 				"code": "t-02-71",
 				"color": [0, 0, 0],
 				"risk": "WAW",
@@ -430,10 +459,14 @@
 				"mood": [0, 6, 11],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "missing requirements"
+				"gift": "missing requirements",
+				"qcounter": 2,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-02-98: 'Porccubus'",
+				"nameShort": "Porccubus",
 				"code": "o-02-98",
 				"color": [0, 0, 0],
 				"risk": "HE",
@@ -452,10 +485,14 @@
 				"mood": [0, 9, 15],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": 2,
+				"hpMax": 830,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "F-05-32: 'Warm-Hearted Woodsman'",
+				"nameShort": "Warm-Hearted Woodsman",
 				"code": "f-05-32",
 				"color": [0, 0, 0],
 				"risk": "HE",
@@ -475,10 +512,13 @@
 				"effect": [true],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": 1
+				"qcounter": 1,
+				"hpMax": 430,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-05-30: 'Singing Machine'",
+				"nameShort": "Singing Machine",
 				"code": "o-05-30",
 				"color": [0, 0, 0],
 				"risk": "HE",
@@ -496,10 +536,15 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 8, 15],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing",
+				"qcounter": 1,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-03-93: 'Blue Star'",
+				"nameShort": "Blue Star",
 				"code": "o-03-93",
 				"color": [0, 0, 0],
 				"risk": "ALEPH",
@@ -517,7 +562,11 @@
 				"tips": ["bruh", "bruh2"],
 				"mood": [0, 7, 28],
 				"effect": [true],
-				"affstat": [false]
+				"affstat": [false],
+				"gift": "missing",
+				"qcounter": 2,
+				"hpMax": 2200,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			}
 		]
 	}
