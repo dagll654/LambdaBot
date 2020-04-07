@@ -25,6 +25,7 @@
 	"abn": [
 			{
 				"name": "O-01-01: 'Test Dummy'",
+				"nameShort": "Test Dummy",
 				"code": "o-01-01",
 				"color": [0, 0, 0],
 				"risk": "LUL",
@@ -45,17 +46,8 @@
 				"affstat": [false],
 				"gift": "true",
 				"qcounter": 2,
-				"entity": {
-					"type": "a",
-					"points": {"hp": 100},
-					"attack": {
-						"damage": [1, 2],
-						"dtype": [1, 0, 0, 0]
-					},
-					"special": [
-						"Crash Course"
-					]
-				}
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
             {
 				"name": "O-03-03: 'One Sin and Hundreds of Good Deeds'",
@@ -77,10 +69,14 @@
 				"mood": [0, 4, 8],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "F-01-02: 'Scorched Girl'",
+				"nameShort": "Scorched Girl",
 				"code": "f-01-02",
 				"color": [0, 0, 0],
 				"risk": "TETH",
@@ -99,10 +95,14 @@
 				"mood": [0, 5, 8],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "combat"
+				"gift": "combat",
+				"qcounter": 2,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "F-04-83: 'The Fairy Festival'",
+				"nameShort": "The Fairy Festival",
 				"code": "f-04-83",
 				"color": [100, 255, 100],
 				"risk": "ZAYIN",
@@ -121,10 +121,14 @@
 				"mood": [0, 3, 6],
 				"effect": [true, ">1", "effect", "0"],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "O-03-60: 'Fragment of the Universe'",
+				"nameShort": "Fragment of the Universe",
 				"code": "o-03-60",
 				"color": [222, 222, 222],
 				"risk": "TETH",
@@ -143,10 +147,14 @@
 				"mood": [0, 4, 8],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": 2,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-01-54: 'Forsaken Murderer'",
+				"nameShort": "Forsaken Murderer",
 				"code": "t-01-54",
 				"color": [133, 133, 133],
 				"risk": "TETH",
@@ -165,10 +173,14 @@
 				"mood": [0, 7, 11],
 				"effect": [false],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": 2,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "F-05-52: 'Opened can of Wellcheers'",
+				"nameShort": "Opened Can of Wellcheers",
 				"code": "f-05-52",
 				"color": [133, 133, 66],
 				"risk": "ZAYIN",
@@ -187,10 +199,14 @@
 				"mood": [0, 5, 8],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-02-99: 'Void Dream'",
+				"nameShort": "Void Dream",
 				"code": "t-02-99",
 				"color": [255, 255, 255],
 				"risk": "TETH",
@@ -209,10 +225,14 @@
 				"mood": [0, 7, 9],
 				"effect": [true],
 				"affstat": [false],
-				"gift": "special"
+				"gift": "special",
+				"qcounter": 2,
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-02-43: 'Spider Bud'",
+				"nameShort": "Spider Bud",
 				"code": "t-02-43",
 				"color": [22, 22, 22],
 				"risk": "TETH",
@@ -231,7 +251,10 @@
 				"mood": [0, 7, 999],
 				"effect": [true, true],
 				"affstat": [false],
-				"gift": "true"
+				"gift": "true",
+				"qcounter": "(X)",
+				"hpMax": 20,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
 			{
 				"name": "T-06-27: '1.76 MHz'",

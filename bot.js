@@ -328,18 +328,79 @@ async function queryAndWait(q, connection) {
 	})
 }
 
-// Abnormality class (unfinished)
-class clAbn {
-	constructor (id, state = 0, qcounter = 'und', effects = '') {
+// Abno class
+class cAbn {
+	constructor(id, qcounter, hp = 20, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
 		this.id = id
-		this.state = state
-		this.qcounter = qcounter
+		this.hp = Number(hp)
+		this.dead = Number(dead)
 		this.effects = effects
+		this.defensebuffs = defensebuffs
+		this.bufflist = bufflist
+		let raw = abn.abn.find(a => a.id === this.id)
+		this.name = raw.nameShort
+		this.targetingAI = undefined
+		this.hpMax = raw.hpMax
+		this.defense = raw.defense
+		this.risk = raw.risk
+		this.ai = raw.ai
 	}
 	get effectArray() {
 		if (exists(this.effects))
 		return this.effects.split("|").map(e => e.split("/"))
 		else return []
+	}
+	get buffListArray() {
+		if (exists(this.bufflist)) return this.bufflist.split("|").map(i => i.split("/"))
+		else return []
+	}
+	get defenseBuffArray() {return this.defensebuffs.split("|").map(b => Number(b))}
+	get defenseArray() {
+		let arr = []
+		let i = 0
+		for (i = 0; i < 4; i++) {
+		arr.push(Number(this.defenseBuffArray[i]) * Number(this.defense.split("|")[i]))
+		}
+		return arr
+	}
+	heal(pointsEx, amount) {
+		let points = pointsEx.toLowerCase()
+		if (points !== "hp") {console.log(points + " " + amount); return undefined}
+		let buffs = this.buffListArray
+		let amt = Number(amount)
+		if (exists(buffs)) {
+		let regBuff = new RegExp(`misc/healbuff/hp`)
+		buffs.forEach(b => {
+			if (regBuff.test(b.join("/"))) amt += Number(b[3])*amount
+		})
+		}
+		this.hp += Number(amt)
+		if (this.hp > this.hpMax) this.hp = this.hpMax
+		return Number(amt)
+	}
+	damage(risk, typeL, amount) {
+		let amt = amount
+		let type = typeL
+		if (Array.isArray(type)) type = type[roll(type.length)]
+		switch (type.toLowerCase()) {
+			case "red":
+			amt = Number(amt)*Number(this.defenseArray[0])*rDamage(this.risk, risk)
+			this.hp -= amt
+			break
+			case "white":
+			amt = Number(amt)*Number(this.defenseArray[1])*rDamage(this.risk, risk)
+			this.hp -= amt
+			break
+			case "black":
+			amt = Number(amt)*Number(this.defenseArray[2])*rDamage(this.risk, risk)
+			this.hp -= amt
+			break
+			case "pale":
+			amt = Number(this.defenseArray[3])*(this.hpMax/100*amt)*rDamage(this.risk, risk)
+			this.hp -= amt
+			break
+		}
+		return Number(amt)
 	}
 }
 
@@ -801,7 +862,7 @@ function databaseAbnormalities() {
 	//else console.log(`${abn.abn.find(a1 => a1.id === a.id).name} included!`)
 	})
 	abnodbpush.forEach(e => {
-		let sql = "INSERT INTO abnormalities (id, state, qcounter) VALUES ('" + e + "', '0', 'und')";
+		let sql = "INSERT INTO abnormalities (id) VALUES ('" + e + "')";
 		connection.query(sql, function (err, result) {
 		if (err) throw err;
 		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
