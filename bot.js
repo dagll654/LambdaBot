@@ -1444,7 +1444,7 @@ switch (ciCmd[0]) {
 					if (cDMText === "") cDMText = "The department is empty... *crickets*"
 					let cDepCaptain = "none."
 					let cDCRole = getRole(cDepartment.name + " (C)")
-					if (cDCRole.members.array != []) cDepCaptain = cDCRole.members.first().user.tag
+					if (cDCRole.members.array() !== []) cDepCaptain = cDCRole.members.first().user.tag
 					ch.send("\n```md\n" + `[${cDepartment.name}]\n>	Captain: ${cDepCaptain}\n#	Employees: ${cDMText}` + "\n```")
 				} else {
 					let depArray = []
