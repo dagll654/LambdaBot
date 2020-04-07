@@ -10,7 +10,7 @@ Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 //begin here :D
 
 // Getting the damage calc function from bot.js 'cause that's probably smart
-rDamage = function rDamageC(rec, dea, res) {return main.rDamage(rec, dea, res)}
+/*rDamage = function rDamageC(rec, dea, res) {return main.rDamage(rec, dea, res)}
 
 function roll(sides) {
 	return Math.floor(Math.random() * sides) + 1
@@ -28,7 +28,7 @@ class encounter {
 }
 
 class entity {
-	constructor(type = "a", points = {"hp": 100, "sp": 100}, attack, special, /*actionPoints = 10,*/ id) {
+	constructor(type = "a", points = {"hp": 100, "sp": 100}, attack, special, /*actionPoints = 10, id) {
 		this.type = type
 		this.points = points
 		this.actionPoints = 5
@@ -46,6 +46,9 @@ function initiateEncounter(encounter, cCh) {
 	let round = 1
 	let header = "\n```mb\n ⚔️ | Round " + round + " of some fight idk```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
 	cCh.send(header)
+	async function encounterHandler() {
+		while 
+	}
 	
 	
 	
