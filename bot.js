@@ -1360,8 +1360,8 @@ switch (ciCmd[0]) {
 		break
 		case "afix":
 			dbnos.forEach(d => {
-				d.qcounter = "X"
-				d.state = "normal"
+				d.qcounter = "(X)"
+				d.breaching = 0
 				let cAbno = abn.abn.find(a => a.id === d.id)
 				if (cAbno.qcounter != undefined) d.qcounter = cAbno.qcounter
 				})
@@ -2010,7 +2010,7 @@ statsString.join(""),
 				special.push(".")
 				break
 			}
-			ch.send(header + ` ${jn['qliphothcounter']} Qliphoth Counter:	(${cDbno.qcounter}),\n State:	${cDbno.state}${special.join("")}`)
+			ch.send(header + ` ${jn['qliphothcounter']} Qliphoth Counter:	(${cDbno.qcounter}),\n State:	${["normal", "breaching"][cDbno.breaching]}${special.join("")}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break
