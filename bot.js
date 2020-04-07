@@ -1438,7 +1438,8 @@ switch (ciCmd[0]) {
 				
 			case "list": {
 				if (exists(ciCmd[2]) && ncdeproles.some(r => r.toLowerCase().startsWith(ciCmd[2]))) {
-					let cDepartment = getRole(ncdeproles.find(r => r.toLowerCase().startsWith(ciCmd[2])))
+					let cDepartment = getRole(jn.ncdeproles.find(r => r.toLowerCase().startsWith(ciCmd[2])))
+					console.log(cDepartment.name)
 					let cDepMembers = cDepartment.members.map(m => m.user.tag)
 					let cDMText = cDepartment.members.map(m => m.user.tag).join(", ")
 					if (cDMText = "") cDMText = "The department is empty... *crickets*"
