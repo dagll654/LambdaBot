@@ -852,8 +852,7 @@ function databaseAbnormalities() {
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
-	ab = abno(a)
-	abnos.push({"id": ab.id, "tag": a, "hp": ab.hpMax, "qcounter"})
+	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => aArrPush(r))
