@@ -1441,7 +1441,7 @@ switch (ciCmd[0]) {
 					let cDepartment = getRole(jn.ncdeproles.find(r => r.toLowerCase().startsWith(ciCmd[2])))
 					let cDepMembers = cDepartment.members.array().map(m => m.user.tag)
 					let cDMText = cDepMembers.join(", ")
-					if (cDMText = "") cDMText = "The department is empty... *crickets*"
+					if (cDMText === "") cDMText = "The department is empty... *crickets*"
 					let cDepCaptain = "none."
 					let cDCRole = getRole(cDepartment.name + " (C)")
 					if (cDCRole.members.array != []) cDepCaptain = cDCRole.members.first().user.tag
