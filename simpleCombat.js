@@ -63,4 +63,4 @@ exports.entityTest = function() {
 	console.log(testAbno)
 	console.log(testAbno.raw)
 }
-exports.testEncounter = function(channel) {initiateEncounter(testEObject, channel)}
+exports.testEncounter = function(channel) {initiateEncounter(testEObject, channel)}*/
