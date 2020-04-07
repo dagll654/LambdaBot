@@ -329,7 +329,7 @@ async function queryAndWait(q, connection) {
 }
 
 // Abno class
-class cAbn {
+class clAbn {
 	constructor(id, qcounter, hp = 20, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
 		this.id = id
 		this.hp = Number(hp)
