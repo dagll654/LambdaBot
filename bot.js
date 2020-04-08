@@ -828,13 +828,14 @@ function updateData() {
 	result.forEach(r => aArrPush(r, dbnosActual))
 	if (err) throw err
 	})
+	console.log(dbnosActual)
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
 		if (exists(databaseAbno) === false || exists(localAbno) === false) {
-			console.log(exists(databaseAbno))
+			/* console.log(exists(databaseAbno))
 			console.log(databaseAbno)
 			console.log(localAbno.id)
-			console.log("What?")
+			console.log("What?") */
 			return
 		}
 		let pushSmall = []
