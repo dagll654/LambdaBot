@@ -330,10 +330,11 @@ async function queryAndWait(q, connection) {
 
 // Abno class
 class clAbn {
-	constructor(id, qcounter, hp = 20, breaching = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
+	constructor(id, qcounter, hp = 20, breaching = 0, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
 		this.id = id
 		this.hp = Number(hp)
 		this.breaching = Number(breaching)
+		this.dead = Number(dead)
 		this.effects = effects
 		this.defensebuffs = defensebuffs
 		this.bufflist = bufflist
@@ -378,7 +379,7 @@ class clAbn {
 		if (this.hp > this.hpMax) this.hp = this.hpMax
 		return Number(amt)
 	}
-	damage(risk, typeL, amount) {
+	damage(risk, typeL, amount, returnDamageType = false) {
 		let amt = amount
 		let type = typeL
 		if (Array.isArray(type)) type = type[roll(type.length)]
@@ -396,10 +397,12 @@ class clAbn {
 			this.hp -= amt
 			break
 			case "pale":
-			amt = Number(this.defenseArray[3])*(this.hpMax/100*amt)*rDamage(this.risk, risk)
+			let amtL = Number(this.defenseArray[3])*(this.hpMax/1000*amt)*rDamage(this.risk, risk)
+			if (amtL >= amt) amt = amtL
 			this.hp -= amt
 			break
 		}
+		if (returnDamageType) return `${amt} ${jn.dtype[jn.damageTypes.indexOf(type)]}`
 		return Number(amt)
 	}
 }
