@@ -197,18 +197,27 @@
 			"level": "ZAYIN",
 			"cost": 0,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 20,
+			"moves": [
+			{"name": "Suppress", "target": "enemy", "range": 1.0},
+			{"name": "Overpower", "target": "enemy", "range": 0.7}
+			]
 		},
 		{	"id": "1",
 			"name": "The Sword",
 			"damage": [1, 2],
 			"dtype": [1, 1, 0, 0],
 			"speed": "very fast",
-			"range": "short",
+			"range": "medium",
 			"level": "LUL",
 			"cost": 1,
 			"requirements": [0, 0, 0, 0, 999999],
-			"reqString": "Employee Level +INF"
+			"reqString": "Employee Level +INF",
+			"apMax": 256,
+			"moves": [
+			{"name": "Reality Slash", "target": "enemy", "range": 10}
+			]
 		},
 		{	"id": "2",
 			"name": "Debug (butcher)",

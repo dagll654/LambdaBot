@@ -47,6 +47,7 @@
 				"gift": "true",
 				"qcounter": 2,
 				"hpMax": 20,
+				"defense": "1|1|1|1",
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
             {
