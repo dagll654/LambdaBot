@@ -827,7 +827,6 @@ function updateData() {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => aArrPush(r, dbnosActual))
 	if (err) throw err
-	console.log(dbnosActual)
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
 		if (exists(databaseAbno) === false || exists(localAbno) === false) {
@@ -843,7 +842,6 @@ function updateData() {
 			let lValue = localAbno[prop]
 			if (databaseAbno[prop] != lValue && Number(databaseAbno[prop]) != lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
-			console.log(pushSmall)
 			}
 		}
 		}
@@ -853,7 +851,6 @@ function updateData() {
 	pushBigA.forEach(q => {
 	queryAndWait(q, connection)
 	})
-	console.log(pushBigA)
 	})
 }
 
