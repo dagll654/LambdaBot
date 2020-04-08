@@ -723,7 +723,7 @@ function eArrPush(e, arr = dbployees) {
 }
 // Push an abno into an array
 function aArrPush(a, arr = dbnos) {
-	arr.push(new clAbn(a.id, a.qcounter, a.hp, a.breaching, a.effects, a.defensebuffs, a.bufflist))
+	arr.push(new clAbn(a.id, a.qcounter, a.hp, a.breaching, a.dead, a.effects, a.defensebuffs, bufflist))
 }
 
 // Ticks all employees' effects
