@@ -829,8 +829,12 @@ function updateData() {
 	if (err) throw err
 	})
 	dbnos.forEach(localAbno => {
-		let databaseAbno = dbnosActual.find(d => d.id === localAbno.id)
+		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
 		if (exists(databaseAbno) === false || exists(localAbno) === false) {
+			console.log(exists(databaseAbno))
+			console.log(databaseAbno)
+			console.log(exists(localAbno))
+			console.log(localAbno)
 			console.log("What?")
 			return
 		}
