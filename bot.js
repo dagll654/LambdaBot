@@ -825,7 +825,7 @@ function updateData() {
 	let dbnosActual = []
 	pushBigA = []
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	dbnosActual = result
+	result.forEach(r => aArrPush(r, dbnosActual))
 	if (err) throw err
 	})
 	dbnos.forEach(localAbno => {
