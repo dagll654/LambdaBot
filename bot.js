@@ -843,6 +843,7 @@ function updateData() {
 			if (databaseAbno[prop] != lValue && Number(databaseAbno[prop]) != lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
 			}
+			if (prop === "dead" || prop === "effects") console.log(databaseAbno[prop] + " " + typeof(databaseAbno[prop]) + " " + localAbno[prop] + " " + typeof(localAbno[prop]))
 		}
 		}
 		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + localAbno.id + "';"
@@ -851,6 +852,7 @@ function updateData() {
 	pushBigA.forEach(q => {
 	queryAndWait(q, connection)
 	})
+	console.log(pushBigA)
 	})
 }
 
