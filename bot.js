@@ -847,7 +847,6 @@ function updateData() {
 	queryAndWait(q, connection)
 	})
 	console.log(pushBigA)
-	})
 }
 
 // Functions like databaseEmployees()
