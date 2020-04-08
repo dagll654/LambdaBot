@@ -1365,6 +1365,7 @@ switch (ciCmd[0]) {
 			dbnos.forEach(d => {
 				d.qcounter = "(X)"
 				d.breaching = 0
+				d.dead = 0
 				let cAbno = abn.abn.find(a => a.id === d.id)
 				if (cAbno.qcounter != undefined) d.qcounter = cAbno.qcounter
 				})
