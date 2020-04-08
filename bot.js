@@ -84,6 +84,12 @@ function drFind(member) {
 	} else return undefined
 }
 
+var latestID = -1
+function assignEntityID() {
+	latestID++
+	return latestID
+}
+
 // Employee class
 class cEmp {
 	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, panicked = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
@@ -116,6 +122,7 @@ class cEmp {
 		this.gifts = gifts
 		this.inventory = inventory
 		this.luck = 0
+		this.entityID = assignEntityID()
 	}
 	get effectArray() {
 		if (exists(this.effects))
@@ -330,21 +337,24 @@ async function queryAndWait(q, connection) {
 
 // Abno class
 class clAbn {
-	constructor(id, qcounter, hp = 20, breaching = 0, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist) {
-		this.id = id
+	constructor(id, qcounter, hp = 20, breaching = 0, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist, override = {}) {
+		if (override.id) this.id = override.id
+		else this.id = id
 		this.hp = Number(hp)
 		this.breaching = Number(breaching)
 		this.dead = Number(dead)
 		this.effects = effects
 		this.defensebuffs = defensebuffs
 		this.bufflist = bufflist
-		let raw = abn.abn.find(a => a.id === this.id)
-		this.name = raw.nameShort
+		let raw = abn.abn.find(a => a.id === id)
+		if (override.name) this.name = override.name
+		else this.name = raw.nameShort
 		this.targetingAI = undefined
-		this.hpMax = raw.hpMax
+		this.hpMax = Number(raw.hpMax)
 		this.defense = raw.defense
 		this.risk = raw.risk
 		this.ai = raw.ai
+		this.entityID = assignEntityID()
 	}
 	get effectArray() {
 		if (exists(this.effects))
