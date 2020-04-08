@@ -833,8 +833,7 @@ function updateData() {
 		if (exists(databaseAbno) === false || exists(localAbno) === false) {
 			console.log(exists(databaseAbno))
 			console.log(databaseAbno)
-			console.log(exists(localAbno))
-			console.log(localAbno)
+			console.log(localAbno.id)
 			console.log("What?")
 			return
 		}
