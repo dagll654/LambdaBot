@@ -830,7 +830,10 @@ function updateData() {
 	})
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => d.id === localAbno.id)
-		if (exists(databaseAbno) === false || exists(localAbno) === false) return
+		if (exists(databaseAbno) === false || exists(localAbno) === false) {
+			console.log("What?")
+			return
+		}
 		let pushSmall = []
 		for (const prop in localAbno) {
 		if (databaseAbno[prop] !== undefined) {
