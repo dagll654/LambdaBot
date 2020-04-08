@@ -840,7 +840,7 @@ function updateData() {
 		for (const prop in localAbno) {
 		if (databaseAbno[prop] !== undefined) {
 			let lValue = localAbno[prop]
-			if (databaseAbno[prop] != lValue && Number(databaseAbno[prop]) != lValue) {					
+			if (databaseAbno[prop] !== lValue && Number(databaseAbno[prop]) !== lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
 			}
 			if (prop === "dead" || prop === "effects") console.log(databaseAbno[prop] + " " + typeof(databaseAbno[prop]) + " " + localAbno[prop] + " " + typeof(localAbno[prop]))
