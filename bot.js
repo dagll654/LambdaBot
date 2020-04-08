@@ -805,7 +805,7 @@ function updateData() {
 			}
 		}
 		if (eActual)
-		if (eActual[prop] != undefined && prop != "luck") {
+		if (eActual[prop] !== undefined && prop !== "luck" && prop !== "entityID") {
 			let lValue = e[prop]
 			if (prop === "hp" || prop === "sp") lValue = Number(lValue)*100
 			if (eActual[prop] != lValue && Number(eActual[prop]) != lValue) {					
@@ -848,7 +848,7 @@ function updateData() {
 		}
 		let pushSmall = []
 		for (const prop in localAbno) {
-		if (databaseAbno[prop] !== undefined) {
+		if (databaseAbno[prop] !== undefined && prop !== "entityID") {
 			let lValue = localAbno[prop]
 			if (databaseAbno[prop] !== lValue && Number(databaseAbno[prop]) !== lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
