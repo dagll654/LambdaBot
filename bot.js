@@ -847,7 +847,7 @@ function updateData() {
 			}
 		}
 		}
-		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + a.id + "';"
+		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + localAbno.id + "';"
 		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
 	})
 	pushBigA.forEach(q => {
