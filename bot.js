@@ -851,7 +851,6 @@ function updateData() {
 	pushBigA.forEach(q => {
 	queryAndWait(q, connection)
 	})
-	console.log(pushBigA)
 	})
 }
 
