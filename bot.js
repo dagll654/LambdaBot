@@ -841,7 +841,7 @@ function updateData() {
 		for (const prop in localAbno) {
 		if (databaseAbno[prop] !== undefined) {
 			let lValue = localAbno[prop]
-			if (databaseAbno[prop] !== lValue && Number(databaseAbno[prop]) !== lValue) {					
+			if (databaseAbno[prop] != lValue && Number(databaseAbno[prop]) != lValue) {					
 			pushSmall.push("`" + prop + "` = '" + lValue + "'")
 			console.log(pushSmall)
 			}
