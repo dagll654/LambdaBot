@@ -827,7 +827,6 @@ function updateData() {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => aArrPush(r, dbnosActual))
 	if (err) throw err
-	})
 	console.log(dbnosActual)
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
@@ -855,6 +854,7 @@ function updateData() {
 	queryAndWait(q, connection)
 	})
 	console.log(pushBigA)
+	})
 }
 
 // Functions like databaseEmployees()
