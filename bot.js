@@ -2142,7 +2142,7 @@ statsString.join(""),
 									shopMessage += "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n"
 									shopMessage += sidearms.map(s => {
 										let ret = [
-										`${bck}${s.i}${bck}) ${s.name}`
+										`${"`" + s.i + "`"}) ${s.name}`,
 										`\n Description:  ${s.description}`,
 										`\n Effects:  ${s.effect}`,
 										`\n Cost:  ${s.cost} ${jn.ppebox}`
