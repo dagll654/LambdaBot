@@ -562,7 +562,7 @@
 			"text": "+2 Fortitude, +2 Temperance"
 		}
 	],
-	"items":	
+	"bullets":	
 	[
 		{
 		"name": "Small HP Bullet",
@@ -572,7 +572,8 @@
 		"action": "hpbullet",
 		"itemName": "hpbullet",
 		"emoji": "hpheal",
-		"affectedStat": ["hp", "fortL"]
+		"affectedStat": ["hp", "fortL"],
+		"bulletID": "1"
 		},
 		{
 		"name": "Small SP Bullet",
@@ -582,8 +583,39 @@
 		"action": "spbullet",
 		"itemName": "spbullet",
 		"emoji": "spheal",
-		"affectedStat": ["sp", "prudL"]
+		"affectedStat": ["sp", "prudL"],
+		"bulletID": "2"
 		}
+	],
+	"sidearms": 
+	[
+		{
+		"name": "EBS1 Revolver",
+		"description": "This revolver is the standard sidearm issued to all agents of the facility X-438(E). Rather than being used for subduing threats, it has been repurposed to be able to shoot special 'buff bullets' that can have a range of effects on employees and abnormalities. Due to the nature of these bullets, it is impossible to store them without special casing, so the maximum amount of buff bullets an agent can carry is pretty low, however the casing has an added benefit of passively restoring the bullet stock during the events commonly referred to as the 'qliphoth meltdowns'.",
+		"cost": 0,
+		"baseCapacity": 6,
+		"maxCapacity": 7,
+		"effect": "none",
+		"id": "0"
+		},
+		{
+		"name": "EBS2 Semi-automatic pistol",
+		"description": "This is an experiment with the buff sidearms' fundamental design in that it operates on the basis of using magazines rather than clips for loading. While this does provide a larger ammo capacity and decrease loading time, due to the bullets' properties it also means that the effects of buff bullets fired from this sidearm are somewhat diminished. Another severe downside of such design is that the order in which the bullets are fired cannot be easily manipulated, and as such it provides less tactical versatility. As a back-up measure, a mechanism that allows to quickly expel the bullet in the chamber was installed, but a bullet extracted in such a fashion is rendered unusable.",
+		"cost": 250,
+		"baseCapacity": 10,
+		"maxCapacity": 14,
+		"effect": "25% faster loading (but can only use magazines), AP cost of usage decreased, bullet effectiveness decreased by 20%",
+		"id": "1"
+		},
+		{
+		"name": "EBS3-I Revolver",
+		"description": "Similar to the EBS1, but different in that the design has been improved to better utilize the anomalous nature of the buff bullets. This revolver's cylinder is fixed, unlike the swing-out cylinder of EBS1. While that severely impacts bullet loading speed, the more rigid design allows for the buff bullets to be used to their maximum potential by minimizing qliphoth interference. As such, the bullets' effects are amplified when fired from this sidearm as opposed to the standard one.",
+		"cost": 850,
+		"baseCapacity": 7,
+		"maxCapacity": 9,
+		"effect": "80% slower loading, bullet effectiveness increased by 45%"
+		"id": "2"
+		},
 	]
 		
 

@@ -92,7 +92,7 @@ function assignEntityID() {
 
 // Employee class
 class cEmp {
-	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, panicked = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", luck = 0) {
+	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, panicked = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", sidearm = "0", bullets = "0|0|0|0|0|0", luck = 0) {
 		this.id = id
 		this.tag = tag
 		this.hp = hp/100
@@ -121,8 +121,20 @@ class cEmp {
 		this.statlimit = statlimit
 		this.gifts = gifts
 		this.inventory = inventory
+		this.sidearm = sidearm
+		this.bullets = bullets
 		this.luck = 0
 		this.entityID = assignEntityID()
+	}
+	get sidearmArray() {
+		if (exists(this.sidearm))
+		return this.sidearm.split("|")
+		else return []
+	}
+	get bulletsArray() {
+		if (exists(this.bullets))
+		return this.bullets.split("|")
+		else return []
 	}
 	get effectArray() {
 		if (exists(this.effects))
@@ -729,7 +741,7 @@ function work(employee1, abno1, order1, channel) {
 
 // Push an employee into an array
 function eArrPush(e, arr = dbployees) {
-	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.panicked, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory))
+	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.panicked, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory, e.sidearm, e.bullets))
 }
 // Push an abno into an array
 function aArrPush(a, arr = dbnos) {
@@ -1649,7 +1661,7 @@ statsString.join(""),
 			
 			cUser = emp
 			const cCh = channel
-			const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.pebox} PPE Boxes: ${cUser.balance}\n`
+			const header = "\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
 			const acts = `Type in 'equip' to open the equip menu, 'discard' to open the equipment removal menu, 'bullet' to open the bullet menu, 'exit' to leave.`
 			
 			let inventoryS // Local suit object inventory
@@ -1683,7 +1695,6 @@ statsString.join(""),
 					await cCh.awaitMessages(r => r.author.id === cUser.id, { max: 1, time: 25000 }).then(r => {
 					let rp = r.first()
 					if (rp != undefined) {
-					rp.delete({ 'timeout': 2000 })
 					let mr = rp.content.toLowerCase().split(" ")
 					
 					if (mr[0] != "!lc") {
@@ -1707,45 +1718,8 @@ statsString.join(""),
 							break
 							
 							case "bullet":
-							if (menuIndex === "bullet" && ret != 1 && k != 1) {
-							let inv = cUser.inventoryArray
-							let hpbullet = 0
-							let spbullet = 0
-							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-							
-							{
-							if (cUser.dead === 1) {
-							cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-							return
-							}
-							let inventory = cUser.inventoryArray
-							if (exists(inventory)) {
-							let bullet = gear.items.find(i => i.shortcuts.includes(mr[0]))
-							if (exists(bullet)) {
-							if (bullet.usable === "true") {
-							if (inventory.some(i => i[0] === bullet.itemName)) {
-							let amount
-							if (exists(mr[1]) && /\D/.test(mr[1]) === false) {
-								amount = Number(mr[1])
-							} else amount = 1
-							if (inventory.find(i => i[0] === bullet.itemName)[1] >= amount) {
-							let effectApplied = fn.effectApplication[bullet.action](cUser, amount)
-							cCh.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
-							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
-							} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
-							} else cCh.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
-							}
-							}
-							}
-							
-							k = 1
-							wait(10).then(() => {
-							if (inv.some(i => i[0] === "hpbullet")) hpbullet = inv.find(i => i[0] === "hpbullet")[1]
-							if (inv.some(i => i[0] === "spbullet")) spbullet = inv.find(i => i[0] === "spbullet")[1]
-							menumsg.edit(header + `\n	Bullet inventory:\n		${jn.hpheal} HP Bullets: ${hpbullet}\n		${jn.spheal} SP Bullets: ${spbullet}\n\n	Type in 'hp' or 'sp' to use the respective bullet, 'sp'/'hp' (number) to use multiple bullets, 'cancel' to go back, 'exit' to exit.`)
-							})
-							}
+								ret = 1
+								ch.send(`The bullet menu is under reconstruction.`)
 							break
 							
 							case "equip":
@@ -1957,31 +1931,7 @@ statsString.join(""),
 			} break
 			
 			case "b": {
-			let cUser = dbployees.e(msg.author.id)
-			let cCh = msg.channel
-			if (cUser.dead === 1) {
-			cCh.send(`**${cUser.tag}**, you are currently dead and cannot use buff bullets.`)
-			return
-			}
-			// !lc[0] b[1] hp[2] 1[3]
-			let inventory = cUser.inventoryArray
-			if (exists(inventory)) {
-			let bullet = gear.items.find(i => i.shortcuts.includes(ciCmd[2]))
-			if (exists(bullet)) {
-			if (bullet.usable === "true") {
-			if (inventory.some(i => i[0] === bullet.itemName)) {
-			let amount
-			if (exists(ciCmd[3]) && /\D/.test(ciCmd[3]) === false) {
-				amount = Number(ciCmd[3])
-			} else amount = 1
-			if (inventory.find(i => i[0] === bullet.itemName)[1] >= amount) {
-			let effectApplied = fn.effectApplication[bullet.action](cUser, amount)
-			cCh.send("**" + msg.author.tag + "** " + `used ${amount}x[${bullet.name}] (${effectApplied} ${jn[bullet.emoji]}, ${cUser[bullet.affectedStat[0]]}/${cUser[bullet.affectedStat[1]]} ${jn[bullet.affectedStat[0]]})`)
-			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have that much of that consumable item in your inventory.")
-			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any of that consumable item in your inventory.")
-			} else cCh.send("**" + msg.author.tag + "**, " + "error: specified item is not a bullet/consumable.")
-			} else cCh.send("**" + msg.author.tag + "**, " + "error: incorrect item specified.")
-			} else cCh.send("**" + msg.author.tag + "**, " + "you do not have any consumable items in your inventory.")
+			cCh.send("The bullet menu is under reconstruction.")
 			} break
 			
 			case "help": {
@@ -1990,11 +1940,12 @@ statsString.join(""),
 				
 			} else {
 				let helpArr = [
-					"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work, arguments in {curly brackets} are options and only one needs to be specified.\n",
-					"	`!lc assign {control/training/extraction etc}` - assigns you to the specified department.",
+					"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work.\n",
+					"	`!lc assign (control/training/extraction etc)` - assigns you to the specified department.",
 					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
 					"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
+					"	`!lc (ex/work) list` - shows the list of workable abnormalities. `!lc ex list` also shows how much abnormality-specific PE boxes you have.",
 					"	`!lc debuff {apply/remove} (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
 					"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
 					"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
@@ -2184,29 +2135,22 @@ statsString.join(""),
 								else {invResponse(rp); k = 1}
 								break
 								
-								case "bulletshop":
-									let hpCost = gear.items.find(i => i.itemName === "hpbullet").cost
-									let spCost = gear.items.find(i => i.itemName === "spbullet").cost
-									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Select a bullet type to manufacture using your PPE boxes:\n\n		${jn.hpheal} HP Bullets - ${hpCost} ${jn.ppebox} PPE boxes\n		${jn.spheal} SP Bullets - ${spCost} ${jn.ppebox} PPE boxes\n\n	Type in 'hp'/'sp' to purchase the respective bullet, or 'hp'/'sp' (number) to purchase in bulk, 'return' to go back to the main extraction menu or 'exit' to exit.`)
-									if (["hp", "sp"].includes(mr.split(" ")[0])) {
-									mr0 = mr.split(" ")[0]
-									let amt
-									let price = {"hp": hpCost, "sp": spCost}[mr0]
-									if (mr.split(" ")[1] === undefined || Number.isInteger(Number(mr.split(" ")[1])) === false) amt = 1
-									else amt = Number(mr.split(" ")[1])
-									
-									if (amt*price > cUser.balance) forceReturn(rp, "you do not have enough PE boxes to make this purchase.")
-									else {
-									let inv = cUser.inventory.split("/").map(i => [i.split("|")[0], i.split("|")[1]]).filter(i => i[0] != undefined && i[0] != "" && i[0] != 'undefined')
-									if (inv.some(i => i[0].startsWith(mr0)) === false) inv.push([mr0+"bullet", amt])
-									else inv.find(i => i[0].startsWith(mr0))[1] -= -amt
-									cUser.balance -= amt*price
-									inv = inv.map(i => {return i.join("|")})
-									cUser.inventory = inv.join("/")
-									cCh.send("**" + cUser.tag + "**, " + `succesfully purchased ${amt} ${jn[mr0+"heal"]} ${mr0.toUpperCase()} bullet(s).`) 
-									}}
-									k = 1
-								break
+								case "bulletshop": {
+									let shopMessage = ""
+									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id}})
+									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
+									shopMessage += "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n"
+									shopMessage += sidearms.map(s => {
+										let ret = [
+										"`" + s.i + "`)" + s.name,
+										"\n Description: " + s.description,
+										"\n Effects: " + s.effect
+										"\n Cost: " + s.cost + ` ${jn.ppebox}`
+										]
+										return
+									}).join("\n	")
+									cCh.send(shopMessage)
+								} break
 									
 								case "shop":
 									currentShop = {"boxes": Number(cUser.getBox(currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.id], gear.weapons[currentAbno.id]]}
