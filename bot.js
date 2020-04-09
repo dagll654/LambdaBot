@@ -2141,14 +2141,12 @@ statsString.join(""),
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n`
 									shopMessage += sidearms.map(s => {
 										let ret = [
-										`${"`" + s.i + "`"}) ${s.name}`,
-										`\n Description:  ${s.description}`,
-										`\n Effects:  ${s.effect}`,
-										`\n Cost:  ${s.cost} ${jn.ppebox}`
+										`${"`" + s.i + "`"}) ${s.name}`
 										]
 										return ret
 									}).join("\n	")
 									cCh.send(shopMessage)
+									k = 1
 								} break
 									
 								case "shop":
