@@ -566,13 +566,13 @@
 	[
 		{
 		"name": "Small HP Bullet",
-		"description": "Restores 15 HP."
+		"description": "Restores 15 HP.",
 		"action": "hpbullet",
 		"bulletID": "1"
 		},
 		{
 		"name": "Small SP Bullet",
-		"description": "Restores 15 SP."
+		"description": "Restores 15 SP.",
 		"action": "spbullet",
 		"bulletID": "1"
 		}
