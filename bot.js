@@ -2133,35 +2133,43 @@ statsString.join(""),
 							switch (menuIndex) {
 								
 								// Main menu of extraction 
-								case "main": 
+								case "main": if (k !== 1) {
 								if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
 									currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
 									currentAbnoCode = rp.content.toLowerCase()
 									menuIndex = "shop"
 								} else if (mr === "bullet" || mr === "bullets") menuIndex = "bulletshop"
 								else {invResponse(rp); k = 1}
-								break
+								} break
 								
-								case "bulletshop": 
-									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id}})
-									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id}})
-									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
+								case "bulletshop": if (k !== 1) {
+									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id, "type": "sidearms"}})
+									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id, "type": "bullets"}})
+									let shop = sidearms.concat(bullet)
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n Available sidearms:\n	`
 									let sidearmsArray = sidearms.map(s => `${bck + stringNormalizer(s.i.toString(), -2) + bck}) ${s.name}`)
-									let bulletsArray = bullets.map(s => `${bck + stringNormalizer(s.i.toString(), -2) + bck}) ${s.name}`)
+									let bulletsArray = bullets.map(b => `${bck + stringNormalizer(b.i.toString(), -2) + bck}) ${b.name}`)
 									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:\n	" + bulletsArray.join("\n	")
 									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or 'cancel'/'return' to go back.`)
+									if (shop.some(s => s.i === Number(rp.content))) 
+									menuIndex = bulletshop
+									else k = 1
+								} break
+								
+								case "bulletpurchase": if (k !== 1) {
+									let purChoice = shop.find(s => s.i === Number(rp.content))
+									console.log(purChoice)
 									k = 1
-								break
+								} break
 									
-								case "shop":
+								case "shop": if (k !== 1) {
 									currentShop = {"boxes": Number(cUser.getBox(currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.id], gear.weapons[currentAbno.id]]}
 									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O:	${currentAbno.name}\n		${suit(currentAbno.id)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.id)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} PPE boxes.\n	Type in 'suit' or 'weapon' to purchase, 'exit' to exit or 'return' to select a different abnormality.`)
 									if ((rp.content.toLowerCase() === "suit") || (rp.content.toLowerCase() === "weapon")) menuIndex = "purchase"
 									else k = 1
-								break
+								} break
 								
-								case "purchase":
+								case "purchase": if (k !== 1) {
 									switch (rp.content.toLowerCase()) {
 										case "suit":
 											cInv = "inventorys"
@@ -2190,9 +2198,9 @@ statsString.join(""),
 									menumsg.edit("\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```\n" + `	Extraction of E.G.O: ${currentAbno.name}\n		${suit(currentAbno.id)}  -  ${currentShop.gear[0].cost} ${jn.pebox}\n		${weapon(currentAbno.id)}  -  ${currentShop.gear[1].cost} ${jn.pebox}\n	You have ${currentShop.boxes} ${jn.pebox} PE boxes and ${cUser.balance} ${jn.ppebox} PPE boxes.\n\n	Are you sure you want to purchase ${item}? This will cost you ${prices[0]} PE boxes${tmptxt}. (**y**/**n**)`)
 									menuIndex = "purChoice"
 									k = 1
-								break
+								} break
 								
-								case "purChoice":
+								case "purChoice": if (k !== 1) {
 									if ((rp.content.toLowerCase() != "y") && (rp.content.toLowerCase() != "n")) {forceReturn(rp, "invalid response."); menuIndex = "shop"; k = 1; break}
 									if (rp.content.toLowerCase() === "y") {
 										rp.reply("Successfully purchased " + item)
@@ -2206,7 +2214,7 @@ statsString.join(""),
 								default:
 								k = 1
 								menuIndex = "fail"
-								break
+								} break
 							}// [/switch]
 							ki++
 							}
