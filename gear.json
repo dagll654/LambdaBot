@@ -568,13 +568,13 @@
 		"name": "Small HP Bullet",
 		"description": "Restores 15 HP.",
 		"action": "hpbullet",
-		"bulletID": "1"
+		"id": "1"
 		},
 		{
 		"name": "Small SP Bullet",
 		"description": "Restores 15 SP.",
 		"action": "spbullet",
-		"bulletID": "1"
+		"id": "1"
 		}
 	],
 	"sidearms": 

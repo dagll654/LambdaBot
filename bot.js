@@ -2161,8 +2161,9 @@ statsString.join(""),
 									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id, "type": "bullets"}})
 									let shop = sidearms.concat(bullets)
 									let item = shop.find(s => s.i === Number(rp.content))
-									let itemRaw = gear[item.type]
-									console.log(purChoice)
+									let itemRaw = gear[item.type].find(i => i.id === item.id)
+									console.log(item)
+									console.log(item)
 									k = 1
 								} break
 									
