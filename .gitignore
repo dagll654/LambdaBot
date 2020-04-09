@@ -1027,3 +1027,4 @@ node_modules/ws/LICENSE
 node_modules/ws/package.json
 node_modules/ws/README.md
 tempbot.js
+nodemon.json

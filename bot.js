@@ -8,13 +8,6 @@ const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const sc = require("./simpleCombat.js") // The simple version of combat
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
-/* var pool = db.createPool({
-	connectionLimit : 10, // default = 10
-	host: "johnny.heliohost.org",
-	user: "dagll_bot",
-	password: process.env.DB_PASS,
-	database: "dagll_lambdabase"
-}) */
 var connection = db.createConnection({
 	host: "lacreme.heliohost.org",
 	user: "lacreme_bot",
