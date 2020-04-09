@@ -1,4 +1,4 @@
-// Required stuff
+// Required stuff 
 const Discord = require('discord.js') // Self-explanatory
 const db = require('mysql') // Mysql dependency for accessing the database
 // Additional files
@@ -2378,4 +2378,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-}) // End
+}) // End 
