@@ -2143,7 +2143,7 @@ statsString.join(""),
 									let sidearmsArray = sidearms.map(s => `${"`" + s.i + "`"}) ${s.name}`)
 									let bulletsArray = bullets.map(s => `${"`" + s.i + "`"}) ${s.name}`)
 									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:" + bulletsArray.join("\n	")
-									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or ${"`" + cancel + "`"} `)
+									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or 'cancel'/'return' to go back.`)
 									k = 1
 								break
 									
