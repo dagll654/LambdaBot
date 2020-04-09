@@ -2145,7 +2145,7 @@ statsString.join(""),
 								case "bulletshop": if (k !== 1) {
 									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id, "type": "sidearms"}})
 									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id, "type": "bullets"}})
-									let shop = sidearms.concat(bullet)
+									let shop = sidearms.concat(bullets)
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n Available sidearms:\n	`
 									let sidearmsArray = sidearms.map(s => `${bck + stringNormalizer(s.i.toString(), -2) + bck}) ${s.name}`)
 									let bulletsArray = bullets.map(b => `${bck + stringNormalizer(b.i.toString(), -2) + bck}) ${b.name}`)
