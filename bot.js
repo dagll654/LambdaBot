@@ -2157,6 +2157,9 @@ statsString.join(""),
 								} break
 								
 								case "bulletpurchase": if (k !== 1) {
+									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id, "type": "sidearms"}})
+									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id, "type": "bullets"}})
+									let shop = sidearms.concat(bullets)
 									let item = shop.find(s => s.i === Number(rp.content))
 									let itemRaw = gear[item.type]
 									console.log(purChoice)
