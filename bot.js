@@ -2152,7 +2152,7 @@ statsString.join(""),
 									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:\n	" + bulletsArray.join("\n	")
 									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or 'cancel'/'return' to go back.`)
 									if (shop.some(s => s.i === Number(rp.content))) 
-									menuIndex = bulletshop
+									menuIndex = "bulletpurchase"
 									else k = 1
 								} break
 								
