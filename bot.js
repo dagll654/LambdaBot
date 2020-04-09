@@ -90,6 +90,13 @@ function assignEntityID() {
 	return latestID
 }
 
+function stringNormalizer(string, length, alignment = "left") {
+	if (length >= string.length) {
+	if (alignment === "left") return string + new Array(length - string.length).fill(" ").join("")
+		else return new Array(length - string.length).fill(" ").join("") + string
+	} else return string
+}
+
 // Employee class
 class cEmp {
 	constructor(id, tag, hp = 1700, sp = 1700, fortitude = 17, prudence = 17, temperance = 17, justice = 17, suit = "0", weapon = "0", inventorys, inventoryw, working = 0, dead = 0, panicked = 0, balance = 0, balancespecific = "", subpoints = "0|0|0|0", effects = 'null', buffs = "0|0|0|0", defensebuffs = "1|1|1|1", bufflist, tjtime = Date.now(), statlimit = 100, gifts = "", inventory = "", sidearm = "0", bullets = "0|0|0|0|0|0", luck = 0) {
@@ -2140,8 +2147,8 @@ statsString.join(""),
 									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id}})
 									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n Available sidearms:\n	`
-									let sidearmsArray = sidearms.map(s => `${"`" + s.i + "`"}) ${s.name}`)
-									let bulletsArray = bullets.map(s => `${"`" + s.i + "`"}) ${s.name}`)
+									let sidearmsArray = sidearms.map(s => `${"`" + stringNormalizer(s.i.toString(), 2) + "`"}) ${s.name}`)
+									let bulletsArray = bullets.map(s => `${"`" + stringNormalizer(s.i.toString(), 2) + "`"}) ${s.name}`)
 									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:\n	" + bulletsArray.join("\n	")
 									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or 'cancel'/'return' to go back.`)
 									k = 1
