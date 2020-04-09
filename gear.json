@@ -568,12 +568,14 @@
 		"name": "Small HP Bullet",
 		"description": "Restores 15 HP.",
 		"action": "hpbullet",
+		"cost": 80,
 		"id": "1"
 		},
 		{
 		"name": "Small SP Bullet",
 		"description": "Restores 15 SP.",
 		"action": "spbullet",
+		"cost": 80,
 		"id": "1"
 		}
 	],
