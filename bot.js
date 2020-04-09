@@ -2118,8 +2118,8 @@ statsString.join(""),
 						let mr = rp.content.toLowerCase()
 						
 						if (rp.content.toLowerCase().startsWith("!lc") === false) {
-						if (rp.content.toLowerCase() != "exit") {
-						if (rp.content.toLowerCase() != "return") {
+						if (rp.content.toLowerCase() !== "exit") {
+						if (rp.content.toLowerCase() !== "return" && rp.content.toLowerCase() !== "cancel") {
 							let k = 0
 							let ki = 0
 							while (k === 0 && ki < 4) {
@@ -2135,19 +2135,17 @@ statsString.join(""),
 								else {invResponse(rp); k = 1}
 								break
 								
-								case "bulletshop": {
+								case "bulletshop": 
 									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id}})
+									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": i.name, "description": i.description, "cost": s.cost, "id": s.id}})
 									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n Available sidearms:\n	`
-									shopMessage += sidearms.map(s => {
-										let ret = [
-										`${"`" + s.i + "`"}) ${s.name}`
-										]
-										return ret
-									}).join("\n	")
-									cCh.send(shopMessage)
+									let sidearmsArray = sidearms.map(s => `${"`" + s.i + "`"}) ${s.name}`)
+									let bulletsArray = bullets.map(s => `${"`" + s.i + "`"}) ${s.name}`)
+									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:" + bulletsArray.join("\n	")
+									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or ${"`" + cancel + "`"} `)
 									k = 1
-								} break
+								break
 									
 								case "shop":
 									currentShop = {"boxes": Number(cUser.getBox(currentAbnoCode)), "name": currentAbno.name, "gear": [gear.suits[currentAbno.id], gear.weapons[currentAbno.id]]}

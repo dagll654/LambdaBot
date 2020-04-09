@@ -566,25 +566,15 @@
 	[
 		{
 		"name": "Small HP Bullet",
-		"usable": "true",
-		"cost": 10,
-		"shortcuts": ["hp", "hpbullet", "shp", "shpbullet"],
+		"description": "Restores 15 HP."
 		"action": "hpbullet",
-		"itemName": "hpbullet",
-		"emoji": "hpheal",
-		"affectedStat": ["hp", "fortL"],
 		"bulletID": "1"
 		},
 		{
 		"name": "Small SP Bullet",
-		"usable": "true",
-		"cost": 10,
-		"shortcuts": ["sp", "spbullet", "ssp", "sspbullet"],
+		"description": "Restores 15 SP."
 		"action": "spbullet",
-		"itemName": "spbullet",
-		"emoji": "spheal",
-		"affectedStat": ["sp", "prudL"],
-		"bulletID": "2"
+		"bulletID": "1"
 		}
 	],
 	"sidearms": 
