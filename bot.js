@@ -2147,8 +2147,8 @@ statsString.join(""),
 									let bullets = gear.bullets.map((b, i) => {return {"i": i+sidearms.length+1, "name": b.name, "description": b.description, "cost": b.cost, "id": b.id}})
 									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
 									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n Available sidearms:\n	`
-									let sidearmsArray = sidearms.map(s => `${"`" + stringNormalizer(s.i.toString(), 2, 1) + "`"}) ${s.name}`)
-									let bulletsArray = bullets.map(s => `${"`" + stringNormalizer(s.i.toString(), 2, 1) + "`"}) ${s.name}`)
+									let sidearmsArray = sidearms.map(s => `${stringNormalizer(s.i.toString(), 2, 1)}) ${s.name}`)
+									let bulletsArray = bullets.map(s => `${stringNormalizer(s.i.toString(), 2, 1)}) ${s.name}`)
 									shopMessage += sidearmsArray.join("\n	") + "\n\n Available bullet replicators:\n	" + bulletsArray.join("\n	")
 									menumsg.edit(shopMessage + `\n\n	Type in the number corresponding to an item to bring up more actions and detailed information, or 'cancel'/'return' to go back.`)
 									k = 1
