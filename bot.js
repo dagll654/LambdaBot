@@ -2163,7 +2163,7 @@ statsString.join(""),
 									let item = shop.find(s => s.i === Number(rp.content))
 									let itemRaw = gear[item.type].find(i => i.id === item.id)
 									console.log(item)
-									console.log(item)
+									console.log(itemRaw)
 									k = 1
 								} break
 									
