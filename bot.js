@@ -2157,7 +2157,8 @@ statsString.join(""),
 								} break
 								
 								case "bulletpurchase": if (k !== 1) {
-									let purChoice = shop.find(s => s.i === Number(rp.content))
+									let item = shop.find(s => s.i === Number(rp.content))
+									let itemRaw = gear[item.type]
 									console.log(purChoice)
 									k = 1
 								} break
@@ -2211,10 +2212,11 @@ statsString.join(""),
 										break
 									}
 									else if (rp.content.toLowerCase() === "n") {forceReturn(rp, "purchase cancelled."); menuIndex = "shop"; break}
+								}
 								default:
 								k = 1
 								menuIndex = "fail"
-								} break
+								break
 							}// [/switch]
 							ki++
 							}
