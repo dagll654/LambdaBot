@@ -2136,10 +2136,9 @@ statsString.join(""),
 								break
 								
 								case "bulletshop": {
-									let shopMessage = ""
 									let sidearms = gear.sidearms.map((s, i) => {return {"i": i+1, "name": s.name, "description": s.description, "cost": s.cost, "id": s.id}})
 									"\n```mb\n 📦 | Showing inventory of " + cUser.tag + "```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n`
-									shopMessage += "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n"
+									let shopMessage = "\n```mb\n 📤 | Welcome to the extraction hub, employee " + cUser.tag + ".\n```" + `		${jn.ppebox} PPE Boxes: ${cUser.balance}\n\n`
 									shopMessage += sidearms.map(s => {
 										let ret = [
 										`${"`" + s.i + "`"}) ${s.name}`,
@@ -2147,7 +2146,7 @@ statsString.join(""),
 										`\n Effects:  ${s.effect}`,
 										`\n Cost:  ${s.cost} ${jn.ppebox}`
 										]
-										return
+										return ret
 									}).join("\n	")
 									cCh.send(shopMessage)
 								} break
