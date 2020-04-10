@@ -16,6 +16,21 @@ var connection = db.createConnection({
 });
 // Getting a connection
 connection.connect(function(err2) {
+connection.query(`SET SESSION wait_timeout = 1200;`, err => {if (err) throw err})
+connection.query(`SHOW PROCESSLIST;`, (err, result) => {
+	if (err) throw err
+	deadConnections = result.filter(c => c.Command === "Sleep")
+	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
+	console.log(`Killed off ${deadConnections.length} connections.`)
+})
+	
+process.on('exit', (code) => {
+	connection.destroy()
+	client.destroy()
+	console.log(`Process exited with code ${code}.`)
+})
+
+if (err2) {connection.destroy(); connection.destroy(); throw err2}
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 var bch
@@ -705,7 +720,7 @@ function work(employee1, abno1, order1, channel) {
 		if (e.dead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(cHp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(cSp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
 		let aRisk = jn.risk.indexOf(cAbno.risk)
@@ -1116,10 +1131,31 @@ console.log(log);
 }
 
 // If the message's author is a bot, just ignore it
-if ((msg.author.bot && botPass === 0 && ((msg.content.startsWith("Initiating vote for ") === false))) || msg.channel.id === '695577286568837220') return;
+if ((msg.author.bot && botPass === 0) || msg.channel.id === '695577286568837220') return;
 
 if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 
+async function initVote(channel, voter, candidate) {
+	console.log(voter)
+	console.log(drFind(voter))
+	voteMessage = await channel.send(`Initiating vote for **${candidate.tag}** to become the captain of ${drFind(voter).name}.`)
+	let voters = drFind(voter).members.map(v => v.id)
+	voteMessage.react('✅')
+	voteMessage.react('🚫')
+	let requiredVotes
+	if (voters.length > (5 + Math.floor(voters.length / 3))) requiredVotes = 5 + Math.floor(voters.length / 3)
+		else requiredVotes = voters.length
+	let yee = 0
+	let boo = 0
+	let collector = voteMessage.createReactionCollector(true, { time: 15000 }) 
+	collector.on('collect', (a, b, c) => {
+		console.log(a)
+		console.log(b)
+		console.log(c)
+	})
+}
+
+/*
 // Vote stuff - I positively cannot be arsed to rewrite this shite
 if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) && (msg.author.id === '607520778178527246')) {
 	voting = 1
@@ -1179,7 +1215,7 @@ if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) &
 			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
 	}
 	})
-}
+}*/
 
 // Command check
 if (mesc[0] === "!") {
@@ -1291,6 +1327,20 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "vt":
+			initVote(ch, DELTAS().members.cache.get(getUser("mush").id), getUser("mush"))
+		break
+		case "sudoku":
+			updateData()
+			wait(1000).then(() => process.exit())
+		break
+		case "kc":
+			connection.query(`KILL ${csCmd[2]};`, (err, result) => {
+				if (err) throw err
+			})
+		break
+		case "test":
+			
 		case "upd":
 			updateData()
 		break
@@ -1474,7 +1524,7 @@ switch (ciCmd[0]) {
 					if (cDMText === "") cDMText = "The department is empty... *crickets*"
 					let cDepCaptain = "none."
 					let cDCRole = getRole(cDepartment.name + " (C)")
-					if (cDCRole.members.array() !== []) cDepCaptain = cDCRole.members.first().user.tag
+					if (cDCRole.members.array().length !== 0) cDepCaptain = cDCRole.members.array()[0].user.tag
 					ch.send("\n```md\n" + `[${cDepartment.name}]\n>	Captain: ${cDepCaptain}\n#	Employees: ${cDMText}` + "\n```")
 				} else {
 					let depArray = []
@@ -1943,10 +1993,10 @@ statsString.join(""),
 					"Disambiguation: arguments in [square brackets] are optional, arguments in (parentheses) are required for the command to work.\n",
 					"	`!lc assign (control/training/extraction etc)` - assigns you to the specified department.",
 					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
-					"	`!lc w (abnormality ID) {instinct/insight/attachment/repression}` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
+					"	`!lc w (abnormality ID) (instinct/insight/attachment/repression)` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
 					"	`!lc (ex/work) list` - shows the list of workable abnormalities. `!lc ex list` also shows how much abnormality-specific PE boxes you have.",
-					"	`!lc debuff {apply/remove} (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
+					"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
 					"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
 					"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
 					"	`!lc captain`:",
@@ -2155,7 +2205,8 @@ statsString.join(""),
 									let shop = sidearms.concat(bullets)
 									let item = shop.find(s => s.i === Number(rp.content))
 									let itemRaw = gear[item.type].find(i => i.id === item.id)
-									
+									console.log(item)
+									console.log(itemRaw)
 									k = 1
 								} break
 									
