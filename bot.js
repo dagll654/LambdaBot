@@ -716,12 +716,10 @@ function work(employee1, abno1, order1, channel) {
 	if (e.buffListArray.some(b => b[0] === cAbno.code)) {
 		let b = e.buffListArray.find(b => b[0] === cAbno.code)
 		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
-		if (b[1] === "schance") console.log("Abno buff: " + b)
 	}
 	if (e.buffListArray.some(b => b[0] === order)) {
 		let b = e.buffListArray.find(b => b[0] === order)
 		if (b[1] === "schance" && Number.isNaN(Number(b[2])) === false) successChancet += Number(b[2])
-		if (b[1] === "schance") console.log("Order buff: " + b)
 	}
 	if (cAbno.affstat[0] === true) {
 		successChancet -= fn.affstat(cAbno.code, respectiveStat, e)
@@ -747,9 +745,9 @@ function work(employee1, abno1, order1, channel) {
 		if (cRoll > luck) {}
 		if (cRoll > successChance) {
 		if (luckRoll <= luck) rollArr.push([luckRoll, "WIN"])
-		else rollArr.push([cRoll, luckRoll + " lr/" + luck + " lrm"])
+		else rollArr.push([cRoll, cRoll > successChance, luckRoll + " lr/" + luck + " lrm"])
 		} 
-		else rollArr.push([cRoll, luckRoll + " lr/" + luck + " lrm"])
+		else rollArr.push([cRoll, cRoll > successChance, luckRoll + " lr/" + luck + " lrm"])
 		if (cRoll > successChance && luckRoll > luck) {
 			neboxes++
 			let dmg = (roll(cAbno.damage[1] - cAbno.damage[0] + 1) - 1) + cAbno.damage[0]
@@ -1254,10 +1252,10 @@ switch (ciCmd[0]) {
 	if ((ciCmd[1] === "fucking" && ciCmd[2] === "everyone") === false) {
 	
 	let amount
-	if (/\D/.test(ciCmd[2])) amount = 60
+	if (/\D/.test(ciCmd[2])) amount = 10
 	else amount = Number(ciCmd[2])
-	if (amount < 0 || amount > 120) {
-		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 120 seconds.")
+	if (amount < 0 || amount > 60) {
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 60 seconds.")
 		return
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
@@ -2327,8 +2325,6 @@ statsString.join(""),
 			if (drFind(msg.member) === drFind(candidate)) {
 			initVote(ch, msg.member, candidate)
 			} else {ch.send("Error: specified user is not in a department or is in a department different from yours.")
-			console.log(drFind(msg.member))
-			console.log(drFind(candidate))
 			}
 			} else ch.send("Error: invalid user specified.")
 			} else ch.send("Error: your department already has a captain.")
