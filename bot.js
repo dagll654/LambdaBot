@@ -7,6 +7,11 @@ const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const sc = require("./simpleCombat.js") // The simple version of combat
+const readline = require('readline').createInterface({
+input: process.stdin,
+output: process.stdout
+})
+
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 var connection = db.createConnection({
 	host: "lacreme.heliohost.org",
@@ -25,6 +30,7 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 })
 	
 process.on('exit', (code) => {
+	updateData()
 	connection.destroy()
 	client.destroy()
 	console.log(`Process exited with code ${code}.`)
@@ -76,6 +82,19 @@ function wait(msc) {
 setTimeout(() => {resolve('resolved')}, msc)
 	})
 }
+
+function listener() {
+readline.question(``, answer => {
+if (answer === 'srs') {
+	updateData()
+	client.destroy()
+	connection.destroy()
+	wait(200).then(() => process.send('restart'))
+}
+listener()
+})
+}
+listener()
 
 // Check if something is not assigned a meaningful value
 function exists(v) {
@@ -626,6 +645,56 @@ function statLVL(stat) {
 	else {return "EX"}
 }
 
+// Vote function. Now improved. Even though I didn't want to.
+async function initVote(channel, voter, candidate) {
+	let team = getRole(drFind(voter))
+	voteMessage = await channel.send(`Initiating vote for **${candidate.user.tag}** to become the captain of ${team.name}.`)
+	let voters = team.members.map(v => v.id)
+	voteMessage.react('✅')
+	voteMessage.react('🚫')
+	let requiredVotes
+	if (voters.length > (5 + Math.floor(voters.length / 2))) requiredVotes = 5 + Math.floor(voters.length / 2)
+		else requiredVotes = voters.length
+	let timeout = 1
+	let yee = 0
+	let boo = 0
+	function filter(message, user, messageReactions) {
+	return voters.includes(user.id) || user.id === '143261987575562240'
+	}
+	let collector = voteMessage.createReactionCollector(filter, { time: 15000 }) 
+	collector.on('collect', (reaction, user) => {
+	voters.splice(voters.indexOf(user.id), 1)
+	if (reaction._emoji.name === '✅') yee++
+	if (reaction._emoji.name === '🚫') boo++
+	if (reaction._emoji.name === '🦆' && user.id === '143261987575562240') {
+		yee = requiredVotes
+		boo = 0
+		timeout = 0
+		collector.stop()
+	}
+	if (voters.length === 0) {timeout = 0; collector.stop()}
+	})
+	collector.on('end', () => {
+	if (timeout === 1) {
+	channel.send(`Cancelling the vote (timeout). ${requiredVotes - voters.length}/${requiredVotes} people participated.`)
+	} else {
+	let voteResult
+	if (boo > yee) {
+	voteResult = `**${candidate.user.tag}** will not become the captain of ${team.name}.` 
+	} else {
+		voteResult = `**${candidate.user.tag}** is now the captain of ${team.name}!`
+		candidate.roles.remove(team)
+		candidate.roles.add(getRole(team.name + " (C)"))
+		let captainEmployee = dbployees.e(candidate.id)
+		if (captainEmployee.buffListArray.some(eff => eff[0].startsWith("team"))) 
+		fn.effectApplication['department'](captainEmployee, team.name, "take")
+		fn.effectApplication['department'](captainEmployee, team.name, "give", 1)
+	}
+	channel.send(`Voting over. ${requiredVotes - voters.length}/${requiredVotes} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n	` + voteResult)
+	}
+	})
+}
+
 // The new and (hopefully) improved work function
 function work(employee1, abno1, order1, channel) {
 	
@@ -853,9 +922,7 @@ function updateData() {
 			dbployees.filter(dbp => dbp.id !== e.id)
 		})
 	})
-	pushBig.forEach(q => {
-	queryAndWait(q, connection)
-	})
+	pushBig.forEach(q => connection.query(q))
 	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})
@@ -885,9 +952,7 @@ function updateData() {
 		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + localAbno.id + "';"
 		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
 	})
-	pushBigA.forEach(q => {
-	queryAndWait(q, connection)
-	})
+	pushBigA.forEach(q => connection.query(q))
 	})
 }
 
@@ -1135,88 +1200,6 @@ if ((msg.author.bot && botPass === 0) || msg.channel.id === '695577286568837220'
 
 if ((debugVariables.stop_all === 1) && (msg.author.id != '143261987575562240')) return // If the 'stop" debug variable is 1, the bot only parses my commands
 
-async function initVote(channel, voter, candidate) {
-	console.log(voter)
-	console.log(drFind(voter))
-	voteMessage = await channel.send(`Initiating vote for **${candidate.tag}** to become the captain of ${drFind(voter).name}.`)
-	let voters = drFind(voter).members.map(v => v.id)
-	voteMessage.react('✅')
-	voteMessage.react('🚫')
-	let requiredVotes
-	if (voters.length > (5 + Math.floor(voters.length / 3))) requiredVotes = 5 + Math.floor(voters.length / 3)
-		else requiredVotes = voters.length
-	let yee = 0
-	let boo = 0
-	let collector = voteMessage.createReactionCollector(true, { time: 15000 }) 
-	collector.on('collect', (a, b, c) => {
-		console.log(a)
-		console.log(b)
-		console.log(c)
-	})
-}
-
-/*
-// Vote stuff - I positively cannot be arsed to rewrite this shite
-if ((mesc.startsWith("Initiating vote for ")) && (debugVariables.voting === 1) && (msg.author.id === '607520778178527246')) {
-	voting = 1
-	voteeid = ""
-	mesc.split(" ")[3].split("").forEach(c => {
-		if (/\D/.test(c) === false) voteeid += c
-	})
-	voteeuser = DELTAS().members.cache.find("id", voteeid)
-	cptxt = drFind(voteeuser)
-	debugVariables.voting = 0
-	timeout = 1
-	vtd = [] 
-	yee = 0
-	boo = 0
-	if ((DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length) > (5 + Math.floor(DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2))) {
-		reqv = 5 + Math.floor(DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length / 2)
-	} else {reqv = DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).length}
-	msg.react('✅')
-	msg.react('🚫')
-	override = 0
-	const filter = (reaction, user, voted) => ((reaction.emoji.name === ('✅') || reaction.emoji.name === ('🚫') || (reaction.emoji.name === '🦆')) && DELTAS().roles.cache.get(getRole(votingteam).id).members.map(m=>m.user.id).includes(user.id) && vtd.includes(user.id) === false)
-	const collector = msg.createReactionCollector(filter, { time: 15000 })
-	collector.on('collect', rct => {//${rct.emoji.name}
-		lru = rct.users.map(u => u.id).pop()
-		lrn = client.users.find("id", lru)
-		if (rct.emoji.name === '✅') {yee++; console.log(`${lrn.tag} voted yee!`); console.log(rct.users.map(u => u.id))}
-		if (rct.emoji.name === '🚫') {boo++; console.log(`${lrn.tag} voted boo!`); console.log(rct.users.map(u => u.id))}
-		vtd.push(lru)
-		if ((rct.emoji.name === '🦆') && (lru === '143261987575562240')) {yee = reqv; console.log("Ducktest"); boo = 0; override = 1}
-		if (vtd.length >= reqv || override === 1) {
-		timeout = 0
-		collector.stop()
-		} 
-	})
-	collector.on('end', collected => {
-		voting = 0
-		if (timeout === 1) {
-			ch.send(`Cancelling the vote (timeout). ${vtd.length}/${reqv} people participated.`)
-	} else {
-		if (yee > boo) {
-			voteres = "**" + voteeuser.user.tag + "** is now the captain of the " + votingteam + "!"
-			voteeuser.roles.remove(getRole(votingteam))
-			voteeuser.roles.add(getRole(votingteam + " (C)"))
-			let bufflist = []
-			if (dbployees.e(voteeuser.id).bufflist != undefined) {
-			bufflist = dbployees.e(voteeuser.id).bufflist.split("|")
-			}
-			if (bufflist.some(eff => eff.startsWith("team"))) {
-			fn.effectApplication['department'](dbployees.e(voteeuser.id), drFind(voteeuser), "take")
-			}
-			fn.effectApplication['department'](dbployees.e(voteeuser.id), drFind(voteeuser), "give", 1)
-		}
-		
-		if (boo >= yee) {voteres = "**" + voteeuser.user.tag + "** will not become the captain of the " + votingteam + "."}
-			ch.send(`Voting over. ${vtd.length}/${reqv} people participated: ${yee} voted ✅ and ${boo} voted 🚫. \n ` + voteres)
-	
-			console.log(`Voting over. ${vtd.length}/${reqv} people voted: ${yee} yee and ${boo} boo`)
-	}
-	})
-}*/
-
 // Command check
 if (mesc[0] === "!") {
 	
@@ -1332,7 +1315,9 @@ switch (ciCmd[0]) {
 		break
 		case "sudoku":
 			updateData()
-			wait(1000).then(() => process.exit())
+			client.destroy()
+			connection.destroy()
+			wait(1000).then(() => process.send('quit'))
 		break
 		case "kc":
 			connection.query(`KILL ${csCmd[2]};`, (err, result) => {
@@ -2333,62 +2318,54 @@ statsString.join(""),
 			
 			case "captain": {
 			// Non-captain commands
-			if (ncdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
-				switch (ciCmd[2]) {
-					case "vote":
-					if (ciCmd[3]) {
-					if (voting != 1) {
-						voteeid = ""
-						ciCmd[3].split("").forEach(c => {
-							if (/\D/.test(c) === false) {voteeid += c}
-						})
-						if (ciCmd[3].startsWith("<@") || ciCmd[3].startsWith("<!@")) {
-						if (drFind(DELTAS().members.cache.find("id", voteeid)) === drFind(msg.member)) {
-						if (DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] === undefined) {
-								debugVariables.voting = 1
-								votingteam = drFind(msg.member)
-								console.log(ciCmd[3].slice((ciCmd[3].length - 19), (ciCmd[3].length - 2)))							
-								setTimeout(function(){ch.send("Initiating vote for **" + ciCmd[3] + "** to become the " + drFind(msg.member) + " captain. Cast your vote by reacting with ✅ or 🚫 to this message.")}, 100)
-
-						} else {ch.send("**" + msg.author.tag + "**, " + "Your department already has a captain, **" + DELTAS().roles.cache.get(getRole(drFind(msg.member) + " (C)").id).members.map(m=>m.user.tag)[0] + "**!"); break}
-						} else if (deproles.every(t => DELTAS().members.cache.find("id", voteeid).roles.cache.map(r => r.name).includes(t) === false) === false) {ch.send("**" + msg.author.tag + "**, " + "the specified user is not in your department."); break} else {ch.send("**" + msg.author.tag + "**, " + "the specified user is not an employee."); break}
-						break
-						} else {ch.send("**" + msg.author.tag + "**, " + "error: invalid or missing argument. Usage: !lc captain vote @person"); break}
-				} else {ch.send("**" + msg.author.tag + "**, " + "an election is in process currently!"); break}
-				} else {ch.send("**" + msg.author.tag + "**, " + "error: no employee specified."); break}
-				}
-				// Captain commands
-				} else if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
-					switch (ciCmd[2]) {
-						case "vote":
-							ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
-							break
-						case "resign":
-							if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
-								ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
-								const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
-								collector.on('collect', cmsg => {
-								if (cmsg.content.toLowerCase() === "y") {
-									ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
-									var cptxt = drFind(msg.member)
-									msg.member.roles.remove(getRole(cptxt + " (C)"))
-									msg.member.roles.add(getRole(cptxt))
-									collector.stop()
-									let bufflist = []
-									if (dbployees.e(msg.author.id).bufflist != undefined) {
-									bufflist = dbployees.e(msg.author.id).bufflist.split("|")
-									}
-									fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 1)	
-								}
-								if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
-								})
-							} else {ch.send("**" + msg.author.tag + "**, " + "you are not the captain of the " + drFind(msg.member) + "!")}
-							break
-						default:
-							ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
-							break
+			if (msg.member.roles.cache.some(r => ncdeproles.includes(r.name))) {
+			switch (ciCmd[2]) {
+			case "vote": {
+			if (getRole(drFind(msg.member) + " (C)").members.array().length === 0) {
+			if (getUser(csCmd[3])) {
+			let candidate = DELTAS().members.cache.get(getUser(csCmd[3]).id)
+			if (drFind(msg.member) === drFind(candidate)) {
+			initVote(ch, msg.member, candidate)
+			} else {ch.send("Error: specified user is not in a department or is in a department different from yours.")
+			console.log(drFind(msg.member))
+			console.log(drFind(candidate))
+			}
+			} else ch.send("Error: invalid user specified.")
+			} else ch.send("Error: your department already has a captain.")
+			} break
+			}
+			// Captain commands
+			} else if (msg.member.roles.cache.some(r => cdeproles.includes(r.name))) {
+			switch (ciCmd[2]) {
+			case "vote":
+			ch.send("**" + msg.author.tag + "**, " + "you are your department's captain. If you want someone else to become the captain, type !lc captain resign first.")
+			break
+			case "resign":
+			if (cdeproles.every(t => msg.member.roles.cache.map(r => r.name).includes(t) === false) === false) {
+				ch.send("**" + msg.author.tag + "**, " + "do you really want to resign your post as the " + drFind(msg.member) + " captain? **y**/**n**")
+				const collector = new Discord.MessageCollector(ch, m => m.author.id === msg.author.id, { time: 10000 })
+				collector.on('collect', cmsg => {
+				if (cmsg.content.toLowerCase() === "y") {
+					ch.send("**" + msg.author.tag + "**, " + "you have resigned as the " + drFind(msg.member) + " captain.") 
+					var cptxt = drFind(msg.member)
+					msg.member.roles.remove(getRole(cptxt + " (C)"))
+					msg.member.roles.add(getRole(cptxt))
+					collector.stop()
+					let bufflist = []
+					if (dbployees.e(msg.author.id).bufflist != undefined) {
+					bufflist = dbployees.e(msg.author.id).bufflist.split("|")
 					}
-				} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 1)	
+				}
+				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
+				})
+			} else {ch.send("**" + msg.author.tag + "**, " + "you are not the captain of the " + drFind(msg.member) + "!")}
+			break
+			default:
+			ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
+			break
+			}
+			} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
 			} break
 		}
 		}

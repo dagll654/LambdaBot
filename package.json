@@ -2,9 +2,9 @@
   "name": "Example",
   "description": "Example",
   "version": "0.0.0",
-  "main": "bot.js",
+  "main": "start.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node start.js"
   },
   "dependencies": {
     "discord.js": "^12.1.1",
