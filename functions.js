@@ -1,5 +1,7 @@
   const jn = require("./junk.json");
   const gear = require("./gear.json")
+  const main = require("./bot.js")
+  dbnos = require("./bot.js")
   	const deproles = jn.deproles
 	const ncdeproles = jn.ncdeproles
 	const cdeproles = jn.cdeproles
@@ -447,6 +449,22 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			return [true, "\n	You have been sucked into the abnormality. We will meet again as stars..."]
+		} else return [false]
+	},
+	"23": function a23 (employee, result, workorder, abnormality) {
+		if (workorder === "repression") {
+		if (abnormality.buffListArray.some(b => b[0] === "sick")) {
+			employee.hp = 0
+			employee.sp = 0
+			employee.dead = 1
+			abnormality.bufflist = abnormality.buffListArray.filter(b => b[0] !== "sick")
+			return [true, "\n	...and so, a new Beast is born."]
+		}
+		else {
+			if (exists(abnormality.buffListArray)) abnormality.bufflist += "|sick"
+				else abnormality.bufflist += "sick"
+			return [false]
+		}
 		} else return [false]
 	},
 	"egoChange": function egoChange (employee, level) {

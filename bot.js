@@ -36,7 +36,7 @@ process.on('exit', (code) => {
 	console.log(`Process exited with code ${code}.`)
 })
 
-if (err2) {connection.destroy(); connection.destroy(); throw err2}
+if (err2) {connection.destroy(); throw err2}
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 var bch
@@ -57,10 +57,10 @@ Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(
 Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
 var employees = [] // Later filled with all employees with a department role
-var dbployees = [] // Later filled with all employee data from the database and used everywhere
+global.dbployees = [] // Later filled with all employee data from the database and used everywhere
 exports.dbployees = function() {return dbployees}
 var abnos = [] // Later filled with all workable abnormalities
-var dbnos = [] // Later filled with all abno data from the database
+global.dbnos = [] // Later filled with all abno data from the database
 // Debug variables
 debugVariables = {
 	'debug_duck': 0, // /shrug
@@ -89,7 +89,10 @@ if (answer === 'srs') {
 	updateData()
 	client.destroy()
 	connection.destroy()
-	wait(200).then(() => process.send('restart'))
+	wait(2000).then(() => process.send('restart'))
+}
+if (answer === 'upd') {
+	updateData()
 }
 listener()
 })
@@ -122,6 +125,27 @@ function stringNormalizer(string, length) {
 	if (length > 0) return string + new Array(Math.abs(length) - string.length).fill(" ").join("")
 		else return new Array(Math.abs(length) - string.length).fill(" ").join("") + string
 	} else return string
+}
+
+function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
+	let array = arrayEx
+	if (array[0] === undefined) console.log(arrayEx)
+	let lengths = new Array(array[0].length).fill(0)
+	array.forEach(s => {
+	s.forEach((p, i) => {
+	if (p.length > lengths[i]) lengths[i] = p.length
+	})})
+	
+	array = array.map((sub, sIndex) => {
+	return sub.map((property, pIndex) => {
+		let pTemp = property
+		if (property.length < lengths[pIndex]) 
+			pTemp += new Array(lengths[pIndex] - property.length).fill(char).join("")
+		return pTemp + closingChar
+	})
+	})
+	
+	return array
 }
 
 // Employee class
@@ -159,6 +183,7 @@ class cEmp {
 		this.bullets = bullets
 		this.luck = 0
 		this.entityID = assignEntityID()
+		this.type = 'employee'
 	}
 	get sidearmArray() {
 		if (exists(this.sidearm))
@@ -386,6 +411,7 @@ class clAbn {
 	constructor(id, qcounter, hp = 20, breaching = 0, dead = 0, effects = 'null', defensebuffs = "1|1|1|1", bufflist, override = {}) {
 		if (override.id) this.id = override.id
 		else this.id = id
+		this.qcounter = qcounter
 		this.hp = Number(hp)
 		this.breaching = Number(breaching)
 		this.dead = Number(dead)
@@ -401,6 +427,7 @@ class clAbn {
 		this.risk = raw.risk
 		this.ai = raw.ai
 		this.entityID = assignEntityID()
+		this.type = 'abnormality'
 	}
 	get effectArray() {
 		if (exists(this.effects))
@@ -823,7 +850,7 @@ function work(employee1, abno1, order1, channel) {
 
 // Push an employee into an array
 function eArrPush(e, arr = dbployees) {
-	arr.push(new cEmp(e.userid, e.usertag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.panicked, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory, e.sidearm, e.bullets))
+	arr.push(new cEmp(e.userid, e.tag, e.hp, e.sp, e.fortitude, e.prudence, e.temperance, e.justice, e.suit, e.weapon, e.inventorys, e.inventoryw, e.working, e.dead, e.panicked, e.balance, e.balancespecific, e.subpoints, e.effects, e.buffs, e.defensebuffs, e.bufflist, e.tjtime, 100, e.gifts, e.inventory, e.sidearm, e.bullets))
 }
 // Push an abno into an array
 function aArrPush(a, arr = dbnos) {
@@ -1074,6 +1101,7 @@ async function globalTicker() {
 // On ready
 client.on('ready', () => {
 
+global.client = client
 bch = DELTAS().channels.cache.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
 console.log('I am ready!')
@@ -1244,13 +1272,10 @@ switch (ciCmd[0]) {
 	
 	case "ban": {
 	
-	if (admins.includes(msg.author.id) === false) {
+	if (admins.includes(msg.author.id)) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
 	}
-	
-	if ((ciCmd[1] === "fucking" && ciCmd[2] === "everyone") === false) {
-	
 	let amount
 	if (/\D/.test(ciCmd[2])) amount = 10
 	else amount = Number(ciCmd[2])
@@ -1269,53 +1294,34 @@ switch (ciCmd[0]) {
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
 	})
-	} else {
-	async function incoming() {
-	ch.send("5.")
-	await wait(1000)
-	ch.send("4.")
-	await wait(1000)
-	ch.send("3.")
-	await wait(1000)
-	ch.send("2.")
-	await wait(1000)
-	ch.send("1.")
-	await wait(1000)
-	ch.send("Commencing nuclear extinction.")
-	await wait(500)
-	async function nuke() {
-	DELTAS().members.cache.array().forEach(m => {
-		DELTAS().members.cache.get(m.id).roles.add(['652443814824247301', '652443876795088906'])//'673218574101512214', '660224894189043723'
-	})
-	console.log("Everyone's 'dead'. What now?")
-	await wait(1000)
-	DELTAS().members.cache.array().forEach(m => {
-		DELTAS().members.cache.get(m.id).roles.remove(['652443814824247301', '652443876795088906'])//'673218574101512214', '660224894189043723'
-	})
-	console.log("Restored the natural order of things.")
-	}
-	nuke()
-	}
-	incoming()
-	}
 	} break
 	
 	case "debug": {
 		
-	if (msg.author.id != '143261987575562240') {
+	if (admins.includes(msg.author.id) === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use debug commands.")
 		return
 	}
 	
 	switch (csCmd[1]) {
-		case "vt":
-			initVote(ch, DELTAS().members.cache.get(getUser("mush").id), getUser("mush"))
+		case "tl": 
+			sc.tl()
 		break
-		case "sudoku":
+		case "te": { // testEncounters
+			let testCombatants = [dbployees.e('143261987575562240'), dbnos.e('1')]
+			sc.testEncounter(testCombatants, ch)
+		} break
+		case "quit":
 			updateData()
 			client.destroy()
 			connection.destroy()
 			wait(1000).then(() => process.send('quit'))
+		break
+		case "restart":
+			updateData()
+			client.destroy()
+			connection.destroy()
+			wait(200).then(() => process.send('restart'))
 		break
 		case "kc":
 			connection.query(`KILL ${csCmd[2]};`, (err, result) => {
@@ -1422,7 +1428,7 @@ switch (ciCmd[0]) {
 		break
 		case "afix":
 			dbnos.forEach(d => {
-				d.qcounter = "(X)"
+				d.qcounter = "X"
 				d.breaching = 0
 				d.dead = 0
 				let cAbno = abn.abn.find(a => a.id === d.id)
@@ -1551,6 +1557,7 @@ switch (ciCmd[0]) {
 					ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${Number(cdVal) + 1} second(s))`)
 					return
 				}
+					
 				if (onCooldown === false) {
 				if (effectDead === false) {
 					work(dbployees.e(msg.author.id), ciCmd[2], ciCmd[3], msg.channel)
@@ -1561,6 +1568,7 @@ switch (ciCmd[0]) {
 					dbployees.e(msg.author.id).effects = "null"
 					ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
 				}
+				
 				}
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
@@ -2005,11 +2013,16 @@ statsString.join(""),
 				}}
 				special.push(",\n Cocoons:	" + cocoons + ".")
 				} break
+				case "f-02-44": {
+				let state = "normal"
+				if (cDbno.buffListArray.some(b => b[0] === "sick")) state = "sick"
+				special.push(`,\n State:	${state}`)
+				}
 				default:
 				special.push(".")
 				break
 			}
-			ch.send(header + ` ${jn['qliphothcounter']} Qliphoth Counter:	(${cDbno.qcounter}),\n State:	${["normal", "breaching"][cDbno.breaching]}${special.join("")}`)
+			ch.send(header + ` ${jn['qliphothcounter']} Qliphoth Counter:	(${cDbno.qcounter}),\n Containment status:	${["contained", "breaching"][cDbno.breaching]}${special.join("")}`)
 			
 			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality specified or the specified abnormality is not currently available in the facility.")
 			} break

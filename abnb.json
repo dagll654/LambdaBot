@@ -20,7 +20,8 @@
 			"o-02-98",
 			"f-05-32",
 			"o-05-30",
-			"o-03-93"
+			"o-03-93",
+			"f-02-44"
 			],
 	"abn": [
 			{
@@ -71,7 +72,7 @@
 				"effect": [true],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -123,7 +124,7 @@
 				"effect": [true, ">1", "effect", "0"],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -201,7 +202,7 @@
 				"effect": [true],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -253,7 +254,7 @@
 				"effect": [true, true],
 				"affstat": [false],
 				"gift": "true",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -305,7 +306,7 @@
 				"effect": [false],
 				"affstat": [false],
 				"gift": "missing requirements",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 300,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -357,7 +358,7 @@
 				"effect": [true],
 				"affstat": [false],
 				"gift": "special",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -409,7 +410,7 @@
 				"effect": [true],
 				"affstat": [false],
 				"gift": "missing requirements",
-				"qcounter": "(X)",
+				"qcounter": "X",
 				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			},
@@ -567,6 +568,32 @@
 				"gift": "missing",
 				"qcounter": 2,
 				"hpMax": 2200,
+				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
+			},
+			{
+				"name": "F-02-44: 'Beauty and the Beast'",
+				"nameShort": "Beauty and the Beast",
+				"code": "f-02-44",
+				"color": [22, 22, 22],
+				"risk": "TETH",
+				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
+				"description": "No description available.",
+				"id": "23",
+				"peoutput": 12,
+				"workPreferences": [[0.4, 0.2, -0.2, -0.2, -0.2],
+									[0.5, 0.5, 0.4, 0.3, 0.3],
+									[0.3, 0.15, -0.5, -0.5, -0.5],
+									[0.65, 0.65, 0.65, 0.65, 0.65]									
+									],
+				"damage": [2, 4],
+				"dtype": [0, 1, 0, 0],
+				"tips": ["bruh", "bruh2"],
+				"mood": [0, 5, 9],
+				"effect": [true, true],
+				"affstat": [false],
+				"gift": "false",
+				"qcounter": "X",
+				"hpMax": 20,
 				"ai": {"Stare": 33, "Stare Harder": 33, "Stare Really, Really Hard": 33}
 			}
 		]

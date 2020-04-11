@@ -4,8 +4,12 @@ const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const main = require("./bot.js")
+client = require("./bot.js")
 const mv = require("./moves.js")
 Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
+const bck = '`'
+const b3ck = '```'
+function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 
 targetsExternal = new Discord.Collection
 targetsExternal.set(-1, {"name": "Left door", "id": -1, "position": 0})
@@ -14,6 +18,38 @@ targetsExternal.set(-2, {"name": "Right door", "id": -1, "position": 25})
 allMoves = jn.allMoves
 baseMoves = jn.baseMoves
 
+// Roll an x-sided die, even if that makes absolutely no sense in practice
+function roll(sides) {
+	return Math.floor(Math.random() * sides) + 1
+}
+
+// Wait
+function wait(msc) {
+	return new Promise(resolve => {
+setTimeout(() => {resolve('resolved')}, msc)
+	})
+}
+
+function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
+	let array = arrayEx
+	if (array[0] === undefined) console.log(arrayEx)
+	let lengths = new Array(array[0].length).fill(0)
+	array.forEach(s => {
+	s.forEach((p, i) => {
+	if (p.length > lengths[i]) lengths[i] = p.length
+	})})
+	
+	array = array.map((sub, sIndex) => {
+	return sub.map((property, pIndex) => {
+		let pTemp = property
+		if (property.length < lengths[pIndex]) 
+			pTemp += new Array(lengths[pIndex] - property.length).fill(char).join("")
+		return pTemp + closingChar
+	})
+	})
+	
+	return array
+}
 function getStatus(combatants, mobileOverride, r) {
 let statusArray = []
 let statusText = ``
@@ -150,7 +186,11 @@ constructor(entityRaw, type = "abnormality") {
 
 
 
-
+exports.testEncounter = function(combatantsExternal, channel) {
+	let combatEntities = new Discord.Collection
+	combatantsExternal.forEach(c => combatEntities.set(c.entityID, new entity(c, c.type)))
+	instCombat(combatEntities, channel)
+	}
 
 async function instCombat(combatantsExternal, channel) {
 	
@@ -165,8 +205,8 @@ async function instCombat(combatantsExternal, channel) {
 	while (combatants.some(c1 => c1.initRoll === c.initRoll && c1 !== c) || c.initRoll === undefined) 
 	{c.initRoll = roll(20)}
 	if (c.position === undefined) {
-	if (c.type !== "employee" || c.panicked === 1) c.position = roll(roomSize)
-	else c.position = (roll(2) - 1) * roomSize
+	if (c.type !== "employee" || c.panicked === 1) c.position = roll(fight.roomSize)
+	else c.position = (roll(2) - 1) * fight.roomSize
 	}})
 	combatants.sort((c1, c2) => {return c2.initRoll - c1.initRoll})
 	
@@ -210,7 +250,12 @@ async function instCombat(combatantsExternal, channel) {
 		targets = generalTargeting(cCombatant, combatants, move)
 		
 		if (targets.array().length > 0) {
-		let target = targets.get(targets.array()[roll(targets.array().length)-1].id)
+		let rollT = roll(targets.array().length)-1
+		let target = targets.get(targets.array()[rollT].id)
+		console.log(target)
+		console.log(targets.array().map(t => t.name))
+		console.log(rollT)
+		if (!target) target = targets.array()[0]
 		ch.send(`**${cCombatant.name}** used '${move.name}' on ${target.name}. (${mv.moves[move.name](cCombatant, target)})`)
 		} else { // If no targets
 			mv.moves["Skip"](cCombatant)
