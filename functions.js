@@ -440,7 +440,7 @@ exports.effectApplication = {
 				employee.hp = 0
 				employee.sp = 0
 				employee.dead = 1
-				return [true, "\n	You could not resist the allure..."]
+				return [true, "\n	You could not resist the allure."]
 		} else return [false]
 	},
 	"22": function a22 (employee, result) {
@@ -458,7 +458,7 @@ exports.effectApplication = {
 			employee.sp = 0
 			employee.dead = 1
 			abnormality.bufflist = abnormality.buffListArray.filter(b => b[0] !== "sick")
-			return [true, "\n	...and so, a new Beast is born."]
+			return [true, "\n	...a new Beast is born."]
 		}
 		else {
 			if (exists(abnormality.buffListArray)) abnormality.bufflist += "|sick"

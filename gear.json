@@ -10,17 +10,17 @@
 			"reqString": "none"
 		},
 		{	"id": "1",
-			"name": "The Mantle",
-			"resistance": [1, 1, 1, 1],
-			"level": "LUL",
+			"name": "The Kinda Short Cape",
+			"resistance": [1, 1, 1.5, 2],
+			"level": "ZAYIN",
 			"cost": 1,
-			"requirements": [0, 0, 0, 0, 999999],
-			"reqString": "Employee Level +INF"
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none"
 		},
 		{	"id": "2",
-			"name": "Debug (god mode)",
+			"name": "IDDQD",
 			"resistance": [0, 0, 0, 0],
-			"level": "ALEPH",
+			"level": "DEBUG",
 			"cost": 999999,
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none"
@@ -184,6 +184,14 @@
 			"cost": 3000,
 			"requirements": [0, 85, 85, 0, 5],
 			"reqString": "Prudence V, Temperance V, Employee Level V" 
+		},
+		{	"id": "23",
+			"name": "Horn",
+			"resistance": [0.8, 0.8, 1.5, 2],
+			"level": "TETH",
+			"cost": 600,
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 			],
 			
@@ -205,30 +213,38 @@
 			]
 		},
 		{	"id": "1",
-			"name": "The Sword",
+			"name": "The Stick",
 			"damage": [1, 2],
-			"dtype": [1, 1, 0, 0],
-			"speed": "very fast",
-			"range": "medium",
-			"level": "LUL",
+			"dtype": [1, 0, 0, 0],
+			"speed": "fast",
+			"range": "short",
+			"level": "ZAYIN",
 			"cost": 1,
-			"requirements": [0, 0, 0, 0, 999999],
-			"reqString": "Employee Level +INF",
-			"apMax": 256,
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none",
+			"apMax": 20,
 			"moves": [
-			{"name": "Reality Slash", "target": "enemy", "range": 10}
+			{"name": "Swing", "target": "enemy", "range": 1.5}
 			]
 		},
 		{	"id": "2",
-			"name": "Debug (butcher)",
+			"name": "The Banhammer",
 			"damage": [999, 999],
-			"dtype": [0, 0, 1, 0],
+			"dtype": [1, 1, 1, 1],
 			"speed": "very slow",
 			"range": "very long",
-			"level": "ALEPH",
+			"level": "DEBUG",
 			"cost": 999999,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 1028,
+			"moves": [
+			{"name": "Ban", "target": "any", "range": 999},
+			{"name": "Kick", "target": "any", "range": 999},
+			{"name": "Time Out", "target": "any", "range": 999},
+			{"name": "TO THE RANCH", "target": "any", "range": 999},
+			{"name": "Effect Test", "target": "self", "range": 0}
+			]
 		},
 		{	"id": "3",
 			"name": "Penitence",
@@ -239,7 +255,12 @@
 			"level": "ZAYIN",
 			"cost": 300,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 30,
+			"moves": [
+			{"name": "Judgement", "target": "enemy", "range": 1.2},
+			{"name": "Confession", "target": "self", "range": 0}
+			]
 		},
 		{	"id": "4",
 			"name": "Fourth Match Flame",
@@ -250,7 +271,12 @@
 			"level": "TETH",
 			"cost": 700,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 75,
+			"moves": [
+			{"name": "Burst of Flame", "target": "enemy", "range": 6},
+			{"name": "Burning Hatred", "target": "enemy", "range": 6}
+			]
 		},
 		{	"id": "5",
 			"name": "Wingbeat",
@@ -261,7 +287,12 @@
 			"level": "ZAYIN",
 			"cost": 300,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 30,
+			"moves": [
+			{"name": "Sharp Wing", "target": "enemy", "range": 1.2},
+			{"name": "Pure Heart", "target": "self", "range": 0}
+			]
 		},
 		{	"id": "6",
 			"name": "Somewhere Spear",
@@ -272,7 +303,12 @@
 			"level": "TETH",
 			"cost": 400,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 25,
+			"moves": [
+			{"name": "Piercing Universe", "target": "enemy", "range": 1.6},
+			{"name": "Echo From Beyond", "target": "enemy", "range": 1.8}
+			]
 		},
 		{	"id": "7",
 			"name": "Regret",
@@ -283,7 +319,12 @@
 			"level": "TETH",
 			"cost": 500,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 25,
+			"moves": [
+			{"name": "Pity", "target": "enemy", "range": 1.6},
+			{"name": "Headache", "target": "enemy", "range": 1.8}
+			]
 		},
 		{	"id": "8",
 			"name": "Soda",
@@ -449,6 +490,15 @@
 			"cost": "4444",
 			"requirements": [0, 85, 85, 0, 5],
 			"reqString": "Prudence V, Temperance V, Employee Level V" 
+		},
+		{	"id": "23",
+			"name": "Horn",
+			"damage": [5, 9],
+			"dtype": [1, 0, 0, 0],
+			"level": "TETH",
+			"cost": "600",
+			"requirements": [0, 0, 0, 0, 0],
+			"reqString": "none" 
 		}
 	],
 	
@@ -463,12 +513,12 @@
 			"text": "Does nothing."
 		},
 		{	"id": "1",
-			"name": "The Charm",
+			"name": "The Lucky Charm (Not Really)",
 			"slot": "meme",
 			"buff": 	{
-				"stat": "15|15|15|15"
+				"stat": "0|0|0|0"
 						},
-			"text": "+15 to all stats."
+			"text": "-1 to intellect"
 		},
 		{	"id": "2",
 			"name": "Debug",

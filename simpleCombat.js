@@ -5,6 +5,7 @@ const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const main = require("./bot.js")
 client = require("./bot.js")
+sudo = require("./bot.js")
 const mv = require("./moves.js")
 Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
 const bck = '`'
@@ -15,7 +16,7 @@ targetsExternal = new Discord.Collection
 targetsExternal.set(-1, {"name": "Left door", "id": -1, "position": 0})
 targetsExternal.set(-2, {"name": "Right door", "id": -1, "position": 25})
 
-allMoves = jn.allMoves
+abnoMoves = jn.abnoMoves
 baseMoves = jn.baseMoves
 
 // Roll an x-sided die, even if that makes absolutely no sense in practice
@@ -30,7 +31,14 @@ setTimeout(() => {resolve('resolved')}, msc)
 	})
 }
 
+// Check if something is not assigned a meaningful value
+function exists(v) {
+	if (typeof(v) === 'number') return true
+	return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
+}
+
 function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
+	if (!arrayEx) return undefined
 	let array = arrayEx
 	if (array[0] === undefined) console.log(arrayEx)
 	let lengths = new Array(array[0].length).fill(0)
@@ -76,10 +84,6 @@ combatants.forEach(c => {
 //console.log(DELTAS().presences.cache.get(getUser("mush").id).clientStatus)
 {
 let fillChar = " "
-if (DELTAS().presences.cache.get(r.author.id) || mobileOverride === 1) {
-if (DELTAS().presences.cache.get(r.author.id).clientStatus.mobile === "online" || mobileOverride === 1) 
-fillChar = "_"
-}
 statusArray = arrayNormalizer(statusArray, fillChar, "`")
 }
 statusArray = statusArray.map((status, sIndex) => {
@@ -158,6 +162,30 @@ fight.end = true
 }}
 }
 
+function battleEffectTick(c) {
+let persistentEffects = ["1"]
+let effects = c.effectArray.filter(e => exists(e[0]))
+if (c.id === '143261987575562240') console.log(effects)
+if (exists(effects)) {
+	effects.forEach(effect => {
+	if (effect[0] === "0") c.heal("hp", 0.1)
+	if (effect[0] === "gear_echo") c.heal("sp", (c.prudL / 30).shortFixed(1))
+	if (effect[1] !== "inf" && effect[1] !== "bt") {
+	if (c.dead === 0) {
+		effect[1] -= 1
+	} else {
+	if (!persistentEffects.includes(effect[0])) effect[1] = 0
+	else effect[1] -= 1
+	}}
+	})
+} else c.effects = 'null'
+effects = effects.filter(e => e[1] > 0 || e[1] === "inf" || e[1] === "bt")
+if (c.id === '143261987575562240') console.log(effects)
+if (exists(effects)) c.effects = effects.map(eff => eff.join("/")).join("|")
+else c.effects = 'null'
+}
+
+
 class entity {
 constructor(entityRaw, type = "abnormality") {
 	if (type === "employee") {
@@ -169,14 +197,17 @@ constructor(entityRaw, type = "abnormality") {
 		this.spMax = entityRaw.prudL
 		this.apMax = this.weapon.apMax // (sic)
 		this.ap = Math.round(this.apMax/3) // (sic) Stand-in
+		this.apRegen = (5 * (83 + entityRaw.justL) / 100).shortFixed(1)
 		this.moves = baseMoves.concat(this.weapon.moves) // (sic)
 		this.raw = entityRaw
+		this.contribution = 0
 	} else {
 		this.id = entityRaw.entityID
 		this.type = "abnormality"
 		this.name = entityRaw.name
 		this.hpMax = entityRaw.hpMax
 		this.apMax = 50 // (sic)
+		this.apRegen = 10
 		this.ap = Math.round(this.apMax/3) // (sic) Stand-in
 		this.ai = entityRaw.ai
 		this.raw = entityRaw
@@ -184,13 +215,12 @@ constructor(entityRaw, type = "abnormality") {
 }
 }
 
-
-
-exports.testEncounter = function(combatantsExternal, channel) {
+exports.encounter = function(combatants, channel) {
 	let combatEntities = new Discord.Collection
-	combatantsExternal.forEach(c => combatEntities.set(c.entityID, new entity(c, c.type)))
+	if (combatants.some(c => !c)) console.log(combatants)
+	combatants.forEach(c => combatEntities.set(c.entityID, new entity(c, c.type)))
 	instCombat(combatEntities, channel)
-	}
+}
 
 async function instCombat(combatantsExternal, channel) {
 	
@@ -199,9 +229,10 @@ async function instCombat(combatantsExternal, channel) {
 	let combatants = combatantsExternal
 	
 	let latestStatusMessage
-	let fight = {"roomSize": 25, "victory": undefined, "turn": 0, "end": false}
+	let fight = {"roomSize": 25, "victory": undefined, "turn": 0, "end": false, "roundCount": 0}
 	
 	combatants.forEach(c => { // Roll the initiatives
+	c.raw.fighting = true
 	while (combatants.some(c1 => c1.initRoll === c.initRoll && c1 !== c) || c.initRoll === undefined) 
 	{c.initRoll = roll(20)}
 	if (c.position === undefined) {
@@ -211,7 +242,7 @@ async function instCombat(combatantsExternal, channel) {
 	combatants.sort((c1, c2) => {return c2.initRoll - c1.initRoll})
 	
 	function turnEnder(combatant) {
-	if (combatant.ap < combatant.apMax) combatant.ap += Math.round(Math.pow(combatant.apMax, 0.7)/2)
+	if (combatant.ap < combatant.apMax) combatant.ap += combatant.apRegen
 	if (combatant.ap > combatant.apMax) combatant.ap = cCombatant.apMax
 	}
 	
@@ -228,6 +259,7 @@ async function instCombat(combatantsExternal, channel) {
 			else fight.turn++
 			cCombatant = combatants.array()[fight.turn]
 		}
+		battleEffectTick(cCombatant.raw)
 		
 		switch (cCombatant.type) {
 		
@@ -237,24 +269,20 @@ async function instCombat(combatantsExternal, channel) {
 		let moveRoll = roll(100)
 		let move
 		let targets
-		let moves = allMoves.filter(m => cCombatant.ai[m.name] !== undefined) // allMoves - will need to replace! (sic)
+		let moves = abnoMoves.filter(m => cCombatant.ai[m.name] !== undefined)
 		moves.forEach(moveL => {
 		if (move === undefined) {
 		if (moveRoll > cCombatant.ai[moveL.name]) moveRoll -= cCombatant.ai[moveL.name]
 		else move = moveL
 		}
 		})
+		if (!move) move = abnoMoves.find(m => m.name === "Skip")
 		if (move.name !== "Skip") {
 		if (move.target !== "self") {
-		
 		targets = generalTargeting(cCombatant, combatants, move)
-		
 		if (targets.array().length > 0) {
 		let rollT = roll(targets.array().length)-1
 		let target = targets.get(targets.array()[rollT].id)
-		console.log(target)
-		console.log(targets.array().map(t => t.name))
-		console.log(rollT)
 		if (!target) target = targets.array()[0]
 		ch.send(`**${cCombatant.name}** used '${move.name}' on ${target.name}. (${mv.moves[move.name](cCombatant, target)})`)
 		} else { // If no targets
@@ -274,11 +302,11 @@ async function instCombat(combatantsExternal, channel) {
 		let turnEnd = false
 		let moved = false
 		let skipAvailable = true
+		console.log(cCombatant.moves)
 		let moves = cCombatant.moves.map((m, i) => `	${bck}${i+1}${bck}) ${m.name} - ${mv.moveD[m.name](cCombatant)[1]}`).join("\n")
 		
-		menuMessage = await ch.send("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap}/${cCombatant.apMax} AP	${cCombatant.position.shortFixed(1)} LM\nAvailable moves: \n${moves}`)
-		
-		let latestMove
+		menuMessage = await ch.send("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap.shortFixed(1)}/${cCombatant.apMax} AP / +${cCombatant.apRegen} AP/turn \nAvailable moves: \n${moves}`)
+
 		turn: while (turnEnd === false && fight.end === false && cCombatant.raw.dead === 0 && cCombatant.raw.panicked === 0) {
 		statusUpdate(combatants, fight)
 		let rEx = await ch.awaitMessages(r => r.author.id !== client.user.id, { max: 1, time: 25000 })
@@ -298,20 +326,23 @@ async function instCombat(combatantsExternal, channel) {
 		if (rArgs.includes("-m")) mobileOverride = 1
 		switch (rArgs[0]) {
 		case "ef": {
+		if (sudo === 1) {
 			ch.send("Ended the fight.")
 			combatGoing = false
 			fight.end = true
 			turnEnd = true
+		} else ch.send("Error: command cannot be used without `sudo`.")
 		} break
 		
 		case "repeat":
 		case "r": {
+			let latestMove = cCombatant.latestMove
 			if (latestMove !== undefined) {
 			if (cCombatant.ap >= mv.moveD[latestMove.move.name](cCombatant)[0]) {
 			if (latestMove.target !== "self") {
 			if (latestMove.target.id > 0) {
 			if (Math.abs(cCombatant.position - latestMove.target.position) <= latestMove.move.range) {
-			if (combatants.get(latestMove.target.id).dead === 0) {
+			if (combatants.get(latestMove.target.id).raw.dead === 0) {
 			ch.send(`**${cCombatant.name}** used '${latestMove.move.name}' on ${latestMove.target.name}. (${mv.moves[latestMove.move.name](cCombatant, latestMove.target)})`)
 			} else ch.send(`${latestMove.target.name} that you last used '${latestMove.move.name}' on is dead. (${cCombatant.ap}/${mv.moveD[latestMove.move.name][0]} AP)`)
 			} else ch.send(`You aren't in range to repeat '${latestMove.move.name}' on ${latestMove.target.name}. (${cCombatant.ap}/${mv.moveD[latestMove.move.name][0]} AP)`)
@@ -353,6 +384,7 @@ async function instCombat(combatantsExternal, channel) {
 			// These two check if the response is a move name or a move index
 			let isMoveName = cCombatant.moves.some(m => m.name.toLowerCase() === r.content.toLowerCase())
 			let isMoveIndex = /\D/.test(rArgs[0]) === false && cCombatant.moves[Number(rArgs[0]) - 1] !== undefined
+			console.log(isMoveIndex + " " + isMoveName)
 			if (isMoveName || isMoveIndex) {
 			r.delete({ 'timeout': 100 })
 			let move
@@ -370,6 +402,9 @@ async function instCombat(combatantsExternal, channel) {
 			if (move.target !== "self") {
 			let selfIndex
 			let targets = generalTargeting(cCombatant, combatants, move)
+			if (targets.array().length === 0) {
+			ch.send(`**${cCombatant.name}**, '${move.name}' has no targets to be used on.`)
+			}
 			targets.set(cCombatant.id, cCombatant)
 			if (move.name === "Move") {
 			targets.set(-1, {"id": "-1", "name": "Left door", "type": "object", "position": 0})
@@ -393,6 +428,9 @@ async function instCombat(combatantsExternal, channel) {
 				} return ret
 			})
 			targetsArray.splice(selfIndex, 1)
+			if (targetsArray.length === 0) {
+			ch.send(`**${cCombatant.name}**, '${move.name}' has no targets to be used on.`)
+			}
 			{ let fillChar = " "
 			if (DELTAS().presences.cache.get(r.author.id) || mobileOverride === 1) {
 			if (DELTAS().presences.cache.get(r.author.id).clientStatus.mobile === "online" || mobileOverride === 1) 
@@ -427,7 +465,7 @@ async function instCombat(combatantsExternal, channel) {
 			target = targetsExternal.get(Number(targetsMapped.find(e => e.i === Number(rp.content)).id))
 			} else target = combatants.get(targetsMapped.find(e => e.i === Number(rp.content)).id)
 			ch.send(`**${cCombatant.name}** used '${move.name}' on ${target.name}. (${mv.moves[move.name](cCombatant, target)})`)
-			latestMove = {"move": move, "target": target}
+			cCombatant.latestMove = {"move": move, "target": target}
 			chosen = true
 			moved = true
 			rp.delete({ 'timeout': 100 })
@@ -436,7 +474,12 @@ async function instCombat(combatantsExternal, channel) {
 			} choiceMessage.delete({ 'timeout': 200 })
 
 			} else { // Else if self
-			 // Nothing
+			if (move.name !== "some bullet thing idk") {
+			ch.send(`**${cCombatant.name}** used '${move.name}'. (${mv.moves[move.name](cCombatant)})`)
+			cCombatant.latestMove = {"move": move, "target": "self"}
+			} else {
+			// whole load of nothing for now
+			}
 			}
 			} else ch.send(`**${cCombatant.name}**, you do not have enough AP to use '${move.name}'! (${cCombatant.ap}/${moveCost} AP)`)
 			}} // [/all of the move processing]
@@ -445,15 +488,13 @@ async function instCombat(combatantsExternal, channel) {
 		} // [/response switch]
 		} // [/else]
 		
-		
-		
-		
 		statusUpdate(combatants, fight)
-		menuMessage.edit("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap}/${cCombatant.apMax} AP	${cCombatant.position.shortFixed(1)} LM\nAvailable moves: \n${moves}`)
+		menuMessage.edit("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap.shortFixed(1)}/${cCombatant.apMax} AP / +${cCombatant.apRegen} AP/turn \nAvailable moves: \n${moves}`)
 		} // [/turn: while(...) etc]
-		
-		menuMessage.edit("```" + ` ⚔️ | ${cCombatant.name} has taken their turn.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap}/${cCombatant.apMax} AP	${cCombatant.position.shortFixed(1)} LM\n\n	Turn ended.`)
-		
+		combatants.filter(c => c.type === "employee" && c.raw.dead === 0 && c.raw.panicked === 0).forEach(c => c.contribution += 1)
+		fight.roundCount += 1
+		battleEffectTick(cCombatant.raw)
+		menuMessage.edit("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap.shortFixed(1)}/${cCombatant.apMax} AP / +${cCombatant.apRegen} AP/turn \n\nTurn ended.`)
 		} // [/employee turn taking]
 		
 		} // [/combatant type switch]
@@ -461,7 +502,41 @@ async function instCombat(combatantsExternal, channel) {
 		else fight.turn++
 		if (fight.end === false) continue start
 	}
-	ch.send(`Victory for: ${fight.victory}`)
+	combatants.forEach(c => {
+		c.raw.fighting = undefined
+		if (c.effectArray)
+		c.effects = c.effectArray.filter(e => e[1] !== "bt").map(eff => eff.join("/")).join("|")
+	})
+	switch (fight.victory) {
+		case undefined: 
+		ch.send("Combat interrupted.")
+		break
+		case "employee": {
+		//let victoryMessage = await ch.send("Threat successfully contained.")
+		let abnos = combatants.filter(c => c.type === "abnormality")
+		let reward = 0
+		let rewards = `Victory!\nThe management has issued the following rewards:\n`
+		let roundCount 
+		abnos.forEach(a => {
+		switch (a.raw.risk) {
+			case "ZAYIN": reward += 5; break;
+			case "TETH": reward += 10; break;
+			case "HE": reward += 20; break;
+			case "WAW": reward += 45; break;
+			case "ALEPH": reward += 75; break;
+		}
+		})
+		combatants.filter(c => c.type === "employee" && c.raw.dead === 0 && c.raw.panicked === 0).forEach(c => {
+		let cReward = Math.round(reward * c.contribution / fight.roundCount)
+		rewards += `${c.name} - ${cReward} ${jn.ppebox}\n`
+		c.raw.balance += cReward
+		})
+		ch.send(rewards)
+		} break
+		case "abnormality":
+		ch.send("All agents out of control. (defeat)")
+		break
+	}
 }
 
 

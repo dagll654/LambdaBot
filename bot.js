@@ -11,7 +11,6 @@ const readline = require('readline').createInterface({
 input: process.stdin,
 output: process.stdout
 })
-
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 var connection = db.createConnection({
 	host: "lacreme.heliohost.org",
@@ -274,7 +273,7 @@ class cEmp {
 		this[points.toLowerCase()] += Number(amt)
 		return Number(amt)
 	}
-	damage(risk, typeL, amount) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
+	damage(risk, typeL, amount, returnDamageType) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
 		let amt = amount
 		let type = typeL
 		if (Array.isArray(type)) type = type[roll(type.length)]
@@ -297,7 +296,8 @@ class cEmp {
 			this.hp -= amt
 			break
 		}
-		return Number(amt)
+		if (returnDamageType) return `${amt.shortFixed(1)} ${jn.dtype[jn.damageTypes.indexOf(type)]}`
+		else return Number(amt).shortFixed(1)
 	}
 	bumpSubpoint(stat = "fortitude", amount = 0) {
 		let expMod = 0
@@ -485,8 +485,8 @@ class clAbn {
 			this.hp -= amt
 			break
 		}
-		if (returnDamageType) return `${amt} ${jn.dtype[jn.damageTypes.indexOf(type)]}`
-		return Number(amt)
+		if (returnDamageType) return `${amt.shortFixed(1)} ${jn.dtype[jn.damageTypes.indexOf(type)]}`
+		return Number(amt).shortFixed(1)
 	}
 }
 
@@ -734,6 +734,7 @@ function work(employee1, abno1, order1, channel) {
 	let userStat = e.stats[statIndex]
 	let userTemp = e.tempL
 	let luck = Math.ceil(jn.risk.indexOf(cAbno.risk)/2) + e.luck
+	if (cAbno.code === "o-01-01") luck = 3
 	let userStatLevel = e.statLevels()[statIndex]
 	let panicResponse = jn.panicLevels[e.panicResponse(cAbno)]
 	
@@ -789,19 +790,19 @@ function work(employee1, abno1, order1, channel) {
 		else peboxes++
 	} else e.dead = 1
 	}
-	let cHp = e.hp
-	let cSp = e.sp
 	async function asyncEdit(rMsg) {
 		let mood = ""
 		let moodResult = 0
 		let moodEffectResult = ""
 		let boxTotal = peboxes + ppeboxes
+		if (Number(e.hp) <= 0 || Number(e.sp) <= 0) e.dead = 1
+		let initialDead = e.dead
 		if (boxTotal >= cAbno.mood[2]) {mood = jn.goodresult; moodResult = 2}
 		else if (boxTotal >= cAbno.mood[1]) {mood = jn.normalresult; moodResult = 1}
 		else {mood = jn.badresult; moodResult = 0}
 		if (cAbno.effect[0] === true) {
-			let moodEffect = fn.effectApplication[cAbno.id](e, moodResult, order, dbnos.e(cAbno.id))
-			if (moodEffect[0] === true) moodEffectResult = moodEffect[1]
+			let abnoEffect = fn.effectApplication[cAbno.id](e, moodResult, order, dbnos.e(cAbno.id))
+			if (abnoEffect[0] === true) abnoEffectResult = abnoEffect[1]
 		}
 		if (damageArray.length === 0) damageArray.push("none")
 		let wTime = Math.floor((cAbno.peoutput/2).shortFixed(1))
@@ -809,12 +810,13 @@ function work(employee1, abno1, order1, channel) {
 		if (cAbno.code === "o-01-01") {wTime = 10; wTimeReal = 10}
 		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Currently working, this will take approximately ${wTime} seconds.`)
 		await wait(wTimeReal*1000)
-		if (Number(e.hp) <= 0 || Number(e.sp) <= 0)
-			e.dead = 1
-		if (e.dead === 0) {
+		if (initialDead === 0) {
 		ppe = ""
 		if (ppeboxes > 0) ppe = `\n	PPE boxes: ${ppeboxes}`
-		rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		if (e.dead === 0)
+			rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete!\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
+		else 
+			rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work complete. But...${abnoEffectResult}\n	PE boxes: ${peboxes}	\n	Result: ${mood}\n	NE boxes: ${neboxes}  ${ppe}\n	Remaining HP:	${Number(e.hp).toFixed(1)} / ${e.fortL} ${jn.health}\n	Remaining SP:	${Number(e.sp).toFixed(1)} / ${e.prudL} ${jn.sanity}\n	Damage taken: ${damageArray.join(", ")}.`)
 		e.bumpBox(cAbno.code, peboxes)
 		let subPtToBump = 0
 		let aRisk = jn.risk.indexOf(cAbno.risk)
@@ -840,7 +842,7 @@ function work(employee1, abno1, order1, channel) {
 		}
 		fn.effectApplication['fatigue'](e, cAbno.risk)
 		fn.effectApplication['workCD'](e, cAbno.peoutput)
-		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Number(cHp).shortFixed(3)} ${jn.health}\n	Remaining SP:	${Number(cSp).shortFixed(3)} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Number(e.hp).shortFixed(3)} ${jn.health}\n	Remaining SP:	${Number(e.sp).shortFixed(3)} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
 		e.working = 0
 	}
 	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
@@ -861,6 +863,7 @@ function aArrPush(a, arr = dbnos) {
 function globalEffectTick() {
 	efflog = efflog + 1 // efflog is responsible for effect logging
 	dbployees.forEach(e => {
+	if (e.fighting) return
 	if (exists(e) === false) return // If the employee doesn't exist, don't bother
 	let effects = []
 	let effectsNew = []
@@ -1047,37 +1050,40 @@ async function databaseEmployees() {
 // The heal pulse in regenerator rooms
 function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
-		dbployees.forEach(em => {
-		async function healTick(e) {
-			/* if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
-				else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
-			await wait(1)
-			/* if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
-				else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
-			await wait(1)
-			if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
-			if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
-			if (e.hp > e.fortL) e.hp = e.fortL
-			if (e.sp > e.prudL) e.sp = e.prudL
-			if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
-			e.dead = 0
-			else e.working = 0
-		if (DELTAS().members.cache.get(e.id) != undefined) {
-		if (drFind(DELTAS().members.cache.get(e.id))) {
-		if (exists(e.tjtime) === false) e.tjtime = Date.now()
-		if (exists(e.buffListArray)) {
-		if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
-		if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
-		fn.effectApplication['department'](e, drFind(DELTAS().members.cache.get(e.id)), "give")
-		}
-		}
-		}
-		}
-		}
-		}
-		healTick(em)
-		})
+	dbployees.forEach(em => {
+	async function healTick(e) {
+		/* if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
+			else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
+		await wait(1)
+		/* if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
+			else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+		await wait(1)
+		if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
+		if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
+		if (e.hp > e.fortL) e.hp = e.fortL
+		if (e.sp > e.prudL) e.sp = e.prudL
+		if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
+		e.dead = 0
+		else e.working = 0
+	if (DELTAS().members.cache.get(e.id) != undefined) {
+	if (drFind(DELTAS().members.cache.get(e.id))) {
+	if (exists(e.tjtime) === false) e.tjtime = Date.now()
+	if (exists(e.buffListArray)) {
+	if (e.buffListArray.some(eff => eff[0].startsWith("team")) === false) {
+	if (e.tjtime != undefined && (Date.now() - (e.tjtime - 0))/(1000*60*60*24) > 3) {
+	fn.effectApplication['department'](e, drFind(DELTAS().members.cache.get(e.id)), "give")
+	}}}}}}
+	if (!em.fighting) healTick(em)
+	})
 	}
+	dbnos.forEach(d => {
+	if (d.breaching === 1 && d.dead === 1) {
+		let raw = abn.abn.find(a => a.id === d.id)
+		d.breaching = 0
+		d.dead = 0
+		d.hp = raw.hpMax
+	}
+	})
 }
 
 // Responsible for all regular time-based things
@@ -1174,8 +1180,7 @@ let regLevel = new RegExp(`\\bLevel`)
 
 client.on('message', initialMessage => {
 	
-
-
+global.sudo = 0
 let chPass = 0 // Normally, minigame commands can only be used in the #minigame channels
 let botPass = 0 // Normally, the bot ignores messages from bots
 
@@ -1189,6 +1194,7 @@ if (tempMessage.content.split(" ")[0] === "sudo") {
 	tcontent.shift()
 	tempMessage.content = tcontent.join(" ")
 	chPass = 1
+	sudo = 1
 	} else (tempMessage.channel.send(`**${tempMessage.author.tag}**, ` + "error: you do not have permission to use `sudo`."))
 }}
 sudoCheck()
@@ -1272,7 +1278,7 @@ switch (ciCmd[0]) {
 	
 	case "ban": {
 	
-	if (admins.includes(msg.author.id)) {
+	if (admins.includes(msg.author.id) === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
 	}
@@ -1308,8 +1314,8 @@ switch (ciCmd[0]) {
 			sc.tl()
 		break
 		case "te": { // testEncounters
-			let testCombatants = [dbployees.e('143261987575562240'), dbnos.e('1')]
-			sc.testEncounter(testCombatants, ch)
+			let testCombatants = [dbployees.e('143261987575562240'), dbployees.e(client.user.id), dbnos.e('1')]
+			sc.encounter(testCombatants, ch)
 		} break
 		case "quit":
 			updateData()
@@ -1410,7 +1416,9 @@ switch (ciCmd[0]) {
 			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
 			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
 			if (cAbno[ciCmd[3]] != undefined) {
-				dbnos.find(a => Number(a.id) === Number(csCmd[2]))[ciCmd[3]] = ciCmd[4]
+			if (/\D/.test(ciCmd[4]) === false && typeof(cAbno[ciCmd[3]]) === "number")
+				cAbno[ciCmd[3]] = Number(ciCmd[4])
+			else cAbno[ciCmd[3]] = ciCmd[4]
 			} else ch.send("Incorrect abnormality property.")
 			} else ch.send("Incorrect abnormality ID.")
 			}
@@ -1557,8 +1565,20 @@ switch (ciCmd[0]) {
 					ch.send("**" + msg.author.tag + "**, " + "you are still on a cooldown. " + `(~${Number(cdVal) + 1} second(s))`)
 					return
 				}
-					
-				if (onCooldown === false) {
+				let fightStarted = false
+				if (dbnos.some(d => d.breaching === 1 && d.dead === 0)) {
+					let breaching = dbnos.filter(d => d.breaching === 1 && d.dead === 0)
+					console.log(breaching)
+					let chance = breaching.length * 10
+					let cRoll = roll(100)
+					if (cRoll <= chance) {
+					fightStarted = true
+					let enemy = breaching[roll(breaching.length)-1]
+					ch.send("You have been waylaid by enemies and must defend yourself!")
+					sc.encounter([dbployees.e(msg.author.id), enemy], ch)
+				}}
+				
+				if (onCooldown === false && fightStarted === false) {
 				if (effectDead === false) {
 					work(dbployees.e(msg.author.id), ciCmd[2], ciCmd[3], msg.channel)
 				} else {
@@ -1567,9 +1587,7 @@ switch (ciCmd[0]) {
 					dbployees.e(msg.author.id).sp = 0
 					dbployees.e(msg.author.id).effects = "null"
 					ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
-				}
-				
-				}
+				}}
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
@@ -1629,7 +1647,7 @@ switch (ciCmd[0]) {
 				cUser.effectArray.forEach(e => {
 					let effectTime = ""
 					let effectSpecialString = ""
-					if (e[1] === "inf") 
+					if (e[1] === "inf" || e[1] === "bt") 
 						effectTime = `???`
 					else {
 						if (Number(e[1]) > 60) effectTime = (Number(e[1])/60).toFixed(1) + " minute(s)"
@@ -1996,6 +2014,16 @@ statsString.join(""),
 				]
 				ch.send(helpArr.join("\n"))
 			}} break
+			
+			case "f": {
+			if (dbnos.some(d => d.breaching === 1 && d.dead === 0)) {
+				let breaching = dbnos.filter(d => d.breaching === 1 && d.dead === 0)
+				console.log(breaching)
+				let enemy = breaching[roll(breaching.length)-1]
+				ch.send("You have found an enemy.")
+				sc.encounter([dbployees.e(msg.author.id), enemy], ch)
+			} else ch.send(`**${msg.author.tag}**, there is nothing to fight right now.`)
+			} break
 			
 			case "a":
 			case "abno": { // !lc a o-03-03

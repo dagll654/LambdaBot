@@ -4,13 +4,19 @@ Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(
 function roll(sides) {
 	return Math.ceil(Math.random() * sides)
 }
- 
+
+// Check if something is not assigned a meaningful value
+function exists(v) {
+if (typeof(v) === 'number') return true
+return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
+}
+
 exports.moves = {
 	"Skip": function skip(user) {
 		if (user.ap < user.apMax)
-		user.ap += Math.round(Math.pow(user.apMax, 0.9)/4 + 1 + Math.pow(user.apMax, 0.3))
+		user.ap += (user.apRegen*1.7).shortFixed(1)
 		if (user.ap > user.apMax) user.ap = user.apMax
-		return `+${Math.round(Math.pow(user.apMax, 0.9)/4 + 1 + Math.pow(user.apMax, 0.3))} AP`
+		return `+${(user.apRegen*1.7).shortFixed(1)} AP`
 	},
 	"Punch": function punch(employee, target) {
 		let damage = target.raw.damage("ZAYIN", "red", employee.raw.fortL/10)
@@ -68,7 +74,7 @@ exports.moves = {
 		} else return `not funny didn't laugh`
 		if (Math.sign(moveAmt) === -1) direction = "left"
 		else direction = "right"
-		user.ap -= Math.round(Math.pow(user.apMax, 0.7)/2) - 1
+		user.ap -= Math.floor(user.apRegen - 1)
 		return `moved ${Math.abs(moveAmt)} LM ${direction}`
 	},
 	"Suppress": function suppress(employee, target) {
@@ -86,16 +92,110 @@ exports.moves = {
 		employee.ap -= 8
 		return `${damage} ${jn.dtype[0]}` 
 	},
-	"Reality Slash": function realitySlash(employee, target) {
-		let red = target.raw.damage("LUL", "red", roll(2))
-		let white = target.raw.damage("LUL", "white", roll(2))
-		employee.ap -= 15
-		return `${red} ${jn.dtype[0]}, ${white} ${jn.dtype[1]}`
+	"Swing": function realitySlash(employee, target) {
+		let red = target.raw.damage("ZAYIN", "red", roll(2))
+		employee.ap -= 7
+		return `${red} ${jn.dtype[0]}`
+	},
+	"Ban": function ban(employee, target) {
+		let red = target.raw.damage("DEBUG", "red", 999)
+		employee.ap -= -128
+		return `${red} ${jn.dtype[0]}`
+	},
+	"Kick": function kick(employee, target) {
+		let white = target.raw.damage("DEBUG", "white", 999)
+		employee.ap -= -128
+		return `${white} ${jn.dtype[1]}`
+	},
+	"Time Out": function timeOut(employee, target) {
+		let black = target.raw.damage("DEBUG", "black", 999)
+		employee.ap -= -128
+		return `${black} ${jn.dtype[2]}`
+	},
+	"TO THE RANCH": function toTheRanch(employee, target) {
+		let red = target.raw.damage("DEBUG", "red", 999)
+		let white = target.raw.damage("DEBUG", "white", 999)
+		let black = target.raw.damage("DEBUG", "black", 999)
+		let pale = target.raw.damage("DEBUG", "pale", 999)
+		employee.ap -= -128
+		return `${red} ${jn.dtype[0]}, ${white} ${jn.dtype[1]}, ${black} ${jn.dtype[2]}, ${pale} ${jn.dtype[3]}`
+	},
+	"Effect Test": function effectTest(employee) {
+		if (exists(employee.raw.effects)) employee.raw.effects += "|test/bt/Effect Test/0"
+		else employee.raw.effects = "test/bt/Effect Test/0"
+		return `...`
+	},
+	"Sharp Wing": function sharpWing(employee, target) {
+		let red = target.raw.damage("ZAYIN", "red", 4 + roll(3))
+		employee.ap -= 5
+		return `${red} ${jn.dtype[0]}`
+	},
+	"Pure Heart": function pureHeart(employee) {
+		if (exists(employee.raw.effects)) employee.raw.effects += "|0/8/F-04-83"
+		else employee.raw.effects = "0/8/F-04-83"
+		employee.ap -= 7.5
+		return `applied the effect`
+	},
+	"Judgement": function judgement(employee, target) {
+		let white = target.raw.damage("ZAYIN", "white", 4 + roll(3))
+		employee.ap -= 5
+		return `${white} ${jn.dtype[1]}`
+	},
+	"Confession": function confession(employee) {
+		let sp = employee.raw.heal("sp", roll(4) + roll(4))
+		employee.ap -= 10
+		return `${sp} ${jn.spheal}`
+	},
+	"Burst of Flame": function burstOfFlame(employee, target) {
+		let red = target.raw.damage("TETH", "white", 19 + roll(11))
+		employee.ap -= 12.5
+		return `${red} ${jn.dtype[0]}`
+	},
+	"Burning Hatred": function burningHatred(employee, target) {
+		let missed = [true, false][roll(2)-1]
+		let red = target.raw.damage("TETH", "white", 39 + roll(11))
+		employee.ap -= 20
+		if (missed) return `missed`
+		else return `${red} ${jn.dtype[0]}`
+	},
+	"Piercing Universe": function piercingUniverse(employee, target) {
+		let black = target.raw.damage("TETH", "black", 4 + roll(5))
+		employee.ap -= 3.7
+		return `${black} ${jn.dtype[3]}`
+	},
+	"Echo From Beyond": function echoFromBeyond(employee, target) {
+		let spRoll = roll(100)
+		let effect = ``
+		if (spRoll <= 30) {
+			if (exists(employee.raw.effects)) employee.raw.effects += "|gear_echo/3/Resonance"
+			else employee.raw.effects = "gear_echo/3/Resonance"
+			effect = `, applied the effect`
+		}
+		let black = target.raw.damage("TETH", "black", 9 + roll(6))
+		employee.ap -= 11.1
+		return `${black} ${jn.dtype[0]}${effect}`
+	},
+	"Pity": function pity(employee, target) {
+		let red = target.raw.damage("TETH", "red", 11 + roll(7))
+		employee.ap -= 7.5
+		return `${red} ${jn.dtype[0]}`
+	},
+	"Headache": function headache(employee) {
+		let effects = employee.raw.effectArray
+		if (exists(effects)) {
+			if (effects.some(e => e[0] === "headache"))
+				effects.find(e => e[0] === "headache")[3] -= -1
+			else effects.push(["headache", "bt", "Headache", 1])
+			employee.raw.effects = effects.map(e => e.join("/")).join("|")
+		}
+		else employee.raw.effects = "headache/bt/Headache/1"
+		employee.ap -= 14
+		return `applied the effect`
 	}
 }
 exports.moveD/*isambiguations*/ = {
 	"Skip": function skipD(user) {
-		return [0, `Restores ${Math.round(Math.pow(user.apMax, 0.9)/4 + 1 + Math.pow(user.apMax, 0.3))} Action Points.`]
+		return [0, `Restores ${(user.apRegen*1.7).shortFixed(1)} Action Points.`]
 	},
 	"Punch": function punchD(employee) {
 		return [5, `(5 AP) Punch something or someone square in the face (or whatever else it has) for ${jn.dtype[0]} ${Math.ceil(employee.raw.fortL/10)} damage.`]
@@ -122,18 +222,57 @@ exports.moveD/*isambiguations*/ = {
 		return [0, ` `, [0, 1, 0, 0]]
 	},
 	"Dematerialize": function dematerialize(target) {
-		return [0, ` - A decimating attack.`, [0, 1, 0, 0]]
+		return [0, ` A decimating attack.`, [0, 1, 0, 0]]
 	},
 	"Move": function moveD(user) {
-		return [Math.round(Math.pow(user.apMax, 0.7)/2) - 1, `(${Math.round(Math.pow(user.apMax, 0.7)/2) - 1} AP) - allows you to move ${(2 + (user.raw.justL - 17)*0.015).shortFixed(1)} LM towards any other combatant.`]
+		return [Math.floor(user.apRegen - 1), `(${Math.floor(user.apRegen - 1)} AP) - allows you to move ${(2 + (user.raw.justL - 17)*0.015).shortFixed(1)} LM towards any other combatant.`, [0, 0, 0, 0]]
 	},
 	"Suppress": function suppressD(employee, target) {
-		return [4, `(4 AP) - flail at something with your baton and pray it dies before you do. (4-6 ${jn.dtype[0]}) <1.0 LM>`]
+		return [4, `(4 AP) flail at something with your baton and pray it dies before you do. (4-6 ${jn.dtype[0]}) <1.0 LM>`, [1, 0, 0, 0]]
 	},
 	"Overpower": function suppressD(employee, target) {
-		return [8, `(8 AP) - flail at something, but harder. Deals more damage to weaker targets. <0.7 LM>`]
+		return [8, `(8 AP) flail at something, but harder. Deals more damage to weaker targets. <0.7 LM>`, [1, 0, 0, 0]]
 	},
-	"Reality Slash": function suppressD(employee, target) {
-		return [15, `(15 AP) - Wield the power of memes to tear through your enemies. (69-138 ${jn.dtype[0]}${jn.dtype[1]}) <10 LM>`]
+	"Swing": function suppressD(employee, target) {
+		return [7, `(5 AP) Swing your stick at something. (1-2 ${jn.dtype[0]}) <1.5 LM>`, [1, 0, 0, 0]]
+	},
+	"Ban": function banD(employee, target) {
+		return [-128, `:sans:`, [1, 0, 0, 0]]
+	},
+	"Kick": function kickD(employee, target) {
+		return [-128, `kick the fucker`, [0, 1, 0, 0]]
+	},
+	"Time Out": function timeOutD(employee, target) {
+		return [-128, `I don't believe in time`, [0, 0, 1, 0]]
+	},
+	"TO THE RANCH": function toTheRanchD(employee, target) {
+		return [-128, `Sends the target straight to the ranch. By means of absolute annihilation.`, [1, 1, 1, 1]]
+	},
+	"Effect Test": function effectTestD(employee) {
+		return [0, `For testing purposes.`, [0, 0, 0, 0]]
+	},
+	"Sharp Wing": function sharpWingD(employee, target) {
+		return [5, `(5 AP) Normal attack. (5-7 ${jn.dtype[0]}) <1.2 LM>`, [1, 0, 0, 0]]
+	},
+	"Pure Heart": function pureHeartD(employee) {
+		return [7.5, `(7.5 AP) Grants the "fairies' care" effect for 8 seconds.`, [0, 0, 0, 0]]
+	},
+	"Judgement": function judgementD(employee, target) {
+		return [5, `(5 AP) Normal attack. (5-7 ${jn.dtype[1]}) <1.2 LM>`, [0, 1, 0, 0]]
+	},
+	"Confession": function confessionD(employee) {
+		return [10, `(10 AP) Have a moment of self-reflection to ease your mind. (2-8 ${jn.spheal})`, [0, 0, 0, 0]]
+	},
+	"Burst of Flame": function burstOfFlameD(employee, target) {
+		return [12.5, `(12.5 AP) Normal attack. (20-30 ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
+	},
+	"Burning Hatred": function burningHatredD(employee, target) {
+		return [20, `(20 AP) A powerful, but inaccurate burst of flame and emotion. (40-50 ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
+	},
+	"Piercing Universe": function piercingUniverse(employee, target) {
+		return [3.7, `(3.7 AP) Normal attack. (5-9 ${jn.dtype[3]}) <1.6 LM>`, [0, 0, 1, 0]]
+	},
+	"Echo From Beyond": function echoFromBeyond(employee, target) {
+		return [11.1, `(11.1 AP) Strong attack that has a 33% chance of applying an SP-restoring effect (3.3% max SP/second) for 3 seconds. (10-15 ${jn.dtype[3]}) <1.8 LM>`, [0, 0, 1, 0]]
 	}
 }

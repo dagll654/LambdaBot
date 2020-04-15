@@ -29,7 +29,7 @@
 				"nameShort": "Test Dummy",
 				"code": "o-01-01",
 				"color": [0, 0, 0],
-				"risk": "LUL",
+				"risk": "ZAYIN",
 				"thumbnail": "https://u.cubeupload.com/dagll/nodata.png",
 				"description": "For testing purposes only.",
 				"id": "1",
@@ -39,7 +39,7 @@
 									[-1, -1, -1, -1, -1],
 									[-1, -1, -1, -1, -1]									
 									],
-				"damage": [1, 999],
+				"damage": [999, 998001],
 				"dtype": [0, 0, 0, 1],
 				"tips": ["bruh", "bruh2"],
 				"mood": [-1, 0, 1],

@@ -134,7 +134,7 @@
 			"HE",
 			"WAW",
 			"ALEPH",
-			"LUL"
+			"DEBUG"
 			],
 	"panicLevels":
 			[
@@ -253,15 +253,10 @@
 	{"name": "Skip", "target": "self", "range": 0},
 	{"name": "Move", "target": "any", "range": 999}
 	],
-	"allMoves": [
+	"abnoMoves": [
 	{"name": "Skip", "target": "self", "range": 0},
-	{"name": "Punch", "target": "enemy", "range": 0.6},
-	{"name": "Nudge", "target": "ally", "range": 0.6},
-	{"name": "Shrug Off", "target": "self", "range": 0},
-	{"name": "Commit Sudoku", "target": "self", "range": 0},
-	{"name": "Commit Mental Sudoku", "target": "self", "range": 0},
-	{"name": "Stare", "target": "enemy", "range": 5},
-	{"name": "Stare Harder", "target": "enemy", "range": 8},
+	{"name": "Stare", "target": "enemy", "range": 12},
+	{"name": "Stare Harder", "target": "enemy", "range": 12},
 	{"name": "Stare Really, Really Hard", "target": "enemy", "range": 12},
 	{"name": "Move", "target": "any", "range": 999},
 	{"name": "Dematerialize", "target": "enemy", "range": 999}
