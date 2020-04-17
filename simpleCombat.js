@@ -40,7 +40,6 @@ function exists(v) {
 function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
 	if (!arrayEx) return undefined
 	let array = arrayEx
-	if (array[0] === undefined) console.log(arrayEx)
 	let lengths = new Array(array[0].length).fill(0)
 	array.forEach(s => {
 	s.forEach((p, i) => {
@@ -66,10 +65,10 @@ combatants.forEach(c => {
 	let status = []
 	status.push(bck + c.name)
 	if (c.raw.dead === 1)
-	status.push(`${bck}[${["dead", "d"][mobileOverride]}]`)
+	status.push(`${bck}[dead]`)
 	else if (c.raw.panicked === 1)
-	status.push(`${bck}[${["panicked", "p"][mobileOverride]}]`)
-	else status.push(`${bck}[${["alive", "a"][mobileOverride]}]`)
+	status.push(`${bck}[panicked]`)
+	else status.push(`${bck}[alive]`)
 	if (c.type === "employee") {
 	status.push(`${bck}${c.raw.hp.shortFixed(1)}/${c.raw.fortL}`, `${bck}${c.raw.sp.shortFixed(1)}/${c.raw.prudL}`)//Hp [2]
 	if (c.raw.panicked === 0)
@@ -101,8 +100,11 @@ function generalTargeting(user, combatants, move) {
 let targets
 if (user.type === "employee") {
 switch (move.target) {
-case "enemy": { 
-	targets = combatants.filter(c => c.type !== 'employee' && c.raw.dead === 0).filter(c => {
+case "enemy": {
+	targets = combatants
+	.filter(c => c.type !== 'abnormality' || c.raw.panicked === 1)
+	.filter(c => c.raw.dead === 0)
+	.filter(c => {
 		let distance = Math.abs(c.position - user.position)
 		return distance <= move.range
 	})
@@ -132,7 +134,7 @@ targets = combatants.filter(c => c.type === 'employee' && c.id !== user.id && c.
 if (mv.moveD[move.name](user)[2]) {
 if (mv.moveD[move.name](user)[2][1] === 1) {
 targets = targets.filter(c => {
-if (c.type === "employee") {console.log([true, false][c.raw.panicked] + " " + c.name); return [true, false][c.raw.panicked]}
+if (c.type === "employee") {/*console.log([true, false][c.raw.panicked] + " " + c.name);*/return [true, false][c.raw.panicked]}
 else return true
 })}}
 }
@@ -144,6 +146,7 @@ combatants.forEach(c => {
 	if (c.raw.hp <= 0) c.raw.dead = 1
 	if (c.type === "employee" && c.raw.dead === 0) {
 		if (c.raw.sp <= 0) c.raw.panicked = 1
+		else if (c.raw.sp >= c.raw.prudL) c.raw.panicked = 0
 	}
 })
 let enemies = combatants.filter(c => c.type !== "employee")
@@ -165,7 +168,6 @@ fight.end = true
 function battleEffectTick(c) {
 let persistentEffects = ["1"]
 let effects = c.effectArray.filter(e => exists(e[0]))
-if (c.id === '143261987575562240') console.log(effects)
 if (exists(effects)) {
 	effects.forEach(effect => {
 	if (effect[0] === "0") c.heal("hp", 0.1)
@@ -180,7 +182,6 @@ if (exists(effects)) {
 	})
 } else c.effects = 'null'
 effects = effects.filter(e => e[1] > 0 || e[1] === "inf" || e[1] === "bt")
-if (c.id === '143261987575562240') console.log(effects)
 if (exists(effects)) c.effects = effects.map(eff => eff.join("/")).join("|")
 else c.effects = 'null'
 }
@@ -302,13 +303,18 @@ async function instCombat(combatantsExternal, channel) {
 		let turnEnd = false
 		let moved = false
 		let skipAvailable = true
-		console.log(cCombatant.moves)
 		let moves = cCombatant.moves.map((m, i) => `	${bck}${i+1}${bck}) ${m.name} - ${mv.moveD[m.name](cCombatant)[1]}`).join("\n")
 		
+		
 		menuMessage = await ch.send("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap.shortFixed(1)}/${cCombatant.apMax} AP / +${cCombatant.apRegen} AP/turn \nAvailable moves: \n${moves}`)
-
+		function updateMoves() {
+		moves = cCombatant.moves.map((m, i) => `	${bck}${i+1}${bck}) ${m.name} - ${mv.moveD[m.name](cCombatant)[1]}`).join("\n")
+		menuMessage.edit("```" + ` ⚔️ | Your turn, ${cCombatant.name}.` + "```" + `	${cCombatant.raw.hp.shortFixed(1)}/${cCombatant.raw.fortL} ${jn.hp}	${cCombatant.raw.sp.shortFixed(1)}/${cCombatant.raw.prudL} ${jn.sp}	${cCombatant.ap.shortFixed(1)}/${cCombatant.apMax} AP / +${cCombatant.apRegen} AP/turn \nAvailable moves: \n${moves}`)
+		}
+		
 		turn: while (turnEnd === false && fight.end === false && cCombatant.raw.dead === 0 && cCombatant.raw.panicked === 0) {
 		statusUpdate(combatants, fight)
+		updateMoves()
 		let rEx = await ch.awaitMessages(r => r.author.id !== client.user.id, { max: 1, time: 25000 })
 		let r = rEx.first()
 		
@@ -384,7 +390,6 @@ async function instCombat(combatantsExternal, channel) {
 			// These two check if the response is a move name or a move index
 			let isMoveName = cCombatant.moves.some(m => m.name.toLowerCase() === r.content.toLowerCase())
 			let isMoveIndex = /\D/.test(rArgs[0]) === false && cCombatant.moves[Number(rArgs[0]) - 1] !== undefined
-			console.log(isMoveIndex + " " + isMoveName)
 			if (isMoveName || isMoveIndex) {
 			r.delete({ 'timeout': 100 })
 			let move
@@ -476,6 +481,7 @@ async function instCombat(combatantsExternal, channel) {
 			} else { // Else if self
 			if (move.name !== "some bullet thing idk") {
 			ch.send(`**${cCombatant.name}** used '${move.name}'. (${mv.moves[move.name](cCombatant)})`)
+			moved = true
 			cCombatant.latestMove = {"move": move, "target": "self"}
 			} else {
 			// whole load of nothing for now

@@ -58,18 +58,23 @@
 			"Architecture Team (C)"
 			],
 	"help1": [
-			"Avaliable commands: !giverole, !removerole, !quote, !math, !abn, !say, !em, !lobcorp (!lc). To get help on a specific command, use !help [CommandName].",
+			"Visible commands: !quote, !lobcorp (!lc). To get help on a specific command, use !help [CommandName]. There's also a bunch of hidden ones.",
 			"Usage: !quote [number]. Gives a quote from the list of avaliable ones. Entering a number will give you a specific one.",
 			"Usage: !math (number) + / - / / / * (number). Is capable of any numbers and the four basic mathematical operations! Can only do two separate numbers, though.",
 			"Why do you need help for the help command? Anyway, usage: !help [CommandName].",
 			"Usage: !duckclub [arguments]. Use !duckclub help if you are a member of the DuckHat Club.", 
 			"Usage: !abn (Abnormality ID). The ID looks like this: O-01-01. Find IDs if you want to read some stylized stories. Alternatively, you can help with making a new abnormality file, or even get your own, on certain terms - post your ideas in the suggestion-box according to the rules stated in a pinned message.",
 			"Usage: !say (anything). Makes the bot say anything. Use at your own risk.",
-			"The debug command as of right now is only avaliable to the server's creator.",			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
+			"The debug command as of right now is only avaliable to the server's creator.",			
+			"<a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724><a:animenacing:612020398250524724>",
 			"Usage: !em (emoji's name) [amount of emojis] Sends an emoji, or several, but not more than 27. Case-sensitive!",
 			"Usage: !lobcorp/!lc (arguments). Type in `!lc help` to get more detailed info.",
 			"Usage: !lobcorp/!lc (arguments). Type in `!lc help` to get more detailed info.",
-			":)"
+			":)",
+			"Ya like jazz?",
+			"From wikipedia, the free encyclopedia.",
+			"oh god",
+			"This is just ridiculous."
 			],
 	"cmds": [
 			"quote",
@@ -83,7 +88,11 @@
 			"em",
 			"lobcorp",
 			"lc",
-			"ban"
+			"ban",
+			"beemovie",
+			"cbt",
+			"wnp",
+			"kancolle"
 			],
 	"qte": [
 			"It's not cheating if you make the rules!", 

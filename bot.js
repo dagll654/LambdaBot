@@ -1,7 +1,11 @@
 // Required stuff 
 const Discord = require('discord.js') // Self-explanatory
 const db = require('mysql') // Mysql dependency for accessing the database
+const fs = require('fs')
 // Additional files
+const wnp = require("./wnp.js") // war and peace
+const why = require("./jazz.js") // the bee movie
+const fic = require("./fic.js") // also known as omega why
 const abn = require("./abnb.json") // Abnormalities
 const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
@@ -40,7 +44,7 @@ const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 var bch
 function ESERV() {return client.guilds.cache.get('513660754633949208')} // Emote server for the minigame stuff
-const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role
+const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role and me
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
 const ncdeproles = jn.ncdeproles // Non-captain role names
@@ -104,6 +108,31 @@ function exists(v) {
 	return (v != undefined) && (v != 'undefined') && (v != '') && (v != null) && (v != 'null') && (v != [])
 }
 
+// Breaks up a string into an array of strings of length <= pageLength, preserving the sentence structure.
+function breaker(string, pageLength) {
+let originalArray = string.split(" ")
+let formattedArray = []
+let cProcessing = []
+let b = 0
+let lastFStop = 0
+let stop = false
+while (!stop) {
+	cProcessing.push(originalArray[b])
+	if (/[(\041|\077|\056)"*]$/.test(originalArray[b])) lastFStop = b
+	b += 1
+if (cProcessing.join(" ").length >= pageLength) {
+	formattedArray.push(originalArray.splice(0, lastFStop + 1).join(" "))
+	b = 0
+	cProcessing = []
+}
+if (originalArray[b] === undefined) {
+	formattedArray.push(originalArray.join(" "))
+	stop = true
+}
+}
+return formattedArray
+}
+
 // Function for finding the dep role among a member's roles
 function drFind(member) {
 	if (exists(member)) {
@@ -117,6 +146,27 @@ var latestID = -1
 function assignEntityID() {
 	latestID++
 	return latestID
+}
+
+function pagedMessage(array, ch, title = "") {
+let index = 0
+ch.send(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index]).then(l => {
+	l.react('👈').then(l.react('👉'))
+	const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
+	const collector = l.createReactionCollector(filter, { time: 240000 })
+	collector.on('collect', rct => {
+	if (rct.emoji.name === '👈') {
+		index -= 1
+		if (index < 0) index = array.length - 1
+		l.edit(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
+	}
+	if (rct.emoji.name === '👉') {
+		index += 1
+		if (index > (array.length - 1)) index = 0
+		l.edit(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
+	}
+	})
+})
 }
 
 function stringNormalizer(string, length) {
@@ -248,6 +298,15 @@ class cEmp {
 		if (exists(this.gifts)) return this.gifts.split("|").map(g => g.split("/"))
 		else return []
 	}
+	get damageMultiplier() {
+		let mult = 1
+		if (exists(this.effectArray)) {
+		if (this.effectArray.some(e => e[0] === "dmult")) {
+		let dMultArray = this.effectArray.filter(e => e[0] === "dmult")
+		dMultArray.forEach(e => mult = mult * Number(e[3]))
+		}}
+		return mult
+	}
 	getBox(abno) {
 		return this.balanceSpecificArray.find(b => b[0] === abno.toLowerCase())[1]
 	}
@@ -271,9 +330,11 @@ class cEmp {
 		})
 		}
 		this[points.toLowerCase()] += Number(amt)
+		if (this.hp > this.fortL) this.hp = this.fortL
+		if (this.sp > this.prudL) this.sp = this.prudL
 		return Number(amt)
 	}
-	damage(risk, typeL, amount, returnDamageType) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
+	damage(risk, typeL, amount, returnDamageType, dealtByEmployee) { // Deal amount of type damage to employee, calculated to include defense and return the real amount of damage dealt (in non-technical form because reasons)
 		let amt = amount
 		let type = typeL
 		if (Array.isArray(type)) type = type[roll(type.length)]
@@ -284,12 +345,14 @@ class cEmp {
 			break
 			case "white":
 			amt = Number(amt)*Number(this.defenseArray[1])*rDamage(suitObj(Number(this.suit)).level, risk)
-			this.sp -= amt
+			if (!dealtByEmployee) this.sp -= amt
+			else this.heal("sp", amt)
 			break
 			case "black":
 			amt = Number(amt)*Number(this.defenseArray[2])*rDamage(suitObj(Number(this.suit)).level, risk)
 			this.hp -= amt
-			this.sp -= amt
+			if (!dealtByEmployee) this.sp -= amt
+			else this.heal("sp", amt)
 			break
 			case "pale":
 			amt = Number(this.defenseArray[3])*(this.fortL/100*amt)*rDamage(suitObj(Number(this.suit)).level, risk)
@@ -364,6 +427,11 @@ class cEmp {
 			break
 			default:
 				return 0
+		}
+	}
+	applyEffect(effect, update = false, updateValue = 1) {
+		if (exists(this.effectArray)) {
+		if (false) {}
 		}
 	}
 }
@@ -446,6 +514,15 @@ class clAbn {
 		arr.push(Number(this.defenseBuffArray[i]) * Number(this.defense.split("|")[i]))
 		}
 		return arr
+	}
+	get damageMultiplier() {
+		let mult = 1
+		if (exists(this.effectArray)) {
+		if (this.effectArray.some(e => e[0] === "dmult")) {
+		let dMultArray = this.effectArray.filter(e => e[0] === "dmult")
+		dMultArray.forEach(e => mult = mult * Number(e[3]))
+		}}
+		return mult
 	}
 	heal(pointsEx, amount) {
 		let points = pointsEx.toLowerCase()
@@ -1062,8 +1139,11 @@ function healPulse() {
 		if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
 		if (e.hp > e.fortL) e.hp = e.fortL
 		if (e.sp > e.prudL) e.sp = e.prudL
-		if ((e.hp === Number(e.fortL)) && (e.sp === Number(e.prudL)) && (Number(e.dead) === 1)) 
-		e.dead = 0
+		if ((e.hp >= Number(e.fortL)) && (e.sp >= Number(e.prudL)) && (Number(e.dead) === 1)) 
+		{e.dead = 0; e.panicked = 0}
+		if (e.sp >= Number(e.prudL) && Number(e.panicked) === 1) 
+		e.panicked = 0
+		
 		else e.working = 0
 	if (DELTAS().members.cache.get(e.id) != undefined) {
 	if (drFind(DELTAS().members.cache.get(e.id))) {
@@ -1077,7 +1157,7 @@ function healPulse() {
 	})
 	}
 	dbnos.forEach(d => {
-	if (d.breaching === 1 && d.dead === 1) {
+	if (d.dead === 1) {
 		let raw = abn.abn.find(a => a.id === d.id)
 		d.breaching = 0
 		d.dead = 0
@@ -1247,6 +1327,30 @@ if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS()) {
 
 switch (ciCmd[0]) {
 	
+	case "help": {
+	if (jn.cmds.includes(ciCmd[1])) {
+	let index = jn.cmds.indexOf(ciCmd[1]) + 1
+	ch.send("**" + msg.author.tag + "**, " + jn.help1[index])
+	} else {
+	ch.send("**" + msg.author.tag + "**, " + jn.help1[0])
+	}
+	} break
+	case "kancolle": {
+		pagedMessage(fic.fic, ch, "AAAAAAAAAAAAAAAAAAAAAAAA")
+	} break
+	case "wnp": {
+		pagedMessage(wnp.wnp, ch, "why? why the hell not")
+		/* fs.writeFile("./test.txt", "[\r\n" + breaker(wnp.wnp, 1920).map(l => l = "`" + l + "`").join(",\r\n") + "\r\n]", err => {
+			if (err) throw err
+			console.log("The file was saved!");
+		}) */
+	} break
+	case "cbt": {
+		pagedMessage(breaker(why.cbt, 1000), ch, "https://en.wikipedia.org/wiki/Cock_and_ball_torture")
+	} break
+	case "beemovie": {
+		pagedMessage(why.scriptArray, ch, "No, I don't know why I did this.")
+	} break
 	case "quote": {
 	if (/\D/.test(ciCmd[1]) === false) {
 		let qIndex = Number(ciCmd[1])
@@ -1292,7 +1396,7 @@ switch (ciCmd[0]) {
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
 	let roles = member.roles.cache.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
-		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)")
+		ch.send("**" + msg.author.tag + "**, " + `error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)`)
 		return
 	}
 	member.roles.set(['673218574101512214'])
@@ -1310,12 +1414,21 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "tw": {
+			fs.writeFile("./test.txt", "[\r\n" + ["foo", "bar", "por"].join(",\r\n") + "\r\n]", err => {
+				if (err) throw err
+				console.log("The file was saved!");
+			})
+		} break
 		case "tl": 
 			sc.tl()
 		break
 		case "te": { // testEncounters
 			let testCombatants = [dbployees.e('143261987575562240'), dbployees.e(client.user.id), dbnos.e('1')]
 			sc.encounter(testCombatants, ch)
+		} break
+		case "dmt": {
+			console.log(dbployees.e('143261987575562240').damageMultiplier)
 		} break
 		case "quit":
 			updateData()
@@ -1372,10 +1485,9 @@ switch (ciCmd[0]) {
 			{
 			let uid
 			let lValue
-			let i = 0
-			let argument = ciCmd.slice(4).join(" ")
+			let argument = csCmd.slice(4).join(" ")
 			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
-			if (/\D/.test(argument) === false && dbployees.e(uid)[ciCmd[3]] === Number(dbployees.e(uid)[ciCmd[3]])) lValue = Number(argument)
+			if (/^-?\d*/.exec(argument)[0] === argument && typeof(dbployees.e(uid)[ciCmd[3]]) === "number") lValue = Number(argument)
 			else lValue = argument
 			dbployees.e(uid)[ciCmd[3]] = lValue
 			updateData() 
@@ -1397,40 +1509,33 @@ switch (ciCmd[0]) {
 			rtest()
 		break
 		case "b":
-		case "box": // !debug[0] box[1] quack[2] o-03-03[3] 1[4]
-			{
-			let uid
-			let lValue
-			if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
-			if (/\D/.test(ciCmd[4]) === false && jn.abnWorkable.includes(ciCmd[3])) {
-			lValue = Number(ciCmd[4])
-			dbployees.e(uid).bumpBox(ciCmd[3], lValue)
-			} else ch.send("Incorrect argument.")
-			}
-		break
+		case "box": {// !debug[0] box[1] quack[2] o-03-03[3] 1[4]
+		let uid
+		let lValue
+		if (exists(getUser(ciCmd[2]))) uid = getUser(ciCmd[2]).id; else uid = '143261987575562240'
+		if (/^-?\d*/.exec(ciCmd[4])[0] === ciCmd[4] && jn.abnWorkable.includes(ciCmd[3])) {
+		lValue = Number(ciCmd[4])
+		dbployees.e(uid).bumpBox(ciCmd[3], lValue)
+		} else ch.send("Incorrect argument.")
+		} break
 		case "entitytest":
 			sc.entityTest()
 		break
-		case "ap":
-			{
-			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
-			let cAbno = dbnos.find(a => Number(a.id) === Number(csCmd[2]))
-			if (cAbno[ciCmd[3]] != undefined) {
-			if (/\D/.test(ciCmd[4]) === false && typeof(cAbno[ciCmd[3]]) === "number")
-				cAbno[ciCmd[3]] = Number(ciCmd[4])
-			else cAbno[ciCmd[3]] = ciCmd[4]
-			} else ch.send("Incorrect abnormality property.")
-			} else ch.send("Incorrect abnormality ID.")
-			}
-		break
-		case "a":
-			{
-			if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
-			let cAbno = dbnos.e(csCmd[2])
-			console.log(cAbno)
-			} else ch.send("Incorrect abnormality ID.")
-			}
-		break
+		case "ap": {
+		let aid = csCmd[2]
+		let lValue
+		let argument = csCmd.slice(4).join(" ")
+		if (/^-?\d*/.exec(argument)[0] === argument && typeof(dbnos.e(aid)[ciCmd[3]]) === "number") lValue = Number(argument)
+		else lValue = argument
+		dbnos.e(aid)[ciCmd[3]] = lValue
+		updateData() 
+		} break
+		case "a": {
+		if (dbnos.some(a => Number(a.id) === Number(csCmd[2]))) {
+		let cAbno = dbnos.e(csCmd[2])
+		console.log(cAbno)
+		} else ch.send("Incorrect abnormality ID.")
+		} break
 		case "araw":
 			console.log(dbnos)
 		break
@@ -1549,6 +1654,7 @@ switch (ciCmd[0]) {
 				if (jn.abnWorkable.includes(ciCmd[2])) {
 				if (jn.workOrders.includes(ciCmd[3])) {
 				if (dbployees.e(msg.author.id).working === 0) {
+				//if (dbployees.e(msg.author.id).panicked === 0) {
 				if (dbployees.e(msg.author.id).dead === 0) {
 				let effectDead = false
 				let effectDeathCause = ""
@@ -1589,6 +1695,7 @@ switch (ciCmd[0]) {
 					ch.send("**" + msg.author.tag + "**, " + "you have died. Cause of death: " + effectDeathCause)
 				}}
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are dead.")
+				//} else ch.send("**" + msg.author.tag + "**, " + "error: you are panicking.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: you are already currently working on an abnormality.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
@@ -1658,7 +1765,9 @@ switch (ciCmd[0]) {
 					effectArray.push(`${"\n" + e[2]} ${effectSpecialString} <${effectTime}>`)
 				})
 			} else effectArray = ["none"]
-			let dead = ["alive", "dead"][Number(cUser.dead)]
+			let state = "alive"
+			if (cUser.dead === 1) state = "dead"
+			else if (cUser.panicked === 1) state = "panicked"
 			let statsString = []
 			for (m = 0; m < 4; m++) {
 				let statLV = "LV " + statLVL(cUser.stats[m])
@@ -1696,7 +1805,7 @@ statsString.join(""),
 `\nProgress towards the next stat points:\n${subPointString.join("")}`,
 `\n\nDays in the department: ${((Date.now() - Number(cUser.tjtime))/(3600000*24)).toFixed(1)}`,
 `\nCurrent effects: ${effectArray.join("")}.`,
-`\nCurrently:	${dead}.`,
+`\nCurrently:	${state}.`,
 `\n	HP: ${Number(cUser.hp).toFixed(1)} ${jn.health}		SP: ${Number(cUser.sp).toFixed(1)} ${jn.sanity}`,
 `\n\n	Suit: ${suit(Number(cUser.suit), cUser.defenseBuffArray)}`,
 `\n	Weapon: ${weapon(Number(cUser.weapon))}`

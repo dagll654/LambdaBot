@@ -240,7 +240,7 @@
 			"apMax": 1028,
 			"moves": [
 			{"name": "Ban", "target": "any", "range": 999},
-			{"name": "Kick", "target": "any", "range": 999},
+			{"name": "Kick", "target": "enemy", "range": 999},
 			{"name": "Time Out", "target": "any", "range": 999},
 			{"name": "TO THE RANCH", "target": "any", "range": 999},
 			{"name": "Effect Test", "target": "self", "range": 0}
@@ -320,10 +320,10 @@
 			"cost": 500,
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none",
-			"apMax": 25,
+			"apMax": 40,
 			"moves": [
-			{"name": "Pity", "target": "enemy", "range": 1.6},
-			{"name": "Headache", "target": "enemy", "range": 1.8}
+			{"name": "Pity", "target": "enemy", "range": 2},
+			{"name": "Headache", "target": "self", "range": 0}
 			]
 		},
 		{	"id": "8",
@@ -335,7 +335,12 @@
 			"level": "ZAYIN",
 			"cost": 400,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 20,
+			"moves": [
+			{"name": "Soda Splash", "target": "enemy", "range": 4},
+			{"name": "Cheers!", "target": "self", "range": 0}
+			]
 		},
 		{	"id": "9",
 			"name": "Rapturous Dream",
@@ -346,7 +351,12 @@
 			"level": "TETH",
 			"cost": 500,
 			"requirements": [0, 0, 0, 0, 0],
-			"reqString": "none"
+			"reqString": "none",
+			"apMax": 40,
+			"moves": [
+			{"name": "Cluck", "target": "enemy", "range": 3.4},
+			{"name": "Pomf", "target": "self", "range": 3.4}
+			]
 		},
 		{	"id": "10",
 			"name": "Red Eyes",
