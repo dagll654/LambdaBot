@@ -153,22 +153,22 @@ let index = 0
 let l = await ch.send(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
 l.react('👈').then(l.react('👉'))
 const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id !== client.user.id)
-let rctT = await l.awaitReactions(filter, { max: 1, time: 120000 })
-console.log(rctT)
-return
-const collector = l.createReactionCollector(filter, { time: 240000 })
-collector.on('collect', rct => {
-if (rct.emoji.name === '👈') {
+let stop = false
+while (!stop) {
+let rctT = await l.awaitReactions(filter, { max: 1, time: 200000 })
+if (!rctT) {stop = true; return}
+let recEmoji = rctT.emoji.name
+if (recEmoji === '👈') {
 	index -= 1
 	if (index < 0) index = array.length - 1
 	l.edit(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
 }
-if (rct.emoji.name === '👉') {
+if (recEmoji === '👉') {
 	index += 1
 	if (index > (array.length - 1)) index = 0
 	l.edit(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
 }
-})
+}
 }
 
 function stringNormalizer(string, length) {
