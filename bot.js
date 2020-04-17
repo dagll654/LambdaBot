@@ -157,7 +157,7 @@ let stop = false
 while (!stop) {
 let rctT = await l.awaitReactions(filter, { max: 1, time: 200000 })
 if (!rctT) {stop = true; return}
-let recEmoji = rctT.emoji.name
+let recEmoji = rctT._emoji.name
 if (recEmoji === '👈') {
 	index -= 1
 	if (index < 0) index = array.length - 1
