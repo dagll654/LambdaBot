@@ -24,7 +24,7 @@ var connection = db.createConnection({
 });
 // Getting a connection
 connection.connect(function(err2) {
-connection.query(`SET SESSION wait_timeout = 1200;`, err => {if (err) throw err})
+connection.query(`SET SESSION wait_timeout = 24400;`, err => {if (err) throw err})
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
@@ -770,9 +770,9 @@ async function initVote(channel, voter, candidate) {
 	let collector = voteMessage.createReactionCollector(filter, { time: 15000 }) 
 	collector.on('collect', (reaction, user) => {
 	voters.splice(voters.indexOf(user.id), 1)
-	if (reaction._emoji.name === '✅') yee++
-	if (reaction._emoji.name === '🚫') boo++
-	if (reaction._emoji.name === '🦆' && user.id === '143261987575562240') {
+	if (reaction.emoji.name === '✅') yee++
+	if (reaction.emoji.name === '🚫') boo++
+	if (reaction.emoji.name === '🦆' && user.id === '143261987575562240') {
 		yee = requiredVotes
 		boo = 0
 		timeout = 0
