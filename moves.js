@@ -177,24 +177,14 @@ exports.moves = {
 		if (exists(effects)) {
 		if (effects.some(e => e[0] === "headache")) {
 			headacheMod = Number(effects.find(e => e[0] === "headache")[3]) * 5
-		}
-		}
+		}}
 		let red = target.raw.damage("TETH", "red", (11 + headacheMod + roll(7)) * employee.damageMultiplier)
 		employee.ap -= 7.5
 		return `${red} ${jn.dtype[0]}`
 	},
 	"Headache": function headache(employee) {
 		let effects = employee.raw.effectArray
-		let headacheMod = 0
-		if (exists(effects)) {
-			if (effects.some(e => e[0] === "headache")) {
-				effects.find(e => e[0] === "headache")[3] -= -1
-				headacheMod = Number(effects.find(e => e[0] === "headache")[3])
-			}
-			else effects.push(["headache", "bt", "Headache", 1])
-			employee.raw.effects = effects.map(e => e.join("/")).join("|")
-		}
-		else employee.raw.effects = "headache/bt/Headache/1"
+		let headacheMod = employee.raw.addEffect("headache/bt/Headache/1", true, 1)
 		employee.ap -= 14
 		employee.raw.hp -= (employee.raw.fortL/100*(15 + headacheMod * 7)).shortFixed(1)
 		return `applied the effect`
@@ -247,10 +237,10 @@ exports.moves = {
 		employee.ap -= 2.5
 		return `${white} ${jn.dtype[1]}`
 	},
-	"Pomf": function pomf(employee) {
-		let sp = employee.raw.heal("sp", roll(4) + roll(4))
-		employee.ap -= 10
-		return `${sp} ${jn.spheal}`
+	"Pomf": function pomf(employee, target) {
+		target.raw.addEffect("headache/bt/Headache/0.95", true, -0.05)
+		employee.ap -= 15
+		return `applied the effect`
 	}
 }
 exports.moveD/*isambiguations*/ = {

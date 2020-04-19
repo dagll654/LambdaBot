@@ -6,6 +6,7 @@ const fs = require('fs')
 const wnp = require("./wnp.js") // war and peace
 const why = require("./jazz.js") // the bee movie
 const fic = require("./fic.js") // also known as omega why
+const fic2 = require("./fic2.js") // also known as omega why
 const abn = require("./abnb.json") // Abnormalities
 const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
@@ -431,10 +432,31 @@ class cEmp {
 				return 0
 		}
 	}
-	applyEffect(effect, update = false, updateValue = 1) {
+	addEffect(effect, update = false, updateValue = 1) {
+		let eArr = effect.split("/")
 		if (exists(this.effectArray)) {
-		if (false) {}
+		if (update === true) {
+		if (this.effectArray.some(e => e[0] === eArr[0])) {
+		let effects = this.effectArray
+		this.effectArray.find(e => e[0] === eArr[0])[3] += updateValue
+		this.effects = effects.map(e => e.join("/")).join("|")
+		return this.effectArray.find(e => e[0] === eArr[0])[3]
 		}
+		else {
+		this.effects += "|" + effect
+		if (eArr[3]) return eArr[3]
+		else return 0
+		}
+		}
+		else {
+		this.effects += "|" + effect
+		if (eArr[3]) return eArr[3]
+		else return 0
+		}
+		}
+		else this.effects = effect
+		if (eArr[3]) return eArr[3]
+		else return 0
 	}
 }
 
@@ -447,15 +469,6 @@ function sSlotText(text) {
 	else if (normal.includes(text)) return technical[normal.indexOf(text)]
 	else return text
 }
-
-function healCalc(employee, pts, amt) { // Probably redundant?
-		let buffs = employee.buffListArray
-		if (exists(buffs) === false) return amt
-		if (buffs.some(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))) {
-			let b = buffs.find(b => (b[0] === "misc" && b[1] === "healbuff" && b[2] === pts))
-			return amt * (1 + Number(b[3]))
-		} else return amt
-	}
 
 // Returns the abnormality by code
 function abno(code) {
@@ -566,6 +579,28 @@ class clAbn {
 		}
 		if (returnDamageType) return `${amt.shortFixed(1)} ${jn.dtype[jn.damageTypes.indexOf(type)]}`
 		return Number(amt).shortFixed(1)
+	}
+	addEffect(effect, update = false, updateValue = 1) {
+		let eArr = effect.split("/")
+		if (exists(this.effectArray)) {
+		if (update === true) {
+		if (this.effectArray.some(e => e[0] === eArr[0])) {
+		let matchingEffects = this.effectArray.filter(e => e[0] === eArr[0])
+		let otherEffects = this.effectArray.filter(e => e[0] !== eArr[0])
+		matchingEffects = matchingEffects.map(e => e += updateValue)
+		this.effects = matchingEffects.concat(otherEffects).map(e => e.join("/")).join("|")
+		return
+		}
+		else {
+		this.effects += "|" + effect
+		return
+		}
+		}
+		else {
+		this.effects += "|" + effect
+		}
+		}
+		else this.effects = effect
 	}
 }
 
@@ -1337,8 +1372,15 @@ switch (ciCmd[0]) {
 	ch.send("**" + msg.author.tag + "**, " + jn.help1[0])
 	}
 	} break
+	case "ssb": {
+		pagedMessage(fic2.fic2, ch, "https://www.fanfiction.net/s/4112682")
+		/* fs.writeFile("./test.txt", "[\r\n" + breaker(fic2.fic2.join("\\\\n  "), 1940).map(l => l = "`" + l + "`").join(",\r\n") + "\r\n]", err => {
+			if (err) throw err
+			console.log("The file was saved!");
+		}) */
+	} break
 	case "kancolle": {
-		pagedMessage(fic.fic, ch, "AAAAAAAAAAAAAAAAAAAAAAAA")
+		pagedMessage(fic.fic, ch, "https://www.fanfiction.net/s/10333897")
 	} break
 	case "wnp": {
 		pagedMessage(wnp.wnp, ch, "why? why the hell not")
