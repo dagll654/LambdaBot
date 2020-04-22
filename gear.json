@@ -352,10 +352,10 @@
 			"cost": 500,
 			"requirements": [0, 0, 0, 0, 0],
 			"reqString": "none",
-			"apMax": 40,
+			"apMax": 25,
 			"moves": [
 			{"name": "Cluck", "target": "enemy", "range": 3.4},
-			{"name": "Pomf", "target": "self", "range": 3.4}
+			{"name": "Pomf", "target": "enemy", "range": 3.4}
 			]
 		},
 		{	"id": "10",

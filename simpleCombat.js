@@ -38,7 +38,7 @@ function exists(v) {
 }
 
 function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
-	if (!arrayEx) return undefined
+	if (!arrayEx[0]) return undefined
 	let array = arrayEx
 	let lengths = new Array(array[0].length).fill(0)
 	array.forEach(s => {

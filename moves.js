@@ -43,15 +43,15 @@ exports.moves = {
 		return `mental oof`
 	},
 	"Stare": function stare(abnormality, target) {
-		damage = target.raw.damage("ZAYIN", "white", 1 * abnormality.damageMultiplier)
+		damage = target.raw.damage("ZAYIN", "white", 1 * abnormality.raw.damageMultiplier)
 		return `${damage} ${jn.dtype[1]}`
 	},
 	"Stare Harder": function stare2(abnormality, target) {
-		damage = target.raw.damage("ZAYIN", "white", 2 * abnormality.damageMultiplier)
+		damage = target.raw.damage("ZAYIN", "white", 2 * abnormality.raw.damageMultiplier)
 		return `${damage} ${jn.dtype[1]}`
 	},
 	"Stare Really, Really Hard": function stare3(abnormality, target) {
-		damage = target.raw.damage("ZAYIN", "white", 3 * abnormality.damageMultiplier)
+		damage = target.raw.damage("ZAYIN", "white", 3 * abnormality.raw.damageMultiplier)
 		return `${damage} ${jn.dtype[1]}`
 	},
 	"Dematerialize": function dematerialize(user, target) {
@@ -78,7 +78,7 @@ exports.moves = {
 		return `moved ${Math.abs(moveAmt)} LM ${direction}`
 	},
 	"Suppress": function suppress(employee, target) {
-		let damage = target.raw.damage("ZAYIN", "red", (3 + roll(3)) * employee.damageMultiplier)
+		let damage = target.raw.damage("ZAYIN", "red", (3 + roll(3)) * employee.raw.damageMultiplier)
 		employee.ap -= 4
 		return `${damage} ${jn.dtype[0]}` 
 	},
@@ -88,12 +88,12 @@ exports.moves = {
 		else risk = target.employeeLevel
 		let hit = 3.5 - risk // 2.5 at risk 1/zayin, 1.5 at risk 2/teth
 		if (hit <= 0) hit = 0.25
-		let damage = target.raw.damage("ZAYIN", "red", ((3 + roll(2)) * hit) * employee.damageMultiplier)
+		let damage = target.raw.damage("ZAYIN", "red", ((3 + roll(2)) * hit) * employee.raw.damageMultiplier)
 		employee.ap -= 8
 		return `${damage} ${jn.dtype[0]}` 
 	},
 	"Swing": function realitySlash(employee, target) {
-		let red = target.raw.damage("ZAYIN", "red", roll(2) * employee.damageMultiplier)
+		let red = target.raw.damage("ZAYIN", "red", roll(2) * employee.raw.damageMultiplier)
 		employee.ap -= 7
 		return `${red} ${jn.dtype[0]}`
 	},
@@ -122,7 +122,7 @@ exports.moves = {
 		return `...`
 	},
 	"Sharp Wing": function sharpWing(employee, target) {
-		let red = target.raw.damage("ZAYIN", "red", (4 + roll(3)) * employee.damageMultiplier)
+		let red = target.raw.damage("ZAYIN", "red", (4 + roll(3)) * employee.raw.damageMultiplier)
 		employee.ap -= 5
 		return `${red} ${jn.dtype[0]}`
 	},
@@ -133,7 +133,7 @@ exports.moves = {
 		return `applied the effect`
 	},
 	"Judgement": function judgement(employee, target) {
-		let white = target.raw.damage("ZAYIN", "white", (4 + roll(3)) * employee.damageMultiplier, false, true)
+		let white = target.raw.damage("ZAYIN", "white", (4 + roll(3)) * employee.raw.damageMultiplier, false, true)
 		employee.ap -= 5
 		return `${white} ${jn.dtype[1]}`
 	},
@@ -143,19 +143,19 @@ exports.moves = {
 		return `${sp} ${jn.spheal}`
 	},
 	"Burst of Flame": function burstOfFlame(employee, target) {
-		let red = target.raw.damage("TETH", "white", (19 + roll(11)) * employee.damageMultiplier)
+		let red = target.raw.damage("TETH", "white", (19 + roll(11)) * employee.raw.damageMultiplier)
 		employee.ap -= 12.5
 		return `${red} ${jn.dtype[0]}`
 	},
 	"Burning Hatred": function burningHatred(employee, target) {
 		let missed = [true, false][roll(2)-1]
-		let red = target.raw.damage("TETH", "white", (39 + roll(11)) * employee.damageMultiplier)
+		let red = target.raw.damage("TETH", "white", (39 + roll(11)) * employee.raw.damageMultiplier)
 		employee.ap -= 20
 		if (missed) return `missed`
 		else return `${red} ${jn.dtype[0]}`
 	},
 	"Piercing Universe": function piercingUniverse(employee, target) {
-		let black = target.raw.damage("TETH", "black", (4 + roll(5)) * employee.damageMultiplier, false, true)
+		let black = target.raw.damage("TETH", "black", (4 + roll(5)) * employee.raw.damageMultiplier, false, true)
 		employee.ap -= 3.7
 		return `${black} ${jn.dtype[3]}`
 	},
@@ -167,7 +167,7 @@ exports.moves = {
 			else employee.raw.effects = "gear_echo/3/Resonance"
 			effect = `, applied the effect`
 		}
-		let black = target.raw.damage("TETH", "black", (9 + roll(6)) * employee.damageMultiplier, false, true)
+		let black = target.raw.damage("TETH", "black", (9 + roll(6)) * employee.raw.damageMultiplier, false, true)
 		employee.ap -= 11.1
 		return `${black} ${jn.dtype[0]}${effect}`
 	},
@@ -178,7 +178,7 @@ exports.moves = {
 		if (effects.some(e => e[0] === "headache")) {
 			headacheMod = Number(effects.find(e => e[0] === "headache")[3]) * 5
 		}}
-		let red = target.raw.damage("TETH", "red", (11 + headacheMod + roll(7)) * employee.damageMultiplier)
+		let red = target.raw.damage("TETH", "red", (11 + headacheMod + roll(7)) * employee.raw.damageMultiplier)
 		employee.ap -= 7.5
 		return `${red} ${jn.dtype[0]}`
 	},
@@ -190,7 +190,7 @@ exports.moves = {
 		return `applied the effect`
 	},
 	"Soda Splash": function sodaSplash(employee, target) {
-		let red = target.raw.damage("ZAYIN", "red", roll(2) * employee.damageMultiplier)
+		let red = target.raw.damage("ZAYIN", "red", roll(2) * employee.raw.damageMultiplier)
 		employee.ap -= 1.8
 		return `${red} ${jn.dtype[0]}`
 	},
@@ -233,7 +233,7 @@ exports.moves = {
 		}
 	},
 	"Cluck": function cluck(employee, target) {
-		let white = target.raw.damage("TETH", "white", roll(2) * employee.damageMultiplier, false, true)
+		let white = target.raw.damage("TETH", "white", roll(2) * employee.raw.damageMultiplier, false, true)
 		employee.ap -= 2.5
 		return `${white} ${jn.dtype[1]}`
 	},
@@ -278,13 +278,13 @@ exports.moveD/*isambiguations*/ = {
 		return [Math.floor(user.apRegen - 1), `(${Math.floor(user.apRegen - 1)} AP) - allows you to move ${(2 + (user.raw.justL - 17)*0.015).shortFixed(1)} LM towards any other combatant.`, [0, 0, 0, 0]]
 	},
 	"Suppress": function suppressD(employee, target) {
-		return [4, `(4 AP) flail at something with your baton and pray it dies before you do. (${4 * employee.damageMultiplier}-${6 * employee.damageMultiplier} ${jn.dtype[0]}) <1.0 LM>`, [1, 0, 0, 0]]
+		return [4, `(4 AP) flail at something with your baton and pray it dies before you do. (${4 * employee.raw.damageMultiplier}-${6 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <1.0 LM>`, [1, 0, 0, 0]]
 	},
 	"Overpower": function suppressD(employee, target) {
 		return [8, `(8 AP) flail at something, but harder. Deals more damage to weaker targets. <0.7 LM>`, [1, 0, 0, 0]]
 	},
 	"Swing": function suppressD(employee, target) {
-		return [7, `(5 AP) Swing your stick at something. (${1 * employee.damageMultiplier}-${2 * employee.damageMultiplier} ${jn.dtype[0]}) <1.5 LM>`, [1, 0, 0, 0]]
+		return [7, `(5 AP) Swing your stick at something. (${1 * employee.raw.damageMultiplier}-${2 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <1.5 LM>`, [1, 0, 0, 0]]
 	},
 	"Ban": function banD(employee, target) {
 		return [-128, `:sans:`, [1, 0, 0, 0]]
@@ -302,25 +302,25 @@ exports.moveD/*isambiguations*/ = {
 		return [0, `For testing purposes.`, [0, 0, 0, 0]]
 	},
 	"Sharp Wing": function sharpWingD(employee, target) {
-		return [5, `(5 AP) Normal attack. (${5 * employee.damageMultiplier}-${7 * employee.damageMultiplier} ${jn.dtype[0]}) <1.2 LM>`, [1, 0, 0, 0]]
+		return [5, `(5 AP) Normal attack. (${5 * employee.raw.damageMultiplier}-${7 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <1.2 LM>`, [1, 0, 0, 0]]
 	},
 	"Pure Heart": function pureHeartD(employee) {
 		return [7.5, `(7.5 AP) Grants the "fairies' care" effect for 8 seconds.`, [0, 0, 0, 0]]
 	},
 	"Judgement": function judgementD(employee, target) {
-		return [5, `(5 AP) Normal attack. (${5 * employee.damageMultiplier}-${7 * employee.damageMultiplier} ${jn.dtype[1]}) <1.2 LM>`, [0, 1, 0, 0]]
+		return [5, `(5 AP) Normal attack. (${5 * employee.raw.damageMultiplier}-${7 * employee.raw.damageMultiplier} ${jn.dtype[1]}) <1.2 LM>`, [0, 1, 0, 0]]
 	},
 	"Confession": function confessionD(employee) {
 		return [10, `(10 AP) Have a moment of self-reflection to ease your mind. (2-8 ${jn.spheal})`, [0, 0, 0, 0]]
 	},
 	"Burst of Flame": function burstOfFlameD(employee, target) {
-		return [12.5, `(12.5 AP) Normal attack. (${20 * employee.damageMultiplier}-${30 * employee.damageMultiplier} ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
+		return [12.5, `(12.5 AP) Normal attack. (${20 * employee.raw.damageMultiplier}-${30 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
 	},
 	"Burning Hatred": function burningHatredD(employee, target) {
-		return [20, `(20 AP) A powerful, but inaccurate burst of flame and emotion. (${40 * employee.damageMultiplier}-${50 * employee.damageMultiplier} ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
+		return [20, `(20 AP) A powerful, but inaccurate burst of flame and emotion. (${40 * employee.raw.damageMultiplier}-${50 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <6 LM>`, [0, 1, 0, 0]]
 	},
 	"Piercing Universe": function piercingUniverse(employee, target) {
-		return [3.7, `(3.7 AP) Normal attack. (${5 * employee.damageMultiplier}-${9 * employee.damageMultiplier} ${jn.dtype[3]}) <1.6 LM>`, [0, 0, 1, 0]]
+		return [3.7, `(3.7 AP) Normal attack. (${5 * employee.raw.damageMultiplier}-${9 * employee.raw.damageMultiplier} ${jn.dtype[3]}) <1.6 LM>`, [0, 0, 1, 0]]
 	},
 	"Echo From Beyond": function echoFromBeyond(employee, target) {
 		return [11.1, `(11.1 AP) Strong attack that has a 33% chance of applying an SP-restoring effect (3.3% max SP/second) for 3 seconds. (10-15 ${jn.dtype[3]}) <1.8 LM>`, [0, 0, 1, 0]]
@@ -331,7 +331,7 @@ exports.moveD/*isambiguations*/ = {
 		if (employee.raw.effectArray.some(e => e[0] === "headache"))
 			headacheMod = Number(employee.raw.effectArray.find(e => e[0] === "headache")[3]) * 5
 		}
-		return [7.5, `(7.5 AP) Nornal attack. (${(12 + headacheMod) * employee.damageMultiplier}-${(18 + headacheMod) * employee.damageMultiplier} ${jn.dtype[0]}) <2 LM>`, [1, 0, 0, 0]]
+		return [7.5, `(7.5 AP) Normal attack. (${(12 + headacheMod) * employee.raw.damageMultiplier}-${(18 + headacheMod) * employee.raw.damageMultiplier} ${jn.dtype[0]}) <2 LM>`, [1, 0, 0, 0]]
 	},
 	"Headache": function headacheD(employee) {
 		let headacheMod = 0
@@ -342,9 +342,16 @@ exports.moveD/*isambiguations*/ = {
 		return [14, `(14 AP) Bang your head on something to lose ${(15 + headacheMod * 7).shortFixed(1)}% HP, but gain 5-5 damage on the main move for the duration of battle.`, [0, 0, 0, 0]]
 	},
 	"Soda Splash": function sodaSplashD(employee, target) {
-		return [1.8, `(1.8 AP) Nornal attack. (${1 * employee.damageMultiplier}-${2 * employee.damageMultiplier} ${jn.dtype[0]}) <4 LM>`, [1, 0, 0, 0]]
+		return [1.8, `(1.8 AP) Normal attack. (${1 * employee.raw.damageMultiplier}-${2 * employee.raw.damageMultiplier} ${jn.dtype[0]}) <4 LM>`, [1, 0, 0, 0]]
 	},
 	"Cheers!": function cheersD(employee) {
 		return [9, `(9 AP) Take a sip of the dangerously sweet soda. 30% chance to heal 30% of your max HP, 40% to heal 40% of your max SP, 25% to heal 20% of both HP and SP, 15% to lose 50% of SP and HP.`, [0, 0, 0, 0]]
+	}
+	,
+	"Cluck": function cluck(employee, target) {
+		return [2.5, `(2.5 AP) Normal attack. (${1 * employee.raw.damageMultiplier}-${2 * employee.raw.damageMultiplier} ${jn.dtype[1]}) <3.4 LM>`, [0, 1, 0, 0]]
+	},
+	"Pomf": function pomf(employee, target) {
+		return [15, `(15 AP) Reduces the damage dealt by the enemy by 5%. <3.4 LM>`, [0, 0, 0, 0]]
 	}
 }

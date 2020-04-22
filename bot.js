@@ -1259,6 +1259,8 @@ let regLevel = new RegExp(`\\bLevel`)
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
 		let channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
+		if (m.roles.cache.array().some(r => r.name === "ALEPH")) 
+			channelRole = DELTAS().roles.cache.find(r => r.name === "ALEPH")
 		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.slice(0, 4).includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
 		if (currentCRoles.length > 0) {
 			m.roles.remove(currentCRoles)
@@ -1468,7 +1470,7 @@ switch (ciCmd[0]) {
 			sc.tl()
 		break
 		case "te": { // testEncounters
-			let testCombatants = [dbployees.e('143261987575562240'), dbployees.e(client.user.id), dbnos.e('1')]
+			let testCombatants = [dbployees.e('143261987575562240'), /* 			*/ dbnos.e('1')]
 			sc.encounter(testCombatants, ch)
 		} break
 		case "dmt": {
