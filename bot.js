@@ -1435,8 +1435,8 @@ switch (ciCmd[0]) {
 	let amount
 	if (/\D/.test(ciCmd[2])) amount = 10
 	else amount = Number(ciCmd[2])
-	if (amount < 0 || amount > 60) {
-		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 60 seconds.")
+	if (amount < 0 || amount > 70) {
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
 		return
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
