@@ -25,6 +25,7 @@ var connection = db.createConnection({
 });
 // Getting a connection
 connection.connect(function(err2) {
+if (err2) {connection.destroy(); throw err2}
 connection.query(`SET SESSION wait_timeout = 24400;`, err => {if (err) throw err})
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
@@ -40,7 +41,10 @@ process.on('exit', (code) => {
 	console.log(`Process exited with code ${code}.`)
 })
 
-if (err2) {connection.destroy(); throw err2}
+process.on('error', err => {
+	console.log(err)
+})
+
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 var bch
