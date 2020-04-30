@@ -1030,6 +1030,7 @@ function updateData() {
 	let dbployeesActual = []
 	let pushBig = []
 	connection.query("SELECT * FROM `employees`", function (err, result) {
+	if (err) throw err
 	result.forEach(r => {
 	eArrPush(r, dbployeesActual)
 	})
