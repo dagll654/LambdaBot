@@ -1302,6 +1302,15 @@ let regLevel = new RegExp(`\\bLevel`)
 	
 })
 
+client.on('channelUpdate', (oldC, newC) => {
+if (newC.name == "mem") newC.edit({ name: "pe"})
+else if (oldC.name == "pe" && newC.name != "pe") newC.edit({ name: "pe"})
+})
+
+client.on('channelCreate', newC => {
+if (newC.name == "mem") newC.edit({ name: "pe"})
+})
+
 client.on('message', initialMessage => {
 	
 global.sudo = 0
