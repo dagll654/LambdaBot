@@ -1779,3 +1779,13 @@ node_modules/xdg-basedir/package.json
 node_modules/xdg-basedir/readme.md
 package-lock.json
 test.txt
+node_modules/@discordjs/form-data/index.d.ts
+node_modules/@discordjs/form-data/lib/browser.js
+node_modules/@discordjs/form-data/lib/form_data.js
+node_modules/@discordjs/form-data/lib/populate.js
+node_modules/@discordjs/form-data/License
+node_modules/@discordjs/form-data/package.json
+node_modules/@discordjs/form-data/Readme.md
+node_modules/discord.js/esm/discord.mjs
+node_modules/discord.js/src/util/UserFlags.js
+node_modules/discord.js/typings/index.ts

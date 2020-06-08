@@ -1303,12 +1303,12 @@ let regLevel = new RegExp(`\\bLevel`)
 })
 
 client.on('channelUpdate', (oldC, newC) => {
-if (newC.name == "mem") newC.edit({ name: "pe"})
-else if (oldC.name == "pe" && newC.name != "pe") newC.edit({ name: "pe"})
+if (newC.name == "mem") {newC.edit({ name: "qof"}); console.log(newC.name + " 1 " + oldC.name)}
+else if (oldC.name == "qof" && newC.name != "qof") {newC.edit({ name: "qof"}); console.log(newC.name + " 2 " + oldC.name)}
 })
 
 client.on('channelCreate', newC => {
-if (newC.name == "mem") newC.edit({ name: "pe"})
+if (newC.name == "mem") newC.edit({ name: "qof"})
 })
 
 client.on('message', initialMessage => {
