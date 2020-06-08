@@ -1302,9 +1302,18 @@ let regLevel = new RegExp(`\\bLevel`)
 	
 })
 
+client.on('roleUpdate', (oldR, newR) => {
+if (newR.name.toLowerCase() == "mem") newR.setName("QOF")
+else if (oldR.name.toLowerCase() == "qof" && newR.name.toLowerCase() != "qof") newR.setName("QOF")
+})
+
+client.on('roleCreate', newR => {
+if (newR.name.toLowerCase() == "mem") newR.setName("QOF")
+})
+
 client.on('channelUpdate', (oldC, newC) => {
-if (newC.name == "mem") {newC.edit({ name: "qof"}); console.log(newC.name + " 1 " + oldC.name)}
-else if (oldC.name == "qof" && newC.name != "qof") {newC.edit({ name: "qof"}); console.log(newC.name + " 2 " + oldC.name)}
+if (newC.name == "mem") newC.edit({ name: "qof"})
+else if (oldC.name == "qof" && newC.name != "qof") newC.edit({ name: "qof"})
 })
 
 client.on('channelCreate', newC => {
@@ -1380,6 +1389,10 @@ if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS()) {
 
 switch (ciCmd[0]) {
 	
+	case "qof": {
+	if (msg.member.roles.cache.find(r => r.name === "Qof")) {msg.member.roles.remove(DELTAS().roles.cache.find(r => r.name === "Qof")); ch.send("**" + msg.author.tag + "**, " + "skidaddle skidoodle you no longer have coroner.")}
+	else {msg.member.roles.add(DELTAS().roles.cache.find(r => r.name === "Qof")); ch.send("**" + msg.author.tag + "**, " + "qof qof, you have been infected.")}
+	} break
 	case "help": {
 	if (jn.cmds.includes(ciCmd[1])) {
 	let index = jn.cmds.indexOf(ciCmd[1]) + 1
