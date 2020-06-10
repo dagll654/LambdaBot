@@ -1455,8 +1455,8 @@ switch (ciCmd[0]) {
 	} break
 	
 	case "ml": {
-		if (Date.now() - debugVariables.latest_ml_use < 300000 && global.sudo === 0) {
-		ch.send(`The command cooldown is still not over. (${((300000 - (Date.now() - debugVariables.latest_ml_use))/1000).shortFixed(1)} seconds)`)
+		if (Date.now() - debugVariables.latest_ml_use < 120000 && global.sudo === 0) {
+		ch.send(`The command cooldown is still not over. (${((120000 - (Date.now() - debugVariables.latest_ml_use))/1000).shortFixed(1)} seconds)`)
 		return
 		}
 		debugVariables.latest_ml_use = Date.now()
