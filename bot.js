@@ -77,7 +77,8 @@ debugVariables = {
 	'heal_pulser': 1, // If 1, the heal pulser is on
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
 	'effect_log': 999, // Rules how often the effect on employees are logged
-	'get_log': 0 // Logs stuff from getUser() and getEmployee()
+	'get_log': 0, // Logs stuff from getUser() and getEmployee()
+	'latest_ml_use': 0 // Used in the mod lottery.
 }
 quotelog = []
 votingteam = ""
@@ -1398,7 +1399,7 @@ switch (ciCmd[0]) {
 	let index = jn.cmds.indexOf(ciCmd[1]) + 1
 	ch.send("**" + msg.author.tag + "**, " + jn.help1[index])
 	} else {
-	ch.send("**" + msg.author.tag + "**, " + jn.help1[0])
+	ch.send("**" + msg. author.tag + "**, " + jn.help1[0])
 	}
 	} break
 	case "ssb": {
@@ -1453,9 +1454,30 @@ switch (ciCmd[0]) {
 	}
 	} break
 	
+	case "ml": {
+		if (Date.now() - debugVariables.latest_ml_use < 300000 && global.sudo === 0) {
+		ch.send(`The command cooldown is still not over. (${((300000 - (Date.now() - debugVariables.latest_ml_use))/1000).shortFixed(1)} seconds)`)
+		return
+		}
+		debugVariables.latest_ml_use = Date.now()
+		let mods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod"))
+		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod") === false && m.user.bot === false)
+		loser = mods.array()[roll(mods.array().length) - 1]
+		winner = unmods.array()[roll(unmods.array().length) - 1]
+		if (loser === undefined || winner === undefined) {
+		ch.send(`The command broke, for some reason. Try again.`)
+		console.log(loser)
+		console.log(winner)
+		return
+		}
+		loser.roles.remove(DELTAS().roles.cache.find(r => r.name === "Mod"))
+		winner.roles.add(DELTAS().roles.cache.find(r => r.name === "Mod"))
+		ch.send(`Results of the mod lottery: **${loser.user.tag}** gave his role to **${winner.user.tag}**.`)
+	} break
+	
 	case "ban": {
 	
-	if (admins.includes(msg.author.id) === false) {
+	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod") === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
 	}
@@ -1464,6 +1486,10 @@ switch (ciCmd[0]) {
 	else amount = Number(ciCmd[2])
 	if (amount < 0 || amount > 70) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
+		return
+	}
+	if (amount > 5 && admins.includes(msg.author.id) === false) {
+		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 5 seconds.")
 		return
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
@@ -1545,8 +1571,11 @@ switch (ciCmd[0]) {
 			healPulse()
 		break
 		case "var":
-			if (exists(ciCmd[2]) && exists(ciCmd[3]) && debugVariables[csCmd[2]] != undefined) debugVariables[csCmd[2]] = Number(ciCmd[3])
-			else ch.send("Error: incorrect usage. " + `(${exists(ciCmd[2])} ${exists(ciCmd[3])} ${exists(debugVariables[csCmd[2]])})`)
+			if (exists(ciCmd[2]) && exists(ciCmd[3]) && debugVariables[csCmd[3]] !== undefined) {
+				if (typeof(debugVariables[csCmd[3]]) == "number") debugVariables[csCmd[3]] = Number(ciCmd[4])
+				else debugVariables[csCmd[3]] = ciCmd[4]
+				}
+			else ch.send("Error: incorrect usage. " + `(${exists(ciCmd[2])} ${ciCmd[2]} ${exists(ciCmd[3])} ${exists(ciCmd[3])} ${debugVariables[csCmd[2]] !== undefined} ${csCmd[2]}`)
 			console.log(exists(0))
 		break
 		case "uc":
@@ -1748,7 +1777,7 @@ switch (ciCmd[0]) {
 				if (dbnos.some(d => d.breaching === 1 && d.dead === 0)) {
 					let breaching = dbnos.filter(d => d.breaching === 1 && d.dead === 0)
 					console.log(breaching)
-					let chance = breaching.length * 10
+					let chance = 100//breaching.length * 10
 					let cRoll = roll(100)
 					if (cRoll <= chance) {
 					fightStarted = true
