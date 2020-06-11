@@ -1777,7 +1777,7 @@ switch (ciCmd[0]) {
 				if (dbnos.some(d => d.breaching === 1 && d.dead === 0)) {
 					let breaching = dbnos.filter(d => d.breaching === 1 && d.dead === 0)
 					console.log(breaching)
-					let chance = 100//breaching.length * 10
+					let chance = 0//breaching.length * 10
 					let cRoll = roll(100)
 					if (cRoll <= chance) {
 					fightStarted = true
