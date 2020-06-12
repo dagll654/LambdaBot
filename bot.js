@@ -47,7 +47,6 @@ process.on('error', err => {
 
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
-var bch
 function ESERV() {return client.guilds.cache.get('513660754633949208')} // Emote server for the minigame stuff
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role and me
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
@@ -61,6 +60,7 @@ const qte2 = "Lambdadelta Quote #"
 const cmds = jn.cmds // All commands
 const b3ck = '```'
 const bck = '`'
+
 Number.prototype.shortFixed = function(length) {return Math.round(this*Math.pow(10, length))/Math.pow(10, length)}
 Array.prototype.ids = function() {return this.map(e => e.id)}
 Array.prototype.e = function(id) {return this.find(e => e.id === id)}
@@ -1482,7 +1482,7 @@ switch (ciCmd[0]) {
 		return
 	}
 	let amount
-	if (/\D/.test(ciCmd[2])) amount = 10
+	if (/\D/.test(ciCmd[2])) amount = 5
 	else amount = Number(ciCmd[2])
 	if (amount < 0 || amount > 70) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
@@ -1650,6 +1650,11 @@ switch (ciCmd[0]) {
 				if (cAbno.qcounter != undefined) d.qcounter = cAbno.qcounter
 				})
 		break
+		case "apology": {
+			dbployees.forEach(d => {
+			d.balance += 500
+			})
+		} break
 		case "gift": {
 			if (getEmployee(csCmd[2]).id) {
 			if (abn.abn.some(a => Number(a.id) === Number(csCmd[3]))) { 
