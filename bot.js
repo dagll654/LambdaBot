@@ -78,7 +78,7 @@ debugVariables = {
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
 	'effect_log': 999, // Rules how often the effect on employees are logged
 	'get_log': 0, // Logs stuff from getUser() and getEmployee()
-	'latest_ml_use': 0 // Used in the mod lottery.
+	'ml_used': 0 // Used in the mod lottery.
 }
 quotelog = []
 votingteam = ""
@@ -1455,11 +1455,12 @@ switch (ciCmd[0]) {
 	} break
 	
 	case "ml": {
-		if (Date.now() - debugVariables.latest_ml_use < 120000 && global.sudo === 0) {
-		ch.send(`The command cooldown is still not over. (${((120000 - (Date.now() - debugVariables.latest_ml_use))/1000).shortFixed(1)} seconds)`)
+		//if (Date.now() - debugVariables.latest_ml_use < 120000 && global.sudo === 0) {
+		if (debugVariables.ml_used === 1) {
+		ch.send(`The command has already been used today. /shrug`)
 		return
 		}
-		debugVariables.latest_ml_use = Date.now()
+		debugVariables.ml_used = 1
 		let mods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod"))
 		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod") === false && m.user.bot === false)
 		loser = mods.array()[roll(mods.array().length) - 1]
