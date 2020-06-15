@@ -1463,7 +1463,7 @@ switch (ciCmd[0]) {
 		}
 		debugVariables.ml_used = 1
 		let mods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod"))
-		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod") === false && m.user.bot === false)
+		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod") === false && m.user.bot === false && m.roles.cache.some(r => ["Level III", "Level IV", "Level V"].includes(r.name)))
 		loser = mods.array()[roll(mods.array().length) - 1]
 		winner = unmods.array()[roll(unmods.array().length) - 1]
 		if (loser === undefined || winner === undefined) {
