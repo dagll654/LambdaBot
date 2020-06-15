@@ -477,6 +477,7 @@ function sSlotText(text) {
 
 // Returns the abnormality by code
 function abno(code) {
+	if (!code) return undefined
 	if (abn.abn.some(a => a.code === code.toLowerCase()))
 	return abn.abn.find(a => a.code === code.toLowerCase())
 	else return undefined
