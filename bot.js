@@ -1814,7 +1814,7 @@ switch (ciCmd[0]) {
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect work order. Orders: instinct, insight, attachment, repression.")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
-				} else { // Else it is the list
+				} else if (ciCmd[2]) { // Else it is the list
 					let baseStr = " List of currently workable abnormalities:```\n		"
 					let workableIDs = jn.abnWorkable
 					workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
@@ -1848,7 +1848,7 @@ switch (ciCmd[0]) {
 							}
 						})
 					})
-				}
+				} else else ch.send("**" + msg.author.tag + "**, " + "error: missing argument.")
 			} break
 			
 			case "p":
