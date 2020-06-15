@@ -1478,18 +1478,22 @@ switch (ciCmd[0]) {
 	
 	case "ban": {
 	
-	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod") === false) {
+	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Real Mod") === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
 	}
 	let amount
 	if (/\D/.test(ciCmd[2])) amount = 5
 	else amount = Number(ciCmd[2])
-	if (amount < 0 || amount > 70) {
+	if (amount < 0 || (amount > 70 && global.sudo === false)) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
 		return
 	}
 	if (amount > 5 && admins.includes(msg.author.id) === false) {
+	if (amount > 15 && msg.member.roles.cache.some(r => r.name === "Real Mod")) {
+		ch.send("**" + msg.author.tag + "**, " + "error: members with the Real Mod role cannot ban for more than 15 seconds.")
+		return
+	} else {
 		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 5 seconds.")
 		return
 	}
