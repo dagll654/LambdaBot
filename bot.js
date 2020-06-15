@@ -1490,9 +1490,11 @@ switch (ciCmd[0]) {
 		return
 	}
 	if (amount > 5 && admins.includes(msg.author.id) === false) {
-	if (amount > 15 && msg.member.roles.cache.some(r => r.name === "Real Mod")) {
+	if (msg.member.roles.cache.some(r => r.name === "Real Mod")) {
+	if (amount > 15) {
 		ch.send("**" + msg.author.tag + "**, " + "error: members with the Real Mod role cannot ban for more than 15 seconds.")
 		return
+	}
 	} else {
 		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 5 seconds.")
 		return
