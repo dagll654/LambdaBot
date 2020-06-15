@@ -1848,7 +1848,7 @@ switch (ciCmd[0]) {
 							}
 						})
 					})
-				} else else ch.send("**" + msg.author.tag + "**, " + "error: missing argument.")
+				} else ch.send("**" + msg.author.tag + "**, " + "error: missing argument.")
 			} break
 			
 			case "p":
