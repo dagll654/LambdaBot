@@ -885,6 +885,7 @@ function work(employee1, abno1, order1, channel) {
 	let ppeboxes = 0
 	let rollArr = []
 	let asdf = 0
+	let snap = ["a", "a"]
 	for (asdf = 0; asdf < cAbno.peoutput; asdf++) {
 	if (e.hp > 0 && e.sp > 0) {
 		let cRoll = roll(100)
@@ -908,7 +909,10 @@ function work(employee1, abno1, order1, channel) {
 		}
 		else if (roll(15) === 15) ppeboxes++
 		else peboxes++
-	} else e.dead = 1
+	} else {
+		e.dead = 1
+		if (snap[0] === "a") {snap[0] = e.hp, snap[1] = e.sp}
+		}
 	}
 	async function asyncEdit(rMsg) {
 		let mood = ""
@@ -962,7 +966,7 @@ function work(employee1, abno1, order1, channel) {
 		}
 		fn.effectApplication['fatigue'](e, cAbno.risk)
 		fn.effectApplication['workCD'](e, cAbno.peoutput)
-		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${Number(e.hp).shortFixed(3)} ${jn.health}\n	Remaining SP:	${Number(e.sp).shortFixed(3)} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
+		} else rMsg.edit("\n```mb\n ⚙️ | Employee " + e.tag + " is working " + order + " on " + cAbno.name + "\n```" + `	Employee's panic response:	${panicResponse}\n	Work incomplete... You have died. Lost nothing, for now.${moodEffectResult}\n	Remaining HP:	${snap[0].shortFixed(3)} ${jn.health}\n	Remaining SP:	${snap[1].shortFixed(3)} ${jn.sanity}\n	Damage taken: ${damageArray.join(",  ")}.`)	
 		e.working = 0
 	}
 	channel.send("\n```mb\n ⚙️ | User " + e.tag + " is working " + order + " on " + cAbno.name + "\n```").then(m => {
