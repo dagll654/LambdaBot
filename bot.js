@@ -1506,6 +1506,10 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 5 seconds.")
 		return
 	}}
+	if (!getUser(ciCmd[1])) {
+		ch.send("**" + msg.author.tag + "**, " + "error: invalid member.")
+		return
+	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
 	let roles = member.roles.cache.filter(r => r.managed === false).array().map(r => r.id)
 	if (member.user.bot === true) {
