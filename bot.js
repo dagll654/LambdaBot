@@ -629,8 +629,11 @@ function checkSimilarity(original, text1) {
 // I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
 function getUser(getter) {
 	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter))) {
+	if (client.users.cache.get(/\d{17,19}/g.exec(getter)[0]))
 		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
+	else return
+	}
 	else {
 		let nicknames = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
 		let tags = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
