@@ -1476,7 +1476,7 @@ switch (ciCmd[0]) {
 	
 	case "ml": {
 		//if (Date.now() - debugVariables.latest_ml_use < 120000 && global.sudo === 0) {
-		if (debugVariables.ml_used === 1) {
+		if (debugVariables.ml_used === 1 && global.sudo != 1) {
 		ch.send(`The command has already been used today. /shrug`)
 		return
 		}
