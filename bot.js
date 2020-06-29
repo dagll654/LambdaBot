@@ -48,6 +48,7 @@ process.on('error', err => {
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 function ESERV() {return client.guilds.cache.get('513660754633949208')} // Emote server for the minigame stuff
+global.deltas() = function () {return DELTAS()}
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role and me
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
