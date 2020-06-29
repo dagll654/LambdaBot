@@ -610,44 +610,55 @@ class clAbn {
 	}
 }
 
-// Checks how similar to original text1 is and returns a value between 0 and 1 representing the similarity (case-insensitive)
+// Checks how similar to original compoint is and returns a value between 0 and 1 representing the similarity (case-insensitive)
 // (may be wonky)
-function checkSimilarity(original, text1) {
-	if (text1 === undefined || original === undefined || text1 === '' || original === '' || text1 === null || original === null) return 0
-	let text = text1.toLowerCase()
-	if (text.length > original.length) text = text.slice(0, original.length)
-	let i = 1
-	let similarity = 0
-	for (i = 1; i <= text.length; i++) {
-	if (original.toLowerCase().startsWith(text.slice(0, i))) similarity += 1
-	if (original.toLowerCase()[i-1] === text[i-1]) similarity += 0.5
+function checkSimilarity(originalEx, compointEx) {
+	let original = originalEx
+	let compoint = compointEx
+	let len = 0 //Math.round((original.length + compoint.length)/2)
+	if (typeof(original) != 'string' || typeof(compoint) != 'string' || original == '' || compoint == '') return 0
+	if (original.length < compoint.length) len = compoint.length
+	else len = original.length
+	similarity = 0
+	for (let i = 1; i <= len; i++) {
+		if (original.toLowerCase().slice(0, i) == compoint.toLowerCase().slice(0, i)) similarity += 0.5
+		if (original.toLowerCase().slice(-i) == compoint.toLowerCase().slice(-i)) similarity += 0.25
+		if (original.toLowerCase()[i-1] == compoint.toLowerCase()[i-1]) similarity += 0.25
 	}
-	
-	return similarity/(original.length*1.5)
+	return similarity/len
 }
 
-// I'm kind of proud of this one, it searches for the getter to the best of its ability and tries to return a user
+// Gets user by name/tag/mention/id.
 function getUser(getter) {
-	if (exists(getter) === false) return undefined
-	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter))) {
-	if (client.users.cache.get(/\d{17,19}/g.exec(getter)[0]))
-		return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
-	else return
-	}
+	if (!getter) return undefined
+	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
+		if (client.users.cache.get(/\d{17,19}/g.exec(getter)[0])) return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
+		else return
 	else {
-		let nicknames = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.nickname, getter), m.nickname])
-		let tags = DELTAS().members.cache.map(m => [m.user.id, checkSimilarity(m.user.tag, getter), m.user.tag])
-		nicknames.sort((a, b) => {return b[1] - a[1]})
-		tags.sort((a, b) => {return b[1] - a[1]})
-		if (debugVariables.get_log === 1) {
-			console.log(tags)
-			console.log(nicknames)
-		}
-		if (nicknames[0][1] === 0 && tags[0][1] === 0) return undefined
-		if (nicknames[0][1] > tags[0][1]) return client.users.cache.get(nicknames[0][0])
-			else return client.users.cache.get(tags[0][0])
+		let nicknames = global.deltas().members.cache.filter(m => m.nickname)
+			.map(m => {
+				return {
+					"id": m.user.id, 
+					"nickname": m.nickname.replace(" ", "_"), 
+					"similarity": exports.checkSimilarity(m.nickname.replace(" ", "_"), getter)
+					}
+			})
+			.filter(m => m.similarity > 0.1)
+		let tags = global.deltas().members.cache
+			.map(m => {
+				return {
+					"id": m.user.id, 
+					"tag": m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), 
+					"similarity": exports.checkSimilarity(m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), getter)
+					}
+			})
+			.filter(m => m.similarity > 0.1)
+		console.log(nicknames)
+		console.log(tags)
+		let both = nicknames.concat(tags).sort((a, b) => {return b.similarity - a.similarity})
+		if (both[0]) return client.users.cache.get(both[0].id)
+		else return undefined
 	}
-	return undefined
 }
 
 // Like the previous one, but searches only among the employees, so it doesn't return undefined in some cases
