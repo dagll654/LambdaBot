@@ -642,7 +642,7 @@ function getUser(getter) {
 				return {
 					"id": m.user.id, 
 					"nickname": m.nickname.replace(" ", "_"), 
-					"similarity": exports.checkSimilarity(m.nickname.replace(" ", "_"), getter)
+					"similarity": checkSimilarity(m.nickname.replace(" ", "_"), getter)
 					}
 			})
 			.filter(m => m.similarity > 0.1)
@@ -651,7 +651,7 @@ function getUser(getter) {
 				return {
 					"id": m.user.id, 
 					"tag": m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), 
-					"similarity": exports.checkSimilarity(m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), getter)
+					"similarity": checkSimilarity(m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), getter)
 					}
 			})
 			.filter(m => m.similarity > 0.1)
