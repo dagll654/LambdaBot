@@ -1411,8 +1411,16 @@ if (cmds.includes(ciCmd[0]) === false && msg.guild === DELTAS()) {
 switch (ciCmd[0]) {
 	
 	case "qof": {
-	if (msg.member.roles.cache.find(r => r.name === "QOF")) {msg.member.roles.remove(DELTAS().roles.cache.find(r => r.name === "QOF")); ch.send("**" + msg.author.tag + "**, " + "skidaddle skidoodle you no longer have coroner.")}
-	else {msg.member.roles.add(DELTAS().roles.cache.find(r => r.name === "QOF")); ch.send("**" + msg.author.tag + "**, " + "qof qof, you have been infected.")}
+	if (msg.member.roles.cache.find(r => r.name === "QOF")) {
+		msg.member.roles.remove(DELTAS().roles.cache.find(r => r.name === "QOF"))
+		ch.send("**" + msg.author.tag + "**, " + "skidaddle skidoodle you no longer have coroner.").then(m => m.delete({ 'timeout': 2000 }))
+		msg.delete({ 'timeout': 2000 })
+		}
+	else {
+		msg.member.roles.add(DELTAS().roles.cache.find(r => r.name === "QOF"));
+		ch.send("**" + msg.author.tag + "**, " + "qof qof, you have been infected.").then(m => m.delete({ 'timeout': 2000 }))
+		msg.delete({ 'timeout': 2000 })
+		}
 	} break
 	case "help": {
 	if (jn.cmds.includes(ciCmd[1])) {
