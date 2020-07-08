@@ -1270,7 +1270,7 @@ globalTicker()
 })
 
 client.on('guildMemberUpdate', (old, m) => {
-	
+	console.log(jn.risk)
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
