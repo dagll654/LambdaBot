@@ -1300,7 +1300,7 @@ let regLevel = new RegExp(`\\bLevel`)
 		}
 			console.log(m.user.tag)
 			console.log(currentCRoles)
-		
+		console.log(channelRole)
 		if (m.roles.cache.array().some(r => r.id === channelRole.id) === false) {
 			m.roles.add(channelRole)
 			.catch(console.error)
