@@ -1280,6 +1280,10 @@ async function dip(member, action = 0) {
 		.catch(console.error)
 	return true
 }
+if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
+	m.roles.remove(m.roles.filter(r => junk.risk.includes(r.name)))
+	return
+}
 let regLevel = new RegExp(`\\bLevel`)
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
