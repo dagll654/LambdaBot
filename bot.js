@@ -1270,7 +1270,6 @@ globalTicker()
 })
 
 client.on('guildMemberUpdate', (old, m) => {
-	console.log(jn.risk)
 async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
@@ -1282,7 +1281,6 @@ async function dip(member, action = 0) {
 }
 if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
 	risks = jn.risk
-	risks.pop()
 	m.roles.remove(m.roles.cache.filter(r => risks.includes(r.name)))
 	return
 }
