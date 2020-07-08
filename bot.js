@@ -1281,7 +1281,7 @@ async function dip(member, action = 0) {
 	return true
 }
 if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
-	risks = junk.risk
+	risks = jn.risk
 	risks.pop()
 	m.roles.remove(m.roles.cache.filter(r => risks.includes(r.name)))
 	return
