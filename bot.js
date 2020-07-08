@@ -1281,7 +1281,9 @@ async function dip(member, action = 0) {
 	return true
 }
 if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
-	m.roles.remove(m.roles.filter(r => junk.risk.includes(r.name)))
+	risks = junk.risk
+	risks.pop()
+	m.roles.remove(m.roles.cache.filter(r => risks.includes(r.name)))
 	return
 }
 let regLevel = new RegExp(`\\bLevel`)
