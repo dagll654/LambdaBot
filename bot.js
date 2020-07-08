@@ -1290,6 +1290,7 @@ let regLevel = new RegExp(`\\bLevel`)
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
+		console.log(`Level: ${level}, index: ${index}`)
 		let channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
 		if (m.roles.cache.array().some(r => r.name === "ALEPH")) 
 			channelRole = DELTAS().roles.cache.find(r => r.name === "ALEPH")
