@@ -921,12 +921,15 @@ function work(employee1, abno1, order1, channel) {
 			if (dIndex === 3) aDmgStr = `${aDmg.toFixed(1)} (${(aDmg/e.fortL*100).toFixed(1)}%) ${jn.dtype[3]}`
 			else aDmgStr = `${aDmg.toFixed(1)} ${jn.dtype[dIndex]}`
 			damageArray.push(aDmgStr)
+			snap[0] = Number(e.hp).shortFixed(1)
+			snap[1] = Number(e.sp).shortFixed(1)
 		}
 		else if (roll(15) === 15) ppeboxes++
 		else peboxes++
 	} else {
 		e.dead = 1
-		if (snap[0] === "a") {snap[0] = Number(e.hp).shortFixed(1), snap[1] = Number(e.sp).shortFixed(1)}
+		snap[0] = Number(e.hp).shortFixed(1)
+		snap[1] = Number(e.sp).shortFixed(1)
 		}
 	}
 	async function asyncEdit(rMsg) {
