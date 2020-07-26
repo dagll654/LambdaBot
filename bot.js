@@ -99,7 +99,7 @@ if (answer === 'srs') {
 	updateData()
 	client.destroy()
 	connection.destroy()
-	wait(2000).then(() => process.send('restart'))
+	wait(2000).then(() => console.log('restart'))
 }
 if (answer === 'upd') {
 	updateData()
@@ -1587,13 +1587,13 @@ switch (ciCmd[0]) {
 			updateData()
 			client.destroy()
 			connection.destroy()
-			wait(1000).then(() => process.send('quit'))
+			wait(1000).then(() => console.log('quit'))
 		break
 		case "restart":
 			updateData()
 			client.destroy()
 			connection.destroy()
-			wait(200).then(() => process.send('restart'))
+			wait(200).then(() => console.log('restart'))
 		break
 		case "kc":
 			connection.query(`KILL ${csCmd[2]};`, (err, result) => {
