@@ -1294,13 +1294,6 @@ let regLevel = new RegExp(`\\bLevel`)
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
-		console.log(`Level: ${level}, index: ${index}`)
-		console.log(typeof(index))
-		console.log(jn.risk)
-		console.log(jn.risk[Number(index)])
-		console.log(jn.risk[4])
-		console.log(jn.risk[index].toLowerCase())
-		console.log(DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase()))
 		let channelRole = DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
 		if (m.roles.cache.array().some(r => r.name === "ALEPH")) 
 			channelRole = DELTAS().roles.cache.find(r => r.name === "ALEPH")
@@ -1309,8 +1302,6 @@ let regLevel = new RegExp(`\\bLevel`)
 			m.roles.remove(currentCRoles)
 			.catch(console.error)
 		}
-			console.log(m.user.tag)
-			console.log(currentCRoles)
 		console.log(channelRole)
 		if (m.roles.cache.array().some(r => r.id === channelRole.id) === false) {
 			m.roles.add(channelRole)
