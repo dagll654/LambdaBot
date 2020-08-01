@@ -1245,6 +1245,7 @@ async function globalTicker() {
 		if (tick === 60) {
 			healPulse()
 			updateData()
+			connection.query("SELECT 1", function (err, result))
 			tick = 1
 		}
 			
