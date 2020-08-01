@@ -18,10 +18,10 @@ output: process.stdout
 })
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
 var connection = db.createConnection({
-	host: "lacreme.heliohost.org",
-	user: "lacreme_bot",
+	host: "lacreme2.heliohost.org",
+	user: "lacreme2_bot",
 	password: process.env.DB_PASS,
-	database: "lacreme_bot"
+	database: "lacreme2_bot"
 });
 // Getting a connection
 connection.connect(function(err2) {
@@ -48,7 +48,7 @@ process.on('error', err => {
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
 function ESERV() {return client.guilds.cache.get('513660754633949208')} // Emote server for the minigame stuff
-global.deltas = function () {return DELTAS()}
+global.deltas = function deltas() {return DELTAS()}
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role and me
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
@@ -70,6 +70,7 @@ global.dbployees = [] // Later filled with all employee data from the database a
 exports.dbployees = function() {return dbployees}
 var abnos = [] // Later filled with all workable abnormalities
 global.dbnos = [] // Later filled with all abno data from the database
+bans = [] // Later filled with information about ongoing "bans." Data structure: [id, remaining_duration]
 // Debug variables
 debugVariables = {
 	'debug_duck': 0, // /shrug
@@ -1554,6 +1555,7 @@ switch (ciCmd[0]) {
 	}
 	member.roles.set(['673218574101512214'])
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
+	//connection.query("INSERT INTO bans (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`)
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
 	})
