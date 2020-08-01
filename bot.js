@@ -1128,7 +1128,7 @@ function updateData() {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})
-}}
+})}
 
 // Functions like databaseEmployees()
 function databaseAbnormalities() {
