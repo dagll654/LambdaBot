@@ -1052,7 +1052,7 @@ function globalEffectTick() {
 
 // Updates the data to the database
 function updateData() {
-	connection.destroy()
+	connection.disconnect()
 	connection.connect((err3) => {
 	let dbployeesActual = []
 	let pushBig = []
