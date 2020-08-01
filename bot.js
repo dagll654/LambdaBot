@@ -1052,8 +1052,6 @@ function globalEffectTick() {
 
 // Updates the data to the database
 function updateData() {
-	connection.disconnect()
-	connection.connect((err3) => {
 	let dbployeesActual = []
 	let pushBig = []
 	connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -1128,7 +1126,7 @@ function updateData() {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})
-})}
+}
 
 // Functions like databaseEmployees()
 function databaseAbnormalities() {
@@ -1247,7 +1245,7 @@ async function globalTicker() {
 		if (tick === 60) {
 			healPulse()
 			updateData()
-			connection.query("SELECT 1", function (err, result) {return 1})
+			connection.query("UPDATE `employees` SET `balance` = '" + 100 + 10 * roll(1000) +"' WHERE `employees`.`userid` = '143261987575562240';", function (err, result) {return 1})
 			tick = 1
 		}
 			
