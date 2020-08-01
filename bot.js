@@ -26,7 +26,7 @@ var connection = db.createConnection({
 // Getting a connection
 connection.connect(function(err2) {
 if (err2) {connection.destroy(); throw err2}
-connection.query(`SET SESSION wait_timeout = 360000;`, err => {if (err) throw err})
+connection.query(`SET SESSION wait_timeout = 24400;`, (err, result) => {console.log(result); if (err) throw err})
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
