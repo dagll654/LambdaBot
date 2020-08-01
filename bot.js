@@ -1052,6 +1052,8 @@ function globalEffectTick() {
 
 // Updates the data to the database
 function updateData() {
+	connection.destroy()
+	connection.connect((err3) => {
 	let dbployeesActual = []
 	let pushBig = []
 	connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -1126,7 +1128,7 @@ function updateData() {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})
-}
+}}
 
 // Functions like databaseEmployees()
 function databaseAbnormalities() {
