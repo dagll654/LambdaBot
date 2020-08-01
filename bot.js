@@ -632,7 +632,6 @@ function checkSimilarity(originalEx, compointEx) {
 
 // Gets user by name/tag/mention/id.
 function getUser(getter) {
-	console.log("what times 2")
 	if (!getter) return undefined
 	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
 		if (client.users.cache.get(/\d{17,19}/g.exec(getter)[0])) return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
@@ -656,8 +655,8 @@ function getUser(getter) {
 					}
 			})
 			.filter(m => m.similarity > 0.1)
-		console.log(nicknames)
-		console.log(tags)
+		//console.log(nicknames)
+		//console.log(tags)
 		let both = nicknames.concat(tags).sort((a, b) => {return b.similarity - a.similarity})
 		if (both[0]) return client.users.cache.get(both[0].id)
 		else return undefined
