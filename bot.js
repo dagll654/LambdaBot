@@ -1506,7 +1506,7 @@ switch (ciCmd[0]) {
 		}
 		debugVariables.ml_used = 1
 		let mods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod"))
-		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod" || r.name === "Second-in-command" || r.name === "Real Mod" || r.name === "Rubber Tyrant") === false && m.user.bot === false && m.roles.cache.some(r => ["Level III", "Level IV", "Level V"].includes(r.name)))
+		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod" || r.name === "Second-in-command" || r.name === "Commissar" || r.name === "Rubber Tyrant") === false && m.user.bot === false && m.roles.cache.some(r => ["Level III", "Level IV", "Level V"].includes(r.name)))
 		loser = mods.array()[roll(mods.array().length) - 1]
 		winner = unmods.array()[roll(unmods.array().length) - 1]
 		if (loser === undefined || winner === undefined) {
@@ -1522,7 +1522,7 @@ switch (ciCmd[0]) {
 	
 	case "ban": {
 	
-	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Real Mod") === false) {
+	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Commissar") === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
 	}
@@ -1534,9 +1534,9 @@ switch (ciCmd[0]) {
 		return
 	}
 	if (amount > 5 && admins.includes(msg.author.id) === false) {
-	if (msg.member.roles.cache.some(r => r.name === "Real Mod")) {
+	if (msg.member.roles.cache.some(r => r.name === "Commissar")) {
 	if (amount > 15) {
-		ch.send("**" + msg.author.tag + "**, " + "error: members with the Real Mod role cannot ban for more than 15 seconds.")
+		ch.send("**" + msg.author.tag + "**, " + "error: members with the Commissar role cannot ban for more than 15 seconds.")
 		return
 	}
 	} else {
