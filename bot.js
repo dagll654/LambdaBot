@@ -57,6 +57,7 @@ setTimeout(() => {resolve('resolved')}, msc)
 async function purge() {
 try {
 pool.getConnection((err, connection) => {
+if (!connection) {connection.release(); console.log("Error: connection not established"); setTimeout(() => {purge()}, 1000); return}
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
 	let deadConnections = result.filter(c => c.Command === "Sleep")
