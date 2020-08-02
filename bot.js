@@ -59,9 +59,14 @@ try {
 pool.getConnection((err, connection) => {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
-	deadConnections = result.filter(c => c.Command === "Sleep")
-	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
-	console.log(`Killed off ${deadConnections.length} connections.`)
+	let deadConnections = result.filter(c => c.Command === "Sleep")
+	let failed = 0
+	let total = deadConnections.length
+	deadConnections.forEach(c => {
+		try connection.query(`KILL ${c.Id};`, err => {if (err) throw err})
+		catch(err) {console.log(err); failed++}
+		})
+	console.log(`Killed off ${total - failed} connections, failed to kill ${failed} connections.`)
 })
 connection.release()
 })}
