@@ -65,7 +65,7 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
 connection.release()
-}}
+})}
 purge()
 
 process.on('error', err => {console.log(err)})
@@ -1145,7 +1145,7 @@ pool.getConnection((err, connection) => {
 	pushBigA.forEach(q => connection.query(q))
 	})
 connection.release()
-}}
+})}
 
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
@@ -1171,7 +1171,7 @@ pool.getConnection((err, connection) => {
 	})
 	})
 connection.release()
-}}
+})}
 
 // Gets the employee data from the database
 async function databaseEmployees() {
@@ -1212,7 +1212,7 @@ pool.getConnection((err, connection) => {
 	resolve('resolved')
 	})
 connection.release()
-}}
+})}
 
 // The heal pulse in regenerator rooms
 function healPulse() {
