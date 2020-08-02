@@ -23,10 +23,10 @@ var db_config  = {
 	password: process.env.DB_PASS,
 	database: "lacreme2_bot"
 }
+ 
+var connection = db.createConnection(db_config)
 
-var connection
-
-function handleDisconnect() {
+/* function handleDisconnect() {
   connection = db.createConnection(db_config); // Recreate the connection, since
                                                   // the old one cannot be reused.
 
@@ -45,7 +45,7 @@ function handleDisconnect() {
       throw err;                                  // server variable configures this)
     }
   });
-}
+} */
 
 // Wait
 function wait(msc) {
@@ -54,7 +54,22 @@ setTimeout(() => {resolve('resolved')}, msc)
 	})
 }
 
-wait(1000).then(() => {
+connection.connect(function(err2) {       
+if (err2) console.log('error when connecting to db:', err)
+
+function reconnect() {
+connection.connect(function(err2) {       
+if (err2) console.log('error when connecting to db:', err)
+})}
+
+connection.on('error', function(err) {
+	console.log('db error', err)
+	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+		connection = db.createConnection(db_config)
+		reconnect()
+	} else throw err
+})
+
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
