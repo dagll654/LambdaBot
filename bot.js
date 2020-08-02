@@ -55,11 +55,11 @@ setTimeout(() => {resolve('resolved')}, msc)
 }
 
 connection.connect(function(err2) {       
-if (err2) console.log('error when connecting to db:', err)
+if (err2) console.log('error when connecting to db:', err2)
 
 function reconnect() {
 connection.connect(function(err2) {       
-if (err2) console.log('error when connecting to db:', err)
+if (err2) console.log('error when connecting to db:', err2)
 })}
 
 connection.on('error', function(err) {
