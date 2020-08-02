@@ -1285,9 +1285,10 @@ async function globalTicker() {
 		tick++
 		await wait(1000)
 		globalEffectTick()
-		if (tick === 30)
+		if (tick === 30) {
 			updateData()
 			purge()
+		}
 		if (tick === 60) {
 			healPulse()
 			updateData()
