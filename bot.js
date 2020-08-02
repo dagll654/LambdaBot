@@ -47,6 +47,14 @@ function handleDisconnect() {
   });
 }
 
+// Wait
+function wait(msc) {
+	return new Promise(resolve => {
+setTimeout(() => {resolve('resolved')}, msc)
+	})
+}
+
+wait(1000).then(() => {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
@@ -100,13 +108,6 @@ quotelog = []
 votingteam = ""
 voting = 0	
 efflog = 0
-
-// Wait
-function wait(msc) {
-	return new Promise(resolve => {
-setTimeout(() => {resolve('resolved')}, msc)
-	})
-}
 
 function listener() {
 readline.question(``, answer => {
@@ -2713,4 +2714,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-//}) // End 
+}) // End 
