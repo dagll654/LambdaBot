@@ -1129,7 +1129,7 @@ pool.getConnection((err, connection) => {
 	pushBigA = []
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) throw err
+	if (err) {updateData(); console.log(`Error: ${err}`); return}
 	result.forEach(r => aArrPush(r, dbnosActual))
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
