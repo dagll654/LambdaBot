@@ -1287,12 +1287,12 @@ async function globalTicker() {
 		globalEffectTick()
 		if (tick === 30) {
 			updateData()
-			purge()
+			setTimeout(purge(), 1000)
 		}
 		if (tick === 60) {
 			healPulse()
 			updateData()
-			purge()
+			setTimeout(purge(), 1000)
 			tick = 1
 		}
 			
