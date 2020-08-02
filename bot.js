@@ -1266,7 +1266,6 @@ async function globalTicker() {
 		if (tick === 60) {
 			healPulse()
 			updateData()
-			connection.query("UPDATE `employees` SET `balance` = '" + 100 + 10 * roll(1000) +"' WHERE `employees`.`userid` = '143261987575562240';", function (err, result) {return 1})
 			tick = 1
 		}
 			
