@@ -17,35 +17,20 @@ input: process.stdin,
 output: process.stdout
 })
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
-var fconnection = db.createConnection({
-	host: "lacreme2.heliohost.org",
-	user: "lacreme2_bot",
-	password: process.env.DB_PASS,
-	database: "lacreme2_bot"
-})
 var connection  = db.createPool({
     host: "lacreme2.heliohost.org",
 	user: "lacreme2_bot",
 	password: process.env.DB_PASS,
 	database: "lacreme2_bot"
 })
-var test = function(req, res) {
-     mysql.getConnection(function(err, conn){
-         conn.query("select * from users", function(err, rows) {
-              res.json(rows);
-         })
-     })
-}
 // Getting a connection
-fconnection.connect(function(err2) { 
 if (err2) {connection.destroy(); throw err2} 
-fconnection.query(`SHOW PROCESSLIST;`, (err, result) => {
+connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
 	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
-fconnection.destroy()
 })
 
 
