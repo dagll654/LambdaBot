@@ -1078,7 +1078,7 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {connection.release(); updateData(); return}
+	if (!connection) {connection.release(); setTimeout(updateData(), 1000); console.log(`Error: ${err}`); return}
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 	if (err) {updateData(); console.log(`Error: ${err}`); return}
@@ -1124,12 +1124,12 @@ pool.getConnection((err, connection) => {
 	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})}
-	catch (err) {connection.release(); updateData(); console.log(`Error: ${err}`); return}
+	catch (err) {connection.release(); setTimeout(updateData(), 1000); console.log(`Error: ${err}`); return}
 	let dbnosActual = []
 	pushBigA = []
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {updateData(); console.log(`Error: ${err}`); return}
+	if (err) {connection.release(); setTimeout(updateData(), 1000); console.log(`Error: ${err}`); return}
 	result.forEach(r => aArrPush(r, dbnosActual))
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
@@ -1154,14 +1154,14 @@ pool.getConnection((err, connection) => {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})}
-	catch(err) {connection.release(); updateData(); console.log(`Error: ${err}`); return}
+	catch(err) {connection.release(); setTimeout(updateData(), 1000); console.log(`Error: ${err}`); return}
 connection.release()
 })}
 
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
-	if (!connection) {connnection.release(); databaseAbnormalities(); return}
+	if (!connection) {connnection.release(); setTimeout(databaseAbnormalities(), 1000); console.log("Error: connection not established"); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1184,7 +1184,7 @@ pool.getConnection((err, connection) => {
 		})
 	})
 	})}
-	catch (err) {connnection.release(); databaseAbnormalities(); return}
+	catch (err) {connnection.release(); setTimeout(databaseAbnormalities(), 1000); console.log(`Error: ${err}`); return}
 connection.release()
 })}
 
