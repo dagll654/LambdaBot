@@ -67,7 +67,8 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 		try {connection.query(`KILL ${c.Id};`, err => {if (err) throw err})}
 		catch(err) {console.log(err); failed++}
 		})
-	console.log(`Killed off ${total - failed} connections, failed to kill ${failed} connections.`)
+	if (failed !== 0 && total !== 0)
+		console.log(`Killed off ${total - failed} connections, failed to kill ${failed} connections.`)
 })
 connection.release()
 })}
