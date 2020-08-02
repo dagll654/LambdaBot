@@ -66,6 +66,7 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 connection.release()
 })}
 catch(err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
+}
 purge()
 
 process.on('error', err => {console.log(err)})
@@ -1281,9 +1282,11 @@ async function globalTicker() {
 		globalEffectTick()
 		if (tick === 30)
 			updateData()
+			purge()
 		if (tick === 60) {
 			healPulse()
 			updateData()
+			purge()
 			tick = 1
 		}
 			
