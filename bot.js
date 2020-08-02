@@ -1201,7 +1201,7 @@ pool.getConnection((err, connection) => {
 	})
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) {connection.release(); setTimeout(() => {databaseEmployees(), 1000}; console.log(`Error: ${err}`); return}
+		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`Error: ${err}`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
