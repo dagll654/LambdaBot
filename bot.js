@@ -1070,6 +1070,7 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
+	if (!connection) {updateData(); return}
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 	if (err) {updateData(); console.log(`Error: ${err}`); return}
 	result.forEach(r => {
@@ -1148,6 +1149,7 @@ connection.release()
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
+	if (!connection) {databaseAbnormalities(); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1175,6 +1177,7 @@ connection.release()
 // Gets the employee data from the database
 async function databaseEmployees() {
 pool.getConnection((err, connection) => {
+	if (!connection) {databaseEmployees(); return}
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
