@@ -24,7 +24,7 @@ var db_config  = {
 	database: "lacreme2_bot"
 }
  
-var connection = db.createConnection(db_config)
+var pool = db.createPool(db_config)
 
 /* function handleDisconnect() {
   connection = db.createConnection(db_config); // Recreate the connection, since
@@ -54,33 +54,21 @@ setTimeout(() => {resolve('resolved')}, msc)
 	})
 }
 
-connection.connect(function(err2) {       
-if (err2) console.log('error when connecting to db:', err2)
+connection.on('error', err => {console.log(err)})
 
-function reconnect() {
-connection = db.createConnection(db_config)
-connection.connect(function(err2) {       
-if (err2) console.log('error when connecting to db:', err2)
-})}
-
-connection.on('error', function(err) {
-	console.log('db error', err)
-	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-		wait(1000).then(() => reconnect())
-	} else throw err
-})
-
+async function purge() {
+pool.getConnection((err, connection) => {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
 	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
+connection.release()
+}}
+purge()
 
-
-process.on('error', err => {
-	console.log(err)
-})
+process.on('error', err => {console.log(err)})
 
 const client = new Discord.Client()
 function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
@@ -1081,6 +1069,7 @@ function globalEffectTick() {
 
 // Updates the data to the database
 function updateData() {
+pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
 	connection.query("SELECT * FROM `employees`", function (err, result) {
@@ -1155,10 +1144,12 @@ function updateData() {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})
-}
+connection.release()
+}}
 
 // Functions like databaseEmployees()
-function databaseAbnormalities() {
+async function databaseAbnormalities() {
+pool.getConnection((err, connection) => {
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1179,11 +1170,12 @@ function databaseAbnormalities() {
 		})
 	})
 	})
-}
+connection.release()
+}}
 
 // Gets the employee data from the database
 async function databaseEmployees() {
-
+pool.getConnection((err, connection) => {
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
@@ -1219,7 +1211,8 @@ async function databaseEmployees() {
 	
 	resolve('resolved')
 	})
-}
+connection.release()
+}}
 
 // The heal pulse in regenerator rooms
 function healPulse() {
