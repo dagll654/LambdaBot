@@ -31,7 +31,6 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
-})
 
 
 process.on('error', err => {
