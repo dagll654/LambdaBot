@@ -1184,7 +1184,7 @@ pool.getConnection((err, connection) => {
 		})
 	})
 	})}
-	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities(), 1000)}; console.log(`Error: ${err}`); return}
+	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log(`Error: ${err}`); return}
 connection.release()
 })}
 
