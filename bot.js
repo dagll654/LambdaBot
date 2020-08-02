@@ -23,8 +23,6 @@ var connection  = db.createPool({
 	password: process.env.DB_PASS,
 	database: "lacreme2_bot"
 })
-// Getting a connection
-if (err2) {connection.destroy(); throw err2} 
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
