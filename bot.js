@@ -1071,7 +1071,7 @@ pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-	if (err) throw err
+	if (err) {updateData(); console.log(`Error: ${err}`); return}
 	result.forEach(r => {
 	eArrPush(r, dbployeesActual)
 	})
@@ -1154,6 +1154,7 @@ pool.getConnection((err, connection) => {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+	if (err) {databaseAbnormalities(); console.log(`Error: ${err}`); return}
 	result.forEach(r => aArrPush(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
@@ -1182,7 +1183,7 @@ pool.getConnection((err, connection) => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	})
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) throw err
+		if (err) {databaseEmployees(); console.log(`Error: ${err}`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
