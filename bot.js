@@ -17,29 +17,37 @@ input: process.stdin,
 output: process.stdout
 })
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
-var connection = db.createConnection({
+var fconnection = db.createConnection({
 	host: "lacreme2.heliohost.org",
 	user: "lacreme2_bot",
 	password: process.env.DB_PASS,
 	database: "lacreme2_bot"
-});
+})
+var connection  = db.createPool({
+    host: "lacreme2.heliohost.org",
+	user: "lacreme2_bot",
+	password: process.env.DB_PASS,
+	database: "lacreme2_bot"
+})
+var test = function(req, res) {
+     mysql.getConnection(function(err, conn){
+         conn.query("select * from users", function(err, rows) {
+              res.json(rows);
+         })
+     })
+}
 // Getting a connection
-connection.connect(function(err2) {
-if (err2) {connection.destroy(); throw err2}
-connection.query(`SET SESSION wait_timeout = 24400;`, (err, result) => {console.log(result); if (err) throw err})
-connection.query(`SHOW PROCESSLIST;`, (err, result) => {
+fconnection.connect(function(err2) { 
+if (err2) {connection.destroy(); throw err2} 
+fconnection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
 	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
-	
-process.on('exit', (code) => {
-	updateData()
-	connection.destroy()
-	client.destroy()
-	console.log(`Process exited with code ${code}.`)
+fconnection.destroy()
 })
+
 
 process.on('error', err => {
 	console.log(err)
@@ -1153,6 +1161,7 @@ function databaseAbnormalities() {
 
 // Gets the employee data from the database
 async function databaseEmployees() {
+
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
@@ -2699,4 +2708,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-}) // End 
+//}) // End 
