@@ -57,7 +57,7 @@ setTimeout(() => {resolve('resolved')}, msc)
 async function purge() {
 try {
 pool.getConnection((err, connection) => {
-if (!connection) {connection.release(); console.log("Error: connection not established"); setTimeout(() => {purge()}, 1000); return}
+if (!connection) {console.log("Error: connection not established"); setTimeout(() => {purge()}, 1000); return}
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
 	let deadConnections = result.filter(c => c.Command === "Sleep")
@@ -1079,7 +1079,7 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
+	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 	if (err) {updateData(); console.log(`Error: ${err}`); return}
@@ -1162,7 +1162,7 @@ connection.release()
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
-	if (!connection) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log("Error: connection not established"); return}
+	if (!connection) {setTimeout(() => {databaseAbnormalities()}, 1000); console.log("Error: connection not established"); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1192,7 +1192,7 @@ connection.release()
 // Gets the employee data from the database
 async function databaseEmployees() {
 pool.getConnection((err, connection) => {
-	if (!connection) {connection.release(); console.log("Error: connection not established"); setTimeout(() => {databaseEmployees()}, 1000); return}
+	if (!connection) {console.log("Error: connection not established"); setTimeout(() => {databaseEmployees()}, 1000); return}
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
