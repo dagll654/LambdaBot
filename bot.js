@@ -16,7 +16,7 @@ const readline = require('readline').createInterface({
 input: process.stdin,
 output: process.stdout
 })
-// Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
+
 var db_config  = {
     host: "lacreme2.heliohost.org",
 	user: "lacreme2_bot",
@@ -58,6 +58,7 @@ connection.connect(function(err2) {
 if (err2) console.log('error when connecting to db:', err2)
 
 function reconnect() {
+connection = db.createConnection(db_config)
 connection.connect(function(err2) {       
 if (err2) console.log('error when connecting to db:', err2)
 })}
@@ -65,7 +66,6 @@ if (err2) console.log('error when connecting to db:', err2)
 connection.on('error', function(err) {
 	console.log('db error', err)
 	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-		connection = db.createConnection(db_config)
 		wait(1000).then(() => reconnect())
 	} else throw err
 })
