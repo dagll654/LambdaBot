@@ -2722,4 +2722,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-}) // End 
+//}) // End 
