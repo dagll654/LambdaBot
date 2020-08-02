@@ -17,12 +17,13 @@ input: process.stdin,
 output: process.stdout
 })
 // Setting up the connection pool. Not sure if this is better than just a db.createConnection (or something like that), but I doubt it really matters
-var connection  = db.createPool({
+var connection  = db.createConnection({
     host: "lacreme2.heliohost.org",
 	user: "lacreme2_bot",
 	password: process.env.DB_PASS,
 	database: "lacreme2_bot"
 })
+connection.connect(function(err2) {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) throw err
 	deadConnections = result.filter(c => c.Command === "Sleep")
@@ -2689,4 +2690,4 @@ if ((mesc.toLowerCase().split(" ").indexOf('uwu') > -1 ) || (mesc.toLowerCase().
 // NO TOUCHING
 //______________________________\\/
 client.login(process.env.BOT_TOKEN)
-//}) // End 
+}) // End 
