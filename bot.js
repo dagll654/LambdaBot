@@ -63,7 +63,7 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	let failed = 0
 	let total = deadConnections.length
 	deadConnections.forEach(c => {
-		try connection.query(`KILL ${c.Id};`, err => {if (err) throw err})
+		try {connection.query(`KILL ${c.Id};`, err => {if (err) throw err})}
 		catch(err) {console.log(err); failed++}
 		})
 	console.log(`Killed off ${total - failed} connections, failed to kill ${failed} connections.`)
