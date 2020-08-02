@@ -1068,7 +1068,7 @@ function globalEffectTick() {
 }
 
 // Updates the data to the database
-function updateData() {
+async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
