@@ -55,15 +55,17 @@ setTimeout(() => {resolve('resolved')}, msc)
 }
 
 async function purge() {
+try {
 pool.getConnection((err, connection) => {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
-	if (err) throw err
+	if (err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
 	deadConnections = result.filter(c => c.Command === "Sleep")
 	deadConnections.forEach(c => connection.query(`KILL ${c.Id};`, err => {if (err) throw err}))
 	console.log(`Killed off ${deadConnections.length} connections.`)
 })
 connection.release()
 })}
+catch(err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
 purge()
 
 process.on('error', err => {console.log(err)})
@@ -1070,7 +1072,8 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {updateData(); return}
+	if (!connection) {connection.release(); updateData(); return}
+	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
 	if (err) {updateData(); console.log(`Error: ${err}`); return}
 	result.forEach(r => {
@@ -1114,9 +1117,11 @@ pool.getConnection((err, connection) => {
 	pushBig.forEach(q => connection.query(q))
 	//console.log("Updated the database.")
 	//console.log(pushBig)
-	})
+	})}
+	catch (err) {connection.release(); updateData(); console.log(`Error: ${err}`); return}
 	let dbnosActual = []
 	pushBigA = []
+	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	result.forEach(r => aArrPush(r, dbnosActual))
 	if (err) throw err
@@ -1142,19 +1147,21 @@ pool.getConnection((err, connection) => {
 		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
 	})
 	pushBigA.forEach(q => connection.query(q))
-	})
+	})}
+	catch(err) {connection.release(); updateData(); console.log(`Error: ${err}`); return}
 connection.release()
 })}
 
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
-	if (!connection) {databaseAbnormalities(); return}
+	if (!connection) {connnection.release(); databaseAbnormalities(); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
 	abnos.push({"id": abno(a).id, "tag": a})
 	})
+	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
 	if (err) {databaseAbnormalities(); console.log(`Error: ${err}`); return}
 	result.forEach(r => aArrPush(r))
@@ -1170,14 +1177,15 @@ pool.getConnection((err, connection) => {
 		console.log(`${abn.abn.find(a => a.id === e).name} inserted!`)
 		})
 	})
-	})
+	})}
+	catch (err) {connnection.release(); databaseAbnormalities(); return}
 connection.release()
 })}
 
 // Gets the employee data from the database
 async function databaseEmployees() {
 pool.getConnection((err, connection) => {
-	if (!connection) {databaseEmployees(); return}
+	if (!connection) {connection.release(); databaseEmployees(); return}
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
@@ -1185,8 +1193,9 @@ pool.getConnection((err, connection) => {
 	DELTAS().members.cache.forEach(m => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	})
+	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) {databaseEmployees(); console.log(`Error: ${err}`); return}
+		if (err) {connection.release(); databaseEmployees(); console.log(`Error: ${err}`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
@@ -1209,7 +1218,12 @@ pool.getConnection((err, connection) => {
 				e.balancespecific += ` ${b.join("|")}`
 			})
 		})
-	})
+	})}
+	catch(err) {
+		connection.release()
+		console.log(`Error: ${err}`)
+		databaseEmployees()
+	}
 	
 	resolve('resolved')
 	})
