@@ -66,7 +66,7 @@ connection.on('error', function(err) {
 	console.log('db error', err)
 	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
 		connection = db.createConnection(db_config)
-		reconnect()
+		wait(1000).then(() => reconnect())
 	} else throw err
 })
 
