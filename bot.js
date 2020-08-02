@@ -54,8 +54,6 @@ setTimeout(() => {resolve('resolved')}, msc)
 	})
 }
 
-connection.on('error', err => {console.log(err)})
-
 async function purge() {
 pool.getConnection((err, connection) => {
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
