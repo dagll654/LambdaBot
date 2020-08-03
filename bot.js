@@ -59,7 +59,7 @@ try {
 pool.getConnection((err, connection) => {
 if (!connection) {console.log("Error: connection not established"); setTimeout(() => {purge()}, 1000); return}
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
-	if (err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
+	if (err) {connection.release(); purge(); console.log(`${err}`); return}
 	let deadConnections = result.filter(c => c.Command === "Sleep")
 	let failed = 0
 	let total = deadConnections.length
@@ -72,7 +72,7 @@ connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 })
 connection.release()
 })}
-catch(err) {connection.release(); purge(); console.log(`Error: ${err}`); return}
+catch(err) {connection.release(); purge(); console.log(`${err}`); return}
 }
 purge()
 
@@ -1080,10 +1080,10 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
+	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-	if (err) {updateData(); console.log(`Error: ${err}`); return}
+	if (err) {updateData(); console.log(`${err}`); return}
 	result.forEach(r => {
 	eArrPush(r, dbployeesActual)
 	})
@@ -1126,12 +1126,12 @@ pool.getConnection((err, connection) => {
 	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})}
-	catch (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
+	catch (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
 	let dbnosActual = []
 	pushBigA = []
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
 	result.forEach(r => aArrPush(r, dbnosActual))
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
@@ -1156,7 +1156,7 @@ pool.getConnection((err, connection) => {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})}
-	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`Error: ${err}`); return}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
 connection.release()
 })}
 
@@ -1171,7 +1171,7 @@ pool.getConnection((err, connection) => {
 	})
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {databaseAbnormalities(); console.log(`Error: ${err}`); return}
+	if (err) {databaseAbnormalities(); console.log(`${err}`); return}
 	result.forEach(r => aArrPush(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
@@ -1186,7 +1186,7 @@ pool.getConnection((err, connection) => {
 		})
 	})
 	})}
-	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log(`Error: ${err}`); return}
+	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log(`${err}`); return}
 connection.release()
 })}
 
@@ -1203,7 +1203,7 @@ pool.getConnection((err, connection) => {
 	})
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`Error: ${err}`); return}
+		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`${err}`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
@@ -1229,7 +1229,7 @@ pool.getConnection((err, connection) => {
 	})}
 	catch(err) {
 		connection.release()
-		console.log(`Error: ${err}`)
+		console.log(`${err}`)
 		setTimeout(() => {databaseEmployees()}, 1000)
 	}
 	
