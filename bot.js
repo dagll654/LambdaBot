@@ -1080,10 +1080,10 @@ async function updateData() {
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
+	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/employees)`); return}
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-	if (err) {updateData(); console.log(`${err}`); return}
+	if (err) {connection.release(); updateData(); console.log(`${err} (updatedata/employees)`); return}
 	result.forEach(r => {
 	eArrPush(r, dbployeesActual)
 	})
@@ -1126,12 +1126,12 @@ pool.getConnection((err, connection) => {
 	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})}
-	catch (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
+	catch (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/employees)`); return}
 	let dbnosActual = []
 	pushBigA = []
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
 	result.forEach(r => aArrPush(r, dbnosActual))
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
@@ -1156,14 +1156,48 @@ pool.getConnection((err, connection) => {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})}
-	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err}`); return}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
+
+	let bansActual = []
+	pushBigBans = []
+	if (false) {
+	try {
+	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
+	result.forEach(r => aArrPush(r, dbnosActual))
+	dbnos.forEach(localAbno => {
+		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
+		if (exists(databaseAbno) === false || exists(localAbno) === false) {
+			/* console.log(exists(databaseAbno))
+			console.log(databaseAbno)
+			console.log(localAbno.id)
+			console.log("What?") */
+			return
+		}
+		let pushSmall = []
+		for (const prop in localAbno) {
+		if (databaseAbno[prop] !== undefined && prop !== "entityID") {
+			let lValue = localAbno[prop]
+			if (databaseAbno[prop] !== lValue && Number(databaseAbno[prop]) !== lValue) {					
+			pushSmall.push("`" + prop + "` = '" + lValue + "'")
+			}
+		}
+		}
+		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + localAbno.id + "';"
+		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
+	})
+	pushBigA.forEach(q => connection.query(q))
+	})}
+	}
+
+
 connection.release()
 })}
 
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
-	if (!connection) {setTimeout(() => {databaseAbnormalities()}, 1000); console.log("Error: connection not established"); return}
+	if (!connection) {setTimeout(() => {databaseAbnormalities()}, 1000); console.log("Error: connection not established (dbnos)"); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1171,7 +1205,7 @@ pool.getConnection((err, connection) => {
 	})
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {databaseAbnormalities(); console.log(`${err}`); return}
+	if (err) {connection.release(); databaseAbnormalities(); console.log(`${err} (dbnos)`); return}
 	result.forEach(r => aArrPush(r))
 	let abnodbpush = []
 	abnos.forEach(a => {
@@ -1186,14 +1220,14 @@ pool.getConnection((err, connection) => {
 		})
 	})
 	})}
-	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log(`${err}`); return}
+	catch (err) {connnection.release(); setTimeout(() => {databaseAbnormalities()}, 1000); console.log(`${err} (dbnos)`); return}
 connection.release()
 })}
 
 // Gets the employee data from the database
 async function databaseEmployees() {
 pool.getConnection((err, connection) => {
-	if (!connection) {console.log("Error: connection not established"); setTimeout(() => {databaseEmployees()}, 1000); return}
+	if (!connection) {console.log("Error: connection not established (databaseemployees)"); setTimeout(() => {databaseEmployees()}, 1000); return}
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
@@ -1203,7 +1237,7 @@ pool.getConnection((err, connection) => {
 	})
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`${err}`); return}
+		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`${err} (databaseemployees)`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
 		employees.forEach(e => {
@@ -1226,17 +1260,41 @@ pool.getConnection((err, connection) => {
 				e.balancespecific += ` ${b.join("|")}`
 			})
 		})
-	})}
+	})
+	}
 	catch(err) {
 		connection.release()
 		console.log(`${err}`)
 		setTimeout(() => {databaseEmployees()}, 1000)
 	}
-	
 	resolve('resolved')
 	})
 connection.release()
 })}
+
+// Gets the ban data from the database
+async function databaseBans() {
+pool.getConnection((err, connection) => {
+	if (!connection) {console.log("Error: connection not established (databasebans)"); setTimeout(() => {databaseBans()}, 1000); return}
+	try {
+	connection.query("SELECT * FROM `bans`", function (err, result) {
+		if (err) {connection.release(); console.log(`${err} (databasebans)`); setTimeout(() => {databaseBans()}, 1000)}
+		result.forEach(b => bans.push(b))
+		console.log("Bans:")
+		console.log(bans)
+	})
+	}
+	catch(err) {connection.release(); console.log(`${err} (databasebans)`); setTimeout(() => {databaseBans()}, 1000)}
+connection.release()
+})}
+
+function globalBanTick() {
+if (bans) {
+	bans.forEach(b => {
+		if (b.amount > 0) b.amount--
+	})
+}
+}
 
 // The heal pulse in regenerator rooms
 function healPulse() {
@@ -1287,6 +1345,7 @@ async function globalTicker() {
 		tick++
 		await wait(1000)
 		globalEffectTick()
+		globalBanTick()
 		if (tick === 30) {
 			updateData()
 			setTimeout(() => {purge()}, 1000)
@@ -1318,6 +1377,7 @@ client.user.setActivity('the sound of himself being played like a fiddle', { typ
 // Get employee and abno data from the database
 databaseEmployees()
 databaseAbnormalities()
+databaseBans()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
 globalTicker()
 	
@@ -1595,7 +1655,15 @@ switch (ciCmd[0]) {
 	}
 	member.roles.set(['673218574101512214'])
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
-	//connection.query("INSERT INTO bans (userid, tag, balancespecific, hp, sp) VALUES ('" + e.id + "', '" + e.tag + `', '${zeroBalanceArray.map(b => b.join("|")).join(" ")}', '1700', '1700')`)
+	async function banDbify(user, amount, roles) {
+	pool.getConnection((err, connection) => {
+	if (!connection) {setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log("Error: connection not established (!ban)"); return}
+	try {
+	connection.query("INSERT INTO bans (ban_id, id, duration, timestamp, roles) VALUES ('" + user.id.toString() + Date.now().toString().slice(-8) + "', '" + user.id + "', '" + amount + `', '${Date.now()}', '${roles.join('|')}')`)
+	connection.query("SELECT * FROM bans", (err, result) => {console.log(result)})
+	} catch(err) {connection.release(); setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log(err + " (!ban)"); return}
+	})}
+	banDbify(member.user, amount, roles)
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
 	})
