@@ -1188,6 +1188,7 @@ pool.getConnection((err, connection) => {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
 	}
 
 
