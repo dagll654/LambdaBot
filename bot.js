@@ -671,7 +671,7 @@ function getUser(getter) {
 					"similarity": checkSimilarity(m.nickname.replace(" ", "_"), getter)
 					}
 			})
-			.filter(m => m.similarity > 0.1)
+			//.filter(m => m.similarity > 0.1)
 		let tags = global.deltas().members.cache
 			.map(m => {
 				return {
@@ -680,7 +680,7 @@ function getUser(getter) {
 					"similarity": checkSimilarity(m.user.tag.slice(0, m.user.tag.length - 5).replace(" ", "_"), getter)
 					}
 			})
-			.filter(m => m.similarity > 0.1)
+			//.filter(m => m.similarity > 0.1)
 		//console.log(nicknames)
 		//console.log(tags)
 		let both = nicknames.concat(tags).sort((a, b) => {return b.similarity - a.similarity})
