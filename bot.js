@@ -661,7 +661,7 @@ function getUser(getter) {
 	if (!getter) return undefined
 	if ((/\D/.test(getter) === false && /\d{17,19}/g.test(getter)) || (getter.startsWith("<@") && /\d{17,19}/g.test(getter)))
 		if (client.users.cache.get(/\d{17,19}/g.exec(getter)[0])) return client.users.cache.get(/\d{17,19}/g.exec(getter)[0])
-		else return
+		else return undefined
 	else {
 		let nicknames = global.deltas().members.cache.filter(m => m.nickname)
 			.map(m => {
@@ -1159,37 +1159,18 @@ pool.getConnection((err, connection) => {
 	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
 
 	let bansActual = []
-	pushBigBans = []
-	if (false) {
+	let pushBigBans = []
 	try {
-	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
-	result.forEach(r => aArrPush(r, dbnosActual))
-	dbnos.forEach(localAbno => {
-		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
-		if (exists(databaseAbno) === false || exists(localAbno) === false) {
-			/* console.log(exists(databaseAbno))
-			console.log(databaseAbno)
-			console.log(localAbno.id)
-			console.log("What?") */
-			return
-		}
-		let pushSmall = []
-		for (const prop in localAbno) {
-		if (databaseAbno[prop] !== undefined && prop !== "entityID") {
-			let lValue = localAbno[prop]
-			if (databaseAbno[prop] !== lValue && Number(databaseAbno[prop]) !== lValue) {					
-			pushSmall.push("`" + prop + "` = '" + lValue + "'")
-			}
-		}
-		}
-		let pushSmallStr = "UPDATE `abnormalities` SET " + pushSmall.join(", ") + " WHERE `abnormalities`.`id` = '" + localAbno.id + "';"
-		if (exists(pushSmall)) pushBigA.push(pushSmallStr)
+	connection.query("SELECT * FROM `bans`", function (err, result) {
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/bans)`); return}
+	result.forEach(r => {
+		if (!bans.some(b => b.ban_id === r.ban_id)) 
+			pushBigBans.push("DELETE FROM `bans` WHERE `bans`.`ban_id` = \'" + r.ban_id + "\';")
 	})
-	pushBigA.forEach(q => connection.query(q))
-	})}
-	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
-	}
+	})
+	connection.query(pushBigBans.join(" "))
+	)}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/bans)`); return}
 
 
 connection.release()
@@ -1237,7 +1218,7 @@ pool.getConnection((err, connection) => {
 	if (drFind(m)) employees.push({"id": m.id, "tag": m.user.tag, "team": drFind(m)})
 	})
 	try {
-	connection.query("SELECT * FROM `employees`", function (err, result) {
+	connection.query("SELECT * FROM `employees`", function dbeQuery(err, result) {
 		if (err) {connection.release(); setTimeout(() => {databaseEmployees()}, 1000); console.log(`${err} (databaseemployees)`); return}
 		let zeroBalanceArray = abn.abn.map(a => [a.code, "0"])
 		result.forEach(e => eArrPush(e))
@@ -1288,14 +1269,6 @@ pool.getConnection((err, connection) => {
 	catch(err) {connection.release(); console.log(`${err} (databasebans)`); setTimeout(() => {databaseBans()}, 1000)}
 connection.release()
 })}
-
-function globalBanTick() {
-if (bans) {
-	bans.forEach(b => {
-		if (b.amount > 0) b.amount--
-	})
-}
-}
 
 // The heal pulse in regenerator rooms
 function healPulse() {
@@ -1656,15 +1629,23 @@ switch (ciCmd[0]) {
 	}
 	member.roles.set(['673218574101512214'])
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
-	async function banDbify(user, amount, roles) {
+	/* async function banDbify(user, amount, roles) {
 	pool.getConnection((err, connection) => {
 	if (!connection) {setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log("Error: connection not established (!ban)"); return}
 	try {
 	connection.query("INSERT INTO bans (ban_id, id, duration, timestamp, roles) VALUES ('" + user.id.toString() + Date.now().toString().slice(-8) + "', '" + user.id + "', '" + amount + `', '${Date.now()}', '${roles.join('|')}')`)
-	connection.query("SELECT * FROM bans", (err, result) => {console.log(result)})
+	
 	} catch(err) {connection.release(); setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log(err + " (!ban)"); return}
 	})}
-	banDbify(member.user, amount, roles)
+	banDbify(member.user, amount, roles) */
+	bans.push({
+		"ban_id": member.user.id.toString() + Date.now().toString().slice(-8),
+		"id": member.user.id,
+		"duration": amount,
+		"timestamp": Date.now(),
+		"roles": roles.join("|")
+		
+	})
 	wait(amount*1000).then(() => {
 	member.roles.set(roles)
 	})
