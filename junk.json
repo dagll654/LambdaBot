@@ -77,7 +77,8 @@
 			"This is just ridiculous.",
 			"the real smashing experience",
 			"qof qof, corona moment",
-			"Mod Lottery command."
+			"Mod Lottery command.",
+			"Unbans a banned member."
 			],
 	"cmds": [
 			"quote",
@@ -98,7 +99,8 @@
 			"kancolle",
 			"ssb",
 			"qof",
-			"ml"
+			"ml",
+			"unban"
 			],
 	"qte": [
 			"It's not cheating if you make the rules!", 

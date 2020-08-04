@@ -57,7 +57,7 @@ setTimeout(() => {resolve('resolved')}, msc)
 async function purge() {
 try {
 pool.getConnection((err, connection) => {
-if (!connection) {console.log("Error: connection not established"); setTimeout(() => {purge()}, 1000); return}
+if (!connection) {console.log("Error: connection not established (purge)"); setTimeout(() => {purge()}, 1000); return}
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) {connection.release(); purge(); console.log(`${err}`); return}
 	let deadConnections = result.filter(c => c.Command === "Sleep")
@@ -113,7 +113,11 @@ debugVariables = {
 	'stop_all': 0, // If 1, bot accepts no commands except from bot author
 	'effect_log': 999, // Rules how often the effect on employees are logged
 	'get_log': 0, // Logs stuff from getUser() and getEmployee()
-	'ml_used': 0 // Used in the mod lottery.
+	'log_periodics': 0, // Logs ticks at which updateData() and healPulse() execute.
+	'ml_used': 0, // Used in the mod lottery.
+	'current_tick': 0, // Which 'tick' the bot's internal clock is, one tick being one second.
+	'last_update_tick': 0, // The last tick on which updateData() was called.
+	'last_heal_tick': 0 // Last tick on which healPulse() was called.
 }
 quotelog = []
 votingteam = ""
@@ -1077,13 +1081,14 @@ function globalEffectTick() {
 
 // Updates the data to the database
 async function updateData() {
+debugVariables.last_update_tick = debugVariables.current_tick
 pool.getConnection((err, connection) => {
 	let dbployeesActual = []
 	let pushBig = []
-	if (!connection) {setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/employees)`); return}
+	if (!connection) {setTimeout(() => {updateData()}, 5000); console.log(`Error: connection not established. (updateData)`); return}
 	try {
 	connection.query("SELECT * FROM `employees`", function (err, result) {
-	if (err) {connection.release(); updateData(); console.log(`${err} (updatedata/employees)`); return}
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/employees)`); return}
 	result.forEach(r => {
 	eArrPush(r, dbployeesActual)
 	})
@@ -1126,12 +1131,12 @@ pool.getConnection((err, connection) => {
 	//console.log("Updated the database.")
 	//console.log(pushBig)
 	})}
-	catch (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/employees)`); return}
+	catch (err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/employees)`); return}
 	let dbnosActual = []
 	pushBigA = []
 	try {
 	connection.query("SELECT * FROM `abnormalities`", function (err, result) {
-	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/abnos)`); return}
 	result.forEach(r => aArrPush(r, dbnosActual))
 	dbnos.forEach(localAbno => {
 		let databaseAbno = dbnosActual.find(d => Number(d.id) === Number(localAbno.id))
@@ -1156,24 +1161,32 @@ pool.getConnection((err, connection) => {
 	})
 	pushBigA.forEach(q => connection.query(q))
 	})}
-	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/abnos)`); return}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/abnos)`); return}
 
 	let bansActual = []
 	let pushBigBans = []
 	try {
-	connection.query("SELECT * FROM `bans`", function (err, result) {
-	if (err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/bans)`); return}
+	connection.query("SELECT * FROM `bans`", async function (err, result) {
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/bans)`); return}
 	result.forEach(r => {
 		if (!bans.some(b => b.ban_id === r.ban_id)) 
 			pushBigBans.push("DELETE FROM `bans` WHERE `bans`.`ban_id` = \'" + r.ban_id + "\';")
 	})
+	if (bans.length > 0) {
+	let newBans = bans.filter(b => !result.some(ab => ab.ban_id.toString() === b.ban_id.toString()))
+	newBans.forEach(nb => pushBigBans.push("INSERT INTO bans (ban_id, id, duration, timestamp, roles) VALUES ('" + nb.ban_id + "', '" + nb.id + "', '" + nb.duration + `', '${nb.timestamp}', '${nb.roles}')`))
+	}
+	if (pushBigBans.length > 0) {
+	try {pushBigBans.forEach(q => connection.query(q))}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/pushbigbans)`); return}
+	}
 	})
-	connection.query(pushBigBans.join(" "))
-	)}
-	catch(err) {connection.release(); setTimeout(() => {updateData()}, 1000); console.log(`${err} (updatedata/bans)`); return}
+	}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/bans)`); return}
 
 
 connection.release()
+if (debugVariables.log_periodics === 1) console.log(`Updated data at tick ${debugVariables.current_tick}.`)
 })}
 
 // Functions like databaseEmployees()
@@ -1310,27 +1323,35 @@ function healPulse() {
 		d.hp = raw.hpMax
 	}
 	})
+	debugVariables.last_heal_tick = debugVariables.current_tick
+	if (debugVariables.log_periodics === 1) console.log(`Healed all employees at tick ${debugVariables.current_tick}.`)
+}
+
+async function globalBanTick() {
+	if (bans.length > 0) {
+		let toUnban = bans.filter(b => (Date.now() >= (Number(b.timestamp) + Number(b.duration) * 1000)))
+		toUnban.forEach(ub => {
+			let member = DELTAS().members.cache.get(ub.id)
+			member.roles.set(ub.roles.split("|"))
+			bans = bans.filter(b => b.ban_id !== ub.ban_id)
+		})
+	}
 }
 
 // Responsible for all regular time-based things
 async function globalTicker() {
-	let tick = 0
 	while (true) {
-		tick++
 		await wait(1000)
+		debugVariables.current_tick++
 		globalEffectTick()
 		globalBanTick()
-		if (tick === 30) {
+		if ((debugVariables.current_tick - debugVariables.last_update_tick) >= 30) {
 			updateData()
 			setTimeout(() => {purge()}, 1000)
 		}
-		if (tick === 60) {
+		if ((debugVariables.current_tick - debugVariables.last_heal_tick) >= 60) {
 			healPulse()
-			updateData()
-			setTimeout(() => {purge()}, 1000)
-			tick = 1
 		}
-			
 	}
 }
 
@@ -1594,6 +1615,31 @@ switch (ciCmd[0]) {
 		ch.send(`Results of the mod lottery: **${loser.user.tag}** gave his role to **${winner.user.tag}**.`)
 	} break
 	
+	case "unban": {
+	if (!admins.includes(msg.author.id) && !msg.member.roles.cache.some(r => r.name === "Commissar")) {
+		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!unban`.")
+		return
+	}
+	if (!getUser(ciCmd[1])) {
+		ch.send("**" + msg.author.tag + "**, " + "error: invalid member.")
+		return
+	}
+	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
+	if (!bans.some(b => b.id === member.user.id)) {
+		ch.send("**" + msg.author.tag + "**, " + "error: specified member is not banned.")
+		return
+	} else {
+		let toUnban = bans.find(b => b.id === member.user.id)
+		console.log(toUnban)
+		toUnban.amount = 0
+		toUnban.timestamp = 0
+		console.log(toUnban)
+		console.log(bans)
+		ch.send(`Unbanned **${member.user.tag}**.`)
+	}
+	
+	} break
+	
 	case "ban": {
 	
 	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Commissar") === false) {
@@ -1603,13 +1649,13 @@ switch (ciCmd[0]) {
 	let amount
 	if (/\D/.test(ciCmd[2])) amount = 5
 	else amount = Number(ciCmd[2])
-	if (amount < 0 || (amount > 70 && global.sudo === false)) {
+	if (amount < 0 || (amount > 240 && !global.sudo)) {
 		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
 		return
 	}
-	if (amount > 5 && admins.includes(msg.author.id) === false) {
+	if (amount > 10 && admins.includes(msg.author.id) === false) {
 	if (msg.member.roles.cache.some(r => r.name === "Commissar")) {
-	if (amount > 15) {
+	if (amount > 30) {
 		ch.send("**" + msg.author.tag + "**, " + "error: members with the Commissar role cannot ban for more than 15 seconds.")
 		return
 	}
@@ -1623,6 +1669,11 @@ switch (ciCmd[0]) {
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
 	let roles = member.roles.cache.filter(r => r.managed === false).array().map(r => r.id)
+	console.log(roles)
+	if (roles.includes('673218574101512214')) {
+		ch.send("**" + msg.author.tag + "**, " + "error: specified member already banned.")
+		return
+	}
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + `error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)`)
 		return
@@ -1646,9 +1697,6 @@ switch (ciCmd[0]) {
 		"roles": roles.join("|")
 		
 	})
-	wait(amount*1000).then(() => {
-	member.roles.set(roles)
-	})
 	} break
 	
 	case "debug": {
@@ -1659,6 +1707,25 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "check_sudo": {
+			console.log("Sudo: " + global.sudo)
+		} break
+		case "list_variables": {
+			console.log(debugVariables)
+		} break
+		case "uba": {
+			bans = bans.map(b => {
+				let d = b
+				d.duration = 0
+				d.timestamp = 0
+				return b
+			})
+		} break
+		case "clearbans": {
+			console.log(bans.map(b => b.ban_id))
+			bans = []
+			console.log(bans.map(b => b.ban_id))
+		} break
 		case "tw": {
 			fs.writeFile("./test.txt", "[\r\n" + ["foo", "bar", "por"].join(",\r\n") + "\r\n]", err => {
 				if (err) throw err
