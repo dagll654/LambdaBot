@@ -1637,7 +1637,7 @@ switch (ciCmd[0]) {
 		console.log(bans)
 		ch.send(`Unbanned **${member.user.tag}**.`)
 	}
-	
+	updateData()
 	} break
 	
 	case "ban": {
@@ -1697,6 +1697,7 @@ switch (ciCmd[0]) {
 		"roles": roles.join("|")
 		
 	})
+	updateData()
 	} break
 	
 	case "debug": {
