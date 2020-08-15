@@ -136,7 +136,7 @@ function giftManip(employee, giftID, action) {
 		if (gifts.length > 1) employee.gifts = gifts.join("|") 
 			else employee.gifts = gifts[0]
 		buffs.buff(employee, gift.buff, "give")
-	} else employee.gifts = gift.slot + "/" + giftID
+	} else employee.gifts = gear.gifts.find(g => Number(g.id) === Number(giftID)).slot + "/" + giftID
 	}
 	else if (action === "remove") {
 	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') {
