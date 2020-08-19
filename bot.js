@@ -1498,7 +1498,7 @@ mesc = msg.content
 // Evil logger so I can see everything that goes on at the sever >:Dc
 if (ch.type != 'dm') {
 let d = new Date()
-let time = `${d.getUTCHours()}(${(Number(d.getUTCHours()) + 3) % 24}):${d.getUTCMinutes()}:${d.getUTCSeconds()}`
+let time = `(${(Number(d.getUTCHours()) + 3) % 24})/${d.getUTCHours()}:${d.getUTCMinutes()}:${d.getUTCSeconds()}`
 let date = `${d.getUTCDate()}.${d.getUTCMonth()}.${d.getUTCFullYear().toString().slice(2)}`
 console.log(`${time} ${date} [${ch.name}] (${msg.member.nickname ? msg.member.nickname : msg.author.username}): ${mesc}`) // Logs all of the messages.
 }
