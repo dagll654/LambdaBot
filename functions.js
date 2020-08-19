@@ -128,7 +128,7 @@ buffs = {
 
 function giftManip(employee, giftID, action) {
 	if (action === "add") {
-	if (employee.gifts != undefined && employee.bufflist != "" && employee.bufflist != 'undefined') {
+	if (employee.gifts !== undefined && employee.bufflist !== "" && employee.bufflist !== 'undefined') {
 		let gifts = employee.gifts.split("|")
 		let gift = gear.gifts.find(g => Number(g.id) === Number(giftID))
 		gifts.push(gift.slot + "/" + giftID)
@@ -214,14 +214,15 @@ exports.gift = function(employee, abnoID, result) {
 	if (gRRes[0] === true) {
 	let gift = gear.gifts.find(g => g.id === abnoID)
 	let gifts
-	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') gifts = employee.gifts.split("|")
+	if (employee.gifts !== undefined && employee.gifts !== "" && employee.gifts !== 'undefined') gifts = employee.gifts.split("|")
 	else gifts = []
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
 		giftManip(employee, abnoID, "add")
 	}
 	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
 	console.log(`Gift roll bonk for employee ${employee.tag}.`)
-	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
+	if (gifts.find(g => g.startsWith(gift.slot)).split("/")[1] !== abnoID)
+		giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
 	setTimeout(() => {giftManip(employee, abnoID, "add")}, 500)
 	gRRes = [true, 1]
 	} else gRRes = [false, 1]
