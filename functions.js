@@ -127,6 +127,7 @@ buffs = {
 }
 
 function giftManip(employee, giftID, action) {
+	console.log(employee)
 	if (action === "add") {
 	if (employee.gifts !== undefined && employee.bufflist !== "" && employee.bufflist !== 'undefined') {
 		let gifts = employee.gifts.split("|")
