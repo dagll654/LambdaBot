@@ -129,7 +129,7 @@ buffs = {
 function giftManip(employee, giftID, action) {
 	if (action === "add") {
 	if (employee.gifts !== undefined && employee.gifts !== "" && employee.gifts !== 'undefined') {
-		let gifts = employee.gifts.split("|")
+		let gifts = employee.gifts.split("|").filter(g => g != undefined)
 		let gift = gear.gifts.find(g => Number(g.id) === Number(giftID))
 		gifts.push(gift.slot + "/" + giftID)
 		if (gifts.length > 1) employee.gifts = gifts.join("|") 
@@ -141,7 +141,7 @@ function giftManip(employee, giftID, action) {
 	if (employee.gifts != undefined && employee.gifts != "" && employee.gifts != 'undefined') {
 		let gifts = employee.gifts.split("|")
 		let gift = gear.gifts.find(g => {return Number(g.id) === Number(giftID)})
-		gifts = gifts.map(g => {if (g.split("/")[1] != giftID) return g})
+		gifts = gifts.map(g => {if (g.split("/")[1] != giftID) return g}).filter(g => g != undefined)
 		if (gifts != "") employee.gifts = gifts.join("|")
 		else employee.gifts = ""
 		buffs.buff(employee, gift.buff, "take")
