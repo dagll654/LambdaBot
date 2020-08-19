@@ -502,6 +502,7 @@ exports.effectApplication = {
 		employee.effects = effects.map(e => e.join("/")).join("|")
 	},
 	"department": function department (employee, dep, action, level = 0) {
+		console.log(`[SIGMA] Applied department buff to employee ${employee.tag} in ${dep}, action '${action}', level ${level}.`)
 		buffs['buff'](employee, jn.bufflist['department'][dep][level], action)
 		return [false]
 	},
