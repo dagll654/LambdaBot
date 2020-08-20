@@ -465,7 +465,10 @@ exports.effectApplication = {
 				else abnormality.bufflist += "sick"
 			return [false]
 		}
-		} else return [false]
+		} else {
+			abnormality.bufflist = abnormality.buffListArray.filter(b => b[0] !== "sick")
+			return [false]
+		}
 	},
 	"egoChange": function egoChange (employee, level) {
 		effects = employee.effects.split("|")
