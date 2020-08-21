@@ -509,6 +509,9 @@ function sSlotText(text) {
 
 // Returns the abnormality by code
 function abno(code) {
+	console.log("[EPSILON]")
+	console.log(code)
+	console.log(abn.abn[2].code.split("-"))
 	if (!code) return undefined
 	if (abn.abn.some(a => a.code === code.toLowerCase()))
 		return abn.abn.find(a => a.code === code.toLowerCase())
