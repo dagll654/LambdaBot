@@ -511,7 +511,9 @@ function sSlotText(text) {
 function abno(code) {
 	console.log("[EPSILON]")
 	console.log(code)
-	console.log(abn.abn[2].code.split("-"))
+	console.log(abn.abn[1].code.split("-"))
+	console.log(code == abn.abn[1].code.split("-"))
+	console.log(code === abn.abn[1].code.split("-"))
 	if (!code) return undefined
 	if (abn.abn.some(a => a.code === code.toLowerCase()))
 		return abn.abn.find(a => a.code === code.toLowerCase())
