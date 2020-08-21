@@ -511,7 +511,9 @@ function sSlotText(text) {
 function abno(code) {
 	if (!code) return undefined
 	if (abn.abn.some(a => a.code === code.toLowerCase()))
-	return abn.abn.find(a => a.code === code.toLowerCase())
+		return abn.abn.find(a => a.code === code.toLowerCase())
+	else if (abn.abn.some(a => a.code.split("-")[2] === code))
+		return abn.abn.find(a => a.code.split("-")[2] === code)
 	else return undefined
 }
 
@@ -1289,10 +1291,10 @@ function healPulse() {
 	dbployees.forEach(em => {
 	async function healTick(e) {
 		/* if (e.id === '143261987575562240') console.log("Heal SP: " + dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60))
-			else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/60) + e.prudL/60)
+			else */ dbployees.e(e.id).heal("sp", Math.ceil(e.prudL/50) + e.prudL/60)
 		await wait(1)
 		/* if (e.id === '143261987575562240') console.log("Heal HP: " + dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60))
-			else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/60) + e.fortL/60)
+			else */ dbployees.e(e.id).heal("hp", Math.ceil(e.fortL/50) + e.fortL/60)
 		await wait(1)
 		if (e.hp < -0.5*e.fortL) e.hp = -0.5*e.fortL
 		if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
