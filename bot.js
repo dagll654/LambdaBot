@@ -2470,6 +2470,8 @@ statsString.join(""),
 			
 			case "a":
 			case "abno": { // !lc a o-03-03
+			if (/\D/.test(ciCmd[2]) === false)
+				ciCmd[2] = abn.abn.find(a => a.code.split("-")[2] === ciCmd[2]).code
 			if (jn.abnWorkable.includes(ciCmd[2])) {
 			let cAbno = abno(ciCmd[2])
 			let cDbno = dbnos.e(cAbno.id)
@@ -2603,6 +2605,8 @@ statsString.join(""),
 				let objItem
 				let menuIndex = "main"
 				let instAbno = 0
+				if (/\D/.test(ciCmd[2]) === false)
+					ciCmd[2] = abn.abn.find(a => a.code.split("-")[2] === ciCmd[2]).code
 				if (jn.abnWorkable.includes(ciCmd[2])) {
 					menuIndex = "shop"
 					currentAbnoCode = ciCmd[2]
