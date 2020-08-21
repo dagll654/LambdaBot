@@ -292,9 +292,8 @@ exports.effects = {
 			}
 exports.effectApplication = {
 	"3": function a3 (employee, result, workorder) {
-		if (result > 1) {
-			employee.sp = employee.sp + healCalc(employee, "sp", 3)
-		}
+		if (result > 1)
+			employee.heal("sp", 3)
 		return [false]
 	},
 	"5": function a5 (employee, result, workorder) {
