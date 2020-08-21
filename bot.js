@@ -1981,7 +1981,7 @@ switch (ciCmd[0]) {
 			case "work": {
 			if (ciCmd[2] != "list") {
 				if (abno(ciCmd[2])) {
-				if (jn.abnWorkable.includes(ciCmd[2])) {
+				if (jn.abnWorkable.includes(ciCmd[2]) || jn.abnWorkable.some(c => c.split("-")[2] === ciCmd[2])) {
 				if (jn.workOrders.includes(ciCmd[3])) {
 				if (dbployees.e(msg.author.id).working === 0) {
 				//if (dbployees.e(msg.author.id).panicked === 0) {
