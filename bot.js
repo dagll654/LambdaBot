@@ -175,7 +175,7 @@ return formattedArray
 function drFind(member) {
 	if (exists(member)) {
 	if (member.roles.cache.some(r => r.name.split(" ")[1] === "Team"))
-	return member.roles.cache.find(r => r.name.split(" ")[1] === "Team").name
+	return member.roles.cache.find(r => r.name.split(" ")[1] === "Team").name.split(" ")[0] + " " + member.roles.cache.find(r => r.name.split(" ")[1] === "Team").name.split(" ")[1]
 	else return undefined
 	} else return undefined
 }
