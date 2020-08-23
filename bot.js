@@ -1654,17 +1654,17 @@ switch (ciCmd[0]) {
 	if (/\D/.test(ciCmd[2])) amount = 5
 	else amount = Number(ciCmd[2])
 	if (amount < 0 || (amount > 240 && !global.sudo)) {
-		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 70 seconds.")
+		ch.send("**" + msg.author.tag + "**, " + "error: cannot ban for less than 0 or more than 240 seconds.")
 		return
 	}
 	if (amount > 10 && admins.includes(msg.author.id) === false) {
 	if (msg.member.roles.cache.some(r => r.name === "Commissar")) {
 	if (amount > 30) {
-		ch.send("**" + msg.author.tag + "**, " + "error: members with the Commissar role cannot ban for more than 15 seconds.")
+		ch.send("**" + msg.author.tag + "**, " + "error: members with the Commissar role cannot ban for more than 30 seconds.")
 		return
 	}
 	} else {
-		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 5 seconds.")
+		ch.send("**" + msg.author.tag + "**, " + "error: members with the Mod role cannot ban for more than 10 seconds.")
 		return
 	}}
 	if (!getUser(ciCmd[1])) {
