@@ -2834,6 +2834,7 @@ statsString.join(""),
 					if (dbployees.e(msg.author.id).bufflist != undefined) {
 					bufflist = dbployees.e(msg.author.id).bufflist.split("|")
 					}
+					console.log(drFind(msg.member))
 					fn.effectApplication['department'](dbployees.e(msg.author.id), drFind(msg.member), "take", 1)	
 				}
 				if (cmsg.content.toLowerCase() === "n") {ch.send("**" + msg.author.tag + "**, " + "resign cancelled."); collector.stop()}
