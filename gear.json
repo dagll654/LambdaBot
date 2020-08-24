@@ -118,7 +118,7 @@
 			"resistance": [0.8, 1.0, 1.0, 1.5],
 			"level": "HE",
 			"cost": 600,
-			"requirements": [0, 0, 0, 0, 6],
+			"requirements": [0, 0, 0, 0, 2],
 			"reqString": "Employee Level 2"
 		},
 		{	"id": "15",
