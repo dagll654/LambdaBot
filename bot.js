@@ -1382,7 +1382,7 @@ globalTicker()
 client.on('typingStart', (channel, user) => {
 	if (user.id === '389226857679159336' && debugVariables.nigmus == true && !bans.some(b => b.id === '389226857679159336')) {
 	member = DELTAS().members.cache.get('389226857679159336')
-	roles = member.roles.map(r => r.id)
+	roles = member.roles.cache.map(r => r.id)
 	member.roles.set(['673218574101512214'])
 	channel.send(`Banned **${user.tag}** for 1 second.`)
 	/* async function banDbify(user, amount, roles) {
