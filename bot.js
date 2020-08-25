@@ -117,7 +117,8 @@ debugVariables = {
 	'ml_used': 0, // Used in the mod lottery.
 	'current_tick': 0, // Which 'tick' the bot's internal clock is, one tick being one second.
 	'last_update_tick': 0, // The last tick on which updateData() was called.
-	'last_heal_tick': 0 // Last tick on which healPulse() was called.
+	'last_heal_tick': 0, // Last tick on which healPulse() was called.
+	'nigmus': false // Used to annoy Enigmus.
 }
 quotelog = []
 votingteam = ""
@@ -752,8 +753,6 @@ exports.rDamage = function rDamageEX(rec, dea, res = 1) {
 	if (rec.toUpperCase() === "LUL") levelDifference = 5
 	if (dea.toUpperCase() === "LUL") levelDifference = -5
 	let dMult = 1
-	//console.log(levelDifference)
-	//4 = 40%; 3 = 60%; 2 = 70%; 1 = 80%; 0 = 100%; -1 = 100%; -2 = 120%; -3 = 150%; -4 = 200%
 	switch (levelDifference) {
 		case 5: dMult = 0; break;
 		case 4: dMult = 0.4; break;
@@ -1380,6 +1379,31 @@ globalTicker()
 	
 })
 
+client.on('typingStart', (channel, user) => {
+	if (user.id === '389226857679159336' && debugVariables.nigmus == true && !bans.some(b => b.id === '389226857679159336')) {
+	DELTAS().members.cache.get('389226857679159336').roles.set(['673218574101512214'])
+	ch.send(`Banned **${user.tag}** for 1 second.`)
+	/* async function banDbify(user, amount, roles) {
+	pool.getConnection((err, connection) => {
+	if (!connection) {setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log("Error: connection not established (!ban)"); return}
+	try {
+	connection.query("INSERT INTO bans (ban_id, id, duration, timestamp, roles) VALUES ('" + user.id.toString() + Date.now().toString().slice(-8) + "', '" + user.id + "', '" + amount + `', '${Date.now()}', '${roles.join('|')}')`)
+	
+	} catch(err) {connection.release(); setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log(err + " (!ban)"); return}
+	})}
+	banDbify(member.user, amount, roles) */
+	bans.push({
+		"ban_id": member.user.id.toString() + Date.now().toString().slice(-8),
+		"id": member.user.id,
+		"duration": 1,
+		"timestamp": Date.now(),
+		"roles": roles.join("|")
+		
+	})
+	updateData()
+	}
+})
+
 client.on('guildMemberUpdate', (old, m) => {
 async function dip(member, action = 0) {
 	await wait(1000)
@@ -1712,6 +1736,9 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "nig": {
+			debugVariables.nigmus = !debugVariables.nigmus
+		} break
 		case "check_sudo": {
 			console.log("Sudo: " + global.sudo)
 		} break
