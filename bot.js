@@ -1381,8 +1381,10 @@ globalTicker()
 
 client.on('typingStart', (channel, user) => {
 	if (user.id === '389226857679159336' && debugVariables.nigmus == true && !bans.some(b => b.id === '389226857679159336')) {
-	DELTAS().members.cache.get('389226857679159336').roles.set(['673218574101512214'])
-	ch.send(`Banned **${user.tag}** for 1 second.`)
+	member = DELTAS().members.cache.get('389226857679159336')
+	roles = member.roles.map(r => r.id)
+	member.roles.set(['673218574101512214'])
+	channel.send(`Banned **${user.tag}** for 1 second.`)
 	/* async function banDbify(user, amount, roles) {
 	pool.getConnection((err, connection) => {
 	if (!connection) {setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log("Error: connection not established (!ban)"); return}
