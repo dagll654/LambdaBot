@@ -212,12 +212,12 @@ if (recEmoji === '👉') {
 
 function stringNormalizer(string, length) {
 	if (Math.abs(length) >= string.length) {
-	if (length > 0) return string + new Array(Math.abs(length) - string.length).fill(" ‏‏‎").join("")
-		else return new Array(Math.abs(length) - string.length).fill(" ‏‏‎").join("") + string
+	if (length > 0) return string + new Array(Math.abs(length) - string.length).fill(" ").join("")
+		else return new Array(Math.abs(length) - string.length).fill(" ").join("") + string
 	} else return string
 }
 
-function arrayNormalizer (arrayEx, char = " ‏‏‎", closingChar = "") {
+function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
 	let array = arrayEx
 	if (array[0] === undefined) console.log(arrayEx)
 	let lengths = new Array(array[0].length).fill(0)
@@ -2128,7 +2128,7 @@ switch (ciCmd[0]) {
 					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
 				if (statCount.length < 6)
 					for (k = 0; k < (7 - statCount.length); k++) {statCount += " "}
-				statsString.push("	`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
+				statsString.push("	`|" + statLV + "|` " + jn[jn.stats[m]] + " `|" + statCount + "|`")
 			}
 			statsString[1] += "\n"
 			let subPointString = []
@@ -2142,7 +2142,7 @@ switch (ciCmd[0]) {
 				if (subPointCount.length < 9)
 					for (k = 0; k < (9 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn[jn.stats[n]]
-				subPointString.push("	" + stat + " `" + subPointCount + "`")
+				subPointString.push("	" + stat + " `|" + subPointCount + "|`")
 				n++
 			}
 			subPointString[0] = "	" + subPointString[0]
