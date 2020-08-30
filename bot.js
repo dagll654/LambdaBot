@@ -2125,10 +2125,10 @@ switch (ciCmd[0]) {
 				else pn = "+"
 				let statCount = `${cUser.statsReal[m]}${pn}${cUser.statBuffArray[m]}`
 				if (statLV.length < 6)
-					for (k = 0; k < (7 - statLV.length); k++) {statLV = "‌‌ " + statLV}
+					for (k = 0; k < (7 - statLV.length); k++) {statLV = " " + statLV}
 				if (statCount.length < 6)
-					for (k = 0; k < (7 - statCount.length); k++) {statCount += "‌‌ "}
-				statsString.push("	`" + statLV + "` " + jn[jn.stats[m]] + " `" + statCount + "`")
+					for (k = 0; k < (7 - statCount.length); k++) {statCount += " "}
+				statsString.push("	`‌" + statLV + "‌` " + jn[jn.stats[m]] + " `‌" + statCount + "‌`")
 			}
 			statsString[1] += "\n"
 			let subPointString = []
@@ -2140,9 +2140,9 @@ switch (ciCmd[0]) {
 				let requiredSubpoints = statLVN(cUser.statsReal[n])*subStatIncrement*mult
 				let subPointCount = cUser.subPointsArray[n] + "/" + requiredSubpoints
 				if (subPointCount.length < 9)
-					for (k = 0; k < (9 - subPointCount.length); k++) {subPointCount += "‌‌ "}
+					for (k = 0; k < (9 - subPointCount.length); k++) {subPointCount += " "}
 				let stat = jn[jn.stats[n]]
-				subPointString.push("	" + stat + " `" + subPointCount + "`")
+				subPointString.push("	" + stat + " `‌" + subPointCount + "‌`")
 				n++
 			}
 			subPointString[0] = "	" + subPointString[0]
