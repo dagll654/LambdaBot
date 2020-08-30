@@ -212,12 +212,12 @@ if (recEmoji === '👉') {
 
 function stringNormalizer(string, length) {
 	if (Math.abs(length) >= string.length) {
-	if (length > 0) return string + new Array(Math.abs(length) - string.length).fill(" ").join("")
-		else return new Array(Math.abs(length) - string.length).fill(" ").join("") + string
+	if (length > 0) return string + new Array(Math.abs(length) - string.length).fill(" ‏‏‎").join("")
+		else return new Array(Math.abs(length) - string.length).fill(" ‏‏‎").join("") + string
 	} else return string
 }
 
-function arrayNormalizer (arrayEx, char = " ", closingChar = "") {
+function arrayNormalizer (arrayEx, char = " ‏‏‎", closingChar = "") {
 	let array = arrayEx
 	if (array[0] === undefined) console.log(arrayEx)
 	let lengths = new Array(array[0].length).fill(0)
@@ -1379,21 +1379,13 @@ globalTicker()
 	
 })
 
+/*
 client.on('typingStart', (channel, user) => {
 	if (user.id === '389226857679159336' && debugVariables.nigmus == true && !bans.some(b => b.id === '389226857679159336')) {
 	member = DELTAS().members.cache.get('389226857679159336')
 	roles = member.roles.cache.map(r => r.id)
 	member.roles.set(['673218574101512214'])
 	channel.send(`Banned **${user.tag}** for 1 second.`)
-	/* async function banDbify(user, amount, roles) {
-	pool.getConnection((err, connection) => {
-	if (!connection) {setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log("Error: connection not established (!ban)"); return}
-	try {
-	connection.query("INSERT INTO bans (ban_id, id, duration, timestamp, roles) VALUES ('" + user.id.toString() + Date.now().toString().slice(-8) + "', '" + user.id + "', '" + amount + `', '${Date.now()}', '${roles.join('|')}')`)
-	
-	} catch(err) {connection.release(); setTimeout(() => {banDbify(user, amount, roles)}, 1000); console.log(err + " (!ban)"); return}
-	})}
-	banDbify(member.user, amount, roles) */
 	bans.push({
 		"ban_id": member.user.id.toString() + Date.now().toString().slice(-8),
 		"id": member.user.id,
@@ -1405,6 +1397,7 @@ client.on('typingStart', (channel, user) => {
 	updateData()
 	}
 })
+*/
 
 client.on('guildMemberUpdate', (old, m) => {
 async function dip(member, action = 0) {
