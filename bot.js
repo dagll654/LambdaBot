@@ -190,9 +190,10 @@ function assignEntityID() {
 async function pagedMessage(array, ch, title = "") {
 let index = 0
 let l = await ch.send(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
-l.react('👈').then(l.react('👉'))
+l.react('👈').then(l.react('👉')).then(l.react('❌'))
 const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id !== client.user.id)
 let stop = false
+let forceStop = false
 while (!stop) {
 let rctT = await l.awaitReactions(filter, { max: 1, time: 200000 })
 if (!rctT) {stop = true; return}
@@ -207,7 +208,13 @@ if (recEmoji === '👉') {
 	if (index > (array.length - 1)) index = 0
 	l.edit(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
 }
+if (recEmoji === '❌') {
+	stop = true
+	forceStop = true
 }
+}
+if (forceStop) l.edit(l.content + `\n\n Timed out manually.`)
+else l.edit(l.content + `\n\n Timed out.`)
 }
 
 function stringNormalizer(string, length) {
