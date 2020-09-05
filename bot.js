@@ -191,7 +191,7 @@ async function pagedMessage(array, ch, title = "") {
 let index = 0
 let l = await ch.send(`${b3ck}(Page ${index + 1}/${array.length}) ${title} ${b3ck}` + array[index])
 l.react('👈').then(l.react('👉')).then(l.react('❌'))
-const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id !== client.user.id)
+const filter = (reaction, user) => ['👈', '👉', '❌'].includes(reaction.emoji.name) && user.id !== client.user.id
 let stop = false
 let forceStop = false
 while (!stop) {
