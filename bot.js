@@ -1423,7 +1423,7 @@ if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
 	return
 }
 let regLevel = new RegExp(`\\bLevel`)
-	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level")) {
+	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level") && !m.roles.cache.some(r => r.name === "banned")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
 		let channelRole = DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
@@ -1711,7 +1711,10 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + `error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)`)
 		return
 	}
-	member.roles.set(['673218574101512214'])
+	let bannedRoles = ['673218574101512214']
+	if (member.roles.cache.some(r => r.name.split(" ")[0] === "Level"))
+		bannedRoles.push(member.roles.cache.find(r => r.name.split(" ")[0] === "Level").id)
+	member.roles.set(bannedRoles)
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 	/* async function banDbify(user, amount, roles) {
 	pool.getConnection((err, connection) => {
