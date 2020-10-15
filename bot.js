@@ -1707,6 +1707,10 @@ switch (ciCmd[0]) {
 		ch.send("**" + msg.author.tag + "**, " + "error: specified member already banned.")
 		return
 	}
+	if (roles.includes('675402831351775257')) {
+		ch.send("**" + msg.author.tag + "**, " + "I'm sorry, but ${member.nickname ? member.nickname : member.user.username} is too powerful. (**@not gay**)"
+		return
+	}
 	if (member.user.bot === true) {
 		ch.send("**" + msg.author.tag + "**, " + `error: cannot ban bots. (**${getUser(ciCmd[1]).tag}**)`)
 		return
