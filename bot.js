@@ -1708,7 +1708,7 @@ switch (ciCmd[0]) {
 		return
 	}
 	if (roles.includes('675402831351775257')) {
-		ch.send("**" + msg.author.tag + "**, " + "I'm sorry, but ${member.nickname ? member.nickname : member.user.username} is too powerful. (**@not gay**)")
+		ch.send("**" + msg.author.tag + "**, " + `I'm sorry, but member.nickname ? member.nickname : member.user.username} is too powerful. (**@not gay**)`)
 		return
 	}
 	if (member.user.bot === true) {
