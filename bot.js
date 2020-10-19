@@ -1720,6 +1720,8 @@ switch (ciCmd[0]) {
 		bannedRoles.push(member.roles.cache.find(r => r.name.split(" ")[0] === "Level").id)
 	if (member.roles.cache.some(r => r.id === '607318782624399361'))
 		bannedRoles.push('607318782624399361')
+	if (member.roles.cache.some(r => r.id === '660230528447938592'))
+		bannedRoles.push('660230528447938592')
 	member.roles.set(bannedRoles)
 	ch.send(`Banned **${getUser(ciCmd[1]).tag}** for ${amount} seconds.`)
 	/* async function banDbify(user, amount, roles) {
