@@ -1339,6 +1339,7 @@ async function globalBanTick() {
 		toUnban.forEach(ub => {
 			let member = DELTAS().members.cache.get(ub.id)
 			member.roles.set(ub.roles.split("|"))
+				.catch(console.error)
 			bans = bans.filter(b => b.ban_id !== ub.ban_id)
 		})
 	}
@@ -1702,7 +1703,7 @@ switch (ciCmd[0]) {
 		return
 	}
 	let member = DELTAS().members.cache.get(getUser(ciCmd[1]).id)
-	let roles = member.roles.cache.filter(r => r.managed === false).array().map(r => r.id)
+	let roles = member.roles.cache/*.filter(r => r.managed === false)*/.array().map(r => r.id)
 	console.log(roles)
 	if (roles.includes('673218574101512214')) {
 		ch.send("**" + msg.author.tag + "**, " + "error: specified member already banned.")
