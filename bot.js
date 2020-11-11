@@ -79,9 +79,7 @@ purge()
 process.on('error', err => {console.log(err)})
 
 const client = new Discord.Client()
-function DELTAS() {return client.guilds.cache.get('607318782624399361')} // Lambda's Deltas server
-function ESERV() {return client.guilds.cache.get('513660754633949208')} // Emote server for the minigame stuff
-global.deltas = function deltas() {return DELTAS()}
+
 const admins = ['556890472141029376', '143261987575562240', '389226857679159336'] // People with a Second-in-command role and me
 const minigameChannels = ['653538398681825300', '654361755857846303', '655509126612385812'] // Self-explanatory
 const deproles = jn.deproles // All department role names
@@ -1366,6 +1364,10 @@ async function globalTicker() {
 // On ready
 client.on('ready', () => {
 
+DELTAS = function DELTAS() {return client.guilds.resolve('607318782624399361')} // Lambda's Deltas server
+ESERV = function ESERV() {return client.guilds.resolve('513660754633949208')} // Emote server for the minigame stuff
+global.deltas = function deltas() {return DELTAS()}
+
 global.client = client
 bch = DELTAS().channels.cache.get("607558082381217851");
 // Bot readiness announcement, both in the log, #botspam and in my DMs
@@ -1374,8 +1376,6 @@ console.log('I am ready!')
 //client.users.cache.get('143261987575562240').send('Bot started up succesfully.')
 // Setting the bot's current game to 'try !help'
 client.user.setActivity('the sound of himself being played like a fiddle', { type: 'LISTENING' })
-
-
 
 // Get employee and abno data from the database
 databaseEmployees()
@@ -1407,10 +1407,6 @@ client.on('typingStart', (channel, user) => {
 */
 
 client.on('guildMemberUpdate', (old, m) => {
-	console.log("Guild member updated!")
-	console.log(old.user.tag)
-	console.log(old.roles.cache.array().map(r => r.name))
-	console.log(m.roles.cache.array().map(r => r.name))
 /*async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
