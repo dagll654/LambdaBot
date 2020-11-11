@@ -1407,7 +1407,10 @@ client.on('typingStart', (channel, user) => {
 */
 
 client.on('guildMemberUpdate', (old, m) => {
-async function dip(member, action = 0) {
+	console.log(old.user.tag)
+	console.log(old.roles.cache.array().map(r => r.name))
+	console.log(m.roles.cache.array().map(r => r.name))
+/*async function dip(member, action = 0) {
 	await wait(1000)
 	if (action === 1)
 	await member.roles.remove(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
@@ -1415,7 +1418,7 @@ async function dip(member, action = 0) {
 	else await member.roles.add(DELTAS().roles.cache.find(r => r.name === "TO THE RANCH"))
 		.catch(console.error)
 	return true
-}
+}*/
 if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
 	let risks = jn.risk
 	if (m.roles.cache.some(r => risks.includes(r.name)))
@@ -1439,7 +1442,7 @@ let regLevel = new RegExp(`\\bLevel`)
 			.catch(console.error)
 		}
 	}
-	if (m.roles.cache.some(r => r.name === "RANCHDIP")) {
+/*	if (m.roles.cache.some(r => r.name === "RANCHDIP")) {
 		if (m.roles.cache.some(r => r.name === "TO THE RANCH")) dip(m, 1)
 		else dip(m)
 	}
