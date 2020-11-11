@@ -1635,7 +1635,7 @@ switch (ciCmd[0]) {
 		ch.send(`The command has already been used today. /shrug`)
 		return
 		}
-		debugVariables.ml_used = 1
+		
 		let mods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod"))
 		let unmods = DELTAS().members.cache.filter(m => m.roles.cache.some(r => r.name === "Mod" || r.name === "Second-in-command" || r.name === "Commissar" || r.name === "Rubber Tyrant") === false && m.user.bot === false && m.roles.cache.some(r => ["Level III", "Level IV", "Level V"].includes(r.name)))
 		console.log(mods)
@@ -1646,7 +1646,7 @@ switch (ciCmd[0]) {
 		console.log(loser)
 		console.log(winner)
 		return
-		}
+		} else debugVariables.ml_used = 1
 		loser.roles.remove(DELTAS().roles.cache.find(r => r.name === "Mod"))
 		winner.roles.add(DELTAS().roles.cache.find(r => r.name === "Mod"))
 		ch.send(`Results of the mod lottery: **${loser.user.tag}** gave his role to **${winner.user.tag}**.`)
