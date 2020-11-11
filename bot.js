@@ -1718,6 +1718,8 @@ switch (ciCmd[0]) {
 		return
 	}
 	let bannedRoles = ['673218574101512214']
+	let logRoles = ['673218574101512214'].concat(member.roles.cache.filter(r => r.managed === true))
+	console.log(logRoles)
 	if (member.roles.cache.some(r => r.name.split(" ")[0] === "Level"))
 		bannedRoles.push(member.roles.cache.find(r => r.name.split(" ")[0] === "Level").id)
 	if (member.roles.cache.some(r => r.id === '607318782624399361'))
