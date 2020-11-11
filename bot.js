@@ -1407,6 +1407,7 @@ client.on('typingStart', (channel, user) => {
 */
 
 client.on('guildMemberUpdate', (old, m) => {
+	console.log("Guild member updated!")
 	console.log(old.user.tag)
 	console.log(old.roles.cache.array().map(r => r.name))
 	console.log(m.roles.cache.array().map(r => r.name))
