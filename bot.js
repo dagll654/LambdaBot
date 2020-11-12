@@ -211,7 +211,7 @@ if (recEmoji === '❌') {
 	forceStop = true
 }
 }
-if (forceStop) l.edit(l.content + `\n\n Timed out manually.`)
+if (forceStop) l.delete()
 else l.edit(l.content + `\n\n Timed out.`)
 }
 
