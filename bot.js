@@ -1014,7 +1014,7 @@ function work(employee1, abno1, order1, channel) {
 				gifttxt = "Rolled the gift: " + `${gift.name} [${sSlotText(gift.slot)}] - ${gift.text}.`
 				if (giftRoll[1] === 1) gifttxt += " It replaced the previous one." 
 			}
-			else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked."
+			else if (giftRoll[0] === false && giftRoll[1] === 1) gifttxt = "Rolled the gift, but the slot was locked/the gift was the same as the one already in the slot."
 			console.log("Gift Roll: " + giftRoll.join(", "))
 			if (gifttxt != "") channel.send(gifttxt)
 		}
