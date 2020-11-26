@@ -218,7 +218,7 @@ exports.gift = function(employee, abnoID, result) {
 	if (gifts.some(g => g.startsWith(gift.slot)) === false)	{
 		giftManip(employee, abnoID, "add")
 	}
-	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined) {
+	else if (gifts.find(g => g.startsWith(gift.slot)).split("/")[2] === undefined && gifts.find(g => g.startsWith(gift.slot)).split("/")[1] !== abnoID) {
 	console.log(`Gift roll bonk for employee ${employee.tag}.`)
 	giftManip(employee, gifts.find(g => g.startsWith(gift.slot)).split("/")[1], "remove")
 	giftManip(employee, abnoID, "add")
