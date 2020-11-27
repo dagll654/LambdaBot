@@ -2886,10 +2886,10 @@ statsString.join(""),
 			ch.send("**" + msg.author.tag + "**, " + "incorrect usage. Avaliable arguments: resign, list.")
 			break
 			}
-			} else {ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")}
+			} else ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")
 			} break
 		}
-		}
+		} else ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to a team. To begin working on abnormalities, you must first get assigned (`!lc assigh (team)`, see `!lc list` for the list of teams)")
 		
 		
 	} else ch.send("**" + msg.author.tag + "**, " + "the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
