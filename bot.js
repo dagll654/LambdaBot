@@ -1427,7 +1427,9 @@ let regLevel = new RegExp(`\\bLevel`)
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level") && !m.roles.cache.some(r => r.name === "banned")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
-		let channelRole = DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
+		let cRoles = jn.risk.map(n => m.roles.cache.find(r => r.name === n)).filter(r => r !== undefined)
+		//let channelRole = DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
+		let channelRole = cRoles[cRoles.length - 1] ? cRoles[cRoles.length - 1] : DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
 		if (m.roles.cache.array().some(r => r.name === "ALEPH")) 
 			channelRole = DELTAS().roles.cache.find(r => r.name === "ALEPH")
 		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.slice(0, 4).includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
