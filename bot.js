@@ -74,7 +74,6 @@ connection.release()
 })}
 catch(err) {connection.release(); purge(); console.log(`${err}`); return}
 }
-purge()
 
 process.on('error', err => {console.log(err)})
 
@@ -119,6 +118,7 @@ debugVariables = {
 	'nigmus': false, // Used to annoy Enigmus.
 	'dbOnline': false // Used to turn off the database functionality.
 }
+if (debugVariables.dbOnline) purge()
 quotelog = []
 votingteam = ""
 voting = 0	
@@ -1427,13 +1427,18 @@ if (m.roles.cache.some(r => r.name === "TO THE RANCH")) {
 	return
 }
 let regLevel = new RegExp(`\\bLevel`)
+	if (!m.roles.cache.some(r => r.name === "(X)"))
 	if (m.roles.cache.some(r => r.name.split(" ")[0] === "Level") && !m.roles.cache.some(r => r.name === "banned")) {
 		let level = m.roles.cache.find(r => r.name.split(" ")[0] === "Level").name
 		let index = jn.levels.indexOf(level)
-		let cRoles = m.roles.cache.filter(r => jn.risk.includes(r.name))
-		console.log(cRoles)
+		let cRoles = m.roles.cache.array().filter(r => jn.risk.includes(r.name)).sort((a, b) => {return jn.risk.indexOf(a.name) - jn.risk.indexOf(b.name)})
+		console.log(cRoles.map(r => r.name))
+		//workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
 		//let channelRole = DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
-		let channelRole = cRoles[cRoles.length - 1] ? cRoles[cRoles.length - 1] : DELTAS().roles.cache.find(r => r.name.toLowerCase() === jn.risk[index].toLowerCase())
+		let channelRole = cRoles[cRoles.length - 1] ? cRoles[cRoles.length - 1] : DELTAS().roles.cache.find(r => r.name === jn.risk[index])
+		if (jn.levels.indexOf(level) > jn.risk.indexOf(channelRole.name)) channelRole = DELTAS().roles.cache.find(r => r.name === jn.risk[index])
+		console.log(`channelRole: ${channelRole.name}`)
+		console.log(`cRoles[length-1]: ${cRoles[cRoles.length - 1]}`)
 		if (m.roles.cache.array().some(r => r.name === "ALEPH")) 
 			channelRole = DELTAS().roles.cache.find(r => r.name === "ALEPH")
 		let currentCRoles = m.roles.cache.array().filter(r => jn.risk.slice(0, 4).includes(r.name)).filter(r => r !== channelRole).map(r => r.id)
