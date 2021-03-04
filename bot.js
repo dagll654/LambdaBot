@@ -116,7 +116,8 @@ debugVariables = {
 	'current_tick': 0, // Which 'tick' the bot's internal clock is, one tick being one second.
 	'last_update_tick': 0, // The last tick on which updateData() was called.
 	'last_heal_tick': 0, // Last tick on which healPulse() was called.
-	'nigmus': false // Used to annoy Enigmus.
+	'nigmus': false, // Used to annoy Enigmus.
+	'dbOnline': false // Used to turn off the database functionality.
 }
 quotelog = []
 votingteam = ""
@@ -1378,12 +1379,14 @@ console.log('I am ready!')
 // Setting the bot's current game to 'try !help'
 client.user.setActivity('the sound of himself being played like a fiddle', { type: 'LISTENING' })
 
+if (debugVariables.dbOnline) { // If I know the database is offline then no point in running any of this
 // Get employee and abno data from the database
 databaseEmployees()
 databaseAbnormalities()
 databaseBans()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
 globalTicker()
+}
 	
 })
 
@@ -1679,7 +1682,7 @@ switch (ciCmd[0]) {
 	} break
 	
 	case "ban": {
-	
+	if (!debugVariables.dbOnline) {ch.send("The ban database is currently under maintenance or otherwise inaccessible. The \`ban\` command is disabled to avoid accidents."); return}
 	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Commissar") === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
@@ -1983,6 +1986,7 @@ switch (ciCmd[0]) {
 	
 	case "lobcorp":
 	case "lc": {
+	if (!debugVariables.dbOnline) {ch.send("The minigame's database is currently under maintenance or otherwise inaccessible. The \`lc\` commands are disabled."); return}
 	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
 		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
 		switch (ciCmd[1]) {
