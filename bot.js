@@ -57,7 +57,7 @@ setTimeout(() => {resolve('resolved')}, msc)
 async function purge() {
 try {
 pool.getConnection((err, connection) => {
-if (!connection) {console.log("Error: connection not established (purge)"); setTimeout(() => {purge()}, 1000); return}
+if (!connection) {console.log("Error: connection not established (purge)"); setTimeout(() => {purge()}, 5000); return}
 connection.query(`SHOW PROCESSLIST;`, (err, result) => {
 	if (err) {connection.release(); purge(); console.log(`${err}`); return}
 	let deadConnections = result.filter(c => c.Command === "Sleep")
@@ -1198,7 +1198,7 @@ if (debugVariables.log_periodics === 1) console.log(`Updated data at tick ${debu
 // Functions like databaseEmployees()
 async function databaseAbnormalities() {
 pool.getConnection((err, connection) => {
-	if (!connection) {setTimeout(() => {databaseAbnormalities()}, 1000); console.log("Error: connection not established (dbnos)"); return}
+	if (!connection) {setTimeout(() => {databaseAbnormalities()}, 5000); console.log("Error: connection not established (dbnos)"); return}
 	abnos = []
 	dbnos = []
 	jn.abnWorkable.forEach(a => {
@@ -1228,7 +1228,7 @@ connection.release()
 // Gets the employee data from the database
 async function databaseEmployees() {
 pool.getConnection((err, connection) => {
-	if (!connection) {console.log("Error: connection not established (databaseemployees)"); setTimeout(() => {databaseEmployees()}, 1000); return}
+	if (!connection) {console.log("Error: connection not established (databaseemployees)"); setTimeout(() => {databaseEmployees()}, 5000); return}
 	return new Promise(resolve => {
 	employees = []
 	dbployees = []
@@ -1276,7 +1276,7 @@ connection.release()
 // Gets the ban data from the database
 async function databaseBans() {
 pool.getConnection((err, connection) => {
-	if (!connection) {console.log("Error: connection not established (databasebans)"); setTimeout(() => {databaseBans()}, 1000); return}
+	if (!connection) {console.log("Error: connection not established (databasebans)"); setTimeout(() => {databaseBans()}, 5000); return}
 	try {
 	connection.query("SELECT * FROM `bans`", function (err, result) {
 		if (err) {connection.release(); console.log(`${err} (databasebans)`); setTimeout(() => {databaseBans()}, 1000)}
