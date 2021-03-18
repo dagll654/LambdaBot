@@ -1687,7 +1687,7 @@ switch (ciCmd[0]) {
 	} break
 	
 	case "ban": {
-	if (!debugVariables.dbOnline) {ch.send("The ban database is currently under maintenance or otherwise inaccessible. The \`ban\` command is disabled to avoid accidents."); return}
+	if (!debugVariables.dbOnline && !global.sudo) {ch.send("The ban database is currently under maintenance or otherwise inaccessible. The \`ban\` command is disabled to avoid accidents."); return}
 	if (admins.includes(msg.author.id) === false && msg.member.roles.cache.some(r => r.name === "Mod" || r.name === "Commissar") === false) {
 		ch.send("**" + msg.author.tag + "**, " + "you do not have permission to use `!ban`.")
 		return
