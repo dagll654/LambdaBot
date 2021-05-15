@@ -3,12 +3,11 @@
   "description": "Example",
   "version": "0.0.0",
   "main": "bot.js",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "discord.js": "^12.4.1",
-    "mysql": "^2.17.1",
-    "nodemon": "^2.0.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7",
     "request": "^2.88.2"
   }
 }
