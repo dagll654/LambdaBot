@@ -119,6 +119,7 @@ debugVariables = {
 	'dbOnline': true // Used to turn off the database functionality.
 }
 if (debugVariables.dbOnline) purge()
+	
 quotelog = []
 votingteam = ""
 voting = 0	
@@ -1761,6 +1762,9 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "elist": {
+			console.log(dbployees)
+		} break
 		case "nig": {
 			debugVariables.nigmus = !debugVariables.nigmus
 		} break
@@ -2901,7 +2905,7 @@ statsString.join(""),
 			} else ch.send("**" + msg.author.tag + "**, " + "ERROR: YOU SHOULD NOT BE SEEING THIS MESSAGE!")
 			} break
 		}
-		} else ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to a team. To begin working on abnormalities, you must first get assigned (`!lc assigh (team)`, see `!lc list` for the list of teams)")
+		} else ch.send("**" + msg.author.tag + "**, " + "you are not currently assigned to a team. To begin working on abnormalities, you must first get assigned (`!lc assign (team)`, see `!lc list` for the list of teams)")
 		
 		
 	} else ch.send("**" + msg.author.tag + "**, " + "the appropriate channels for the use of !lc commands are <#653538398681825300>, <#654361755857846303> and <#655509126612385812>.")
