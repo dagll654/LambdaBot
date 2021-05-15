@@ -1789,3 +1789,17 @@ node_modules/@discordjs/form-data/Readme.md
 node_modules/discord.js/esm/discord.mjs
 node_modules/discord.js/src/util/UserFlags.js
 node_modules/discord.js/typings/index.ts
+node_modules/pstree.remy/README.md
+node_modules/nodemon/.eslintrc.json
+node_modules/mysql/lib/protocol/packets/LocalInfileRequestPacket.js
+node_modules/glob-parent/CHANGELOG.md
+node_modules/discord.js/webpack/discord.min.js.LICENSE.txt
+node_modules/discord.js/src/structures/interfaces/Application.js
+node_modules/discord.js/src/structures/IntegrationApplication.js
+node_modules/discord.js/src/structures/GuildTemplate.js
+node_modules/discord.js/src/rest/AsyncQueue.js
+node_modules/discord.js/src/client/actions/TypingStart.js
+node_modules/discord.js/src/client/actions/GuildMemberUpdate.js
+node_modules/bignumber.js/bignumber.min.js.map
+node_modules/balanced-match/.github/FUNDING.yml
+node_modules/.bin/nodemon.ps1
