@@ -116,7 +116,7 @@ debugVariables = {
 	'last_update_tick': 0, // The last tick on which updateData() was called.
 	'last_heal_tick': 0, // Last tick on which healPulse() was called.
 	'nigmus': false, // Used to annoy Enigmus.
-	'dbOnline': false // Used to turn off the database functionality.
+	'dbOnline': true // Used to turn off the database functionality.
 }
 if (debugVariables.dbOnline) purge()
 quotelog = []
