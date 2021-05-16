@@ -116,7 +116,8 @@ debugVariables = {
 	'last_update_tick': 0, // The last tick on which updateData() was called.
 	'last_heal_tick': 0, // Last tick on which healPulse() was called.
 	'nigmus': false, // Used to annoy Enigmus.
-	'dbOnline': true // Used to turn off the database functionality.
+	'dbOnline': true, // Used to turn off the database functionality.
+	'last_bullet_refresh': Date.now()*2
 }
 if (debugVariables.dbOnline) purge()
 	
@@ -1191,6 +1192,23 @@ pool.getConnection((err, connection) => {
 	})
 	}
 	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/bans)`); return}
+	
+	let debugActual = []
+	let pushBigDebug = []
+	try {
+	connection.query("SELECT * FROM `debug_variables`", async function (err, result) {
+	if (err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/debug)`); return}
+
+	let newDebug = Object.entries(debugVariables).filter(d => !result.some(dbd => dbd.name === d[0]))
+	newDebug.forEach(nd => pushBigDebug.push("INSERT INTO debug_variables (name, value) VALUES ('" + nd[0] + "', '" + nd[1] + "')"))
+	
+	if (pushBigDebug.length > 0) {
+	try {pushBigDebug.forEach(q => connection.query(q))}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/pushbigdebug)`); return}
+	}
+	})
+	}
+	catch(err) {connection.release(); setTimeout(() => {updateData()}, 5000); console.log(`${err} (updatedata/debug)`); return}
 
 
 connection.release()
@@ -1291,6 +1309,22 @@ pool.getConnection((err, connection) => {
 connection.release()
 })}
 
+// Gets the debug data from the database
+async function databaseDebug() {
+pool.getConnection((err, connection) => {
+	if (!connection) {console.log("Error: connection not established (databasedebug)"); setTimeout(() => {databaseDebug()}, 5000); return}
+	try {
+	connection.query("SELECT * FROM `debug_variables`", function (err, result) {
+		if (err) {connection.release(); console.log(`${err} (databasedebug)`); setTimeout(() => {databaseDebug()}, 1000)}
+		result.forEach(d => debugVariables[d.name] = d.value)
+		console.log("Debug variables:")
+		console.log(result.map(r => [r.name, r.value]))
+	})
+	}
+	catch(err) {connection.release(); console.log(`${err} (databasedebug)`); setTimeout(() => {databaseDebug()}, 1000)}
+connection.release()
+})}
+
 // The heal pulse in regenerator rooms
 function healPulse() {
 	if (debugVariables.heal_pulser === 1) {
@@ -1385,6 +1419,7 @@ if (debugVariables.dbOnline) { // If I know the database is offline then no poin
 databaseEmployees()
 databaseAbnormalities()
 databaseBans()
+databaseDebug()
 // Global ticker function, responsible for the heal pulser, data updating and effect ticking
 globalTicker()
 }
@@ -2352,7 +2387,8 @@ statsString.join(""),
 			inv(dbployees.e(msg.author.id), msg.channel)
 			} break
 			
-			case "g": {
+			case "g":
+			case "gift": {
 				
 			if (ciCmd[2] !== "list") {
 			
@@ -2482,7 +2518,8 @@ statsString.join(""),
 			
 			} break
 			
-			case "b": {
+			case "b": 
+			case "bullet": {
 			cCh.send("The bullet menu is under reconstruction.")
 			} break
 			
@@ -2496,6 +2533,7 @@ statsString.join(""),
 					"	`!lc assign (control/training/extraction etc)` - assigns you to the specified department.",
 					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
 					"	`!lc i` - shows your inventory.",
+					"	`!lc g` - shows your gifts. `!lc g list` for a list of abnormalities that currently have gifts associated with them.",
 					"	`!lc a (abnormality ID)` - shows an info card of the specified abnormality. Only useful in a few cases.",
 					"	`!lc w (abnormality ID) (instinct/insight/attachment/repression)` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
 					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
