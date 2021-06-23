@@ -12,10 +12,6 @@ const jn = require("./junk.json") // Miscellaneous stuff
 const gear = require("./gear.json") // Gear and items
 const fn = require("./functions.js") // Functions, like all effects - on-consume of consumables, on-work of abnos etc.
 const sc = require("./simpleCombat.js") // The simple version of combat
-const readline = require('readline').createInterface({
-input: process.stdin,
-output: process.stdout
-})
 
 var db_config  = {
     host: "lacreme2.heliohost.org",
