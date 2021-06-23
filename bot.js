@@ -2032,7 +2032,7 @@ switch (ciCmd[0]) {
 	case "lc": {
 	if (!debugVariables.dbOnline) {ch.send("The minigame's database is currently under maintenance or otherwise inaccessible. The \`lc\` commands are disabled."); return}
 	if ((minigameChannels.includes(ch.id))||(chPass === 1)) {
-		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign")) {
+		if (dbployees.e(msg.author.id) || (ciCmd[1] === "help") || (ciCmd[1] === "assign") || (ciCmd[1] === "list")) {
 		switch (ciCmd[1]) {
 				
 			case "list": {
