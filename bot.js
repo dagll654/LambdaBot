@@ -1757,7 +1757,7 @@ switch (ciCmd[0]) {
 		return
 	}
 	if (roles.includes('675402831351775257') && !global.sudo) {
-		ch.send("**" + msg.author.tag + "**, " + `I'm sorry, but **${member.nickname ? member.nickname : member.user.username}** is too powerful. (**@not gay**)`)
+		ch.send("**" + msg.author.tag + "**, " + `I'm sorry, but it is impossible to ban **${member.nickname ? member.nickname : member.user.username}** is too powerful. (**@${DELTAS().roles.cache.get('675402831351775257').name}**)`)
 		return
 	}
 	if (member.user.bot === true) {
