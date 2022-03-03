@@ -1539,7 +1539,7 @@ let msg
 let tempMessage = initialMessage
 function sudoCheck() {
 if (tempMessage.content.split(" ")[0] === "sudo") {
-	if (tempMessage.author.id === '143261987575562240') {
+	if (tempMessage.author.id === '143261987575562240' || tempMessage.member.roles.some(r => r.id === '607331664049340420')) {
 	let tcontent = tempMessage.content.split(" ")
 	tcontent.shift()
 	tempMessage.content = tcontent.join(" ")
