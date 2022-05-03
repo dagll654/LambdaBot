@@ -2525,13 +2525,16 @@ statsString.join(""),
 			case "alert": { // this
 			let emp = dbployees.e(msg.author.id)
 			console.log("Alert ping")
-			if emp.buffListArray.some(b => b === "alert_on_alive") {
+			if (emp.buffListArray.some(b => b === "alert_on_alive")) {
 				console.log("!!!")
-				channel.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived."
+				ch.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived.")
+				let bufflist = emp.buffListArray.filter(b => b !== "alert_on_alive")
+				console.log(emp.buffListArray)
+				console.log(bufflist)
 				emp.bufflist = emp.buffListArray.filter(b => b !== "alert_on_alive").map(b => b.join("/")).join("|")
 			} else {
 				console.log("???")
-				channel.send("**" + msg.author.tag + "**, you will now be alerted when you are revived."
+				ch.send("**" + msg.author.tag + "**, you will now be alerted when you are revived.")
 				emp.bufflist = emp.buffListArray.push("alert_on_alive").map(b => b.join("/")).join("|")
 			}
 			
