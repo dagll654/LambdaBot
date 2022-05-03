@@ -2522,7 +2522,7 @@ statsString.join(""),
 			
 			} break
 			
-			case "alert": {
+			case "alert": { // this
 			let emp = dbployees.e(msg.author.id)
 			if emp.buffListArray.some(b => b === "alert_on_alive") {
 				channel.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived."
