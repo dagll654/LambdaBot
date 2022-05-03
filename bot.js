@@ -1340,8 +1340,12 @@ function healPulse() {
 		if (e.sp < -0.5*e.prudL) e.hp = -0.5*e.prudL
 		if (e.hp > e.fortL) e.hp = e.fortL
 		if (e.sp > e.prudL) e.sp = e.prudL
-		if ((e.hp >= Number(e.fortL)) && (e.sp >= Number(e.prudL)) && (Number(e.dead) === 1)) 
-		{e.dead = 0; e.panicked = 0}
+		if ((e.hp >= Number(e.fortL)) && (e.sp >= Number(e.prudL)) && (Number(e.dead) === 1)) {
+			e.dead = 0
+			e.panicked = 0
+			if (e.buffListArray.some(b => b === "alert_on_alive"))
+				DELTAS().channels.get('653538398681825300').send(`<@${e.id}>, you have been revived.`)
+		}
 		if (e.sp >= Number(e.prudL) && Number(e.panicked) === 1) 
 		e.panicked = 0
 		
@@ -2514,6 +2518,18 @@ statsString.join(""),
 				})
 				let giftsText = "The abnormalities that currently have gifts: " + gifts.join(", ") + "."
 				ch.send(giftsText)
+			}
+			
+			} break
+			
+			case "alert": {
+			let emp = dbployees.e(msg.author.id)
+			if emp.buffListArray.some(b => b === "alert_on_alive") {
+				channel.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived."
+				emp.bufflist = emp.buffListArray.filter(b => b !== "alert_on_alive").map(b => b.join("/")).join("|")
+			} else {
+				channel.send("**" + msg.author.tag + "**, you will now be alerted when you are revived."
+				emp.bufflist = emp.buffListArray.push("alert_on_alive").map(b => b.join("/")).join("|")
 			}
 			
 			} break
