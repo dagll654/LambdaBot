@@ -173,6 +173,19 @@ if (originalArray[b] === undefined) {
 return formattedArray
 }
 
+function fixAbnoNickname(array, offset = 0) {
+if (array[2] && !jn.abnWorkable.some(c => array[2].split("-").includes(c.split("-")[2]))) {
+	let newCmd2 = array[2]
+	for (let i = 3; i < array.length - offset; i++) {
+		console.log(`Clownass2: ${i < array.length}, ${i}`) 
+		newCmd2 += " " + array[i]
+	}
+	let newArr = [array[0], array[1], newCmd2]
+	for (let i = 0; i < offset; i++) newArr.push(array.pop())
+	return newArr
+} else return array
+}
+
 // Function for finding the dep role among a member's roles
 function drFind(member) {
 	if (exists(member)) {
@@ -523,6 +536,8 @@ function abno(code) {
 		return abn.abn.find(a => a.code === code.toLowerCase())
 	else if (abn.abn.some(a => a.code.split("-")[2] === code))
 		return abn.abn.find(a => a.code.split("-")[2] === code)
+	else if (abn.abn.some(a => a.nicknames.some(n => n.toLowerCase() === code.toLowerCase())))
+		return abn.abn.find(a => a.nicknames.some(n => n.toLowerCase() === code.toLowerCase()))
 	else return undefined
 }
 
@@ -1343,11 +1358,23 @@ function healPulse() {
 		if ((e.hp >= Number(e.fortL)) && (e.sp >= Number(e.prudL)) && (Number(e.dead) === 1)) {
 			e.dead = 0
 			e.panicked = 0
-			if (e.buffListArray.some(b => b === "alert_on_alive"))
-				DELTAS().channels.get('653538398681825300').send(`<@${e.id}>, you have been revived.`)
+			if (e.buffListArray.some(b => b[0] === "alert_on_alive"))
+				DELTAS().channels.cache.get('653538398681825300').send(`<@${e.id}>, you have been revived.`)
 		}
 		if (e.sp >= Number(e.prudL) && Number(e.panicked) === 1) 
 		e.panicked = 0
+		
+		if ((e.hp >= Number(e.fortL)) && (e.sp >= Number(e.prudL)) && (e.buffListArray.some(b => b[0] === "alert_on_full")) && !(e.buffListArray.some(b => b[0] === "alerted"))) {
+			DELTAS().channels.cache.get('653538398681825300').send(`<@${e.id}>, you have been fully healed.`)
+			let bufflist = e.buffListArray
+			bufflist.push(["alerted"])
+			e.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+		}
+		
+		if (((e.hp < Number(e.fortL)) || (e.sp < Number(e.prudL))) && (e.buffListArray.some(b => b[0] === "alerted"))) {
+			let bufflist = e.buffListArray.filter(b => b[0] !== "alerted")
+			e.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+		}
 		
 		else e.working = 0
 	if (DELTAS().members.cache.get(e.id) != undefined) {
@@ -1801,6 +1828,10 @@ switch (ciCmd[0]) {
 	}
 	
 	switch (csCmd[1]) {
+		case "list_abnos": {
+			let list = abn.abn.filter(a => jn.abnWorkable.includes(a.code)).map(a => a.name)
+			ch.send(list.join("\n"))
+		} break
 		case "elist": {
 			console.log(dbployees)
 		} break
@@ -2071,14 +2102,21 @@ switch (ciCmd[0]) {
 			case "w":
 			case "work": {
 			if (ciCmd[2] != "list") {
+				
+				console.log(ciCmd)
+				ciCmd = fixAbnoNickname(ciCmd, 1)
+				console.log(ciCmd)
+				
 				if (abno(ciCmd[2])) {
-				if (/\D/.test(ciCmd[2]) === false)
-					ciCmd[2] = abn.abn.find(a => a.code.split("-")[2] === ciCmd[2]).code
+				ciCmd[2] = abno(ciCmd[2]).code
 				if (jn.abnWorkable.includes(ciCmd[2])) {
-				if (jn.workOrders.includes(ciCmd[3])) {
+				if (jn.workOrders.includes(ciCmd[3]) || [1, 2, 3, 4].includes(Number(ciCmd[3]))) {
 				if (dbployees.e(msg.author.id).working === 0) {
 				//if (dbployees.e(msg.author.id).panicked === 0) {
 				if (dbployees.e(msg.author.id).dead === 0) {
+				let order = "attachment"
+				if (jn.workOrders.includes(ciCmd[3])) order = ciCmd[3]
+					else order = jn.workOrders[Number(ciCmd[3]) - 1]
 				let effectDead = false
 				let effectDeathCause = ""
 				let onCooldown = false
@@ -2109,7 +2147,7 @@ switch (ciCmd[0]) {
 				
 				if (onCooldown === false && fightStarted === false) {
 				if (effectDead === false) {
-					work(dbployees.e(msg.author.id), ciCmd[2], ciCmd[3], msg.channel)
+					work(dbployees.e(msg.author.id), ciCmd[2], order, msg.channel)
 				} else {
 					dbployees.e(msg.author.id).dead = 1
 					dbployees.e(msg.author.id).hp = 0
@@ -2124,7 +2162,8 @@ switch (ciCmd[0]) {
 				} else ch.send("**" + msg.author.tag + "**, " + "error: work on the specified abnormality unavailable. (!lc w list)")
 				} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect abnormality code specified or specified abnormality unavailable. (!lc w list)")
 				} else if (ciCmd[2]) { // Else it is the list
-					let baseStr = " List of currently workable abnormalities:```\n		"
+				
+					let baseStr = " List of currently workable abnormalities:		"
 					let workableIDs = jn.abnWorkable
 					workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
 					workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
@@ -2133,30 +2172,15 @@ switch (ciCmd[0]) {
 					let index = 0
 					workableIDs.forEach(aID => {
 						if (aID != "o-01-01")
-						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "` ")
+						workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).name + "`")
 					})
 					let i = 0
 					for (i = 0; i < workableArr.length; i++) {
 						if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 						workableCpx[Math.floor(i/10)].push(workableArr[i])
 					}
-					ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
-						l.react('👈').then(l.react('👉'))
-						const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
-						const collector = l.createReactionCollector(filter, { time: 120000 })
-						collector.on('collect', rct => {
-							if (rct.emoji.name === '👈') {
-								index -= 1
-								if (index < 0) index = workableCpx.length - 1
-								l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-							}
-							if (rct.emoji.name === '👉') {
-								index += 1
-								if (index > (workableCpx.length - 1)) index = 0
-								l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-							}
-						})
-					})
+					pagedMessage(workableCpx.map(a => a.join("\n")), ch, baseStr)
+					
 				} else ch.send("**" + msg.author.tag + "**, " + "error: missing argument.")
 			} break
 			
@@ -2522,32 +2546,111 @@ statsString.join(""),
 			
 			} break
 			
-			case "alert": { // this
+			case "alert": {
 			let emp = dbployees.e(msg.author.id)
-			console.log("Alert ping")
-			if (emp.buffListArray.some(b => b === "alert_on_alive")) {
-				console.log("!!!")
-				ch.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived.")
-				let bufflist = emp.buffListArray.filter(b => b !== "alert_on_alive")
-				console.log(emp.buffListArray)
-				console.log(bufflist)
-				emp.bufflist = emp.buffListArray.filter(b => b !== "alert_on_alive").map(b => b.join("/")).join("|")
-			} else {
-				console.log("???")
-				ch.send("**" + msg.author.tag + "**, you will now be alerted when you are revived.")
-				emp.bufflist = emp.buffListArray.push("alert_on_alive").map(b => b.join("/")).join("|")
-			}
+			switch (ciCmd[2]) {
+				case "revive": {
+				if (emp.buffListArray.some(b => b[0] === "alert_on_alive")) {
+					ch.send("**" + msg.author.tag + "**, you will no longer be alerted when you are revived.")
+					let bufflist = emp.buffListArray.filter(b => b[0] !== "alert_on_alive")
+					emp.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+				} else {
+					ch.send("**" + msg.author.tag + "**, you will now be alerted when you are revived.")
+					let bufflist = emp.buffListArray
+					bufflist.push(["alert_on_alive"])
+					emp.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+				}} break
+				
+				case "full": {
+				if (emp.buffListArray.some(b => b[0] === "alert_on_full")) {
+					ch.send("**" + msg.author.tag + "**, you will no longer be alerted when you are fully healed.")
+					let bufflist = emp.buffListArray.filter(b => b[0] !== "alert_on_full")
+					emp.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+				} else {
+					ch.send("**" + msg.author.tag + "**, you will now be alerted when you are fully healed.")
+					let bufflist = emp.buffListArray
+					bufflist.push(["alert_on_full"])
+					emp.bufflist = bufflist.map(b => Array.isArray(b) ? b.join("/") : b).join("|")
+				}} break
+				
+				default: {
+					ch.send("**" + msg.author.tag + "**, incorrect usage. Example: `!lc alert revive` for alert on revival, `!lc alert full` for alert on full HP and SP.")
+				} break
+				
+				
+			} // [/switch]
+			
+			} break
+			
+			case "revive": {
+			let emp = dbployees.e(msg.author.id)
+			if (emp.dead || emp.panicked) {
+				if (emp.balance >= 20) {
+					let minHP = ~~(emp.fortL/10)
+					let minSP = ~~(emp.prudL/10)
+					if ((emp.hp >= minHP) && (emp.sp >= minSP)) {
+						emp.balance -= 20
+						emp.dead = 0
+						emp.panicked = 0
+						let diffArray = []
+						let hpDiff = emp.hp - (minHP * 2)
+						let spDiff = emp.sp - (minSP * 2)
+						if (hpDiff > 0) {emp.hp = minHP * 2 + ~~(hpDiff/2); diffArray.push(`${-~(hpDiff/2)} ${jn.health}`)}
+							else emp.hp = minHP * 2
+						if (spDiff > 0) {emp.sp = minSP * 2 + ~~(spDiff/2); diffArray.push(`${-~(spDiff/2)} ${jn.sanity}`)}
+							else emp.sp = minSP * 2
+						
+						if ((hpDiff > 0) || (spDiff > 0))
+							ch.send("**" + msg.author.tag + "**, " + "emergency revival procedure successfully carried out. Lost " + diffArray.join(" and ") + " due to premature body extraction.")
+						else 
+							ch.send("**" + msg.author.tag + "**, " + "emergency revival procedure successfully carried out. HP and SP boosted to 20% of the maximum values.")
+						
+					} else ch.send("**" + msg.author.tag + "**, " + "you cannot currently be revived. The revival procedure requires that your body is at least 10% complete.")
+				} else ch.send("**" + msg.author.tag + "**, " + "you do not have enough PPE boxes to purchase a revival." + ` (${emp.balance}/20)`)
+			} else ch.send("**" + msg.author.tag + "**, " + "you are not currently dead or panicked.")
 			
 			} break
 			
 			case "b": 
 			case "bullet": {
-			cCh.send("The bullet menu is under reconstruction.")
+			ch.send("The bullet menu is under reconstruction.")
+			} break
+			
+			case "n":
+			case "nicknames": {
+			
+			console.log(ciCmd)
+			ciCmd = fixAbnoNickname(ciCmd)
+			console.log(ciCmd)
+			
+			if (ciCmd[2] === "list") {
+
+			let baseStr = " List of abnormality nicknames:		"
+			let workableIDs = jn.abnWorkable
+			workableIDs.sort((a, b) => Number(a.split("-")[2]) - Number(b.split("-")[2]))
+			workableIDs.sort((a, b) => jn.risk.indexOf(abno(a).risk) - jn.risk.indexOf(abno(b).risk))
+			let workableArr = []
+			let workableCpx = []
+			workableIDs.forEach(aID => {
+				if (aID != "o-01-01")
+				workableArr.push(emoji(abno(aID).risk.toLowerCase(), ESERV()) + "	`" + abno(aID).code.toUpperCase() + "` - " + abno(aID).nicknames.join(", ") + ".")
+			})
+			let i = 0
+			for (i = 0; i < workableArr.length; i++) {
+				if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
+				workableCpx[Math.floor(i/10)].push(workableArr[i])
+			}
+			pagedMessage(workableCpx.map(a => a.join("\n")), ch, baseStr)
+			
+			} else if (abno(ciCmd[2])) {
+				ch.send("Known nicknames of the abnormality " + emoji(abno(ciCmd[2]).risk.toLowerCase(), ESERV()) + " `" + abno(ciCmd[2]).name + "`: " + abno(ciCmd[2]).nicknames.join(", ") + ".")
+			} else ch.send("**" + msg.author.tag + "**, " + "error: incorrect usage. Use `!lc n list` for a list of all abnormality nicknames.")
+			
 			} break
 			
 			case "help": {
 			if (drFind(msg.member) === "") {
-				ch.send("**" + msg.author.tag + "**, " + "To get assigned to a team, type in !lc assign (Team name), e. g. !lc assign training")
+				ch.send("**" + msg.author.tag + "**, " + "to get assigned to a team, type in !lc assign (Team name), e. g. `!lc assign training`.")
 				
 			} else {
 				let helpArr = [
@@ -2555,23 +2658,37 @@ statsString.join(""),
 					"	`!lc assign (control/training/extraction etc)` - assigns you to the specified department.",
 					"	`!lc p [employee's nickname/discord tag]` - shows the employee's profile if one is specified, shows yours otherwise.",
 					"	`!lc i` - shows your inventory.",
-					"	`!lc g` - shows your gifts. `!lc g list` for a list of abnormalities that currently have gifts associated with them.",
-					"	`!lc a (abnormality ID)` - shows an info card of the specified abnormality. Only useful in a few cases.",
+					"	`!lc g` - shows your gifts. Use `!lc g list` for a list of abnormalities that currently have gifts associated with them.",
+					"	`!lc a (abnormality ID)` - shows an info card of the specified abnormality. Currently only useful in a few cases.",
 					"	`!lc w (abnormality ID) (instinct/insight/attachment/repression)` - executes the selected work order on the abnormality with the specified ID. Use `!lc w list` to see the list of all abnormalities currently in the facility.",
+					"	`!lc n (abnormality ID)` - shows you the nicknames currently assigned to the specified abnormality. Use `!lc n list` to see the nicknames of all abnormalities currently in the facility.",
 					"	`!lc ex [abnormality ID]` - shows the extraction menu. If an abnormality ID is specified, immediately takes you to that abnormality's equipment extraction menu.",
-					"	`!lc (ex/work) list` - shows the list of workable abnormalities. `!lc ex list` also shows how much abnormality-specific PE boxes you have.",
+					"	`!lc (ex/work/nicknames/gift) list` - shows the command-appropriate list of relevant data on workable abnormalities.",
 					"	`!lc debuff (apply/remove) (stat) [value]` - applies or removes a debuff on the selected stat. Removing a debuff does not require specifying the value.",
+					"	`!lc alert (full/revive)` - turns the alert for getting revived or fully healed on or off.",
+					"	`!lc revive` - revives you at the cost of 20 PPE. Cannot be used when under 10% HP/SP, causes damage if over 20% HP/SP.",
 					"	`!lc list [department name]` - lists all departments' captains and member count if a department is not specified, lists a department's members and captain otherwise. Example: `!lc list training`",
 					"	`!lc leave` - initiates the procedure of department unassignment. *Does* have a confirmation message.",
 					"	`!lc captain`:",
 					"		`!lc captain vote (@employee)` - initiates a vote for the mentioned employee to become the captain of your department, if one is not assigned already.",
 					"		`!lc captain resign` - (captain command) initiates the procedure of captain role resignation. *Does* have a confirmation message."
 				]
-				ch.send(helpArr.join("\n"))
+					
+				let helpPages = []
+				let index = 0
+				for (let i = 0; i < helpArr.length; i++) {
+					if (helpPages[index] === undefined) helpPages.push([])
+					if (helpPages[index].join("").length >= 1500) index++
+					if (helpPages[index] === undefined) helpPages.push([])
+					helpPages[index].push(helpArr[i])
+				}
+				
+				pagedMessage(helpPages.map(a => a.join("\n")), ch, "There's no helping any of us, I'm afraid.")
+					
 			}} break
 			
 			case "f": {
-			if (dbnos.some(d => d.breaching === 1 && d.dead === 0)) {
+			if (/*dbnos.some(d => d.breaching === 1 && d.dead === 0)*/ false ) {
 				let breaching = dbnos.filter(d => d.breaching === 1 && d.dead === 0)
 				console.log(breaching)
 				let enemy = breaching[roll(breaching.length)-1]
@@ -2582,9 +2699,8 @@ statsString.join(""),
 			
 			case "a":
 			case "abno": { // !lc a o-03-03
-			if (/\D/.test(ciCmd[2]) === false)
-				ciCmd[2] = abn.abn.find(a => a.code.split("-")[2] === ciCmd[2]).code
-			if (jn.abnWorkable.includes(ciCmd[2])) {
+			ciCmd = fixAbnoNickname(ciCmd)
+			if (jn.abnWorkable.includes(abno(ciCmd[2]).code)) {
 			let cAbno = abno(ciCmd[2])
 			let cDbno = dbnos.e(cAbno.id)
 			const header = "\n```mb\n ℹ️ | Showing information about the abnormality " + cAbno.name + "```\n"
@@ -2705,6 +2821,7 @@ statsString.join(""),
 			case "ex":
 			case "extraction": {
 			if (ciCmd[2] != "list") {
+			ciCmd = fixAbnoNickname(ciCmd)
 			function ext(emp, channel) {
 				cUser = emp
 				const cCh = DELTAS().channels.cache.get(channel)
@@ -2717,12 +2834,12 @@ statsString.join(""),
 				let objItem
 				let menuIndex = "main"
 				let instAbno = 0
-				if (/\D/.test(ciCmd[2]) === false)
+				if (ciCmd[2] && !/\D/.test(ciCmd[2]))
 					ciCmd[2] = abn.abn.find(a => a.code.split("-")[2] === ciCmd[2]).code
-				if (jn.abnWorkable.includes(ciCmd[2])) {
+				if (abno(ciCmd[2])) {
 					menuIndex = "shop"
-					currentAbnoCode = ciCmd[2]
-					currentAbno = abn.abn[abn.lista.indexOf(ciCmd[2])]
+					currentAbnoCode = abno(ciCmd[2]).code
+					currentAbno = abno(ciCmd[2])
 					instAbno = 1
 				}
 				let prices
@@ -2760,9 +2877,9 @@ statsString.join(""),
 								
 								// Main menu of extraction 
 								case "main": if (k !== 1) {
-								if (jn.abnWorkable.includes(rp.content.toLowerCase())) {
-									currentAbno = abn.abn[abn.lista.indexOf(rp.content.toLowerCase())]
-									currentAbnoCode = rp.content.toLowerCase()
+								if (abno(rp.content.toLowerCase())) {
+									currentAbno = abno(rp.content.toLowerCase)
+									currentAbnoCode = abno(rp.content.toLowerCase).code
 									menuIndex = "shop"
 								} else if (mr === "bullet" || mr === "bullets") menuIndex = "bulletshop"
 								else {invResponse(rp); k = 1}
@@ -2872,7 +2989,7 @@ statsString.join(""),
 			ext(dbployees.e(msg.author.id), msg.channel.id)
 			} else {
 			let cUser = dbployees.e(msg.author.id)
-			let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":```\n		"
+			let baseStr = " List of abnormality-specific PE boxes of employee " + cUser.tag + ":		"
 			let workableIDs = jn.abnWorkable
 			workableIDs.sort(function(a, b){return Number(a.split("-")[2])-Number(b.split("-")[2])})
 			workableIDs.sort(function(a, b){return jn.risk.indexOf(abno(a).risk)-jn.risk.indexOf(abno(b).risk)})
@@ -2890,26 +3007,8 @@ statsString.join(""),
 				if (workableCpx[Math.floor(i/10)] === undefined) workableCpx.push([])
 				workableCpx[Math.floor(i/10)].push(workableArr[i])
 			}
-			ch.send(`${b3ck}	(Page 1/${workableCpx.length})` + baseStr + workableCpx[0].join("\n		")).then(l => {
-				l.react('👈').then(l.react('👉'))
-				const filter = (reaction, user) => (reaction.emoji.name === ('👈') || reaction.emoji.name === ('👉')) && (user.id != client.user.id)
-				const collector = l.createReactionCollector(filter, { time: 120000 })
-				collector.on('collect', rct => {
-					if (rct.emoji.name === '👈') {
-						index -= 1
-						if (index < 0) index = workableCpx.length - 1
-						l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-					}
-						
-					if (rct.emoji.name === '👉') {
-						index += 1
-						if (index > (workableCpx.length - 1)) index = 0
-						l.edit(`${b3ck}	(Page ${index + 1}/${workableCpx.length})` + baseStr + workableCpx[index].join("\n		"))
-					}
-					
-					
-				})
-			})
+			
+			pagedMessage(workableCpx.map(a => a.join("\n")), ch, baseStr)
 			}
 			//==[/extraction]==
 			} break
